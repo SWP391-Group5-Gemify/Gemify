@@ -10,15 +10,15 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
-            builder.Property(s => s.Gender)
+            builder.Property(a => a.Gender)
                 .HasConversion(
                     g => g.ToString(),
-                    g => (Gender)Enum.Parse(typeof(Gender), g)
+                    g => (Gender) Enum.Parse(typeof(Gender), g)
                 );
             builder.Property(s => s.Status)
                 .HasConversion(
                     u => u.ToString(),
-                    u => (UserStatus)Enum.Parse(typeof(UserStatus), u)
+                    u => (UserStatus) Enum.Parse(typeof(UserStatus), u)
                 );
         }
     }

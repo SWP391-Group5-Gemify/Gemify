@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Core.Interfaces.Identity
 {
@@ -15,6 +16,9 @@ namespace Core.Interfaces.Identity
         {
             base.OnModelCreating(builder);
 
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            //Change AspNet table names to custom names
             builder.Entity<AppUser>(entity =>
             {
                 entity.ToTable(name: "User");
