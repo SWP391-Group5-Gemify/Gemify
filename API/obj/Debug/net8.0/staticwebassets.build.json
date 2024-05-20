@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zE/gn9ij9M9W/dGxDWYSijtQDmZNauy6Em4PHix99yY=",
+  "Hash": "PmkwQqSIpdp2g0lLgrXYo20UABUR4bC7nb4Dnx+jvpw=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "API\\wwwroot",
       "Source": "API",
-      "ContentRoot": "D:\\SWP391\\Gemify\\APi\\wwwroot\\",
+      "ContentRoot": "D:\\SWP391\\Gemify\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "Pattern": "**"
     }
