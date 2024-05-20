@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391\\Gemify\\API\\API.csproj": {}
+    "D:\\SWP391\\Gemify\\APi\\API.csproj": {}
   },
   "projects": {
-    "D:\\SWP391\\Gemify\\API\\API.csproj": {
+    "D:\\SWP391\\Gemify\\APi\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Gemify\\API\\API.csproj",
+        "projectUniqueName": "D:\\SWP391\\Gemify\\APi\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\SWP391\\Gemify\\API\\API.csproj",
+        "projectPath": "D:\\SWP391\\Gemify\\APi\\API.csproj",
         "packagesPath": "C:\\Users\\khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Gemify\\API\\obj\\",
+        "outputPath": "D:\\SWP391\\Gemify\\APi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

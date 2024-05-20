@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5BKY9Jnv/484CceA/UrU/h1YYpC8WyIHMU7i5L3ranJwYtw6UaAhWbK4+1cSmTaoHW7KKP5Nsl7vStnZ3JXJvA==",
+  "dgSpecHash": "diWyAtKyjfCP+D+F+V233OQh50jHki6f2yw4MKXG+17mjKb7d14deTCGxNX9GMna+nlCsHLroAHwGBJZYEK/Xg==",
   "success": true,
-  "projectFilePath": "D:\\SWP391\\Gemify\\API\\API.csproj",
+  "projectFilePath": "D:\\SWP391\\Gemify\\APi\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\khanh\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\khanh\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
