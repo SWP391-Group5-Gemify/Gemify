@@ -26,10 +26,9 @@ namespace Infrastructure.Identity
             {
                 var user = new AppUser
                 {
-                    Name = "Le Quang Khanh",
+                    FullName = "Le Quang Khanh",
                     Email = "khanh@test.com",
                     UserName = "khanhlq",
-                    Citizen_Id = "23495992393",
                     Gender = Gender.Male,
                     Status = UserStatus.Active,
                     DateOfBirth = new DateOnly(2000,2,1),

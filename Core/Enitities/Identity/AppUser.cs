@@ -5,8 +5,7 @@ namespace Core.Enitities.Identity
 {
     public class AppUser : IdentityUser
     {
-        public string Name { get; set; }
-        public string Citizen_Id { get; set; }
+        public string FullName { get; set; }
         public Gender Gender { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public UserStatus Status { get; set; }
