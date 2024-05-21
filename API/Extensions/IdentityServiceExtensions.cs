@@ -18,8 +18,10 @@ namespace API.Extensions
 
             services.AddIdentityCore<AppUser>(opt =>
             {
-
+                //Set you account options here (e.g., Password, Email)
+                opt.SignIn.RequireConfirmedAccount = false;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddSignInManager<SignInManager<AppUser>>();
 
