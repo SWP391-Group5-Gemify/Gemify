@@ -45,14 +45,14 @@ namespace API.Controllers
             return "you are authorized";
         }
 
-        [HttpGet("authroleadmin")]
+        [HttpGet("authrole_admin")]
         [Authorize(Roles = "Admin")]
         public ActionResult<string> GetRoleAdmin()
         {
             return "your role is Admin";
         }
 
-        [HttpGet("authrolemanager")]
+        [HttpGet("authrole_manager")]
         [Authorize(Roles = "Manager")]
         public ActionResult<string> GetRoleManager()
         {
