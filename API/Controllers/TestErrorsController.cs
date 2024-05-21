@@ -1,4 +1,5 @@
 ﻿using API.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -35,6 +36,27 @@ namespace API.Controllers
         {
             //Try passing a string into it
             return Ok(id);
+        }
+
+        [HttpGet("auth")]
+        [Authorize]
+        public ActionResult<string> GetSecret()
+        {
+            return "you are authorized";
+        }
+
+        [HttpGet("authroleadmin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<string> GetRoleAdmin()
+        {
+            return "your role is Admin";
+        }
+
+        [HttpGet("authrolemanager")]
+        [Authorize(Roles = "Manager")]
+        public ActionResult<string> GetRoleManager()
+        {
+            return "your role is Manager";
         }
     }
 }

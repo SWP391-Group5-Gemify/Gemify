@@ -2,9 +2,11 @@ using API.Errors;
 using API.Extensions;
 using API.Middleware;
 using Core.Enitities.Identity;
+using Core.Interfaces;
 using Core.Interfaces.Identity;
 using Infrastructure.Data;
 using Infrastructure.Identity;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,7 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 });
 builder.Services.AddIdentityServices(builder.Configuration);
 
+builder.Services.AddScoped<ITokenService, TokenService>();
 //Incase of multiple validation errors
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
