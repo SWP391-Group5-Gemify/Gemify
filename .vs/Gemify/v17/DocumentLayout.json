@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\SWP391\\Gemify\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C6B5790E-F71F-4DA3-B097-3CE4FE2B6C25}|API\\API.csproj|d:\\swp391\\gemify\\api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C6B5790E-F71F-4DA3-B097-3CE4FE2B6C25}|API\\API.csproj|solutionrelative:api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C6B5790E-F71F-4DA3-B097-3CE4FE2B6C25}|API\\API.csproj|d:\\swp391\\gemify\\api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6B5790E-F71F-4DA3-B097-3CE4FE2B6C25}|API\\API.csproj|solutionrelative:api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -37,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{74068F25-C101-4C75-A8B8-5B3C33D005E1}|Infrastructure\\Infrastructure.csproj|d:\\swp391\\gemify\\infrastructure\\infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{74068F25-C101-4C75-A8B8-5B3C33D005E1}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C6B5790E-F71F-4DA3-B097-3CE4FE2B6C25}|API\\API.csproj|d:\\swp391\\gemify\\api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{C6B5790E-F71F-4DA3-B097-3CE4FE2B6C25}|API\\API.csproj|solutionrelative:api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,7 +66,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "WeatherForecastController.cs",
               "DocumentMoniker": "D:\\SWP391\\Gemify\\API\\Controllers\\WeatherForecastController.cs",
               "RelativeDocumentMoniker": "API\\Controllers\\WeatherForecastController.cs",
@@ -79,19 +79,68 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UserRole.cs",
-              "DocumentMoniker": "D:\\SWP391\\Gemify\\Core\\Enitities\\UserRole.cs",
-              "RelativeDocumentMoniker": "Core\\Enitities\\UserRole.cs",
-              "ToolTip": "D:\\SWP391\\Gemify\\Core\\Enitities\\UserRole.cs",
-              "RelativeToolTip": "Core\\Enitities\\UserRole.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAcwBoAAAAmAAAA",
+              "DocumentIndex": 3,
+              "Title": "AppIdentityDbContextSeed.cs",
+              "DocumentMoniker": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "ToolTip": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "RelativeToolTip": "Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAgwCUAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T17:57:05.294Z"
+              "WhenOpened": "2024-05-20T15:37:17.512Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppIdentityDbContext.cs",
+              "DocumentMoniker": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "ToolTip": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "RelativeToolTip": "Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-20T15:29:41.819Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IdentityServiceExtensions.cs",
+              "DocumentMoniker": "D:\\SWP391\\Gemify\\API\\Extensions\\IdentityServiceExtensions.cs",
+              "RelativeDocumentMoniker": "API\\Extensions\\IdentityServiceExtensions.cs",
+              "ToolTip": "D:\\SWP391\\Gemify\\API\\Extensions\\IdentityServiceExtensions.cs",
+              "RelativeToolTip": "API\\Extensions\\IdentityServiceExtensions.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAqwBQAAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-20T14:57:58.795Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "D:\\SWP391\\Gemify\\Core\\Enitities\\Identity\\AppUser.cs",
+              "RelativeDocumentMoniker": "Core\\Enitities\\Identity\\AppUser.cs",
+              "ToolTip": "D:\\SWP391\\Gemify\\Core\\Enitities\\Identity\\AppUser.cs",
+              "RelativeToolTip": "Core\\Enitities\\Identity\\AppUser.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-20T13:37:15.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\SWP391\\Gemify\\API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "API\\appsettings.Development.json",
+              "ToolTip": "D:\\SWP391\\Gemify\\API\\appsettings.Development.json",
+              "RelativeToolTip": "API\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-20T14:58:46.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "AppUserConfiguration.cs",
               "DocumentMoniker": "D:\\SWP391\\Gemify\\Infrastructure\\Config\\AppUserConfiguration.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Config\\AppUserConfiguration.cs",
@@ -103,59 +152,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppIdentityDbContextSeed.cs",
-              "DocumentMoniker": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
-              "ToolTip": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
-              "RelativeToolTip": "Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAgwCUAAAASAAAA",
+              "DocumentIndex": 8,
+              "Title": "UserRole.cs",
+              "DocumentMoniker": "D:\\SWP391\\Gemify\\Core\\Enitities\\UserRole.cs",
+              "RelativeDocumentMoniker": "Core\\Enitities\\UserRole.cs",
+              "ToolTip": "D:\\SWP391\\Gemify\\Core\\Enitities\\UserRole.cs",
+              "RelativeToolTip": "Core\\Enitities\\UserRole.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAcwBoAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T15:37:17.512Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-20T17:57:05.294Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "AppIdentityDbContext.cs",
-              "DocumentMoniker": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContext.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Identity\\AppIdentityDbContext.cs",
-              "ToolTip": "D:\\SWP391\\Gemify\\Infrastructure\\Identity\\AppIdentityDbContext.cs",
-              "RelativeToolTip": "Infrastructure\\Identity\\AppIdentityDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABCAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T15:29:41.819Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IdentityServiceExtensions.cs",
-              "DocumentMoniker": "D:\\SWP391\\Gemify\\API\\Extensions\\IdentityServiceExtensions.cs",
-              "RelativeDocumentMoniker": "API\\Extensions\\IdentityServiceExtensions.cs",
-              "ToolTip": "D:\\SWP391\\Gemify\\API\\Extensions\\IdentityServiceExtensions.cs",
-              "RelativeToolTip": "API\\Extensions\\IdentityServiceExtensions.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAqwBQAAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T14:57:58.795Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AppUser.cs",
-              "DocumentMoniker": "D:\\SWP391\\Gemify\\Core\\Enitities\\Identity\\AppUser.cs",
-              "RelativeDocumentMoniker": "Core\\Enitities\\Identity\\AppUser.cs",
-              "ToolTip": "D:\\SWP391\\Gemify\\Core\\Enitities\\Identity\\AppUser.cs",
-              "RelativeToolTip": "Core\\Enitities\\Identity\\AppUser.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T13:37:15.08Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\SWP391\\Gemify\\API\\Program.cs",
               "RelativeDocumentMoniker": "API\\Program.cs",
@@ -163,24 +172,11 @@
               "RelativeToolTip": "API\\Program.cs",
               "ViewState": "AQIAAD8AAAAAAAAAAAAAAFMAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T14:56:25.087Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-20T14:56:25.087Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "D:\\SWP391\\Gemify\\API\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "API\\appsettings.Development.json",
-              "ToolTip": "D:\\SWP391\\Gemify\\API\\appsettings.Development.json",
-              "RelativeToolTip": "API\\appsettings.Development.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAACDAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-20T14:58:46.632Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "Infrastructure.csproj",
               "DocumentMoniker": "D:\\SWP391\\Gemify\\Infrastructure\\Infrastructure.csproj",
               "RelativeDocumentMoniker": "Infrastructure\\Infrastructure.csproj",
