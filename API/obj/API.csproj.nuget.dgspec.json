@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391\\Gemify\\API\\API.csproj": {}
+    "D:\\SUMMER24\\SWP\\Gemify\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\SWP391\\Gemify\\API\\API.csproj": {
+    "D:\\SUMMER24\\SWP\\Gemify\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Gemify\\API\\API.csproj",
+        "projectUniqueName": "D:\\SUMMER24\\SWP\\Gemify\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\SWP391\\Gemify\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Gemify\\API\\obj\\",
+        "projectPath": "D:\\SUMMER24\\SWP\\Gemify\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\SUMMER24\\SWP\\Gemify\\API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\khanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -32,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391\\Gemify\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "D:\\SWP391\\Gemify\\Infrastructure\\Infrastructure.csproj"
+              "D:\\SUMMER24\\SWP\\Gemify\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\SUMMER24\\SWP\\Gemify\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -42,11 +38,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -87,25 +78,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391\\Gemify\\Core\\Core.csproj": {
+    "D:\\SUMMER24\\SWP\\Gemify\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Gemify\\Core\\Core.csproj",
+        "projectUniqueName": "D:\\SUMMER24\\SWP\\Gemify\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "D:\\SWP391\\Gemify\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Gemify\\Core\\obj\\",
+        "projectPath": "D:\\SUMMER24\\SWP\\Gemify\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\SUMMER24\\SWP\\Gemify\\Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\khanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -125,11 +112,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -157,25 +139,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\SWP391\\Gemify\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\SUMMER24\\SWP\\Gemify\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391\\Gemify\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\SUMMER24\\SWP\\Gemify\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\SWP391\\Gemify\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\khanh\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391\\Gemify\\Infrastructure\\obj\\",
+        "projectPath": "D:\\SUMMER24\\SWP\\Gemify\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\SUMMER24\\SWP\\Gemify\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\khanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -189,8 +167,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\SWP391\\Gemify\\Core\\Core.csproj": {
-                "projectPath": "D:\\SWP391\\Gemify\\Core\\Core.csproj"
+              "D:\\SUMMER24\\SWP\\Gemify\\Core\\Core.csproj": {
+                "projectPath": "D:\\SUMMER24\\SWP\\Gemify\\Core\\Core.csproj"
               }
             }
           }
@@ -199,11 +177,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -243,7 +216,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

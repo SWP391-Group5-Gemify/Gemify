@@ -11,3 +11,16 @@ D:\SWP391\Gemify\Core\obj\Debug\net8.0\refint\Core.dll
 D:\SWP391\Gemify\Core\obj\Debug\net8.0\Core.pdb
 D:\SWP391\Gemify\Core\obj\Debug\net8.0\ref\Core.dll
 D:\SWP391\Gemify\Core\obj\Debug\net8.0\Core.csproj.AssemblyReference.cache
+D:\SUMMER24\SWP\Gemify\Core\bin\Debug\net8.0\Core.deps.json
+D:\SUMMER24\SWP\Gemify\Core\bin\Debug\net8.0\Core.dll
+D:\SUMMER24\SWP\Gemify\Core\bin\Debug\net8.0\Core.pdb
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.csproj.AssemblyReference.cache
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.AssemblyInfoInputs.cache
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.AssemblyInfo.cs
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.csproj.CoreCompileInputs.cache
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.sourcelink.json
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.dll
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\refint\Core.dll
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\Core.pdb
+D:\SUMMER24\SWP\Gemify\Core\obj\Debug\net8.0\ref\Core.dll
