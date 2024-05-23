@@ -19,7 +19,8 @@ namespace Core.Enitities
         public float TotalWeight { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public float? Labour {  get; set; }
-        public ProductStatus Status { get; set; }
+        [Column(TypeName = "varchar(50)"), Required]
+        public string Status { get; set; }
         public int? Quantity { get; set; }
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }

@@ -12,7 +12,7 @@ namespace Infrastructure.Data
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<GemType> Gemtypes { get; set; }
+        public DbSet<GemType> GemTypes { get; set; }
         public DbSet<GoldPrice> GoldPrices { get; set; }
         public DbSet<GoldType> GoldTypes { get; set; }
         public DbSet<Product> Products { get; set; }

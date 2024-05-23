@@ -21,7 +21,7 @@ namespace Core.Enitities
         [Column(TypeName = "decimal(18,2)"), Required]
         public float LatestAskRate { get; set; }
         [Column(TypeName = "varchar(10)"), Required]
-        public GoldUnit  Unit { get; set; }
+        public string  Unit { get; set; }
         public bool Status { get; set; }
 
     }

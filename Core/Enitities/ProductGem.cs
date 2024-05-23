@@ -12,7 +12,9 @@ namespace Core.Enitities
         public int GemTypeId { get; set; }
         public GemType GemType { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
-        public float? GemWeight { get; set; }
+        public float GemWeight { get; set; }
+        [Column(TypeName = "varchar(50)")]
+        public string CertificateCode { get; set; }
 
     }
 }
