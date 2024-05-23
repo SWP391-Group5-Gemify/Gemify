@@ -52,7 +52,7 @@ var logger = services.GetRequiredService<ILogger<Program>>();
 try
 {
     await identityContext.Database.MigrateAsync();
-    await storeContext.Database.MigrateAsync();
+ 
     await AppIdentityDbContextSeed.SeedRolesAsync(roleManager);
     await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
 }
