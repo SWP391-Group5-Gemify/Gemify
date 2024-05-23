@@ -1,5 +1,6 @@
 using Core.Enitities;
 using Core.Interfaces;
+using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
@@ -27,6 +28,26 @@ namespace Infrastructure.Data
             return await _storeContext.Set<T>().FindAsync(id);
         }
 
+        public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).FirstOrDefaultAsync();
+        }
+
+        public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).ToListAsync();   
+        }
+
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
+
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_storeContext.Set<T>().AsQueryable(), spec);
+        }
+
         public void Add(T entity)
         {
             _storeContext.Set<T>().Add(entity);
@@ -42,6 +63,7 @@ namespace Infrastructure.Data
             _storeContext.Set<T>().Attach(entity);
             _storeContext.Entry(entity).State = EntityState.Modified;
         }
+
     }
 }
 
