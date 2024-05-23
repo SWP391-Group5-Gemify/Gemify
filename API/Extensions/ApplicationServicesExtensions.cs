@@ -18,6 +18,7 @@ namespace API.Extensions
             });
 
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             //Incase of multiple validation errors
             services.Configure<ApiBehaviorOptions>(options =>
