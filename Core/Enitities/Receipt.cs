@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Enitities.Identity;
 
 namespace Core.Enitities
 {
@@ -11,7 +12,7 @@ namespace Core.Enitities
         public decimal TotalPrice { get; set; }
         
         public string Receipt_UserId { get; set; }
-        public User ReceiptUser { get; set; }
+        public AppUser ReceiptUser { get; set; }
 
         public DateTime DateTime { get; set; }
 
