@@ -1,5 +1,6 @@
 ﻿using API.Dtos;
 using API.Errors;
+using API.Extensions;
 using Core.Enitities;
 using Core.Enitities.Identity;
 using Core.Interfaces;
@@ -22,6 +23,42 @@ namespace API.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var user = await _userManager.FindUserByClaimsEmailAsync(HttpContext.User);
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var userRole = userRoles.FirstOrDefault();
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = _tokenService.CreateToken(user, userRole),
+                UserName = user.UserName,
+                FullName = user.FullName,
+                Gender = user.Gender.ToString(),
+                Status = user.Status.ToString(),
+                Address = user.Address,
+                DateOfBirth = user.DateOfBirth,
+                Image_Url = user.Image_Url,
+                Role = userRole
+            };
+        }
+
+        [HttpGet("email_exists")]
+        public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
+        {
+            return await _userManager.FindByEmailAsync(email) != null;
+        }
+
+        [HttpGet("username_exists")]
+        public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string userName)
+        {
+            return await _userManager.FindByNameAsync(userName) != null;
         }
 
         [HttpPost("login")]

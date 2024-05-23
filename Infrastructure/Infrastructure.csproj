@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Data\SeedData\" />
   </ItemGroup>
 
   <PropertyGroup>

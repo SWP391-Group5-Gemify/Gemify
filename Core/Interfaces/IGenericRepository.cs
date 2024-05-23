@@ -1,12 +1,11 @@
 ﻿using Core.Enitities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Interfaces
 {
+    /// <summary>
+    /// Create a new repository with type T without creating a new class.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IGenericRepository<T> where T : BaseEntity
     {
         Task<IReadOnlyList<T>> ListAllAsync();

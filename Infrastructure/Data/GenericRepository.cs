@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
+    /// <summary>
+    /// Implementation of IGenericRepository<T>
+    /// Perform database operations read, add, update, delete.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly StoreContext _storeContext;
@@ -39,3 +44,4 @@ namespace Infrastructure.Data
         }
     }
 }
+
