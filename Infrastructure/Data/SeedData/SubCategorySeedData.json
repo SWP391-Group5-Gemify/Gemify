@@ -1,41 +1,41 @@
 [
   {
-    "CategoryId": 0,
+    "CategoryId": 1,
     "Name": "Ring",
     "Unit": "item"
   },
   {
-    "CategoryId": 0,
+    "CategoryId": 1,
     "Name": "Necklace",
     "Unit": "item"
   },
   {
-    "CategoryId": 0,
+    "CategoryId": 1,
     "Name": "Bracelet",
     "Unit": "item"
   },
   {
-    "CategoryId": 0,
+    "CategoryId": 1,
     "Name": "Earring",
     "Unit": "pair"
   },
   {
-    "CategoryId": 0,
+    "CategoryId": 1,
     "Name": "Anklet",
     "Unit": "item"
   },
   {
-    "CategoryId": 1,
+    "CategoryId": 2,
     "Name": "Gold Ring",
     "Unit": "Mace"
   },
   {
-    "CategoryId": 1,
+    "CategoryId": 2,
     "Name": "Gold Bullion",
     "Unit": "Mace"
   },
   {
-    "CategoryId": 2,
+    "CategoryId": 3,
     "Name": "Gemstone",
     "Unit": "Carat"
   },

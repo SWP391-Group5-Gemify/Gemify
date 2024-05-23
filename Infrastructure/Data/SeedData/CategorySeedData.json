@@ -1,14 +1,11 @@
 [
   {
-    "Id": 0,
     "Name": "Jewelry"
   },
   {
-    "Id": 1,
     "Name": "Gold"
   },
   {
-    "Id": 2,
     "Name": "Gem"
   }
 ]

@@ -1,22 +1,17 @@
 [
   {
-    "Name": "Counter 1",
-    "ProductQuantity": 215
+    "Name": "Counter 1"
   },
   {
-    "Name": "Counter 2",
-    "ProductQuantity": 226
+    "Name": "Counter 2"
   },
   {
-    "Name": "Counter 3",
-    "ProductQuantity": 272
+    "Name": "Counter 3"
   },
   {
-    "Name": "Counter 4",
-    "ProductQuantity": 395
+    "Name": "Counter 4"
   },
   {
-    "Name": "Counter 5",
-    "ProductQuantity": 146
+    "Name": "Counter 5"
   }
 ]

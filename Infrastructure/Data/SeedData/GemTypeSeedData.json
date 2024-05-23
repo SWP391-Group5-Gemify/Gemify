@@ -15,7 +15,7 @@
     "IsReal": true
   },
   {
-    "Name": "Saphire",
+    "Name": "Artificial Ruby",
     "Description": "Quis occaecat labore sit cupidatat fugiat consectetur ut culpa aliquip incididunt est fugiat deserunt. Do nostrud officia culpa commodo adipisicing. Irure qui et deserunt fugiat excepteur amet esse ea excepteur ullamco sit. Excepteur cupidatat cupidatat commodo eu minim irure.\r\n",
     "Proportion": 52.51,
     "Polish": "FAIR",
@@ -26,7 +26,7 @@
     "Clarity": "IF",
     "Color": "I",
     "Shape": "Radiant",
-    "LatestPrice": 572949,
+    "LatestPrice": 500,
     "IsReal": false
   },
   {
@@ -42,7 +42,7 @@
     "Color": "F",
     "Shape": "Princess",
     "LatestPrice": 564228,
-    "IsReal": false
+    "IsReal": true
   },
   {
     "Name": "Saphire",
@@ -72,7 +72,7 @@
     "Color": "G",
     "Shape": "Radiant",
     "LatestPrice": 250041,
-    "IsReal": false
+    "IsReal": true
   },
   {
     "Name": "Diamond",
@@ -81,28 +81,28 @@
     "Polish": "EX.",
     "Symmetry": "GOOD",
     "Fluorescence": "FNT",
-    "Carat": 1.93,
+    "Carat": 2.93,
     "Cut": "GOOD",
     "Clarity": "FL",
     "Color": "F",
     "Shape": "Princess",
     "LatestPrice": 692565,
-    "IsReal": false
+    "IsReal": true
   },
   {
-    "Name": "Saphire",
+    "Name": "Artificial Saphire",
     "Description": "Velit laboris commodo laborum veniam nulla ex quis. Minim nostrud deserunt duis pariatur. Excepteur enim ad ipsum excepteur deserunt sunt mollit veniam aliquip veniam duis aute dolore incididunt. Labore dolor duis Lorem ullamco cillum eu eu id elit sit excepteur ea.\r\n",
     "Proportion": 55.68,
     "Polish": "V.GOOD",
     "Symmetry": "V.GOOD",
     "Fluorescence": "STG",
-    "Carat": 4.07,
+    "Carat": 1.07,
     "Cut": "EX.",
     "Clarity": "SI1",
     "Color": "D",
     "Shape": "Emerald",
-    "LatestPrice": 408506,
-    "IsReal": true
+    "LatestPrice": 650,
+    "IsReal": false
   },
   {
     "Name": "Saphire",
@@ -117,7 +117,7 @@
     "Color": "I",
     "Shape": "Cushion",
     "LatestPrice": 581024,
-    "IsReal": false
+    "IsReal": true
   },
   {
     "Name": "Ruby",
