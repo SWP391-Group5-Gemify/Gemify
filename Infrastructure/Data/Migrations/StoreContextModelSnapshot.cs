@@ -32,7 +32,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -84,12 +84,12 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("varchar(10)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Fluorescence")
                         .HasColumnType("varchar(10)");
 
-                    b.Property<bool>("IsReal")
+                    b.Property<bool>("IsProcurable")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("LatestPrice")
@@ -97,7 +97,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Polish")
                         .HasColumnType("varchar(10)");
@@ -113,7 +113,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Gemtypes");
+                    b.ToTable("GemTypes");
                 });
 
             modelBuilder.Entity("Core.Enitities.GoldPrice", b =>
@@ -157,6 +157,9 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Content")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("LatestAskPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -171,14 +174,14 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<string>("Unit")
                         .IsRequired()
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
 
@@ -266,7 +269,7 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int?>("GoldTypeId")
                         .HasColumnType("int");
@@ -282,7 +285,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
@@ -292,7 +295,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
@@ -365,11 +368,11 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Unit")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

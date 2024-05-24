@@ -11,13 +11,14 @@ namespace Infrastructure.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,8 +31,8 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(1000)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", nullable: true),
                     Proportion = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Polish = table.Column<string>(type: "varchar(10)", nullable: true),
                     Symmetry = table.Column<string>(type: "varchar(10)", nullable: true),
@@ -42,7 +43,7 @@ namespace Infrastructure.Data.Migrations
                     Color = table.Column<string>(type: "varchar(10)", nullable: true),
                     Shape = table.Column<string>(type: "varchar(10)", nullable: true),
                     LatestPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsReal = table.Column<bool>(type: "bit", nullable: false)
+                    IsProcurable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,13 +56,14 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     LatestBidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LatestAskPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LatestBidRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LatestAskRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Unit = table.Column<string>(type: "varchar(10)", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false)
+                    Unit = table.Column<string>(type: "nvarchar(10)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    Content = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,8 +91,8 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Unit = table.Column<string>(type: "varchar(50)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    Unit = table.Column<string>(type: "nvarchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,9 +119,9 @@ namespace Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_GemPrices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GemPrices_Gemtypes_GemTypeId",
+                        name: "FK_GemPrices_GemTypes_GemTypeId",
                         column: x => x.GemTypeId,
-                        principalTable: "Gemtypes",
+                        principalTable: "GemTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -154,8 +156,8 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(200)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(1000)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", nullable: true),
                     GoldTypeId = table.Column<int>(type: "int", nullable: true),
                     GoldWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -194,7 +196,8 @@ namespace Infrastructure.Data.Migrations
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     GemTypeId = table.Column<int>(type: "int", nullable: false),
-                    GemWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    GemWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CertificateCode = table.Column<string>(type: "varchar(50)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,7 +268,7 @@ namespace Infrastructure.Data.Migrations
                 name: "ProductGems");
 
             migrationBuilder.DropTable(
-                name: "Gemtypes");
+                name: "GemTypes");
 
             migrationBuilder.DropTable(
                 name: "Products");

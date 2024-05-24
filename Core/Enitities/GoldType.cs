@@ -10,7 +10,7 @@ namespace Core.Enitities
 {
     public class GoldType : BaseEntity
     {
-        [Column(TypeName = "varchar(100)"), Required]
+        [Column(TypeName = "nvarchar(100)"), Required]
         public string Name { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
         public float LatestBidPrice { get; set; }
@@ -20,9 +20,11 @@ namespace Core.Enitities
         public float LatestBidRate { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
         public float LatestAskRate { get; set; }
-        [Column(TypeName = "varchar(10)"), Required]
+        [Column(TypeName = "nvarchar(10)"), Required]
         public string  Unit { get; set; }
         public bool Status { get; set; }
+        [Column(TypeName = "decimal(18,2)"), Required]
+        public float Content { get; set; }
 
     }
 }

@@ -6,7 +6,7 @@ namespace Core.Enitities
 {
     public class Category: BaseEntity
     {
-        [Column(TypeName = "varchar(100)"), Required]
+        [Column(TypeName = "nvarchar(100)"), Required]
         public string Name { get; set; }
         public List<SubCategory> SubCategories { get; set; }
     }

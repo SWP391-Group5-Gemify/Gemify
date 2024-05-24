@@ -7,9 +7,9 @@ namespace Core.Enitities
 {
     public class Product : BaseEntity
     {
-        [Column(TypeName = "varchar(200)"), Required]
+        [Column(TypeName = "nvarchar(200)"), Required]
         public string Name { get; set; }
-        [Column(TypeName = "varchar(1000)")]
+        [Column(TypeName = "nvarchar(1000)")]
         public string Description { get; set; }
         public int? GoldTypeId { get; set; }
         public GoldType GoldType { get; set;}

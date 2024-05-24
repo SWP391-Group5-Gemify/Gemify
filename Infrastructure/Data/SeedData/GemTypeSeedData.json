@@ -1,33 +1,33 @@
 [
   {
-    "Name": "Emeralds",
+    "Name": "Diamond",
     "Description": "Ullamco aute aliquip proident ex proident aute proident aliqua dolore quis sunt ullamco. Dolor magna aliquip non quis. Aute eiusmod adipisicing nostrud ut ea id proident magna.\r\n",
     "Proportion": 53.14,
     "Polish": "FAIR",
     "Symmetry": "EX.",
     "Fluorescence": "MED",
-    "Carat": 2.53,
+    "Carat": 1.5,
     "Cut": "V.GOOD",
     "Clarity": "VS1",
     "Color": "J",
     "Shape": "Heart",
-    "LatestPrice": 334624,
-    "IsReal": true
+    "LatestPrice": 350000,
+    "IsProcurable": true
   },
   {
-    "Name": "Artificial Ruby",
+    "Name": "ECZ",
     "Description": "Quis occaecat labore sit cupidatat fugiat consectetur ut culpa aliquip incididunt est fugiat deserunt. Do nostrud officia culpa commodo adipisicing. Irure qui et deserunt fugiat excepteur amet esse ea excepteur ullamco sit. Excepteur cupidatat cupidatat commodo eu minim irure.\r\n",
     "Proportion": 52.51,
     "Polish": "FAIR",
     "Symmetry": "GOOD",
     "Fluorescence": "VSTG",
-    "Carat": 4.6,
-    "Cut": "EX.",
+    "Carat": 0.1,
+    "Cut": "GOOD",
     "Clarity": "IF",
     "Color": "I",
     "Shape": "Radiant",
-    "LatestPrice": 500,
-    "IsReal": false
+    "LatestPrice": 200,
+    "IsProcurable": false
   },
   {
     "Name": "Diamond",
@@ -36,43 +36,43 @@
     "Polish": "V.GOOD",
     "Symmetry": "GOOD",
     "Fluorescence": "NON",
-    "Carat": 2.77,
+    "Carat": 0.05,
     "Cut": "FAIR",
     "Clarity": "VVS2",
-    "Color": "F",
+    "Color": "E",
     "Shape": "Princess",
-    "LatestPrice": 564228,
-    "IsReal": true
+    "LatestPrice": 4000,
+    "IsProcurable": false
   },
   {
-    "Name": "Saphire",
+    "Name": "Diamond",
     "Description": "Sunt exercitation duis voluptate labore esse cupidatat occaecat esse ea incididunt reprehenderit laboris. Irure aliqua elit commodo ullamco et ut aute. Eiusmod sunt voluptate veniam do pariatur est labore nulla veniam. Exercitation pariatur excepteur laborum sunt consectetur adipisicing amet minim ipsum ea ullamco tempor. Eiusmod est consequat adipisicing minim ullamco labore ex. Deserunt tempor amet enim adipisicing nisi velit ullamco commodo.\r\n",
     "Proportion": 53.61,
     "Polish": "GOOD",
     "Symmetry": "EX.",
     "Fluorescence": "VSTG",
-    "Carat": 2.54,
+    "Carat": 0.04,
     "Cut": "V.GOOD",
     "Clarity": "VVS2",
     "Color": "G",
     "Shape": "Oval",
-    "LatestPrice": 595580,
-    "IsReal": true
+    "LatestPrice": 3000,
+    "IsProcurable": false
   },
   {
-    "Name": "Emeralds",
+    "Name": "Diamond",
     "Description": "Qui dolore magna quis est proident consectetur irure. Reprehenderit ea sunt nisi voluptate adipisicing ullamco voluptate. Aliquip occaecat excepteur consequat reprehenderit.\r\n",
     "Proportion": 55.1,
     "Polish": "V.GOOD",
     "Symmetry": "EX.",
     "Fluorescence": "STG",
-    "Carat": 4.63,
+    "Carat": 0.1,
     "Cut": "FAIR",
     "Clarity": "IF",
     "Color": "G",
     "Shape": "Radiant",
-    "LatestPrice": 250041,
-    "IsReal": true
+    "LatestPrice": 7000,
+    "IsProcurable": false
   },
   {
     "Name": "Diamond",
@@ -81,43 +81,43 @@
     "Polish": "EX.",
     "Symmetry": "GOOD",
     "Fluorescence": "FNT",
-    "Carat": 2.93,
+    "Carat": 2.00,
     "Cut": "GOOD",
     "Clarity": "FL",
     "Color": "F",
     "Shape": "Princess",
-    "LatestPrice": 692565,
-    "IsReal": true
+    "LatestPrice": 690000,
+    "IsProcurable": true
   },
   {
-    "Name": "Artificial Saphire",
+    "Name": "CZ",
     "Description": "Velit laboris commodo laborum veniam nulla ex quis. Minim nostrud deserunt duis pariatur. Excepteur enim ad ipsum excepteur deserunt sunt mollit veniam aliquip veniam duis aute dolore incididunt. Labore dolor duis Lorem ullamco cillum eu eu id elit sit excepteur ea.\r\n",
     "Proportion": 55.68,
     "Polish": "V.GOOD",
     "Symmetry": "V.GOOD",
     "Fluorescence": "STG",
-    "Carat": 1.07,
+    "Carat": 0.25,
     "Cut": "EX.",
     "Clarity": "SI1",
     "Color": "D",
     "Shape": "Emerald",
-    "LatestPrice": 650,
-    "IsReal": false
+    "LatestPrice": 350,
+    "IsProcurable": false
   },
   {
-    "Name": "Saphire",
+    "Name": "ECZ",
     "Description": "Excepteur non esse adipisicing mollit tempor ad consectetur. Do officia mollit Lorem in fugiat magna culpa minim commodo eu officia consectetur dolor nulla. Voluptate fugiat ex in laboris deserunt aliquip ad enim. Do quis enim minim consequat veniam cillum anim nostrud ut proident cupidatat velit sunt exercitation. Proident id velit quis minim. Velit quis duis ullamco sit duis Lorem dolore eu nulla excepteur labore Lorem minim. Officia eu exercitation anim voluptate cupidatat veniam in ad consectetur.\r\n",
     "Proportion": 59.22,
     "Polish": "FAIR",
     "Symmetry": "V.GOOD",
     "Fluorescence": "VSTG",
-    "Carat": 3.85,
+    "Carat": 0.2,
     "Cut": "FAIR",
     "Clarity": "SI2",
     "Color": "I",
     "Shape": "Cushion",
-    "LatestPrice": 581024,
-    "IsReal": true
+    "LatestPrice": 300,
+    "IsProcurable": false
   },
   {
     "Name": "Ruby",
@@ -126,13 +126,13 @@
     "Polish": "FAIR",
     "Symmetry": "GOOD",
     "Fluorescence": "MED",
-    "Carat": 0.55,
+    "Carat": 0.1,
     "Cut": "FAIR",
     "Clarity": "VVS1",
     "Color": "F",
     "Shape": "Radiant",
-    "LatestPrice": 647254,
-    "IsReal": true
+    "LatestPrice": 5000,
+    "IsProcurable": false
   },
   {
     "Name": "Ruby",
@@ -141,12 +141,12 @@
     "Polish": "FAIR",
     "Symmetry": "EX.",
     "Fluorescence": "MED",
-    "Carat": 4.05,
+    "Carat": 1.5,
     "Cut": "EX.",
     "Clarity": "VS2",
     "Color": "D",
     "Shape": "Oval",
-    "LatestPrice": 304792,
-    "IsReal": true
+    "LatestPrice": 480000,
+    "IsProcurable": true
   }
 ]

@@ -7,9 +7,9 @@ namespace Core.Enitities
 {
     public class GemType : BaseEntity
     {
-        [Column(TypeName = "varchar(100)"), Required]
+        [Column(TypeName = "nvarchar(100)"), Required]
         public string Name { get; set; }
-        [Column(TypeName = "varchar(1000)")]
+        [Column(TypeName = "nvarchar(1000)")]
         public string Description { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public float? Proportion { get; set; }
@@ -31,6 +31,6 @@ namespace Core.Enitities
         public string Shape { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
         public float LatestPrice { get; set; }
-        public bool IsReal { get; set; }
+        public bool IsProcurable { get; set; }
     }
 }

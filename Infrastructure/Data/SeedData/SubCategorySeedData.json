@@ -1,42 +1,47 @@
 [
   {
     "CategoryId": 1,
-    "Name": "Ring",
-    "Unit": "item"
+    "Name": "Nhẫn",
+    "Unit": "Món"
   },
   {
     "CategoryId": 1,
-    "Name": "Necklace",
-    "Unit": "item"
+    "Name": "Dây chuyền",
+    "Unit": "Món"
   },
   {
     "CategoryId": 1,
-    "Name": "Bracelet",
-    "Unit": "item"
+    "Name": "Vòng tay",
+    "Unit": "Món"
   },
   {
     "CategoryId": 1,
-    "Name": "Earring",
-    "Unit": "pair"
+    "Name": "Bông tai",
+    "Unit": "Đôi"
   },
   {
     "CategoryId": 1,
-    "Name": "Anklet",
-    "Unit": "item"
+    "Name": "Vòng chân",
+    "Unit": "Món"
   },
   {
     "CategoryId": 2,
-    "Name": "Gold Ring",
-    "Unit": "Mace"
+    "Name": "Vàng nhẫn",
+    "Unit": "Chỉ"
   },
   {
     "CategoryId": 2,
-    "Name": "Gold Bullion",
-    "Unit": "Mace"
+    "Name": "Vàng miếng",
+    "Unit": "Chỉ"
   },
   {
     "CategoryId": 3,
-    "Name": "Gemstone",
+    "Name": "Đá quý",
     "Unit": "Carat"
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Mặt dây chuyền",
+    "Unit": "Món"
   }
 ]
