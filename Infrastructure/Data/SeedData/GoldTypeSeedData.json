@@ -6,16 +6,16 @@
     "LatestAskRate": 0.95,
     "LatestBidRate": 1.02,
     "Unit": "Mace",
-    "Status": "enable"
+    "Status": true
   },
   {
-    "Name": 9999,
+    "Name": "9999",
     "LatestAskPrice": 7730,
     "LatestBidPrice": 7550,
     "LatestAskRate": 0.96,
     "LatestBidRate": 1.03,
     "Unit": "Mace",
-    "Status": "enable"
+    "Status": true
   },
   {
     "Name": "75%",
@@ -24,7 +24,7 @@
     "LatestAskRate": 0.97,
     "LatestBidRate": 1.01,
     "Unit": "Mace",
-    "Status": "enable"
+    "Status": true
   },
   {
     "Name": "SJC",
@@ -33,7 +33,7 @@
     "LatestAskRate": 0.97,
     "LatestBidRate": 1.02,
     "Unit": "Mace",
-    "Status": "enable"
+    "Status": true
   },
   {
     "Name": "98%",
@@ -42,6 +42,6 @@
     "LatestAskRate": 0.95,
     "LatestBidRate": 1.05,
     "Unit": "Mace",
-    "Status": "enable"
+    "Status": true
   }
 ]
