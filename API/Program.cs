@@ -55,6 +55,8 @@ try
  
     await AppIdentityDbContextSeed.SeedRolesAsync(roleManager);
     await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
+
+    await StoreContextSeed.SeedAsync(storeContext);
 }
 catch (Exception ex)
 {

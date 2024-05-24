@@ -1,11 +1,11 @@
 [
-{
+  {
     "GoldTypeId": 1,
     "LatestAskPrice": 4510,
     "LatestBidPrice": 4320,
     "LatestAskRate": 0.96,
     "LatestBidRate": 1.03,
-    "DateTime": "11:00:00 2024-05-21"
+    "DateTime": "2024-05-21T11:00:00Z"
   },
   {
     "GoldTypeId": 2,
@@ -13,31 +13,31 @@
     "LatestBidPrice": 7420,
     "LatestAskRate": 0.95,
     "LatestBidRate": 1.05,
-    "DateTime": "11:00:00 2024-05-21"
+    "DateTime": "2024-05-21T11:00:00Z"
   },
   {
     "GoldTypeId": 3,
-    "LatestAskPrice": 5100,
-    "LatestBidPrice": 5350,
-    "LatestAskRate": 0.98,
-    "LatestBidRate": 1.02,
-    "DateTime": "11:00:00 2024-05-21"
-  },
-  {
-    "GoldTypeId": 4,
-    "LatestAskPrice": 8910,
-    "LatestBidPrice": 9140,
-    "LatestAskRate": 0.95,
-    "LatestBidRate": 1.03,
-    "DateTime": "11:00:00 2024-05-21"
-  },
-  {
-    "GoldTypeId": 5,
     "LatestAskPrice": 7130,
     "LatestBidPrice": 7350,
     "LatestAskRate": 0.96,
     "LatestBidRate": 1.04,
-    "DateTime": "11:00:00 2024-05-21"
+    "DateTime": "2024-05-21T11:00:00Z"
+  },
+  {
+    "GoldTypeId": 4,
+    "LatestAskPrice": 5100,
+    "LatestBidPrice": 5350,
+    "LatestAskRate": 0.98,
+    "LatestBidRate": 1.02,
+    "DateTime": "2024-05-21T11:00:00Z"
+  },
+  {
+    "GoldTypeId": 5,
+    "LatestAskPrice": 8910,
+    "LatestBidPrice": 9140,
+    "LatestAskRate": 0.95,
+    "LatestBidRate": 1.03,
+    "DateTime": "2024-05-21T11:00:00Z"
   },
   {
     "GoldTypeId": 1,
@@ -45,7 +45,7 @@
     "LatestBidPrice": 4410,
     "LatestAskRate": 0.95,
     "LatestBidRate": 1.02,
-    "DateTime": "09:00:00 2024-05-21"
+    "DateTime": "2024-05-21T09:00:00Z"
   },
   {
     "GoldTypeId": 2,
@@ -53,31 +53,31 @@
     "LatestBidPrice": 7550,
     "LatestAskRate": 0.96,
     "LatestBidRate": 1.03,
-    "DateTime": "09:00:00 2024-05-21"
+    "DateTime": "2024-05-21T09:00:00Z"
   },
   {
     "GoldTypeId": 3,
-    "LatestAskPrice": 5040,
-    "LatestBidPrice": 5220,
-    "LatestAskRate": 0.97,
-    "LatestBidRate": 1.01,
-    "DateTime": "09:00:00 2024-05-21"
-  },
-  {
-    "GoldTypeId": 4,
-    "LatestAskPrice": 8840,
-    "LatestBidPrice": 9040,
-    "LatestAskRate": 0.97,
-    "LatestBidRate": 1.02,
-    "DateTime": "09:00:00 2024-05-21"
-  },
-  {
-    "GoldTypeId": 5,
     "LatestAskPrice": 7230,
     "LatestBidPrice": 7400,
     "LatestAskRate": 0.95,
     "LatestBidRate": 1.05,
-    "DateTime": "09:00:00 2024-05-21"
+    "DateTime": "2024-05-21T09:00:00Z"
+  },
+  {
+    "GoldTypeId": 4,
+    "LatestAskPrice": 5040,
+    "LatestBidPrice": 5220,
+    "LatestAskRate": 0.97,
+    "LatestBidRate": 1.01,
+    "DateTime": "2024-05-21T09:00:00Z"
+  },
+  {
+    "GoldTypeId": 5,
+    "LatestAskPrice": 8840,
+    "LatestBidPrice": 9040,
+    "LatestAskRate": 0.97,
+    "LatestBidRate": 1.02,
+    "DateTime": "2024-05-21T09:00:00Z"
   },
   {
     "GoldTypeId": 1,
@@ -85,7 +85,7 @@
     "LatestBidPrice": 4420,
     "LatestAskRate": 0.96,
     "LatestBidRate": 1.01,
-    "DateTime": "09:00:00 2024-05-20"
+    "DateTime": "2024-05-20T09:00:00Z"
   },
   {
     "GoldTypeId": 2,
@@ -93,30 +93,30 @@
     "LatestBidPrice": 7650,
     "LatestAskRate": 0.98,
     "LatestBidRate": 1.04,
-    "DateTime": "09:00:00 2024-05-20"
+    "DateTime": "2024-05-20T09:00:00Z"
   },
   {
     "GoldTypeId": 3,
-    "LatestAskPrice": 5000,
-    "LatestBidPrice": 5120,
-    "LatestAskRate": 0.95,
-    "LatestBidRate": 1.02,
-    "DateTime": "09:00:00 2024-05-20"
-  },
-  {
-    "GoldTypeId": 4,
-    "LatestAskPrice": 8750,
-    "LatestBidPrice": 9010,
-    "LatestAskRate": 0.95,
-    "LatestBidRate": 1.03,
-    "DateTime": "09:00:00 2024-05-20"
-  },
-  {
-    "GoldTypeId": 5,
     "LatestAskPrice": 7320,
     "LatestBidPrice": 7440,
     "LatestAskRate": 0.98,
     "LatestBidRate": 1.04,
-    "DateTime": "09:00:00 2024-05-20"
+    "DateTime": "2024-05-20T09:00:00Z"
+  },
+  {
+    "GoldTypeId": 4,
+    "LatestAskPrice": 5000,
+    "LatestBidPrice": 5120,
+    "LatestAskRate": 0.95,
+    "LatestBidRate": 1.02,
+    "DateTime": "2024-05-20T09:00:00Z"
+  },
+  {
+    "GoldTypeId": 5,
+    "LatestAskPrice": 8750,
+    "LatestBidPrice": 9010,
+    "LatestAskRate": 0.95,
+    "LatestBidRate": 1.03,
+    "DateTime": "2024-05-20T09:00:00Z"
   }
 ]
