@@ -3,8 +3,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specifications
 {
+    /// <summary>
+    /// This class chains the queries together to create the final specification.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class SpecificationEvaluator<T> where T : BaseEntity
     {
+        /// <summary>
+        /// Receives a queryable set of entities and chains expression 
+        /// available in the given specification.
+        /// </summary>
+        /// <param name="inputQuery"></param>
+        /// <param name="spec"></param>
+        /// <returns>A queryable set of entities</returns>
         public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> spec) 
         {
             var query = inputQuery;
