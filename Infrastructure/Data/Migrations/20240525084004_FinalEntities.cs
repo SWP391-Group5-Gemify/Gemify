@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class NewEntities : Migration
+    public partial class FinalEntities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -207,14 +207,14 @@ namespace Infrastructure.Data.Migrations
                     Phone = table.Column<string>(type: "varchar(20)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     Point = table.Column<int>(type: "int", nullable: false),
-                    Customer_MembershipId = table.Column<int>(type: "int", nullable: false)
+                    MembershipId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Customers_Memberships_Customer_MembershipId",
-                        column: x => x.Customer_MembershipId,
+                        name: "FK_Customers_Memberships_MembershipId",
+                        column: x => x.MembershipId,
                         principalTable: "Memberships",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -267,30 +267,30 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Receipt_UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Receipt_CustomerId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     PaymentMethod = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Receipt_PromotionId = table.Column<int>(type: "int", nullable: false)
+                    PromotionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Receipts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Receipts_Customers_Receipt_CustomerId",
-                        column: x => x.Receipt_CustomerId,
+                        name: "FK_Receipts_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Receipts_Promotion_Receipt_PromotionId",
-                        column: x => x.Receipt_PromotionId,
+                        name: "FK_Receipts_Promotion_PromotionId",
+                        column: x => x.PromotionId,
                         principalTable: "Promotion",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Receipts_User_Receipt_UserId",
-                        column: x => x.Receipt_UserId,
+                        name: "FK_Receipts_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -418,9 +418,9 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_Customer_MembershipId",
+                name: "IX_Customers_MembershipId",
                 table: "Customers",
-                column: "Customer_MembershipId");
+                column: "MembershipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GemPrices_GemTypeId",
@@ -483,19 +483,19 @@ namespace Infrastructure.Data.Migrations
                 column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Receipts_Receipt_CustomerId",
+                name: "IX_Receipts_CustomerId",
                 table: "Receipts",
-                column: "Receipt_CustomerId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Receipts_Receipt_PromotionId",
+                name: "IX_Receipts_PromotionId",
                 table: "Receipts",
-                column: "Receipt_PromotionId");
+                column: "PromotionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Receipts_Receipt_UserId",
+                name: "IX_Receipts_UserId",
                 table: "Receipts",
-                column: "Receipt_UserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_CategoryId",

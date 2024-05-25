@@ -6,6 +6,7 @@ using System.Text;
 using Core.Enitities;
 using System.Reflection;
 using Core.Enitities.OrderAggregate;
+using System.Text.Json.Serialization;
 
 namespace Infrastructure.Data
 {
@@ -15,15 +16,13 @@ namespace Infrastructure.Data
         public static async Task SeedAsync(StoreContext context)
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var path2 = Path.GetDirectoryName(Environment.CurrentDirectory);
-            await Console.Out.WriteLineAsync(path);
-            await Console.Out.WriteLineAsync(path2);
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            options.Converters.Add(new JsonStringEnumConverter());
             //Seed Category Data
             if (!context.Categories.Any())
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/CategorySeedData.json");
-
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
                 var list = JsonSerializer.Deserialize<List<Category>>(data, options);
 
@@ -41,8 +40,6 @@ namespace Infrastructure.Data
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/SubCategorySeedData.json");
 
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
                 var list = JsonSerializer.Deserialize<List<SubCategory>>(data, options);
 
                 foreach (var item in list)
@@ -57,8 +54,6 @@ namespace Infrastructure.Data
             if (!context.GoldTypes.Any())
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/GoldTypeSeedData.json");
-
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
                 var list = JsonSerializer.Deserialize<List<GoldType>>(data, options);
 
@@ -75,8 +70,6 @@ namespace Infrastructure.Data
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/GoldPriceSeedData.json");
 
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
                 var list = JsonSerializer.Deserialize<List<GoldPrice>>(data, options);
 
                 foreach (var item in list)
@@ -91,8 +84,6 @@ namespace Infrastructure.Data
             if (!context.GemTypes.Any())
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/GemTypeSeedData.json");
-
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
                 var list = JsonSerializer.Deserialize<List<GemType>>(data, options);
 
@@ -109,8 +100,6 @@ namespace Infrastructure.Data
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/SaleCounter.json");
 
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
                 var list = JsonSerializer.Deserialize<List<SaleCounter>>(data, options);
 
                 foreach (var item in list)
@@ -125,9 +114,7 @@ namespace Infrastructure.Data
 
             if (!context.Products.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/Product.json");
-
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/Product.json");            
 
                 var list = JsonSerializer.Deserialize<List<Product>>(data, options);
 
@@ -143,8 +130,6 @@ namespace Infrastructure.Data
             if (!context.ProductGems.Any())
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/ProductGemSeedData.json");
-
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
                 var list = JsonSerializer.Deserialize<List<ProductGem>>(data, options);
 

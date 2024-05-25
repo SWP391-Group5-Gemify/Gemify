@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Core.Enitities.Identity;
 
 namespace Core.Enitities
@@ -15,20 +10,20 @@ namespace Core.Enitities
         public decimal TotalPrice { get; set; }
 
         [Column(TypeName = "nvarchar(450)"), Required]
-        public string Receipt_UserId { get; set; }
-        public User ReceiptUser { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
 
         public DateTime DateTime { get; set; } = DateTime.UtcNow;
 
         [Required]
-        public int Receipt_CustomerId { get; set; }
-        public Customer ReceiptCustomer { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
 
         [Column(TypeName = "varchar(100)"), Required]
         public string PaymentMethod { get; set; }
 
         [Required]
-        public int Receipt_PromotionId { get; set; }
-        public Promotion ReceiptPromotion { get; set; }
+        public int PromotionId { get; set; }
+        public Promotion Promotion { get; set; }
     }
 }
