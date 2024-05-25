@@ -18,9 +18,6 @@ namespace Infrastructure.Config
 
             builder.HasOne(p => p.ReceiptPromotion).WithMany()
                 .HasForeignKey(r => r.Receipt_PromotionId);
-
-            builder.Property(r => r.TotalPrice).HasColumnType("decimal(18,2)");
-
         }
     }
 }

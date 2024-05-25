@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text;
 using Core.Enitities;
 using System.Reflection;
+using Core.Enitities.OrderAggregate;
 
 namespace Infrastructure.Data
 {
@@ -13,12 +14,14 @@ namespace Infrastructure.Data
 
         public static async Task SeedAsync(StoreContext context)
         {
-            var path = Path.GetDirectoryName(Environment.CurrentDirectory);
-
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var path2 = Path.GetDirectoryName(Environment.CurrentDirectory);
+            await Console.Out.WriteLineAsync(path);
+            await Console.Out.WriteLineAsync(path2);
             //Seed Category Data
             if (!context.Categories.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/CategorySeedData.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/CategorySeedData.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -36,7 +39,7 @@ namespace Infrastructure.Data
 
             if (!context.SubCategories.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/SubCategorySeedData.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/SubCategorySeedData.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -53,7 +56,7 @@ namespace Infrastructure.Data
             // Seed Gold Type Data
             if (!context.GoldTypes.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/GoldTypeSeedData.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/GoldTypeSeedData.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -70,7 +73,7 @@ namespace Infrastructure.Data
             // Seed Gold Price Data
             if (!context.GoldPrices.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/GoldPriceSeedData.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/GoldPriceSeedData.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -87,7 +90,7 @@ namespace Infrastructure.Data
             // Seed Gem Type Data
             if (!context.GemTypes.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/GemTypeSeedData.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/GemTypeSeedData.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -104,7 +107,7 @@ namespace Infrastructure.Data
             //Seed Sale Counter
             if (!context.SaleCounters.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/SaleCounter.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/SaleCounter.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -122,7 +125,7 @@ namespace Infrastructure.Data
 
             if (!context.Products.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/Product.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/Product.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -139,7 +142,7 @@ namespace Infrastructure.Data
             // Seed Product Gem Data
             if (!context.ProductGems.Any())
             {
-                var data = await File.ReadAllTextAsync(path + @"/Infrastructure/Data/SeedData/ProductGemSeedData.json");
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/ProductGemSeedData.json");
 
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 

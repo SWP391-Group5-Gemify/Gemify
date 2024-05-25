@@ -19,14 +19,14 @@ namespace API.Extensions
                 opt.UseSqlServer(config.GetConnectionString("IdentityConnection"));
             });
 
-            services.AddIdentityCore<AppUser>(opt =>
+            services.AddIdentityCore<User>(opt =>
             {
                 //Set you account options here (e.g., Password, Email)
                 opt.SignIn.RequireConfirmedAccount = false;
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
-            .AddSignInManager<SignInManager<AppUser>>();
+            .AddSignInManager<SignInManager<User>>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

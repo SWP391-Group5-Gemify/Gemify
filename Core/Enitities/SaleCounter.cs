@@ -9,6 +9,6 @@ namespace Core.Enitities
         [Column(TypeName = "varchar(50)"), Required]
         public string Name { get; set; }
         public int? ProductQuantity { get; set; }
-        public List<Product> Products { get; set; }
+        public bool Status { get; set; } = true;
     }
 }

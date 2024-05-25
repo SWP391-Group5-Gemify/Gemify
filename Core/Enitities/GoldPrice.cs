@@ -22,6 +22,6 @@ namespace Core.Enitities
         [Column(TypeName = "decimal(18,2)"), Required]
         public float LatestAskRate { get; set; }
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; } = DateTime.UtcNow;
     }
 }

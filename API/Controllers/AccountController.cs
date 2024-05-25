@@ -13,12 +13,12 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, 
-            SignInManager<AppUser> signInManager, ITokenService tokenService) 
+        public AccountController(UserManager<User> userManager, 
+            SignInManager<User> signInManager, ITokenService tokenService) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -94,7 +94,7 @@ namespace API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            var user = new AppUser
+            var user = new User
             {
                 Email = registerDto.Email,
                 UserName = registerDto.UserName,
