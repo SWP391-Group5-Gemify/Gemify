@@ -50,12 +50,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Customer_MembershipId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
+
+                    b.Property<int>("MembershipId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -70,7 +70,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Customer_MembershipId");
+                    b.HasIndex("MembershipId");
 
                     b.ToTable("Customers");
                 });
@@ -545,6 +545,9 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
@@ -552,26 +555,23 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int>("Receipt_CustomerId")
+                    b.Property<int>("PromotionId")
                         .HasColumnType("int");
-
-                    b.Property<int>("Receipt_PromotionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Receipt_UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Receipt_CustomerId");
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("Receipt_PromotionId");
+                    b.HasIndex("PromotionId");
 
-                    b.HasIndex("Receipt_UserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Receipts");
                 });
@@ -627,13 +627,13 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Enitities.Customer", b =>
                 {
-                    b.HasOne("Core.Enitities.Membership", "CustomerMembership")
+                    b.HasOne("Core.Enitities.Membership", "Membership")
                         .WithMany()
-                        .HasForeignKey("Customer_MembershipId")
+                        .HasForeignKey("MembershipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CustomerMembership");
+                    b.Navigation("Membership");
                 });
 
             modelBuilder.Entity("Core.Enitities.GemPrice", b =>
@@ -827,29 +827,29 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Enitities.Receipt", b =>
                 {
-                    b.HasOne("Core.Enitities.Customer", "ReceiptCustomer")
+                    b.HasOne("Core.Enitities.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("Receipt_CustomerId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Enitities.Promotion", "ReceiptPromotion")
+                    b.HasOne("Core.Enitities.Promotion", "Promotion")
                         .WithMany()
-                        .HasForeignKey("Receipt_PromotionId")
+                        .HasForeignKey("PromotionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Enitities.Identity.User", "ReceiptUser")
+                    b.HasOne("Core.Enitities.Identity.User", "User")
                         .WithMany()
-                        .HasForeignKey("Receipt_UserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ReceiptCustomer");
+                    b.Navigation("Customer");
 
-                    b.Navigation("ReceiptPromotion");
+                    b.Navigation("Promotion");
 
-                    b.Navigation("ReceiptUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Enitities.SubCategory", b =>

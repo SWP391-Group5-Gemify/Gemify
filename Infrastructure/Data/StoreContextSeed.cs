@@ -16,9 +16,6 @@ namespace Infrastructure.Data
         public static async Task SeedAsync(StoreContext context)
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var path2 = Path.GetDirectoryName(Environment.CurrentDirectory);
-            await Console.Out.WriteLineAsync(path);
-            await Console.Out.WriteLineAsync(path2);
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             options.Converters.Add(new JsonStringEnumConverter());

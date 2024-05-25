@@ -10,14 +10,14 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<Receipt> builder)
         {
-            builder.HasOne(c => c.ReceiptCustomer).WithMany()
-                .HasForeignKey(r => r.Receipt_CustomerId);
+            builder.HasOne(c => c.Customer).WithMany()
+                .HasForeignKey(r => r.CustomerId);
 
-            builder.HasOne(u => u.ReceiptUser).WithMany()
-                .HasForeignKey(r => r.Receipt_UserId);
+            builder.HasOne(u => u.User).WithMany()
+                .HasForeignKey(r => r.UserId);
 
-            builder.HasOne(p => p.ReceiptPromotion).WithMany()
-                .HasForeignKey(r => r.Receipt_PromotionId);
+            builder.HasOne(p => p.Promotion).WithMany()
+                .HasForeignKey(r => r.PromotionId);
         }
     }
 }

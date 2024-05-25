@@ -15,8 +15,8 @@ namespace Infrastructure.Config
                     c => (Gender) Enum.Parse(typeof(Gender), c)
                 );
             
-            builder.HasOne(m => m.CustomerMembership).WithMany()
-                .HasForeignKey(c => c.Customer_MembershipId);
+            builder.HasOne(m => m.Membership).WithMany()
+                .HasForeignKey(c => c.MembershipId);
         }
     }
 }

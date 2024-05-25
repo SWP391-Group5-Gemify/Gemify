@@ -1,10 +1,3 @@
-using System;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,8 +20,8 @@ namespace Core.Enitities
         [Required]
         public int Point { get; set; } = 0;
 
-        public int Customer_MembershipId { get; set; }
+        public int MembershipId { get; set; }
         
-        public Membership CustomerMembership { get; set; }
+        public Membership Membership { get; set; }
     }
 }
