@@ -12,6 +12,6 @@ namespace Core.Enitities
         public GemType GemType { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
         public float Price { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; } = DateTime.UtcNow;
     }
 }

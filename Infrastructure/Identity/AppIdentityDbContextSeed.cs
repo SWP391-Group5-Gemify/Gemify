@@ -20,11 +20,11 @@ namespace Infrastructure.Identity
             }
         }
 
-        public static async Task SeedUsersAsync(UserManager<AppUser> userManager)
+        public static async Task SeedUsersAsync(UserManager<User> userManager)
         {
             if(!userManager.Users.Any())
             {
-                var user = new AppUser
+                var user = new User
                 {
                     FullName = "Le Quang Khanh",
                     Email = "khanh@test.com",
@@ -33,6 +33,7 @@ namespace Infrastructure.Identity
                     Status = UserStatus.Active,
                     DateOfBirth = new DateOnly(2000,2,1),
                     Image_Url = "wwwroot/khanh.png",
+                    PhoneNumber = "00349884939",
                     Address = "Xa Lo Ha Noi"
                 };
 

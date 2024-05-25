@@ -45,13 +45,14 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var storeContext = services.GetRequiredService<StoreContext>();
 var identityContext = services.GetRequiredService<AppIdentityDbContext>();
-var userManager = services.GetRequiredService<UserManager<AppUser>>();
+var userManager = services.GetRequiredService<UserManager<User>>();
 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 
 try
 {
     await identityContext.Database.MigrateAsync();
+    await storeContext.Database.MigrateAsync();
  
     await AppIdentityDbContextSeed.SeedRolesAsync(roleManager);
     await AppIdentityDbContextSeed.SeedUsersAsync(userManager);

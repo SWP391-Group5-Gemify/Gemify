@@ -8,7 +8,15 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<ProductGem> builder)
         {
-            builder.HasKey(k => new { k.ProductId, k.GemTypeId });
+            builder.HasKey(pg => new { pg.ProductId, pg.GemTypeId });
+
+            builder.HasOne(pg => pg.Product)
+                .WithMany(p => p.ProductGems)
+                .HasForeignKey(pg => pg.ProductId);
+
+            builder.HasOne(pg => pg.GemType)
+                .WithMany(p => p.ProductGems)
+                .HasForeignKey(pg => pg.GemTypeId);
         }
     }
 }

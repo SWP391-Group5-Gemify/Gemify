@@ -1,18 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Enitities
 {
     public class Membership : BaseEntity
     {
+        [Column(TypeName = "varchar(50)"), Required]
         public string Name { get; set; }
 
+        [Required]
         public int MinPoint { get; set; }
 
+        [Column(TypeName = "decimal(5, 2)"), Required]
         public decimal Discount { get; set; }
     }
 }

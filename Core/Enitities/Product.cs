@@ -20,7 +20,7 @@ namespace Core.Enitities
         [Column(TypeName = "decimal(18,2)")]
         public float? Labour {  get; set; }
         [Column(TypeName = "varchar(50)"), Required]
-        public string Status { get; set; }
+        public ProductStatus Status { get; set; } = ProductStatus.New;
         public int? Quantity { get; set; }
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }
@@ -28,6 +28,6 @@ namespace Core.Enitities
         public SubCategory SubCategory { get; set; }
         public int SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }
-
+        public IReadOnlyList<ProductGem> ProductGems { get; set; }
     }
 }
