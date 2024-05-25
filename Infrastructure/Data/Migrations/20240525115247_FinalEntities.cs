@@ -123,11 +123,17 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false),
                     ProductQuantity = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<bool>(type: "bit", nullable: false)
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SaleCounters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleCounters_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -495,6 +501,11 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Receipts_UserId",
                 table: "Receipts",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleCounters_UserId",
+                table: "SaleCounters",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(

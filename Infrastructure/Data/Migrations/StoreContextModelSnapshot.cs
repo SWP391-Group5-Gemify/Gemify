@@ -594,7 +594,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SaleCounters");
                 });
@@ -848,6 +853,15 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Promotion");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
+                {
+                    b.HasOne("Core.Enitities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

@@ -111,6 +111,11 @@ namespace Infrastructure.Data
             _storeContext.Entry(entity).State = EntityState.Modified;
         }
 
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _storeContext.SaveChangesAsync() > 0;
+        }
+
     }
 }
 

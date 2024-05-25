@@ -40,6 +40,9 @@ namespace API.Extensions
                 };
             });
 
+            //Auto Mapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             return services;
         }
     }
