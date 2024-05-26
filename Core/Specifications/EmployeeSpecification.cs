@@ -13,14 +13,14 @@ namespace Core.Specifications
                 || x.Email.ToLower().Contains(employeeParams.Search))
 
                 && (string.IsNullOrEmpty(employeeParams.Role)
-                || userRepository.GetUserRoleAsync(x).Result.FirstOrDefault().Equals(employeeParams.Role))
+                || userRepository.GetUserRoleAsync(x).Result.Equals(employeeParams.Role))
             )
         {
             AddOrderBy(x => x.FullName);
             ApplyPaging(employeeParams.PageSize * (employeeParams.PageIndex - 1), 
                 employeeParams.PageSize);
 
-            if(string.IsNullOrEmpty(employeeParams.Sort)) 
+            if(!string.IsNullOrEmpty(employeeParams.Sort)) 
             {
                 switch(employeeParams.Sort)
                 {
