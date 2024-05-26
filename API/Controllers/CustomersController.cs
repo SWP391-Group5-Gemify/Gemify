@@ -28,7 +28,8 @@ namespace API.Controllers
         public async Task<ActionResult<Pagination<CustomerDto>>> GetCustomers([FromQuery] CustomerParams customerParams)
         {
             var spec = new CustomerSpecification(customerParams);
-            var totalCustomers = await _customerRepo.CountAsync(spec);
+            var countSpec = new CustomerCountSpecification(customerParams);
+            var totalCustomers = await _customerRepo.CountAsync(countSpec);
             var customers = await _customerRepo.ListAsync(spec);
             var data = _mapper.Map<IReadOnlyList<Customer>,IReadOnlyList<CustomerDto>>(customers);
             return Ok(new Pagination<CustomerDto>(customerParams.PageIndex, customerParams.PageSize, totalCustomers, data));
