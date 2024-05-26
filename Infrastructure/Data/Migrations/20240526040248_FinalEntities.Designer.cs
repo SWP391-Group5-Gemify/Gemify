@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240526033425_FinalEntities")]
+    [Migration("20240526040248_FinalEntities")]
     partial class FinalEntities
     {
         /// <inheritdoc />
@@ -603,7 +603,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SaleCounters");
                 });
@@ -857,6 +862,15 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Promotion");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
+                {
+                    b.HasOne("Core.Enitities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
