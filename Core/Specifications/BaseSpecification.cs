@@ -66,7 +66,7 @@ namespace Core.Specifications
         }
 
         /// <summary>
-        /// Assigns the sorting ascendingly expression to the OrderBy property.
+        /// Assigns the sorting ascendingly expression.
         /// </summary>
         /// <param name="orderByExpression"></param>
         protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
@@ -75,7 +75,7 @@ namespace Core.Specifications
         }
 
         /// <summary>
-        /// Assigns the sorting descendingly expression to the OrderByDescending property.
+        /// Assigns the sorting descendingly expression.
         /// </summary>
         /// <param name="orderByDescExpression"></param>
         protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specifications
 {
-    public class UserSpecificationEvaluator
+    public class EmployeeSpecificationEvaluator
     {
         public static IQueryable<User> GetQuery(IQueryable<User> inputQuery, ISpecification<User> spec)
         {

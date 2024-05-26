@@ -1,28 +1,32 @@
 ﻿using Core.Enitities;
 using Core.Enitities.Identity;
-using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using System.Reflection;
+using System.Text.Json;
 
 namespace Infrastructure.Identity
 {
     public class AppIdentityDbContextSeed
     {
-        public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var roles = new[] { "Admin", "Manager", "Cashier", "Appraiser", "Repurchaser", "Sales" };
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            if(!roleManager.Roles.Any())
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            if (!roleManager.Roles.Any())
             {
-                foreach(var role in roles)
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/UserRoleSeedData.json");
+
+                var list = JsonSerializer.Deserialize<List<IdentityRole>>(data, options);
+
+                foreach (var item in list)
                 {
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    await roleManager.CreateAsync(item);
                 }
             }
-        }
 
-        public static async Task SeedUsersAsync(UserManager<User> userManager)
-        {
-            if(!userManager.Users.Any())
+            if (!userManager.Users.Any())
             {
                 var user = new User
                 {
@@ -31,15 +35,16 @@ namespace Infrastructure.Identity
                     UserName = "khanhlq",
                     Gender = Gender.Male,
                     Status = UserStatus.Active,
-                    DateOfBirth = new DateOnly(2000,2,1),
+                    DateOfBirth = new DateOnly(2000, 2, 1),
                     Image_Url = "wwwroot/khanh.png",
-                    PhoneNumber = "00349884939",
+                    PhoneNumber = "0034988493",
                     Address = "Xa Lo Ha Noi"
                 };
 
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Admin");
             }
+
         }
     }
 }

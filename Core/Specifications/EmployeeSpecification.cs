@@ -1,11 +1,11 @@
 ﻿using Core.Enitities.Identity;
-using Microsoft.AspNetCore.Identity;
+using Core.Interfaces;
 
 namespace Core.Specifications
 {
-    public class UserSpecification : BaseSpecification<User>
+    public class EmployeeSpecification : BaseSpecification<User>
     {
-        public UserSpecification(EmployeeSpecParams employeeParams, UserManager<User> userManager) 
+        public EmployeeSpecification(EmployeeSpecParams employeeParams, IUserRepository userRepository) 
             : base(x =>
                 (string.IsNullOrEmpty(employeeParams.Search) 
                 || x.FullName.ToLower().Contains(employeeParams.Search)
@@ -13,7 +13,7 @@ namespace Core.Specifications
                 || x.Email.ToLower().Contains(employeeParams.Search))
 
                 && (string.IsNullOrEmpty(employeeParams.Role)
-                || userManager.GetUsersInRoleAsync(employeeParams.Role).Result.Any(u => u.Id == x.Id))
+                || userRepository.GetUserRoleAsync(x).Result.FirstOrDefault().Equals(employeeParams.Role))
             )
         {
             AddOrderBy(x => x.FullName);
@@ -35,11 +35,6 @@ namespace Core.Specifications
                         break;
                 }
             }
-        }
-
-        public UserSpecification(string id) : base(x => x.Equals(id))
-        {
-
         }
     }
 }

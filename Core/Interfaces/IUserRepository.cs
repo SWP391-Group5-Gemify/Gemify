@@ -16,6 +16,7 @@ namespace Core.Interfaces
         Task<User> GetUserByClaimsEmailAsync(ClaimsPrincipal user);
         Task<User> GetUserByEmailAsync(string email);
         Task<string> GetUserRoleAsync(User user);
+        Task<IList<User>> GetUsersInRoleAsync(string role);
         Task<IdentityResult> AddUserToRoleAsync(User user, string role);
         Task<IdentityResult> CreateUserAsync(User user, string password);
         Task<IdentityResult> UpdateUserAsync(User user);

@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "Admin"
+  },
+  {
+    "Name": "Manager"
+  },
+  {
+    "Name": "Cashier"
+  },
+  {
+    "Name": "Sales"
+  },
+  {
+    "Name": "Appraiser"
+  },
+  {
+    "Name": "Repurchaser"
+  }
+]

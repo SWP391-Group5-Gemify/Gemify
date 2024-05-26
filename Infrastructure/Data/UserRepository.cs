@@ -61,6 +61,11 @@ namespace Infrastructure.Data
             return userRole;
         }
 
+        public async Task<IList<User>> GetUsersInRoleAsync(string role)
+        {
+            return await _userManager.GetUsersInRoleAsync(role);
+        }
+
         public async Task<User> GetUserWithSpec(ISpecification<User> spec)
         {
             return await ApplySpecification(spec).FirstOrDefaultAsync();
@@ -83,7 +88,7 @@ namespace Infrastructure.Data
 
         private IQueryable<User> ApplySpecification(ISpecification<User> spec)
         {
-            return UserSpecificationEvaluator.GetQuery(_userManager.Users.AsQueryable(), spec);
+            return EmployeeSpecificationEvaluator.GetQuery(_userManager.Users.AsQueryable(), spec);
         }
     }
 }
