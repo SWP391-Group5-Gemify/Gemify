@@ -1,11 +1,8 @@
 ﻿
 
-using System.Security.Cryptography;
 using System.Text.Json;
-using System.Text;
 using Core.Enitities;
 using System.Reflection;
-using Core.Enitities.OrderAggregate;
 using System.Text.Json.Serialization;
 
 namespace Infrastructure.Data
@@ -136,6 +133,36 @@ namespace Infrastructure.Data
                 foreach (var item in list)
                 {
                     context.ProductGems.Add(item);
+                }
+
+                await context.SaveChangesAsync();
+            }
+
+            //Seed Memberships Data
+            if (!context.Memberships.Any())
+            {
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/Membership.json");
+
+                var list = JsonSerializer.Deserialize<List<Membership>>(data, options);
+
+                foreach (var item in list)
+                {
+                    context.Memberships.Add(item);
+                }
+
+                await context.SaveChangesAsync();
+            }
+
+            //Seed Customers Data
+            if (!context.Customers.Any())
+            {
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/CustomerSeedData.json");
+
+                var list = JsonSerializer.Deserialize<List<Customer>>(data, options);
+
+                foreach (var item in list)
+                {
+                    context.Customers.Add(item);
                 }
 
                 await context.SaveChangesAsync();
