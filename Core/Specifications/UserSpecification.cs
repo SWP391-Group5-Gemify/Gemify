@@ -3,20 +3,20 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Core.Specifications
 {
-    public class EmployeeSpecification : BaseSpecification<User>
+    public class UserSpecification : BaseSpecification<User>
     {
-        public EmployeeSpecification(EmployeeSpecParams employeeParams, UserManager<User> userManager) 
-            : base(e =>
+        public UserSpecification(EmployeeSpecParams employeeParams, UserManager<User> userManager) 
+            : base(x =>
                 (string.IsNullOrEmpty(employeeParams.Search) 
-                || e.FullName.ToLower().Contains(employeeParams.Search)
-                || e.PhoneNumber.Equals(employeeParams.Search)
-                || e.Email.ToLower().Contains(employeeParams.Search))
+                || x.FullName.ToLower().Contains(employeeParams.Search)
+                || x.PhoneNumber.Equals(employeeParams.Search)
+                || x.Email.ToLower().Contains(employeeParams.Search))
 
                 && (string.IsNullOrEmpty(employeeParams.Role)
-                || userManager.GetUsersInRoleAsync(employeeParams.Role).Result.Any(u => u.Id == e.Id))
+                || userManager.GetUsersInRoleAsync(employeeParams.Role).Result.Any(u => u.Id == x.Id))
             )
         {
-            AddOrderBy(e => e.FullName);
+            AddOrderBy(x => x.FullName);
             ApplyPaging(employeeParams.PageSize * (employeeParams.PageIndex - 1), 
                 employeeParams.PageSize);
 
@@ -25,19 +25,19 @@ namespace Core.Specifications
                 switch(employeeParams.Sort)
                 {
                     case "nameAsc": 
-                        AddOrderBy(e => e.FullName);
+                        AddOrderBy(x => x.FullName);
                         break;
                     case "nameDesc":
-                        AddOrderByDescending(e => e.FullName);
+                        AddOrderByDescending(x => x.FullName);
                         break;
                     default:
-                        AddOrderBy(e => e.FullName);
+                        AddOrderBy(x => x.FullName);
                         break;
                 }
             }
         }
 
-        public EmployeeSpecification(string id) : base(e => e.Equals(id))
+        public UserSpecification(string id) : base(x => x.Equals(id))
         {
 
         }

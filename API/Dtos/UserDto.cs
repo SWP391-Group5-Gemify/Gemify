@@ -1,4 +1,5 @@
 ﻿using Core.Enitities;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Dtos
 {
@@ -9,6 +10,7 @@ namespace API.Dtos
         public string UserName { get; set; }
         public string Token { get; set; } 
         public string Gender { get; set; }
+        public string PhoneNumber { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public string Status { get; set; }
         public string Image_Url { get; set; }
