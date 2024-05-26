@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Core.Enitities.Identity;
 
 namespace Core.Enitities
 {
@@ -10,5 +11,7 @@ namespace Core.Enitities
         public string Name { get; set; }
         public int? ProductQuantity { get; set; }
         public bool Status { get; set; } = true;
+        public string? UserId { get; set; }
+        public User User { get; set; }
     }
 }
