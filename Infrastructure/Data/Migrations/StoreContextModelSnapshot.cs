@@ -144,6 +144,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Shape")
                         .HasColumnType("varchar(10)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Symmetry")
                         .HasColumnType("varchar(10)");
 
@@ -531,6 +534,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

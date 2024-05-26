@@ -14,13 +14,13 @@ namespace Core.Enitities
         [Column(TypeName = "varchar(200)"), Required]
         public string Name { get; set; }
 
-        [Column(TypeName = "Date"), Required]
+        [Column(TypeName = "Date")]
         public DateOnly ExpDate { get; set; }
 
-        [Column(TypeName = "Date"), Required]
+        [Column(TypeName = "Date")]
         public DateOnly EffDate { get; set; }
 
-        [Column(TypeName = "decimal(5, 2)"), Required]
+        [Column(TypeName = "decimal(5, 2)")]
         public decimal Discount { get; set; }
 
         [Column(TypeName = "varchar(100)"), Required]
@@ -28,6 +28,8 @@ namespace Core.Enitities
 
         [Column(TypeName = "decimal(18, 2)"), Required]
         public decimal MinValue { get; set; }
+
+        public bool Status { get; set; } = true;
     }
 
 }

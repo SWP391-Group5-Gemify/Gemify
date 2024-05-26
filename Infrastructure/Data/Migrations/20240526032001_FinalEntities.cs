@@ -42,7 +42,8 @@ namespace Infrastructure.Data.Migrations
                     Color = table.Column<string>(type: "varchar(10)", nullable: true),
                     Shape = table.Column<string>(type: "varchar(10)", nullable: true),
                     LatestPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsProcurable = table.Column<bool>(type: "bit", nullable: false)
+                    IsProcurable = table.Column<bool>(type: "bit", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,7 +109,8 @@ namespace Infrastructure.Data.Migrations
                     EffDate = table.Column<DateOnly>(type: "Date", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     Code = table.Column<string>(type: "varchar(100)", nullable: false),
-                    MinValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    MinValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
