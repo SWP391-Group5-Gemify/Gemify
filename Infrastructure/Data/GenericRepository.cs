@@ -111,6 +111,10 @@ namespace Infrastructure.Data
             _storeContext.Entry(entity).State = EntityState.Modified;
         }
 
+        /// <summary>
+        /// Save changes of the entries that were affected.
+        /// </summary>
+        /// <returns>A boolean true if one or more rows affected</returns>
         public async Task<bool> SaveAllAsync()
         {
             return await _storeContext.SaveChangesAsync() > 0;
