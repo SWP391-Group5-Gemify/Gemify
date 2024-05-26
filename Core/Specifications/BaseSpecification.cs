@@ -47,7 +47,7 @@ namespace Core.Specifications
         public int Take { get; private set; }
 
         /// <summary>
-        /// The current page index, which skips to get to that page.
+        /// The number of items to skip to get to a page.
         /// </summary>
         public int Skip { get; private set; }
 
@@ -85,6 +85,8 @@ namespace Core.Specifications
 
         /// <summary>
         /// Applies paging to the entity.
+        /// The skip params skips a specified number of items to get to a page (PageSize * (PageIndex - 1)).
+        /// The take params takes a specified number of items in a page (Page Size).
         /// </summary>
         /// <param name="skip"></param>
         /// <param name="take"></param>

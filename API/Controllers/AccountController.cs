@@ -31,8 +31,7 @@ namespace API.Controllers
         {
             var user = await _userManager.FindUserByClaimsEmailAsync(HttpContext.User);
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var userRole = userRoles.FirstOrDefault();
+            var userRole = await _userManager.GetUserRole(user);
 
             return new UserDto
             {
@@ -72,8 +71,7 @@ namespace API.Controllers
 
             if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var userRole = userRoles.FirstOrDefault();    
+            var userRole = await _userManager.GetUserRole(user);
 
             return new UserDto
             {
