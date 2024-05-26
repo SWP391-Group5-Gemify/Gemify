@@ -12,6 +12,6 @@ namespace Core.Specifications
             set => _search = value.ToLower();
         }
 
-        public bool? Status;
+        public bool? Status { get; set; }
     }
 }
