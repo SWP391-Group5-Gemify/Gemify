@@ -3,6 +3,7 @@ using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Security.Claims;
 
 namespace Infrastructure.Data
@@ -21,11 +22,6 @@ namespace Infrastructure.Data
         public async Task<IdentityResult> AddUserToRoleAsync(User user, string role)
         {
             return await _userManager.AddToRoleAsync(user, role);
-        }
-
-        public async Task<int> CountAsync(ISpecification<User> spec)
-        {
-            return await ApplySpecification(spec).CountAsync();
         }
 
         public async Task<IdentityResult> CreateUserAsync(User user, string password)
@@ -61,6 +57,11 @@ namespace Infrastructure.Data
             return userRole;
         }
 
+        public async Task<bool> HasRoleAsync(User user, string role)
+        {
+            return await _userManager.IsInRoleAsync(user, role);
+        }
+
         public async Task<IList<User>> GetUsersInRoleAsync(string role)
         {
             return await _userManager.GetUsersInRoleAsync(role);
@@ -68,7 +69,7 @@ namespace Infrastructure.Data
 
         public async Task<User> GetUserWithSpec(ISpecification<User> spec)
         {
-            return await ApplySpecification(spec).FirstOrDefaultAsync();
+            return await ApplySpecification(_userManager.Users.AsQueryable(), spec).FirstOrDefaultAsync();
         }
 
         public async Task<IReadOnlyList<User>> ListAllUsersAsync()
@@ -76,9 +77,34 @@ namespace Infrastructure.Data
             return await _userManager.Users.ToListAsync();
         }
 
-        public async Task<IReadOnlyList<User>> ListUsersAsync(ISpecification<User> spec)
+        public async Task<IReadOnlyList<User>> ListUsersAsync(ISpecification<User> spec, string role)
         {
-            return await ApplySpecification(spec).ToListAsync();
+            var query = _userManager.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(role))
+            {
+                var usersWithRole = await _userManager.GetUsersInRoleAsync(role);
+
+                // Filter the query to only include users in the retrieved role list
+                query = query.Where(u => usersWithRole.Contains(u));
+            }
+
+            return await ApplySpecification(query, spec).ToListAsync();
+        }
+
+        public async Task<int> CountAsync(ISpecification<User> spec, string role)
+        {
+            var query = _userManager.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(role))
+            {
+                var usersWithRole = await _userManager.GetUsersInRoleAsync(role);
+
+                // Filter the query to only include users in the retrieved role list
+                query = query.Where(u => usersWithRole.Contains(u));
+            }
+
+            return await ApplySpecification(query, spec).CountAsync();
         }
 
         public async Task<IdentityResult> UpdateUserAsync(User user)
@@ -86,9 +112,9 @@ namespace Infrastructure.Data
             return await _userManager.UpdateAsync(user);
         }
 
-        private IQueryable<User> ApplySpecification(ISpecification<User> spec)
+        private IQueryable<User> ApplySpecification(IQueryable<User> query, ISpecification<User> spec)
         {
-            return EmployeeSpecificationEvaluator.GetQuery(_userManager.Users.AsQueryable(), spec);
+            return EmployeeSpecificationEvaluator.GetQuery(query, spec);
         }
     }
 }

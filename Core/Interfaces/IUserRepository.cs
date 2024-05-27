@@ -9,13 +9,14 @@ namespace Core.Interfaces
     {
         Task<IReadOnlyList<User>> ListAllUsersAsync();
         Task<User> GetUserWithSpec(ISpecification<User> spec);
-        Task<IReadOnlyList<User>> ListUsersAsync(ISpecification<User> spec);
-        Task<int> CountAsync(ISpecification<User> spec);
+        Task<IReadOnlyList<User>> ListUsersAsync(ISpecification<User> spec, string role);
+        Task<int> CountAsync(ISpecification<User> spec, string role);
         Task<IReadOnlyList<IdentityRole>> GetAllRolesAsync();
         Task<User> GetUserByUserNameAsync(string username);
         Task<User> GetUserByClaimsEmailAsync(ClaimsPrincipal user);
         Task<User> GetUserByEmailAsync(string email);
         Task<string> GetUserRoleAsync(User user);
+        Task<bool> HasRoleAsync(User user, string role);
         Task<IList<User>> GetUsersInRoleAsync(string role);
         Task<IdentityResult> AddUserToRoleAsync(User user, string role);
         Task<IdentityResult> CreateUserAsync(User user, string password);

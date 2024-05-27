@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,15 +21,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Pagination<UserDto>>> GetEmployees([FromQuery] EmployeeSpecParams employeeParams)
         {
-            var spec = new EmployeeSpecification(employeeParams, _userRepository);
+            var spec = new EmployeeSpecification(employeeParams);
 
-            var countSpec = new EmployeeWithFilterCountSpecification(employeeParams, _userRepository);
+            var countSpec = new EmployeeWithFilterForCountSpecification(employeeParams);
 
-            var totalEmployees = await _userRepository.CountAsync(countSpec);
+            var employees = await _userRepository.ListUsersAsync(spec, employeeParams.Role);
 
-            var employees = await _userRepository.ListUsersAsync(spec);
+            var totalEmployees = await _userRepository.CountAsync(countSpec, employeeParams.Role);
 
             var data = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<UserDto>>(employees);
 
