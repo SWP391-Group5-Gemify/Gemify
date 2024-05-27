@@ -35,7 +35,7 @@ namespace Core.Specifications
         }
 
         public EmployeeSpecification(string id) 
-            : base(x => x.Id.Equals(id)  )
+            : base(x => x.Id.Equals(id))
         {
             
         }
