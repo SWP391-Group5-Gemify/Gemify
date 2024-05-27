@@ -11,6 +11,10 @@ namespace API.Helpers
                 .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.User.FullName))
                 .ForMember(d => d.EmployeeUsername, o => o.MapFrom(s => s.User.UserName));
             CreateMap<SaleCounterDto, SaleCounter>();
+
+            CreateMap<Customer, CustomerDto>()
+                .ForMember(d => d.MembershipRate, o => o.MapFrom(s => s.Membership.Name));
+            CreateMap<CustomerDto, Customer>();
         }
     }
 }
