@@ -15,7 +15,7 @@ namespace Core.Specifications
         {
             AddInclude(x => x.ProductGems);
             AddInclude(x => x.GoldType);
-            AddInclude(x => x.SubCategory);
+            AddInclude(x => x.SubCategory.Category);
             AddInclude(x => x.SaleCounter);
 
             ApplyPaging(productParams.PageSize * (productParams.PageIndex - 1),
