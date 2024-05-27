@@ -1,13 +1,15 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 
 namespace Core.Enitities
 {
-    public class ProductGem
+    public class ProductGem : BaseEntity
     {
         public int ProductId { get; set; }
+        [JsonIgnore]
         public Product Product { get; set; }
         public int GemTypeId { get; set; }
         public GemType GemType { get; set; }

@@ -462,7 +462,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SaleCounterId")
+                    b.Property<int?>("SaleCounterId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -488,21 +488,29 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Enitities.ProductGem", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("GemTypeId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CertificateCode")
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int>("GemTypeId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("GemWeight")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("ProductId", "GemTypeId");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("GemTypeId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductGems");
                 });
@@ -800,9 +808,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Enitities.SaleCounter", "SaleCounter")
                         .WithMany()
-                        .HasForeignKey("SaleCounterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SaleCounterId");
 
                     b.HasOne("Core.Enitities.SubCategory", "SubCategory")
                         .WithMany()

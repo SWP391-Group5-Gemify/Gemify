@@ -43,11 +43,18 @@ namespace API.Controllers
             return _mapper.Map<Product, ProductDto>(product);
         }
 
-       // [HttpGet("{id}/gems")]
-       // public async Task<ActionResult<IReadOnlyList<ProductGem>>> GetProductGems(int id)
-       // {
+        // Add a new product
+        [HttpPost]
+        public async Task<ActionResult> AddProduct (ProductToAddDto productDto)
+        {
+            var product = _mapper.Map<ProductToAddDto,Product>(productDto);
+            product.Status = ProductStatus.New;
+            var productGems = _mapper.Map<IReadOnlyList<ProductGemToAddDto>,IReadOnlyList<ProductGem>>(productDto.ProductGems);
+            if (await _productService.AddProductAsync(product, productGems) == null)
+                return BadRequest("Fail to add a new product.");
+            return Ok("Successfully added a new product.");
+        }
 
-       // }
 
        // Update product information
        //[HttpPut]

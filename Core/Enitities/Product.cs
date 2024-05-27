@@ -26,7 +26,7 @@ namespace Core.Enitities
         public string ImageUrl { get; set; }
         public int SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
-        public int SaleCounterId { get; set; }
+        public int? SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
         public IReadOnlyList<GemType> Gems { get; set; }
