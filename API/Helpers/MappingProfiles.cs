@@ -18,6 +18,8 @@ namespace API.Helpers
 
             CreateMap<User, EmployeeDto>()
                 .ForMember(d => d.Role, o => o.MapFrom<EmployeeRoleResolver>());
+
+            CreateMap<EmployeeDto, User>();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using API.Dtos;
+using API.Errors;
 using API.Helpers;
 using AutoMapper;
+using Core.Enitities;
 using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
@@ -35,6 +37,57 @@ namespace API.Controllers
             var data = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<EmployeeDto>>(employees);
 
             return Ok(new Pagination<EmployeeDto>(employeeParams.PageIndex, employeeParams.PageSize, totalEmployees, data));
+        }
+
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<EmployeeDto>> EmployeeDetails(string id)
+        {
+            var spec = new EmployeeSpecification(id);
+
+            var employee = await _userRepository.GetUserWithSpec(spec);
+
+            if(employee==null) return NotFound(new ApiResponse(404));
+
+            var data = _mapper.Map<User,EmployeeDto>(employee);
+
+            return Ok(data);
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<EmployeeDto>> DeleteEmployee(EmployeeDto employee)
+        {
+            var spec = new EmployeeSpecification(employee.Id);
+
+            var exist_emp = await _userRepository.GetUserWithSpec(spec);
+
+            if(exist_emp==null) return NotFound(new ApiResponse(404));
+
+            exist_emp.Status = UserStatus.Closed;
+
+            var result = await _userRepository.UpdateUserAsync(exist_emp);
+
+            if(result.Succeeded) return Ok("Close Account Succeeded");
+            else return BadRequest(new ApiResponse(400));
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<EmployeeDto>> UpdateEmployee(EmployeeDto employee)
+        {
+            var spec = new EmployeeSpecification(employee.Id);
+
+            var exist_emp = await _userRepository.GetUserWithSpec(spec);
+
+            if(exist_emp==null) return NotFound(new ApiResponse(404));
+
+            _mapper.Map(employee,exist_emp);
+
+            var result = await _userRepository.UpdateUserAsync(exist_emp);
+
+            if(result.Succeeded) return Ok("Update Succeeded");
+            else return BadRequest(new ApiResponse(400));
         }
     }
 }
