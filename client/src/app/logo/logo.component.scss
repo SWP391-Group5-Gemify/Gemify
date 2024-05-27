@@ -1,0 +1,20 @@
+@import "abstracts/variables";
+
+.logo {
+  display: inline-block;
+  font-family: 'MajorMonoDisplay';
+  font-weight: bold;
+  color: $color-primary-dark;
+
+  &--small {
+    font-size: 2.4rem;
+  }
+
+  &--medium {
+    font-size: 3.2rem;
+  }
+
+  &--big {
+    font-size: 5.6rem;
+  }
+}

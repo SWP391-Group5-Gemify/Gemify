@@ -1,13 +1,13 @@
 <header class="header">
-  <div class="header__logo-box">
-    <img class="header__logo" src="{{loginLinks}}" width="30" height="30" /> Bootstrap
-  </div>
+  <h1 class="header__logo-box">
+    <app-logo [classLogoSize]="'logo--big'"></app-logo>
+  </h1>
 
   <nav class="header__nav">
     @for (link of navLinks; track $index) {
-    <a class="header__link" routerLink="{{link.route}}">{{link.name}}</a>
+    <a href="#" class="btn btn--grad" routerLink="{{link.route}}">{{link.name}}</a>
     }
   </nav>
 
-  <a class="btn btn--yellow">Login</a>
+  <a href="#" class="btn btn--grad">Login</a>
 </header>

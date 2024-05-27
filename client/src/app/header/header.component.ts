@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LogoComponent } from '../logo/logo.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, LogoComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -21,7 +22,4 @@ export class HeaderComponent {
 
   // Login
   loginLinks = { id: 1, name: 'Login', route: '/login' };
-
-  // Logo
-  logo = { id: 1, name: 'Gemify', src: '' };
 }
