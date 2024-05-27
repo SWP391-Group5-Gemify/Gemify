@@ -5,11 +5,11 @@ using Core.Interfaces;
 
 namespace API.Helpers
 {
-    public class RoleResolver : IValueResolver<User, UserDto, string>
+    public class UserRoleResolver : IValueResolver<User, UserDto, string>
     {
         private readonly IUserRepository _userRepository;
 
-        public RoleResolver(IUserRepository userRepository)
+        public UserRoleResolver(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

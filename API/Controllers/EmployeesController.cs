@@ -22,7 +22,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Pagination<UserDto>>> GetEmployees([FromQuery] EmployeeSpecParams employeeParams)
+        public async Task<ActionResult<Pagination<EmployeeDto>>> GetEmployees([FromQuery] EmployeeSpecParams employeeParams)
         {
             var spec = new EmployeeSpecification(employeeParams);
 
@@ -32,9 +32,9 @@ namespace API.Controllers
 
             var totalEmployees = await _userRepository.CountAsync(countSpec, employeeParams.Role);
 
-            var data = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<UserDto>>(employees);
+            var data = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<EmployeeDto>>(employees);
 
-            return Ok(new Pagination<UserDto>(employeeParams.PageIndex, employeeParams.PageSize, totalEmployees, data));
+            return Ok(new Pagination<EmployeeDto>(employeeParams.PageIndex, employeeParams.PageSize, totalEmployees, data));
         }
     }
 }
