@@ -1,0 +1,28 @@
+.btn {
+
+  &,
+  &:link,
+  &:visited {
+    display: inline-block;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    border-radius: 10rem;
+    font-size: $default-font-size;
+    font-family: 'Merriweather-R';
+    font-weight: 700;
+    letter-spacing: 1.3px;
+  }
+
+  &:hover {}
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  &--yellow {
+    background-color: $color-primary;
+    color: $color-black;
+  }
+}

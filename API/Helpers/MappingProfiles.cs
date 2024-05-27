@@ -13,13 +13,6 @@ namespace API.Helpers
                 .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.User.FullName))
                 .ForMember(d => d.EmployeeUsername, o => o.MapFrom(s => s.User.UserName));
             CreateMap<SaleCounterDto, SaleCounter>();
-            CreateMap<User, UserDto>()
-                .ForMember(d => d.Role, o => o.MapFrom<UserRoleResolver>());
-
-            CreateMap<User, EmployeeDto>()
-                .ForMember(d => d.Role, o => o.MapFrom<EmployeeRoleResolver>());
-
-            CreateMap<EmployeeDto, User>();
         }
     }
 }
