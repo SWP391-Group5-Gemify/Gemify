@@ -6,25 +6,24 @@
     display: inline-block;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 1.2rem 3.5rem;
+    padding: 1.2rem 3.0rem;
     border-radius: 10rem;
     font-size: $default-font-size;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 1.3px;
 
-    transition: all 0.5s;
-
+    transition: all 0.3s;
     cursor: pointer;
   }
 
   &:focus,
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-9px);
     box-shadow: 0 1rem 2rem rgba($color-black, .2);
   }
 
   &:active {
-    transform: translateY(-1px);
+    transform: translateY(-5px);
     box-shadow: 0 .5rem 1rem rgba($color-black, .2);
     outline: 1px solid $color-primary-light;
   }
@@ -34,8 +33,9 @@
     color: $color-white;
   }
 
+
   &--animated {
-    animation: moveInBottom 0.75s ease-out 0.75s;
+    animation: moveInBottom 5.75s ease-out 4.75s;
     animation-fill-mode: backwards;
   }
 }
