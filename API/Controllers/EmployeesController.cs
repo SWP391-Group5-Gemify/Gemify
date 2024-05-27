@@ -54,7 +54,7 @@ namespace API.Controllers
             return Ok(data);
         }
 
-        [HttpPut]
+        [HttpPut("delete")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<EmployeeDto>> DeleteEmployee(EmployeeDto employee)
         {
@@ -72,7 +72,7 @@ namespace API.Controllers
             else return BadRequest(new ApiResponse(400));
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<EmployeeDto>> UpdateEmployee(EmployeeDto employee)
         {
