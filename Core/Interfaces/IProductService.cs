@@ -7,7 +7,7 @@ namespace Core.Interfaces
     {
         Task<IReadOnlyList<Product>> GetProductsAsync(ISpecification<Product> spec);
         Task<Product> GetProductByIdAsync(int id);
-        Task<Product> AddProductAsync(Product product, GemType gem);
+        //Task<Product> AddProductAsync(Product product, GemType gem);
         void RemoveProductAsync(Product product);
         Task<int> CountProductsAsync(ISpecification<Product> spec);
 

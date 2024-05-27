@@ -29,5 +29,6 @@ namespace Core.Enitities
         public int SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
+        public IReadOnlyList<GemType> Gems { get; set; }
     }
 }

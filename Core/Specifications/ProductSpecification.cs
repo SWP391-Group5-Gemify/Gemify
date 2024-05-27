@@ -14,8 +14,9 @@ namespace Core.Specifications
                 (!productParams.CategoryId.HasValue || x.GoldTypeId == productParams.CategoryId))
         {
             AddInclude(x => x.ProductGems);
+            AddInclude(x => x.Gems);
             AddInclude(x => x.GoldType);
-            AddInclude(x => x.SubCategory.Category);
+            AddInclude(x => x.SubCategory);
             AddInclude(x => x.SaleCounter);
             AddInclude(x => x.SubCategory.Category);
 

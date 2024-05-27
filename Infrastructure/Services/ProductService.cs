@@ -17,10 +17,19 @@ namespace Infrastructure.Services
 
         public IUnitOfWork UnitOfWork { get; }
 
-        public Task<Product> AddProductAsync(Product product, GemType gem)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<Product> AddProductAsync(Product product, GemType gem)
+        //{
+        //    // Add product to Product List
+        //    _unitOfWork.Repository<Product>().Add(product);
+
+        //    // Add gem to Gem List if this gem hasn't existed
+        //    _unitOfWork.Repository<GemType>().Add(gem);
+
+        //    // Add productGem to ProductGem List
+        //    var pg = new ProductGem { ProductId = product.Id, GemTypeId = gem.Id};
+        //    _unitOfWork.Repository<ProductGem>().Add();
+
+        //}
 
         public async Task<int> CountProductsAsync(ISpecification<Product> spec)
         {

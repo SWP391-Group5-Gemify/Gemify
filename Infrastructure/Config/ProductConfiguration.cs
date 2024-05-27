@@ -25,6 +25,10 @@ namespace Infrastructure.Config
             builder.HasOne(p => p.SaleCounter)
                 .WithMany()
                 .HasForeignKey(p => p.SaleCounterId);
+
+            builder.HasMany(p => p.Gems)
+                .WithMany(p => p.Products)
+                .UsingEntity<ProductGem>();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace API.Dtos
         public string Description { get; set; }
         public float Proportion { get; set; }
         public string Polish { get; set; }
+        public string Fluorescence { get; set; }
         public string Symmetry { get; set; }
         public float Carat { get; set; }
         public string Cut { get; set; }

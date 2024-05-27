@@ -30,6 +30,7 @@ namespace API.Helpers
                 .ForMember(d => d.Description, o => o.MapFrom(s => s.GemType.Description))
                 .ForMember(d => d.Proportion, o => o.MapFrom(s => s.GemType.Proportion))
                 .ForMember(d => d.Polish, o => o.MapFrom(s => s.GemType.Polish))
+                .ForMember(d => d.Fluorescence, o => o.MapFrom(s => s.GemType.Fluorescence))
                 .ForMember(d => d.Symmetry, o => o.MapFrom(s => s.GemType.Symmetry))
                 .ForMember(d => d.Carat, o => o.MapFrom(s => s.GemType.Carat))
                 .ForMember(d => d.Cut, o => o.MapFrom(s => s.GemType.Cut))
