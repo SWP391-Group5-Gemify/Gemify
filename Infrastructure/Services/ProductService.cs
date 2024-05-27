@@ -22,9 +22,9 @@ namespace Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> CountProductsAsync()
+        public async Task<int> CountProductsAsync(ISpecification<Product> spec)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.Repository<Product>().CountAsync(spec);
         }
 
         // Get product by id
@@ -38,7 +38,7 @@ namespace Infrastructure.Services
         public async Task<IReadOnlyList<Product>> GetProductsAsync(ISpecification<Product> spec)
         {
             return await _unitOfWork.Repository<Product>().ListAsync(spec);
-        }
+        }       
 
         public void RemoveProductAsync(Product product)
         {
