@@ -8,9 +8,23 @@
 
 html {
   font-size: 62.5%;
+  font-family: "Merriweather-R", sans-serif;
 }
 
 body {
   box-sizing: border-box;
   padding: 2rem;
+  color: $color-black;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a:link,
+a:visited,
+a:focus,
+a:hover,
+a:active {
+  text-decoration: none;
 }
