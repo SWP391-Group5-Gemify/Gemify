@@ -7,6 +7,7 @@ using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -88,6 +89,15 @@ namespace API.Controllers
 
             if(result.Succeeded) return Ok("Update Succeeded");
             else return BadRequest(new ApiResponse(400));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IReadOnlyList<IdentityRole>>> GetAllRoles()
+        {
+            var data = await _userRepository.GetAllRolesAsync();
+
+            return Ok(data);
         }
     }
 }
