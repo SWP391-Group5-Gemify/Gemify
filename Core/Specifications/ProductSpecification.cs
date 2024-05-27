@@ -17,6 +17,7 @@ namespace Core.Specifications
             AddInclude(x => x.GoldType);
             AddInclude(x => x.SubCategory.Category);
             AddInclude(x => x.SaleCounter);
+            AddInclude(x => x.SubCategory.Category);
 
             ApplyPaging(productParams.PageSize * (productParams.PageIndex - 1),
                 productParams.PageSize);

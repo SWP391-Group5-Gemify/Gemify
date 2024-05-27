@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Dtos
 {
-    public class GemDto
+    public class ProductGemDto
     {
+        public string GemTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public float Proportion { get; set; }
@@ -17,5 +18,7 @@ namespace API.Dtos
         public string Color { get; set; }
         public string Shape { get; set; }
         public float LatestPrice { get; set; }
+        public float GemWeight { get; set; }
+        public string CertificateCode { get; set; }
     }
 }

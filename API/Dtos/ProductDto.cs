@@ -18,6 +18,6 @@ namespace API.Dtos
         public string SubCategoryName { get; set; }
         public string CategoryName { get; set; }
         public string SaleCounterName { get; set; }
-        public IReadOnlyList<GemDto> Gems { get; set; }
+        public IReadOnlyList<ProductGemDto> Gems { get; set; }
     }
 }
