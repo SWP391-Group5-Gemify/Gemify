@@ -1,20 +1,33 @@
-<div class="container">
-  <form class="sign-in-form">
-    <h2>Sign in</h2>
-    <div class="row-control">
-      <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
-        <input matInput placeholder="Username" />
-      </mat-form-field>
-    </div>
-    <div class="row-control">
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input type="password" matInput placeholder="Password" />
-      </mat-form-field>
-    </div>
-    <div class="row-control row-actions">
-      <button mat-raised-button color="primary" type="submit">Sign in</button>
-    </div>
-  </form>
-</div>
+<form class="form"
+      [formGroup]="signInForm!"
+      autocomplete="off"
+      (ngSubmit)="onSubmit()">
+  <h2 class="form__heading u-margin-bottom-medium">Sign in</h2>
+
+  <!-- Form Control Username -->
+  <div class="form__input-control u-margin-bottom-small">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput
+             type="text"
+             placeholder="Username"
+             formControlName="username" />
+    </mat-form-field>
+  </div>
+
+  <!-- Form Control Password -->
+  <div class="form__input-control u-margin-bottom-small">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input type="password"
+             matInput
+             placeholder="Password"
+             formControlName="password" />
+    </mat-form-field>
+  </div>
+
+  <button class="btn btn--primary"
+          type="submit">Sign in</button>
+</form>
+
+<!-- <pre>{{ signInForm?.value| json }}</pre> -->

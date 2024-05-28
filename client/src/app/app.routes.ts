@@ -6,4 +6,5 @@ export const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent, pathMatch: 'prefix' },
   { path: 'gold-chart', component: GoldChartComponent, pathMatch: 'prefix' },
+  // { path: '**', component:}
 ];
