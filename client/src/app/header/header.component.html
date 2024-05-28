@@ -1,0 +1,15 @@
+<header class="header">
+  <div class="header__logo-box">
+    <img class="header__logo" src="{{loginLinks}}" width="30" height="30" /> Bootstrap
+  </div>
+
+  <nav class="navigation">
+    <ul class="navigation__list">
+      @for (link of navLinks; track $index) {
+      <li><a class="navigation__link" routerLink="{{link.route}}">{{link.name}}</a></li>
+      }
+    </ul>
+  </nav>
+
+  <a class="btn btn--yellow">Login</a>
+</header>
