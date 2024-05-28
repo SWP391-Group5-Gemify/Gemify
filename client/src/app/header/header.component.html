@@ -1,15 +1,13 @@
-<header class="header">
-  <div class="header__logo-box">
-    <img class="header__logo" src="{{loginLinks}}" width="30" height="30" /> Bootstrap
-  </div>
+<header class="header u-margin-bottom-medium">
+  <h1 class="header__logo-box">
+    <app-logo [classLogoSize]="'logo--big'"></app-logo>
+  </h1>
 
-  <nav class="navigation">
-    <ul class="navigation__list">
-      @for (link of navLinks; track $index) {
-      <li><a class="navigation__link" routerLink="{{link.route}}">{{link.name}}</a></li>
-      }
-    </ul>
+  <span class="divider"></span>
+
+  <nav class="header__nav">
+    @for (link of navLinks; track $index) {
+    <a href="#" class="btn btn--grad" routerLink="{{link.route}}">{{link.name}}</a>
+    }
   </nav>
-
-  <a class="btn btn--yellow">Login</a>
 </header>

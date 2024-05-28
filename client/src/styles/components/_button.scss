@@ -1,3 +1,5 @@
+// Follow the rule Love Fear Hate
+
 .btn {
 
   &,
@@ -6,23 +8,47 @@
     display: inline-block;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 1.5rem 4rem;
+    padding: 1.2rem 3.0rem;
+    width: max-content;
+    text-wrap: nowrap;
     border-radius: 10rem;
     font-size: $default-font-size;
-    font-family: 'Merriweather-R';
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 1.3px;
+
+    transition: all 0.2s;
+    cursor: pointer;
   }
 
-  &:hover {}
-
-  &:active,
-  &:focus {
-    outline: none;
+  // &:focus,
+  &:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 1rem 2rem rgba($color-black, .2);
+    outline: 2px solid $color-primary-light;
   }
 
-  &--yellow {
-    background-color: $color-primary;
-    color: $color-black;
+  &:active {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba($color-black, .2);
+  }
+
+  &--grad {
+    background-image: linear-gradient(to right, $color-secondary-dark 0%, $color-secondary-light 51%, $color-secondary-dark 100%);
+    color: $color-white;
+  }
+
+  &--animated {
+    animation: moveInBottom 5.75s ease-out 4.75s;
+    animation-fill-mode: backwards;
+  }
+
+  &--primary {
+    background-color: $color-primary-dark;
+    color: $color-white;
+
+    // &:focus,
+    &:hover {
+      outline: 2px solid $color-grey-dark-3;
+    }
   }
 }

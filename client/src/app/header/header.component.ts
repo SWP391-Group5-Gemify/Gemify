@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LogoComponent } from '../logo/logo.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, LogoComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -15,13 +16,10 @@ export class HeaderComponent {
 
   // Links
   navLinks = [
-    { id: 1, name: 'Home', route: '/home' },
-    { id: 2, name: 'Live Gold Chart', route: '/liveGold' },
+    { id: 1, name: 'Login', route: '/' },
+    { id: 2, name: 'Gold Chart', route: '/gold-chart' },
   ];
 
   // Login
   loginLinks = { id: 1, name: 'Login', route: '/login' };
-
-  // Logo
-  logo = { id: 1, name: 'Gemify', src: '' };
 }

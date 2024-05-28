@@ -49,3 +49,11 @@ ORDER: Base + typography > general layout + grid > page layout > components
     ; //1800
   }
 }
+
+// Absolute Center, default top is 50%
+@mixin absCenter($top: 50%) {
+  position: absolute;
+  top: $top;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
