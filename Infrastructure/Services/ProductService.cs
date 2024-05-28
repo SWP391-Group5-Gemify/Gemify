@@ -51,5 +51,12 @@ namespace Infrastructure.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> UpdateProductAsync(Product product)
+        {
+            _unitOfWork.Repository<Product>().Update(product);
+            var result = await _unitOfWork.Complete();
+            return result > 0;
+        }
     }
 }

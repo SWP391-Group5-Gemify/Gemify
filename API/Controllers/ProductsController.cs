@@ -64,22 +64,23 @@ namespace API.Controllers
             return BadRequest("Fail to add a new product.");          
         }
 
+        //Update product information
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Product>> UpdateProduct(int id, ProductToAddDto productDto)
+        {
+            var existingProduct = await _productService.GetProductByIdAsync(id);
+            if (existingProduct == null)
+                return NotFound(new ApiResponse(404, "This product does not exist"));
 
-       // Update product information
-       //[HttpPut]
-       // public async Task<ActionResult> UpdateProduct(ProductDto productDto)
-       // {
-       //     var spec = new CustomerSpecification(productDto.Id);
-       //     var existingCustomer = await _productRepo.GetEntityWithSpec(spec);
-       //     if (existingCustomer == null)
-       //         return NotFound(new ApiResponse(404, "This customer does not exist"));
+            _mapper.Map(productDto, existingProduct);
 
-       //     _mapper.Map(productDto, existingCustomer);
-       //     _productRepo.Update(existingCustomer);
-       //     if (await _productRepo.SaveAllAsync())
-       //         return Ok("Successfully updated!");
-       //     return BadRequest("Fail to update customer information!");
-       // }
+            //return existingProduct;
+            if (await _productService.UpdateProductAsync(existingProduct))
+                return Ok("Product was successfully updated!!!");
+
+            return BadRequest("Fail to update product information!");
+        }
+
 
 
     }
