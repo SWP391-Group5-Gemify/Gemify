@@ -2,7 +2,6 @@
 using AutoMapper;
 using Core.Enitities;
 using Core.Enitities.Identity;
-using Core.Interfaces;
 
 namespace API.Helpers
 {
