@@ -57,9 +57,9 @@ namespace API.Controllers
 
         [HttpPut("delete")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<EmployeeDto>> DeleteEmployee(EmployeeDto employee)
+        public async Task<ActionResult<EmployeeDto>> DeleteEmployee([FromQuery] string id)
         {
-            var spec = new EmployeeSpecification(employee.Id);
+            var spec = new EmployeeSpecification(id);
 
             var exist_emp = await _userRepository.GetUserWithSpec(spec);
 
@@ -91,13 +91,13 @@ namespace API.Controllers
             else return BadRequest(new ApiResponse(400));
         }
 
-        [HttpGet]
+        [HttpGet("roles")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IReadOnlyList<IdentityRole>>> GetAllRoles()
         {
-            var data = await _userRepository.GetAllRolesAsync();
+            var roles = await _userRepository.GetAllRolesAsync();
 
-            return Ok(data);
+            return Ok(_mapper.Map<IReadOnlyList<IdentityRole>, IReadOnlyList<RoleDto>>(roles));
         }
     }
 }

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Core.Enitities;
 using Core.Enitities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Helpers
 {
@@ -22,9 +23,10 @@ namespace API.Helpers
 
             CreateMap<User, EmployeeDto>()
                 .ForMember(d => d.Role, o => o.MapFrom<EmployeeRoleResolver>());
-            CreateMap<User,EmployeeDto>();
 
             CreateMap<EmployeeDto,User>();
+
+            CreateMap<IdentityRole, RoleDto>();
         }
     }
 }
