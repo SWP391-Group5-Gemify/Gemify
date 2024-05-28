@@ -16,8 +16,8 @@ export class HeaderComponent {
 
   // Links
   navLinks = [
-    { id: 1, name: 'Home', route: '/home' },
-    { id: 2, name: 'Live Gold Chart', route: '/liveGold' },
+    { id: 1, name: 'Login', route: '/' },
+    { id: 2, name: 'Gold Chart', route: '/gold-chart' },
   ];
 
   // Login

@@ -7,12 +7,14 @@
     text-transform: uppercase;
     text-decoration: none;
     padding: 1.2rem 3.0rem;
+    width: max-content;
+    text-wrap: nowrap;
     border-radius: 10rem;
     font-size: $default-font-size;
     font-weight: 500;
     letter-spacing: 1.3px;
 
-    transition: all 0.3s;
+    transition: all 0.2s;
     cursor: pointer;
   }
 
@@ -32,7 +34,6 @@
     background-image: linear-gradient(to right, $color-secondary-dark 0%, $color-secondary-light 51%, $color-secondary-dark 100%);
     color: $color-white;
   }
-
 
   &--animated {
     animation: moveInBottom 5.75s ease-out 4.75s;

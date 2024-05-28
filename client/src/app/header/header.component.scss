@@ -5,15 +5,17 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: $color-white;
-  padding: 1.5rem;
+  width: 100%;
 
-  border-radius: 300px;
-  box-shadow: 0 .5rem 10px $color-white;
+  flex-wrap: nowrap;
+  gap: 3rem;
 
   &__nav {
-    a:not(:last-child) {
-      margin-right: 1rem;
+    display: flex;
+    gap: 1rem;
+
+    a {
+      flex: 0 1 auto;
     }
   }
 }

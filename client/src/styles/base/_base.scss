@@ -42,6 +42,11 @@ huge
   box-sizing: inherit;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 html {
   font-size: 62.5%;
   font-family: "Merriweather", sans-serif;
@@ -49,8 +54,9 @@ html {
 
 body {
   box-sizing: border-box;
-  padding: 1.2rem;
+  padding: 1.6rem;
   min-height: 100vh;
+  background-color: $color-white;
 }
 
 ul {

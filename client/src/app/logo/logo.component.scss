@@ -5,6 +5,9 @@
   font-family: 'MajorMonoDisplay';
   font-weight: bold;
   color: $color-primary-dark;
+  text-shadow: 0 .5px 2px $color-primary-light;
+  letter-spacing: 5px;
+
 
   &--small {
     font-size: 2.4rem;

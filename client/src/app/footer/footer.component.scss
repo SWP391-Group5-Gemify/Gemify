@@ -5,15 +5,15 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 8vh;
+  height: 6.5vh;
   width: 100vw;
   background-color: $color-black;
   color: $color-white;
-  padding-left: 2.7rem;
+  padding-left: 1.4rem;
 
   &__copyright {
 
-    line-height: 8vh;
+    line-height: 6.5vh;
 
     span {
       font-size: $default-font-size;
