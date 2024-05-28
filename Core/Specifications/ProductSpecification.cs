@@ -10,8 +10,8 @@ namespace Core.Specifications
                 (productParams.Search)) &&
                 (string.IsNullOrEmpty(productParams.Status) || x.Status.ToString() == productParams.Status) &&
                 (!productParams.GoldTypeId.HasValue || x.GoldTypeId == productParams.GoldTypeId) &&
-                (!productParams.SubCategoryId.HasValue || x.GoldTypeId == productParams.SubCategoryId) &&
-                (!productParams.CategoryId.HasValue || x.GoldTypeId == productParams.CategoryId))
+                (!productParams.SubCategoryId.HasValue || x.SubCategoryId == productParams.SubCategoryId) &&
+                (!productParams.CategoryId.HasValue || x.SubCategory.CategoryId == productParams.CategoryId))
         {
             AddInclude(x => x.ProductGems);
             AddInclude(x => x.Gems);

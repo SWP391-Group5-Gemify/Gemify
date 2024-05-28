@@ -17,7 +17,7 @@ namespace Infrastructure.Services
 
         public IUnitOfWork UnitOfWork { get; }
 
-        public async Task<Product> AddProductAsync(Product product, IReadOnlyList<ProductGem> gems)
+        public async Task<bool> AddProductAsync(Product product)
         {
             // Add product to Product List
             _unitOfWork.Repository<Product>().Add(product);
@@ -25,8 +25,8 @@ namespace Infrastructure.Services
             // save to db
             var result = await _unitOfWork.Complete();
 
-            if (result <= 0) return null;
-            return product;
+            if (result <= 0) return false;
+            return true;
         }
 
         public async Task<int> CountProductsAsync(ISpecification<Product> spec)

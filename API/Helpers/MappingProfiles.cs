@@ -39,8 +39,7 @@ namespace API.Helpers
                 .ForMember(d => d.LatestPrice, o => o.MapFrom(s => s.GemType.LatestPrice));
 
             CreateMap<ProductGemToAddDto, ProductGem>();
-            CreateMap<ProductToAddDto, Product>()
-                .ForMember(d => d.ProductGems, o => o.MapFrom(s => s.ProductGems));
+            CreateMap<ProductToAddDto, Product>();
 
         }
     }
