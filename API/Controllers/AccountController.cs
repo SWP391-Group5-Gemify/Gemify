@@ -1,6 +1,5 @@
 ﻿using API.Dtos;
 using API.Errors;
-using API.Extensions;
 using Core.Enitities;
 using Core.Enitities.Identity;
 using Core.Interfaces;
@@ -8,19 +7,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly UserManager<User> _userManager;
+        private readonly IUserRepository _userRepo;
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(UserManager<User> userManager, 
+        public AccountController(IUserRepository userRepo, 
             SignInManager<User> signInManager, ITokenService tokenService) 
         {
-            _userManager = userManager;
+            _userRepo = userRepo;
             _signInManager = signInManager;
             _tokenService = tokenService;
         }
@@ -29,10 +27,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var user = await _userManager.FindUserByClaimsEmailAsync(HttpContext.User);
+            var user = await _userRepo.GetUserByClaimsEmailAsync(HttpContext.User);
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var userRole = userRoles.FirstOrDefault();
+            var userRole = await _userRepo.GetUserRoleAsync(user);
 
             return new UserDto
             {
@@ -41,6 +38,7 @@ namespace API.Controllers
                 UserName = user.UserName,
                 FullName = user.FullName,
                 Gender = user.Gender.ToString(),
+                PhoneNumber = user.PhoneNumber,
                 Status = user.Status.ToString(),
                 Address = user.Address,
                 DateOfBirth = user.DateOfBirth,
@@ -52,19 +50,19 @@ namespace API.Controllers
         [HttpGet("email_exists")]
         public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
         {
-            return await _userManager.FindByEmailAsync(email) != null;
+            return await _userRepo.GetUserByEmailAsync(email) != null;
         }
 
         [HttpGet("username_exists")]
         public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string userName)
         {
-            return await _userManager.FindByNameAsync(userName) != null;
+            return await _userRepo.GetUserByUserNameAsync(userName) != null;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByNameAsync(loginDto.UserName);
+            var user = await _userRepo.GetUserByUserNameAsync(loginDto.UserName);
 
             if (user == null) return Unauthorized(new ApiResponse(401));
 
@@ -72,8 +70,7 @@ namespace API.Controllers
 
             if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var userRole = userRoles.FirstOrDefault();    
+            var userRole = await _userRepo.GetUserRoleAsync(user);
 
             return new UserDto
             {
@@ -82,6 +79,7 @@ namespace API.Controllers
                 UserName = user.UserName,
                 FullName = user.FullName,
                 Gender = user.Gender.ToString(),
+                PhoneNumber = user.PhoneNumber,
                 Status = user.Status.ToString(),
                 Address = user.Address,
                 DateOfBirth = user.DateOfBirth,
@@ -100,14 +98,15 @@ namespace API.Controllers
                 UserName = registerDto.UserName,
                 FullName = registerDto.FullName,
                 Gender = (Gender)Enum.Parse(typeof(Gender), registerDto.Gender),
+                PhoneNumber = registerDto.PhoneNumber,
                 Status = (UserStatus)Enum.Parse(typeof(UserStatus), registerDto.Status),
                 Address = registerDto.Address,
                 DateOfBirth = registerDto.DateOfBirth,
                 Image_Url = registerDto.Image_Url,
             };
 
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-            var roleResult = await _userManager.AddToRoleAsync(user, registerDto.Role);
+            var result = await _userRepo.CreateUserAsync(user, registerDto.Password);
+            var roleResult = await _userRepo.AddUserToRoleAsync(user, registerDto.Role);
 
             if (!result.Succeeded && !roleResult.Succeeded) return BadRequest(new ApiResponse(400));
 
@@ -118,6 +117,7 @@ namespace API.Controllers
                 UserName = user.UserName,
                 FullName = user.FullName,
                 Gender = user.Gender.ToString(),
+                PhoneNumber = user.PhoneNumber,
                 Status = user.Status.ToString(),
                 Address = user.Address,
                 DateOfBirth = user.DateOfBirth,

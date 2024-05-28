@@ -27,6 +27,7 @@ namespace Core.Interfaces.Identity
                     g => g.ToString(),
                     g => (Gender)Enum.Parse(typeof(Gender), g)
                 );
+
                 entity.Property(s => s.Status)
                     .HasConversion(
                         u => u.ToString(),

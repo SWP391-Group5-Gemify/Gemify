@@ -1,6 +1,8 @@
 ﻿using API.Dtos;
 using AutoMapper;
 using Core.Enitities;
+using Core.Enitities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Helpers
 {
@@ -15,6 +17,16 @@ namespace API.Helpers
             CreateMap<Customer, CustomerDto>()
                 .ForMember(d => d.MembershipRate, o => o.MapFrom(s => s.Membership.Name));
             CreateMap<CustomerDto, Customer>();
+
+            CreateMap<User, UserDto>()
+                .ForMember(d => d.Role, o => o.MapFrom<UserRoleResolver>());
+
+            CreateMap<User, EmployeeDto>()
+                .ForMember(d => d.Role, o => o.MapFrom<EmployeeRoleResolver>());
+
+            CreateMap<EmployeeDto,User>();
+
+            CreateMap<IdentityRole, RoleDto>();
         }
     }
 }
