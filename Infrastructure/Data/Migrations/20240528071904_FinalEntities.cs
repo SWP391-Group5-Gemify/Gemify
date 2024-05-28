@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddEntities : Migration
+    public partial class FinalEntities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -312,7 +312,8 @@ namespace Infrastructure.Data.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     GemTypeId = table.Column<int>(type: "int", nullable: false),
                     GemWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CertificateCode = table.Column<string>(type: "varchar(50)", nullable: true)
+                    CertificateCode = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

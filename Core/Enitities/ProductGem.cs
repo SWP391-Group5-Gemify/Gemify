@@ -17,6 +17,7 @@ namespace Core.Enitities
         public float GemWeight { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string CertificateCode { get; set; }
+        public int Quantity { get; set; }
 
     }
 }

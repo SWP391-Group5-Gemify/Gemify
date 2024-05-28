@@ -11,6 +11,7 @@ namespace API.Dtos
         public string Description { get; set; }
         public string GoldType { get; set; }
         public float GoldWeight { get; set; }
+        public float LatestBidPrice { get; set; }
         public float TotalWeight { get; set; }
         public float Labour { get; set; }
         public string Status { get; set; }
@@ -20,5 +21,6 @@ namespace API.Dtos
         public string CategoryName { get; set; }
         public string SaleCounterName { get; set; }
         public IReadOnlyList<ProductGemDto> Gems { get; set; }
+        public float ProductPrice { get; set; }
     }
 }

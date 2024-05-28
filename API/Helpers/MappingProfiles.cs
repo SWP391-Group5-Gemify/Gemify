@@ -17,12 +17,13 @@ namespace API.Helpers
             CreateMap<CustomerDto, Customer>();
 
             CreateMap<Product, ProductDto>()
-                .ForMember(d => d.GoldType , o => o.MapFrom(s => s.GoldType.Name))
+                .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))
                 .ForMember(d => d.Status, o => o.MapFrom(s => s.Status.ToString()))
                 .ForMember(d => d.SubCategoryName, o => o.MapFrom(s => s.SubCategory.Name))
                 .ForMember(d => d.CategoryName, o => o.MapFrom(s => s.SubCategory.Category.Name))
                 .ForMember(d => d.SaleCounterName, o => o.MapFrom(s => s.SaleCounter.Name))
-                .ForMember(d => d.Gems, o => o.MapFrom(s => s.ProductGems));            
+                .ForMember(d => d.Gems, o => o.MapFrom(s => s.ProductGems))            
+                .ForMember(d => d.LatestBidPrice, o => o.MapFrom(s => s.GoldType.LatestBidPrice));            
 
             CreateMap<ProductGem, ProductGemDto>()
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.GemType.Name))

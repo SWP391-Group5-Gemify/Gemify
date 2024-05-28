@@ -31,6 +31,17 @@ namespace API.Controllers
             var totalProducts = await _productService.CountProductsAsync(countSpec);
             var products = await _productService.GetProductsAsync(spec);
             var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products);
+
+            foreach (ProductDto p in data)
+            {
+                p.ProductPrice = p.GoldWeight * p.LatestBidPrice + p.Labour;
+                foreach (ProductGemDto pg in p.Gems)
+                {
+                    pg.GemsPrice = pg.LatestPrice * pg.Quantity;
+                    p.ProductPrice += pg.GemsPrice;
+                }
+                
+            }
             return Ok(new Pagination<ProductDto>(productParams.PageIndex, productParams.PageSize, totalProducts, data));
         }
 

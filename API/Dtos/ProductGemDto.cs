@@ -1,6 +1,7 @@
 ﻿using Core.Enitities;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace API.Dtos
 {
@@ -21,5 +22,7 @@ namespace API.Dtos
         public float LatestPrice { get; set; }
         public float GemWeight { get; set; }
         public string CertificateCode { get; set; }
+        public int Quantity { get; set; }
+        public float GemsPrice { get; set; }
     }
 }
