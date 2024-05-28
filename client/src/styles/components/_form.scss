@@ -1,17 +1,16 @@
 .form {
   display: inline-block;
-  text-align: center;
-
   @include absCenter(35%);
 
   &__heading {
-    font-size: 3.0rem;
+    font-size: 4.8rem;
+    text-align: center;
     text-align: center;
   }
 
   &__input-control {
     mat-form-field {
-      width: 30rem;
+      width: 100%;
       min-width: 20rem;
     }
   }

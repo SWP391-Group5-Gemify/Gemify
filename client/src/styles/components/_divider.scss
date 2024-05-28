@@ -4,4 +4,10 @@
   width: 100%;
   background: blue;
   background: linear-gradient(to right, $color-primary-dark 40%, $color-black 70%, $color-grey-dark-2 80%);
+
+  &--vertical {
+    height: 100%;
+    width: 2px;
+    filter: blur(.08rem);
+  }
 }
