@@ -4,9 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  private isLoggedIn = false;
+  isLoggedIn = false;
+  roleAs: string;
+
   constructor() {}
 
   // calling API from here
-  login(username: string, password: string): boolean {}
+  // login(username: string, password: string): boolean {}
 }
