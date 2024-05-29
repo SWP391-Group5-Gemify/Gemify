@@ -1,4 +1,5 @@
-﻿using Core.Enitities.Identity;
+﻿using Core.Attributes;
+using Core.Enitities.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,8 +25,9 @@ namespace Core.Enitities.OrderAggregate
         }
         [Column(TypeName = "datetime")]
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        [OrderStatus(ErrorMessage = "Invalid Order Status")]
         [Column(TypeName = "varchar(50)")]
-        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        public string Status { get; set; } = "Pending";
         [Required]
         public int OrderTypeId { get; set; }
         public OrderType OrderType { get; set; }

@@ -11,6 +11,8 @@ namespace Core.Specifications
                 || x.FullName.ToLower().Contains(employeeParams.Search)
                 || x.PhoneNumber.Equals(employeeParams.Search)
                 || x.Email.ToLower().Contains(employeeParams.Search))
+                && (string.IsNullOrEmpty(employeeParams.Status)
+                || x.Status.Equals(employeeParams.Status))
             )
         {
             AddOrderBy(x => x.FullName);

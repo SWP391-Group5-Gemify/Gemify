@@ -8,11 +8,6 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.Property(s => s.Status)
-                .HasConversion(
-                    o => o.ToString(),
-                    o => (OrderStatus)Enum.Parse(typeof(OrderStatus), o)
-                );
             builder.HasMany(o => o.OrderItems).WithOne();
             builder.HasOne(o => o.Customer).WithMany().HasForeignKey(o => o.CustomerId);
             builder.HasOne(o => o.User).WithMany().HasForeignKey(o => o.UserId);

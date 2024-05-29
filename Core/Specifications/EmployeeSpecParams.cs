@@ -14,6 +14,8 @@
         public string Role { get; set; }
         public string Sort { get; set; }
 
+        public string Status { get; set; }
+
         private string _search;
 
         public string Search
