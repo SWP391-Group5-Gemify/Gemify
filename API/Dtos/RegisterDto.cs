@@ -1,4 +1,5 @@
-﻿using Core.Enitities;
+﻿using Core.Attributes;
+using Core.Enitities;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Dtos
@@ -20,8 +21,12 @@ namespace API.Dtos
         public string Password { get; set; }
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
+
+        [Gender(ErrorMessage = "Invalid Gender")]
         public string Gender { get; set; }
         public DateOnly DateOfBirth { get; set; }
+
+        [UserStatus(ErrorMessage = "Invalid User Status")]
         public string Status { get; set; } = "Active";
         public string Image_Url { get; set; }
         public string Address { get; set; }

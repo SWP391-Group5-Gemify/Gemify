@@ -65,7 +65,7 @@ namespace API.Controllers
 
             if(exist_emp==null) return NotFound(new ApiResponse(404));
 
-            exist_emp.Status = UserStatus.Closed;
+            exist_emp.Status = "Closed";
 
             var result = await _userRepository.UpdateUserAsync(exist_emp);
 
