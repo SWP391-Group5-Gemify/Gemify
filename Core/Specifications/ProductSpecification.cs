@@ -6,10 +6,9 @@ namespace Core.Specifications
     {
         public ProductSpecification(ProductParams productParams)
         : base(x => 
-        //string statusString = x.Status.ToString();
         (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains
         (productParams.Search)) &&
-        (string.IsNullOrEmpty(productParams.Status) || x.Status == productParams.Status) &&
+        (string.IsNullOrEmpty(productParams.Status) ? x.Status == "New" : x.Status == productParams.Status) &&
         (!productParams.GoldTypeId.HasValue || x.GoldTypeId == productParams.GoldTypeId) &&
         (!productParams.SubCategoryId.HasValue || x.SubCategoryId == productParams.SubCategoryId) &&
         (!productParams.CategoryId.HasValue || x.SubCategory.CategoryId == productParams.CategoryId))

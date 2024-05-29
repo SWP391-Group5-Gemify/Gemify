@@ -50,7 +50,7 @@ namespace API.Controllers
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
-            if (product == null) { return NotFound(new ApiResponse(404, "This product does not exist")); }
+            if (product == null) { return NotFound(new ApiResponse(404, "This product does not exist!")); }
             return _mapper.Map<Product, ProductDto>(product);
         }
 
@@ -60,28 +60,42 @@ namespace API.Controllers
         {
             var product = _mapper.Map<ProductToAddDto,Product>(productDto);
             if (await _productService.AddProductAsync(product))
-                return Ok("Successfully added a new product.");
+                return Ok("Successfully added a new product!");
             return BadRequest(new ApiResponse(400, "Fail to add a new product!"));          
         }
 
         //Update product information
         [HttpPut("{id}")]
-        public async Task<ActionResult<Product>> UpdateProduct(int id, ProductToAddDto productDto)
+        public async Task<ActionResult> UpdateProduct(int id, ProductToAddDto productDto)
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);
             if (existingProduct == null)
-                return NotFound(new ApiResponse(404, "This product does not exist"));
+                return NotFound(new ApiResponse(404, "This product does not exist!"));
 
             _mapper.Map(productDto, existingProduct);
 
             //return existingProduct;
             if (await _productService.UpdateProductAsync(existingProduct))
-                return Ok("Product was successfully updated!!!");
+                return Ok("Product was successfully updated!");
 
             return BadRequest(new ApiResponse(400, "Fail to update product information!"));
         }
 
+        // Delete Product
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProduct (int id)
+        {
+            var existingProduct = await _productService.GetProductByIdAsync(id);
+            if (existingProduct == null)
+                return NotFound(new ApiResponse(404, "This product does not exist!"));
 
+            existingProduct.Status = "Unavailable";
+
+            if (await _productService.UpdateProductAsync(existingProduct))
+                return Ok("Product was successfully deleted!");
+
+            return BadRequest(new ApiResponse(400, "Fail to delete product information!"));
+        }
 
     }
 }
