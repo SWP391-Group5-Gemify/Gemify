@@ -11,42 +11,42 @@ export const routes: Routes = [
   {
     path: 'store-owner',
     loadChildren: () =>
-      import('./shared/routes/store-owner-routing.module').then(
+      import('./shared/routes/dashboards/store-owner-routing.module').then(
         (m) => m.StoreOwnerRoutingModule
       ),
   },
   {
     path: 'store-manager',
     loadChildren: () =>
-      import('./shared/routes/store-manager-routing.module').then(
+      import('./shared/routes/dashboards/store-manager-routing.module').then(
         (m) => m.StoreManagerRoutingModule
       ),
   },
   {
     path: 'cashier',
     loadChildren: () =>
-      import('./shared/routes/cashier-routing.module').then(
+      import('./shared/routes/dashboards/cashier-routing.module').then(
         (m) => m.CashierRoutingModule
       ),
   },
   {
     path: 'repurchaser',
     loadChildren: () =>
-      import('./shared/routes/repurchaser-routing.module').then(
+      import('./shared/routes/dashboards/repurchaser-routing.module').then(
         (m) => m.RepurchaserRoutingModule
       ),
   },
   {
     path: 'seller',
     loadChildren: () =>
-      import('./shared/routes/seller-routing.module').then(
+      import('./shared/routes/dashboards/seller-routing.module').then(
         (m) => m.SellerRoutingModule
       ),
   },
   {
     path: 'appraiser',
     loadChildren: () =>
-      import('./shared/routes/appraiser-routing.module').then(
+      import('./shared/routes/dashboards/appraiser-routing.module').then(
         (m) => m.AppraiserRoutingModule
       ),
   },

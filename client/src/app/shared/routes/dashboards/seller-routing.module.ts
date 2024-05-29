@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from '../../core/guard/auth/auth.guard';
-import { AppraiserComponent } from '../components/dashboards/appraiser/appraiser.component';
+import { authGuard } from '../../../core/guard/auth/auth.guard';
+import { SellerComponent } from '../../components/dashboards/seller/seller.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AppraiserComponent,
+    component: SellerComponent,
     canActivate: [authGuard],
   },
 ];
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AppraiserRoutingModule {}
+export class SellerRoutingModule {}

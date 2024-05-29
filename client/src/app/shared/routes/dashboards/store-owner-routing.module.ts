@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StoreManagerComponent } from '../components/dashboards/store-manager/store-manager.component';
-import { authGuard } from '../../core/guard/auth/auth.guard';
+import { authGuard } from '../../../core/guard/auth/auth.guard';
+import { StoreOwnerComponent } from '../../components/dashboards/store-owner/store-owner.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: StoreManagerComponent,
+    component: StoreOwnerComponent,
     canActivate: [authGuard],
   },
 ];
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class StoreManagerRoutingModule {}
+export class StoreOwnerRoutingModule {}

@@ -26,25 +26,37 @@ export class StoreOwnerComponent {
   // ===========================
   navItems: any = [
     { name: 'Statistic Dashboard', icon: 'home', route: '/admin/dashboard' },
-    { name: 'Manage Employees', icon: 'home', route: '/admin/employees' },
-    { name: 'Manage Counters', icon: 'home', route: '/admin/counters' },
-    { name: 'Manage Customers', icon: 'home', route: '/admin/customers' },
-    { name: 'Manage Promotions', icon: 'home', route: '/admin/dashboard' },
-    { name: 'Manage Products', icon: 'home', route: '/admin/dashboard' },
-    { name: 'Manage Orders', icon: 'home', route: '/admin/dashboard' },
+    { name: 'Employees', icon: 'work', route: '/admin/employees' },
+    { name: 'Counters', icon: 'attach_money', route: '/admin/counters' },
+    { name: 'Customers', icon: 'family_restroom', route: '/admin/customers' },
+    { name: 'Promotions', icon: 'card_giftcard', route: '/admin/promotions' },
+    { name: 'Products', icon: 'shopping_bag', route: '/admin/products' },
+    { name: 'Orders', icon: 'receipt', route: '/admin/orders' },
     {
-      name: 'Manage Customer Loyalty Program',
-      icon: 'home',
-      route: '/admin/dashboard',
+      name: 'Customer Loyalty Program',
+      icon: 'loyalty',
+      route: '/admin/loyalty',
     },
-    { name: 'Manage Exchange Policy', icon: 'home', route: '/admin/dashboard' },
+    {
+      name: 'Manage Exchange Policy',
+      icon: 'compare_arrows',
+      route: '/admin/exchange',
+    },
     {
       name: 'Manage Gold Bid-Ask Spread',
-      icon: 'home',
-      route: '/admin/dashboard',
+      icon: 'price_change',
+      route: '/admin/gold-bid-ask',
     },
-    { name: 'Manage Buy-back Policy', icon: 'home', route: '/admin/dashboard' },
-    { name: 'Manage Warranty', icon: 'home', route: '/admin/dashboard' },
+    {
+      name: 'Manage Buy-back Policy',
+      icon: 'soap',
+      route: '/admin/buyback',
+    },
+    {
+      name: 'Manage Warranty',
+      icon: 'verified_user',
+      route: '/admin/warranty',
+    },
   ];
   // ===========================
   // == Methods

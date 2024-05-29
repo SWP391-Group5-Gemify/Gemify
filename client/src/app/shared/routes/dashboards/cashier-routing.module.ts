@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from '../../core/guard/auth/auth.guard';
-import { RepurchaserComponent } from '../components/dashboards/repurchaser/repurchaser.component';
+import { authGuard } from '../../../core/guard/auth/auth.guard';
+import { CashierComponent } from '../../components/dashboards/cashier/cashier.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: RepurchaserComponent,
+    component: CashierComponent,
     canActivate: [authGuard],
   },
 ];
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RepurchaserRoutingModule {}
+export class CashierRoutingModule {}
