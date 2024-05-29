@@ -8,11 +8,6 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.Property(p => p.Status)
-                .HasConversion(
-                    ps => ps.ToString(),
-                    ps => (ProductStatus)Enum.Parse(typeof(ProductStatus), ps)
-                );
 
             builder.HasOne(p => p.GoldType)
                 .WithMany()

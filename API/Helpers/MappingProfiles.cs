@@ -21,7 +21,7 @@ namespace API.Helpers
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))
-                .ForMember(d => d.Status, o => o.MapFrom(s => s.Status.ToString()))
+                .ForMember(d => d.Status, o => o.MapFrom(s => s.Status))
                 .ForMember(d => d.SubCategoryName, o => o.MapFrom(s => s.SubCategory.Name))
                 .ForMember(d => d.CategoryName, o => o.MapFrom(s => s.SubCategory.Category.Name))
                 .ForMember(d => d.SaleCounterName, o => o.MapFrom(s => s.SaleCounter.Name))

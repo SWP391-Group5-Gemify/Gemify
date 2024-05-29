@@ -1,4 +1,6 @@
-﻿namespace API.Dtos
+﻿using Core.Attributes;
+
+namespace API.Dtos
 {
     public class ProductToAddDto
     {
@@ -12,6 +14,8 @@
         public string ImageUrl { get; set; }
         public int SubCategoryId { get; set; }
         public int SaleCounterId { get; set; }
+        [ProductStatus(ErrorMessage = "Invalid Product Status")]
+        public string Status { get; set; }
         public IReadOnlyList<ProductGemToAddDto> ProductGems { get; set; }
     }
 }

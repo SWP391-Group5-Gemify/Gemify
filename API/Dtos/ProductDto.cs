@@ -1,6 +1,7 @@
 ﻿using Core.Enitities;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Core.Attributes;
 
 namespace API.Dtos
 {
@@ -14,6 +15,7 @@ namespace API.Dtos
         public float LatestBidPrice { get; set; }
         public float TotalWeight { get; set; }
         public float Labour { get; set; }
+        [ProductStatus(ErrorMessage = "Invalid Product Status")]
         public string Status { get; set; }
         public int Quantity { get; set; }
         public string ImageUrl { get; set; }
