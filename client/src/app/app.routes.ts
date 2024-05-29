@@ -1,50 +1,59 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './shared/components/login/login.component';
-
 import { GoldChartComponent } from './shared/components/gold-chart/gold-chart.component';
-import { authGuard } from './core/guard/auth/auth.guard';
-import { AdminDashboardComponent } from './shared/components/dashboards/admin-dashboard/admin-dashboard.component';
-import { StoreManagerDashboardComponent } from './shared/components/dashboards/store-manager-dashboard/store-manager-dashboard.component';
-import { CashierDashboardComponent } from './shared/components/dashboards/cashier-dashboard/cashier-dashboard.component';
-import { RepurchaserDashboardComponent } from './shared/components/dashboards/repurchaser-dashboard/repurchaser-dashboard.component';
-import { SellerDashboardComponent } from './shared/components/dashboards/seller-dashboard/seller-dashboard.component';
-import { AppraiserDashboardComponent } from './shared/components/dashboards/appraiser-dashboard/appraiser-dashboard.component';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, pathMatch: 'prefix' },
+  { path: 'login', component: LoginComponent },
   {
     path: 'gold-chart',
     component: GoldChartComponent,
   },
   {
-    path: 'admin',
-    component: AdminDashboardComponent,
-    canActivate: [authGuard],
+    path: 'store-owner',
+    loadChildren: () =>
+      import('./shared/routes/store-owner-routing.module').then(
+        (m) => m.StoreOwnerRoutingModule
+      ),
   },
   {
     path: 'store-manager',
-    component: StoreManagerDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/store-manager-routing.module').then(
+        (m) => m.StoreManagerRoutingModule
+      ),
   },
   {
     path: 'cashier',
-    component: CashierDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/cashier-routing.module').then(
+        (m) => m.CashierRoutingModule
+      ),
   },
   {
     path: 'repurchaser',
-    component: RepurchaserDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/repurchaser-routing.module').then(
+        (m) => m.RepurchaserRoutingModule
+      ),
   },
   {
     path: 'seller',
-    component: SellerDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/seller-routing.module').then(
+        (m) => m.SellerRoutingModule
+      ),
   },
   {
     path: 'appraiser',
-    component: AppraiserDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/appraiser-routing.module').then(
+        (m) => m.AppraiserRoutingModule
+      ),
   },
+
+  // Replace with error routes later
+  // - 404
+  // - 500
+  // - 502
+  { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
