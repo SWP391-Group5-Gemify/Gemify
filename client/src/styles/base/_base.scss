@@ -49,7 +49,7 @@ body {
 
 html {
   font-size: 62.5%;
-  font-family: "Merriweather", sans-serif;
+
 }
 
 body {
@@ -57,6 +57,11 @@ body {
   padding: 1.6rem;
   min-height: 100vh;
   background-color: $color-white;
+  font-family: "Merriweather", sans-serif;
+}
+
+main {
+  height: 100%;
 }
 
 ul {
