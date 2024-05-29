@@ -1,0 +1,13 @@
+<header class="header u-margin-bottom-medium">
+  <h1 class="header__logo-box">
+    <app-logo [classLogoSize]="'logo--big'"></app-logo>
+  </h1>
+
+  <span class="divider"></span>
+
+  <nav class="header__nav">
+    @for (link of navLinks; track $index) {
+    <a href="#" class="btn btn--grad" routerLink="{{link.route}}">{{link.name}}</a>
+    }
+  </nav>
+</header>

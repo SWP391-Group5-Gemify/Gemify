@@ -61,7 +61,7 @@ namespace API.Controllers
             var product = _mapper.Map<ProductToAddDto,Product>(productDto);
             if (await _productService.AddProductAsync(product))
                 return Ok("Successfully added a new product.");
-            return BadRequest("Fail to add a new product.");          
+            return BadRequest(new ApiResponse(400, "Fail to add a new product!"));          
         }
 
         //Update product information
@@ -78,7 +78,7 @@ namespace API.Controllers
             if (await _productService.UpdateProductAsync(existingProduct))
                 return Ok("Product was successfully updated!!!");
 
-            return BadRequest("Fail to update product information!");
+            return BadRequest(new ApiResponse(400, "Fail to update product information!"));
         }
 
 

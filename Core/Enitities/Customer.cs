@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Core.Attributes;
 
 namespace Core.Enitities
 {
@@ -8,8 +9,9 @@ namespace Core.Enitities
         [Column(TypeName = "nvarchar(100)"), Required]
         public string Name { get; set; }
 
+        [Gender]
         [Column(TypeName = "varchar(50)")]
-        public Gender Gender { get; set; }
+        public string Gender { get; set; }
 
         [Column(TypeName = "varchar(20)"), Required]
         public string Phone { get; set; }

@@ -21,17 +21,6 @@ namespace Core.Interfaces.Identity
                 entity.Property(u => u.UserName).HasColumnType("varchar(50)").IsRequired();
                 entity.Property(u => u.PhoneNumber).HasColumnType("varchar(20)").IsRequired();
                 entity.Property(u => u.Email).HasColumnType("varchar(100)").IsRequired();
-
-                entity.Property(a => a.Gender)
-                .HasConversion(
-                    g => g.ToString(),
-                    g => (Gender)Enum.Parse(typeof(Gender), g)
-                );
-                entity.Property(s => s.Status)
-                    .HasConversion(
-                        u => u.ToString(),
-                        u => (UserStatus)Enum.Parse(typeof(UserStatus), u)
-                    );
             });
 
             builder.Entity<IdentityRole>(entity =>

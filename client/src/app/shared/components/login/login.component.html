@@ -1,0 +1,56 @@
+<form class="login form"
+      [formGroup]="signInForm!"
+      autocomplete="off"
+      (ngSubmit)="login()">
+  <h2 class="form__heading u-margin-bottom-medium">Sign in</h2>
+
+  <!-- Form Control Username -->
+  <div class="form__input-control u-margin-bottom-small">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput
+             type="text"
+             placeholder="Username"
+             formControlName="username" />
+
+      <!-- Handle Error on Control -->
+      @if (signInForm?.get('username')?.invalid) {
+      <mat-error>{{getErrorMessageOnControl('username')}}</mat-error>
+      }
+    </mat-form-field>
+
+  </div>
+
+  <!-- Form Control Password -->
+  <div class="
+               form__input-control
+               u-margin-bottom-small">
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input type="password"
+             matInput
+             placeholder="Password"
+             formControlName="password" />
+
+      <!-- Handle Error on Control -->
+      @if (signInForm?.get('username')?.invalid) {
+      <mat-error>{{getErrorMessageOnControl('username')}}</mat-error>
+      }
+    </mat-form-field>
+
+  </div>
+
+  <div class="login__contact-group u-margin-top-small">
+    <button class="btn btn--primary"
+            type="submit">Sign in</button>
+
+    <span class="divider divider--vertical"></span>
+
+    <div class="login__contact-group-text">
+      <p class="login__contact-text">{{contact.text}}</p>
+      <p class="login__contact-number">{{contact.number}}</p>
+    </div>
+  </div>
+</form>
+
+<!-- <pre>{{signInForm?.errors | json}}</pre> -->

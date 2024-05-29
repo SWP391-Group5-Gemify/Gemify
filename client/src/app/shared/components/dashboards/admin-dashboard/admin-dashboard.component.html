@@ -1,0 +1,29 @@
+<!-- <app-sidebar></app-sidebar> -->
+<mat-sidenav-container autosize
+                       class="container">
+
+  <!-- Sidebar Specific -->
+  <mat-sidenav opened="true"
+               mode="side"
+               class="container__sidenav">
+    <mat-nav-list class="container__navlist">
+
+      @for (item of navItems; track $index) {
+      <a mat-list-item
+         class="container__item">
+        <div class="container__item-text">
+          <mat-icon>{{item.icon}}</mat-icon>
+          <span>{{item.name}}</span>
+        </div>
+      </a>
+      }
+
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Content Specific -->
+  <mat-sidenav-content class="container__sidenav-content">
+    <h2>Content</h2>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

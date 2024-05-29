@@ -1,6 +1,5 @@
 ﻿using Core.Enitities;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+using Core.Attributes;
 
 namespace API.Dtos
 {
@@ -9,7 +8,8 @@ namespace API.Dtos
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Gender Gender { get; set; }
+        [Gender(ErrorMessage = "Invalid Gender")]
+        public string Gender { get; set; }
 
         public string Phone { get; set; }
 
