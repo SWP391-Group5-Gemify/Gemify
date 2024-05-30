@@ -1,12 +1,42 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './shared/components/login/login.component';
-import { GoldChartComponent } from './shared/components/gold-chart/gold-chart.component';
+import { PageErrorComponent } from './shared/components/page-error/page-error.component';
 
 export const routes: Routes = [
+  { path: '', component: LoginComponent, pathMatch: 'prefix' },
   { path: 'login', component: LoginComponent },
+
+  // === Testing Purpose ========================================================
+  // {
+  //   path: 'validation-error',
+  //   component: PageErrorComponent,
+  //   data: { statusCode: 400, msg: 'You have made a Bad Request' },
+  // },
+  {
+    path: 'not-found',
+    component: PageErrorComponent,
+    data: { statusCode: 404, msg: 'No resource was found' },
+  },
+
+  {
+    path: 'bad-request',
+    component: PageErrorComponent,
+    data: { statusCode: 400, msg: 'You have made a Bad Request' },
+  },
+
+  {
+    path: 'server-error',
+    component: PageErrorComponent,
+    data: { statusCode: 500, msg: 'Server is currently down' },
+  },
+  // ===========================================================
+
   {
     path: 'gold-chart',
-    component: GoldChartComponent,
+    loadChildren: () =>
+      import('./shared/routes/gold-chart/gold-chart-routing.module').then(
+        (m) => m.GoldChartRoutingModule
+      ),
   },
   {
     path: 'store-owner',
@@ -51,9 +81,5 @@ export const routes: Routes = [
       ),
   },
 
-  // Replace with error routes later
-  // - 404
-  // - 500
-  // - 502
-  { path: '**', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];

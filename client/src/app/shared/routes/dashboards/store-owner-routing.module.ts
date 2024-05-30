@@ -10,6 +10,11 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
+        path: '',
+        redirectTo: 'statistic-dashboard',
+        pathMatch: 'full',
+      },
+      {
         path: 'statistic-dashboard',
         loadChildren: () =>
           import(

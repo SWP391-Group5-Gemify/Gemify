@@ -1,13 +1,19 @@
 @import "abstracts/variables";
 
+
+
 .logo {
   display: inline-block;
   font-family: 'MajorMonoDisplay';
   font-weight: bold;
-  color: $color-primary-dark;
   text-shadow: 0 .5px 2px $color-primary-light;
   letter-spacing: 5px;
+  color: $color-primary-dark;
 
+  a:link,
+  a:visited {
+    color: inherit;
+  }
 
   &--small {
     font-size: 1.8em;
