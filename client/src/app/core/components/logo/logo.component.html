@@ -1,4 +1,10 @@
-<div class="logo {{classLogoSize}}">
-  <!-- <img class=" logo__img" src="{{logo.src}}" width=" 30" height="30" /> -->
-  <span>{{logo.name}}</span>
-</div>
+<h1 class="logo {{classLogoSize}}">
+  <!-- <img class="
+     logo__img"
+     src="{{logo.src}}"
+     width=" 30"
+     height="30" /> -->
+  <a href="#"
+     (click)="preventDefault($event)"
+     target="_self">{{logo.name}}</a>
+</h1>

@@ -10,6 +10,10 @@ import { Component, Input } from '@angular/core';
 })
 export class LogoComponent {
   // Logo
-  logo = { id: 1, name: 'Gemify' };
+  logo = { name: 'Gemify' };
   @Input() classLogoSize: string = '';
+
+  preventDefault(event: Event) {
+    event.preventDefault();
+  }
 }
