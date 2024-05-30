@@ -2,7 +2,6 @@
 using API.Errors;
 using API.Helpers;
 using AutoMapper;
-using Core.Enitities;
 using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "StoreOwner")]
     public class EmployeesController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<Pagination<EmployeeDto>>> GetEmployees([FromQuery] EmployeeSpecParams employeeParams)
         {
             var spec = new EmployeeSpecification(employeeParams);
@@ -41,7 +41,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<EmployeeDto>> EmployeeDetails(string id)
         {
             var spec = new EmployeeSpecification(id);
@@ -56,7 +56,7 @@ namespace API.Controllers
         }
 
         [HttpPut("delete")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<EmployeeDto>> DeleteEmployee([FromQuery] string id)
         {
             var spec = new EmployeeSpecification(id);
@@ -74,7 +74,7 @@ namespace API.Controllers
         }
 
         [HttpPut("update")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<EmployeeDto>> UpdateEmployee(EmployeeDto employee)
         {
             var spec = new EmployeeSpecification(employee.Id);
@@ -92,7 +92,7 @@ namespace API.Controllers
         }
 
         [HttpGet("roles")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<IReadOnlyList<IdentityRole>>> GetAllRoles()
         {
             var roles = await _userRepository.GetAllRolesAsync();

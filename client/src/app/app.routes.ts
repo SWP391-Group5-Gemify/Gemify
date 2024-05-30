@@ -1,50 +1,85 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './shared/components/login/login.component';
-
-import { GoldChartComponent } from './shared/components/gold-chart/gold-chart.component';
-import { authGuard } from './core/guard/auth/auth.guard';
-import { AdminDashboardComponent } from './shared/components/dashboards/admin-dashboard/admin-dashboard.component';
-import { StoreManagerDashboardComponent } from './shared/components/dashboards/store-manager-dashboard/store-manager-dashboard.component';
-import { CashierDashboardComponent } from './shared/components/dashboards/cashier-dashboard/cashier-dashboard.component';
-import { RepurchaserDashboardComponent } from './shared/components/dashboards/repurchaser-dashboard/repurchaser-dashboard.component';
-import { SellerDashboardComponent } from './shared/components/dashboards/seller-dashboard/seller-dashboard.component';
-import { AppraiserDashboardComponent } from './shared/components/dashboards/appraiser-dashboard/appraiser-dashboard.component';
+import { PageErrorComponent } from './shared/components/page-error/page-error.component';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, pathMatch: 'prefix' },
+  { path: '', component: LoginComponent, pathMatch: 'prefix' },
+  { path: 'login', component: LoginComponent },
+
+  // === Testing Purpose ========================================================
+  // {
+  //   path: 'validation-error',
+  //   component: PageErrorComponent,
+  //   data: { statusCode: 400, msg: 'You have made a Bad Request' },
+  // },
+  {
+    path: 'not-found',
+    component: PageErrorComponent,
+    data: { statusCode: 404, msg: 'No resource was found' },
+  },
+
+  {
+    path: 'bad-request',
+    component: PageErrorComponent,
+    data: { statusCode: 400, msg: 'You have made a Bad Request' },
+  },
+
+  {
+    path: 'server-error',
+    component: PageErrorComponent,
+    data: { statusCode: 500, msg: 'Server is currently down' },
+  },
+  // ===========================================================
+
   {
     path: 'gold-chart',
-    component: GoldChartComponent,
+    loadChildren: () =>
+      import('./shared/routes/gold-chart/gold-chart-routing.module').then(
+        (m) => m.GoldChartRoutingModule
+      ),
   },
   {
-    path: 'admin',
-    component: AdminDashboardComponent,
-    canActivate: [authGuard],
+    path: 'store-owner',
+    loadChildren: () =>
+      import('./shared/routes/dashboards/store-owner-routing.module').then(
+        (m) => m.StoreOwnerRoutingModule
+      ),
   },
   {
     path: 'store-manager',
-    component: StoreManagerDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/dashboards/store-manager-routing.module').then(
+        (m) => m.StoreManagerRoutingModule
+      ),
   },
   {
     path: 'cashier',
-    component: CashierDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/dashboards/cashier-routing.module').then(
+        (m) => m.CashierRoutingModule
+      ),
   },
   {
     path: 'repurchaser',
-    component: RepurchaserDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/dashboards/repurchaser-routing.module').then(
+        (m) => m.RepurchaserRoutingModule
+      ),
   },
   {
     path: 'seller',
-    component: SellerDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/dashboards/seller-routing.module').then(
+        (m) => m.SellerRoutingModule
+      ),
   },
   {
     path: 'appraiser',
-    component: AppraiserDashboardComponent,
-    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./shared/routes/dashboards/appraiser-routing.module').then(
+        (m) => m.AppraiserRoutingModule
+      ),
   },
+
+  { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];

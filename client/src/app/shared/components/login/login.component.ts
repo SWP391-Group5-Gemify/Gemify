@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  signInForm?: FormGroup;
+  signInForm!: FormGroup;
   contact = {
     text: 'If you forgot your password. Please contact admin',
     number: '0909 312 423',
@@ -47,25 +47,18 @@ export class LoginComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
+          Validators.maxLength(32),
           Validators.pattern(/^[a-z]{6,32}$/i),
         ])
       ),
 
-      // at least 1 special appear anywhere, a to z, 0 to 9, min 6 and max 32
-      password: new FormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(6),
-          Validators.pattern(/^(?=.*[!@#$%^&*]+)[a-z0-9!@#$%^&*]{6,32}$/),
-        ])
-      ),
+      password: new FormControl('', Validators.compose([Validators.required])),
     });
   }
 
   // Checking if the input is valid or not for mat-errors
-  getErrorMessageOnControl(controlName: string): string {
-    const control = this.signInForm!.get(controlName);
+  updateErrorMessage(controlName: string): string {
+    const control = this.signInForm.get(controlName);
 
     let errorMessage: string = '';
 
@@ -73,14 +66,13 @@ export class LoginComponent implements OnInit {
       case control?.hasError('required'):
         errorMessage = 'This field is required';
         break;
-      case control?.hasError('minlength'):
-        errorMessage = 'Must be at least 6 characters long';
+      case control?.hasError('minlength') || control?.hasError('maxLength'):
+        errorMessage = 'Must be between 6 and 32 characters long';
         break;
       case control?.hasError('pattern'):
         if (controlName === 'username') {
-          ('Username must contain only letters and be between 6 and 32 characters long');
-        } else {
-          ('Password must contain at least one special character and be between 6 and 32 characters long');
+          errorMessage =
+            'Username must contain only letters and between 6 and 32 characters long';
         }
         break;
     }
@@ -88,7 +80,5 @@ export class LoginComponent implements OnInit {
   }
 
   // On Submit Form
-  login(): void {
-    this.signInForm?.value.username;
-  }
+  login(): void {}
 }

@@ -1,0 +1,37 @@
+.sidenav-content {
+  height: 100%;
+  // border-radius: 20px;
+
+  // Side Bar
+  &__sidenav {
+    background-color: $color-white;
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+
+  &__navlist {
+    padding: 0;
+  }
+
+  &__item {
+    padding: 3rem;
+  }
+
+  &__item-text {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 0.75rem;
+    font-size: 1.6rem;
+    font-family: "Merriweather" !important;
+    letter-spacing: 1.3px;
+    font-weight: bold;
+
+  }
+
+  // Content
+  &__content {
+    background-color: gray;
+  }
+}

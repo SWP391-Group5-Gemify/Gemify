@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Core.Attributes;
 
 
 namespace Core.Enitities
@@ -19,15 +20,17 @@ namespace Core.Enitities
         public float TotalWeight { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public float? Labour {  get; set; }
+        [ProductStatus(ErrorMessage = "Invalid Product Status")]
         [Column(TypeName = "varchar(50)"), Required]
-        public ProductStatus Status { get; set; } = ProductStatus.New;
+        public string Status { get; set; }
         public int? Quantity { get; set; }
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }
         public int SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
-        public int SaleCounterId { get; set; }
+        public int? SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
+        public IReadOnlyList<GemType> Gems { get; set; }
     }
 }

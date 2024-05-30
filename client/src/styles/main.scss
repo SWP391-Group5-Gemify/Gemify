@@ -31,6 +31,11 @@ $client-theme: mat.define-light-theme((color: (primary: $client-primary,
 // that you are using.
 @include mat.all-component-themes($client-theme);
 
+
+// ==========================================================
+// == All styles below will be override the above styling
+// ==========================================================
+
 // abstracts
 @import "abstracts/variables";
 @import "abstracts/functions";
@@ -48,6 +53,7 @@ $client-theme: mat.define-light-theme((color: (primary: $client-primary,
 @import "components/form";
 
 // layout
+@import "layout/sidenav-content";
 
 // theme
 @import "themes/dark";

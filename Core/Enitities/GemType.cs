@@ -33,6 +33,8 @@ namespace Core.Enitities
         public float LatestPrice { get; set; }
         public bool IsProcurable { get; set; } = true;
         public bool Status { get; set; } = true;
+
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
+        public IReadOnlyList<Product> Products { get; set; }
     }
 }

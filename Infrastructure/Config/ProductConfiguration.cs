@@ -8,11 +8,6 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.Property(p => p.Status)
-                .HasConversion(
-                    ps => ps.ToString(),
-                    ps => (ProductStatus)Enum.Parse(typeof(ProductStatus), ps)
-                );
 
             builder.HasOne(p => p.GoldType)
                 .WithMany()
@@ -25,6 +20,10 @@ namespace Infrastructure.Config
             builder.HasOne(p => p.SaleCounter)
                 .WithMany()
                 .HasForeignKey(p => p.SaleCounterId);
+
+            builder.HasMany(p => p.Gems)
+                .WithMany(p => p.Products)
+                .UsingEntity<ProductGem>();
         }
     }
 }

@@ -5,19 +5,18 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 6.5vh;
+  height: 5vh;
   width: 100vw;
   background-color: $color-black;
   color: $color-white;
-  padding-left: 1.4rem;
+  padding-left: 2rem;
   z-index: 10;
 
   &__copyright {
-
-    line-height: 6.5vh;
+    line-height: 5vh;
 
     span {
-      font-size: $default-font-size;
+      font-size: 1rem;
       margin-right: 1rem;
       text-transform: uppercase;
       letter-spacing: 1.4px;
