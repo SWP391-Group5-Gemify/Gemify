@@ -25,7 +25,7 @@ namespace API.Helpers
                 .ForMember(d => d.SubCategoryName, o => o.MapFrom(s => s.SubCategory.Name))
                 .ForMember(d => d.CategoryName, o => o.MapFrom(s => s.SubCategory.Category.Name))
                 .ForMember(d => d.SaleCounterName, o => o.MapFrom(s => s.SaleCounter.Name))
-                .ForMember(d => d.Gems, o => o.MapFrom(s => s.ProductGems))            
+                .ForMember(d => d.Gems, o => o.MapFrom(s => s.ProductGems))
                 .ForMember(d => d.LatestBidPrice, o => o.MapFrom(s => s.GoldType.LatestBidPrice));            
 
             CreateMap<ProductGem, ProductGemDto>()
@@ -40,7 +40,8 @@ namespace API.Helpers
                 .ForMember(d => d.Clarity, o => o.MapFrom(s => s.GemType.Clarity))
                 .ForMember(d => d.Color, o => o.MapFrom(s => s.GemType.Color))
                 .ForMember(d => d.Shape, o => o.MapFrom(s => s.GemType.Shape))
-                .ForMember(d => d.LatestPrice, o => o.MapFrom(s => s.GemType.LatestPrice));
+                .ForMember(d => d.LatestPrice, o => o.MapFrom(s => s.GemType.LatestPrice))
+                .ForMember(d => d.GemsPrice, o => o.MapFrom(s => s.GemType.LatestPrice * s.Quantity));
 
             CreateMap<ProductGemToAddDto, ProductGem>();
             CreateMap<ProductToAddDto, Product>();

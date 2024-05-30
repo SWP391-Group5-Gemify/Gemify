@@ -23,6 +23,17 @@ namespace API.Dtos
         public string CategoryName { get; set; }
         public string SaleCounterName { get; set; }
         public IReadOnlyList<ProductGemDto> Gems { get; set; }
-        public float ProductPrice { get; set; }
+        public float ProductPrice 
+        {
+            get
+            {
+                var result = GoldWeight * LatestBidPrice + Labour;
+                foreach (var pg in Gems)
+                {
+                    result += pg.GemsPrice;
+                }
+                return result;
+            }
+        } 
     }
 }

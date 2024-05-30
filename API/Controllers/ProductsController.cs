@@ -24,6 +24,7 @@ namespace API.Controllers
         
         // Get all products with specification
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager,Sales,Repurchaser,Cashier")]
         public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductParams productParams)
         {
             var spec = new ProductSpecification(productParams);
@@ -31,22 +32,12 @@ namespace API.Controllers
             var totalProducts = await _productService.CountProductsAsync(countSpec);
             var products = await _productService.GetProductsAsync(spec);
             var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products);
-
-            foreach (ProductDto p in data)
-            {
-                p.ProductPrice = p.GoldWeight * p.LatestBidPrice + p.Labour;
-                foreach (ProductGemDto pg in p.Gems)
-                {
-                    pg.GemsPrice = pg.LatestPrice * pg.Quantity;
-                    p.ProductPrice += pg.GemsPrice;
-                }
-                
-            }
             return Ok(new Pagination<ProductDto>(productParams.PageIndex, productParams.PageSize, totalProducts, data));
         }
 
         // Get product by ID
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Manager,Sales,Repurchaser,Cashier")]
         public async Task<ActionResult<ProductDto>> GetNewProduct(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -56,7 +47,7 @@ namespace API.Controllers
 
         // Add a new product
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> AddProduct (ProductToAddDto productDto)
         {
             var product = _mapper.Map<ProductToAddDto,Product>(productDto);
@@ -67,7 +58,7 @@ namespace API.Controllers
 
         //Update product information
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> UpdateProduct(int id, ProductToAddDto productDto)
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);
@@ -85,7 +76,7 @@ namespace API.Controllers
 
         // Delete Product
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> DeleteProduct (int id)
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);

@@ -8,10 +8,7 @@ namespace Core.Interfaces
         Task<IReadOnlyList<Product>> GetProductsAsync(ISpecification<Product> spec);
         Task<Product> GetProductByIdAsync(int id);
         Task<bool> AddProductAsync(Product product);
-        void RemoveProductAsync(Product product);
         Task<int> CountProductsAsync(ISpecification<Product> spec);
         Task<bool> UpdateProductAsync(Product product);
-
-
     }
 }

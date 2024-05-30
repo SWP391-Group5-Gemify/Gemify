@@ -24,6 +24,7 @@ namespace API.Controllers
 
         // Get all customers with specification
         [HttpGet]
+        [Authorize(Roles = "Admin, Manager, Sales, Cashier")]
         public async Task<ActionResult<Pagination<CustomerDto>>> GetCustomers([FromQuery] CustomerParams customerParams)
         {
             var spec = new CustomerSpecification(customerParams);
@@ -36,6 +37,7 @@ namespace API.Controllers
 
         // Get customer by ID
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin, Manager, Sales, Cashier")]
         public async Task<ActionResult<CustomerDto>> GetCustomer (int id)
         {
             var spec = new CustomerSpecification(id);
@@ -46,6 +48,7 @@ namespace API.Controllers
 
         // Update customer information
         [HttpPut]
+        [Authorize(Roles = "Admin, Manager, Sales, Cashier")]
         public async Task<ActionResult> UpdateCustomer (CustomerDto customerDto)
         {
             var spec = new CustomerSpecification(customerDto.Id);
