@@ -56,6 +56,7 @@ namespace API.Controllers
             if (await _saleCountersRepo.SaveAllAsync()) { return Ok("Successfully created a new sale counter"); }
             return BadRequest("Fail to create a new sale counter");
         }
+
         //Update sale counter
         [HttpPut]
         [Authorize(Roles = "Admin")]
