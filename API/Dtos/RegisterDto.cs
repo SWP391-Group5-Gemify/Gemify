@@ -30,6 +30,9 @@ namespace API.Dtos
         public string Status { get; set; } = "Active";
         public string Image_Url { get; set; }
         public string Address { get; set; }
+
+        [Required]
+        [Role(ErrorMessage = "Invalid Role")]
         public string Role { get; set; }
     }
 }

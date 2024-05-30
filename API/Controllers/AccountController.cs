@@ -89,7 +89,7 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             var user = new User
