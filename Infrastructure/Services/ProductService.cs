@@ -58,19 +58,5 @@ namespace Infrastructure.Services
             var result = await _unitOfWork.Complete();
             return result > 0;
         }
-
-        public float CalculateGemsPrice(Product p)
-        {
-            var gemsPrice = (float) 0.0;
-            foreach (ProductGem pg in p.ProductGems)
-            {
-                gemsPrice += pg.GemType.LatestPrice * pg.Quantity;
-            }
-            return gemsPrice;
-        }
-        public float CalculateProductPrice(Product p)
-        {
-            return (float)(p.GoldType.LatestBidPrice * p.GoldWeight + CalculateGemsPrice(p));
-        }
     }
 }
