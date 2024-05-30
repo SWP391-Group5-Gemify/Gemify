@@ -25,37 +25,49 @@ export class StoreOwnerComponent {
   // == Fields
   // ===========================
   navItems: any = [
-    { name: 'Statistic Dashboard', icon: 'home', route: '/admin/dashboard' },
-    { name: 'Employees', icon: 'work', route: '/admin/employees' },
-    { name: 'Counters', icon: 'attach_money', route: '/admin/counters' },
-    { name: 'Customers', icon: 'family_restroom', route: '/admin/customers' },
-    { name: 'Promotions', icon: 'card_giftcard', route: '/admin/promotions' },
-    { name: 'Products', icon: 'shopping_bag', route: '/admin/products' },
-    { name: 'Orders', icon: 'receipt', route: '/admin/orders' },
+    {
+      name: 'Statistic Dashboard',
+      icon: 'home',
+      route: '/store-owner/statistic-dashboard',
+    },
+    { name: 'Employees', icon: 'work', route: '/store-owner/employees' },
+    { name: 'Counters', icon: 'attach_money', route: '/store-owner/counters' },
+    {
+      name: 'Customers',
+      icon: 'family_restroom',
+      route: '/store-owner/customers',
+    },
+    {
+      name: 'Promotions',
+      icon: 'card_giftcard',
+      route: '/store-owner/promotions',
+    },
+    { name: 'Products', icon: 'shopping_bag', route: '/store-owner/products' },
+    { name: 'Orders', icon: 'receipt', route: '/store-owner/orders' },
     {
       name: 'Customer Loyalty Program',
       icon: 'loyalty',
-      route: '/admin/loyalty',
+      route: '/store-owner/loyalty',
     },
     {
       name: 'Manage Exchange Policy',
       icon: 'compare_arrows',
-      route: '/admin/exchange',
+      route: '/store-owner/exchange',
     },
     {
       name: 'Manage Gold Bid-Ask Spread',
       icon: 'price_change',
-      route: '/admin/gold-bid-ask',
+      route: '/store-owner/gold-bid-ask',
     },
     {
       name: 'Manage Buy-back Policy',
       icon: 'soap',
-      route: '/admin/buyback',
+      route: '/store-owner/buyback',
     },
     {
       name: 'Manage Warranty',
       icon: 'verified_user',
-      route: '/admin/warranty',
+      route: '/store-owner/warranty',
     },
   ];
   // ===========================

@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './gold-chart.component.html',
-  styleUrl: './gold-chart.component.scss'
+  styleUrl: './gold-chart.component.scss',
 })
-export class GoldChartComponent {
-
-}
+export class GoldChartComponent {}
