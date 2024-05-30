@@ -12,12 +12,10 @@ namespace API.Controllers
 {
     public class GoldTypeController : BaseApiController 
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly GoldService _goldService;
 
-        public GoldTypeController(IUnitOfWork unitOfWork, GoldService goldService)
+        public GoldTypeController(GoldService goldService)
         {
-            _unitOfWork = unitOfWork;
             _goldService = goldService;
         }
 
@@ -36,7 +34,7 @@ namespace API.Controllers
         {
             var goldPriceParams = new GoldPriceParams(){ goldTypeId = id };
             var spec = new GoldPriceSpecification(goldPriceParams);
-            var totalPrices = await _unitOfWork.Repository<GoldPrice>().CountAsync(spec);
+            var totalPrices = await _goldService.CountGoldPricesAsync(id);
             var data = await _goldService.GetGoldPricesByGoldTypeId(spec);
             return Ok(new Pagination<GoldPrice>(goldPriceParams.PageIndex,goldPriceParams.PageSize,totalPrices,data));
         } 
@@ -45,14 +43,10 @@ namespace API.Controllers
         [Authorize(Roles = "Admin,Manager")] 
         public async Task<ActionResult<GoldType>> DeleteGoldType([FromQuery] int id)
         {
-            var spec = new GoldTypeSpecification(id);
-            var exist_goldType = await _unitOfWork.Repository<GoldType>().GetEntityWithSpec(spec);
-            if(exist_goldType == null) return NotFound(new ApiResponse(404));
-            exist_goldType.Status = false;
-            _unitOfWork.Repository<GoldType>().Update(exist_goldType);
-            var result = await _unitOfWork.Repository<GoldType>().SaveAllAsync();
-            if(result) return Ok("Disabled" + exist_goldType.Name);
+            var result = await _goldService.DeleteGoldTypeAsync(id);
+            if(result) return Ok("Disabled succeeded.");
             else return BadRequest(new ApiResponse(400));
+            
         }    
     }
 }

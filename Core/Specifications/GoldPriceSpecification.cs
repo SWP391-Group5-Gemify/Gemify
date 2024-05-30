@@ -13,5 +13,6 @@ namespace Core.Specifications
             ApplyPaging(goldPriceParams.PageSize * (goldPriceParams.PageIndex - 1),
                 goldPriceParams.PageSize);
         }
+
     }
 }
