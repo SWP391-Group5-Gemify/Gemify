@@ -244,7 +244,7 @@ namespace Infrastructure.Data.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
                     SubCategoryId = table.Column<int>(type: "int", nullable: false),
-                    SaleCounterId = table.Column<int>(type: "int", nullable: false)
+                    SaleCounterId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -258,8 +258,7 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Products_SaleCounters_SaleCounterId",
                         column: x => x.SaleCounterId,
                         principalTable: "SaleCounters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
@@ -308,14 +307,17 @@ namespace Infrastructure.Data.Migrations
                 name: "ProductGems",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     GemTypeId = table.Column<int>(type: "int", nullable: false),
                     GemWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CertificateCode = table.Column<string>(type: "varchar(50)", nullable: true)
+                    CertificateCode = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductGems", x => new { x.ProductId, x.GemTypeId });
+                    table.PrimaryKey("PK_ProductGems", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductGems_GemTypes_GemTypeId",
                         column: x => x.GemTypeId,
@@ -474,6 +476,11 @@ namespace Infrastructure.Data.Migrations
                 name: "IX_ProductGems_GemTypeId",
                 table: "ProductGems",
                 column: "GemTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductGems_ProductId",
+                table: "ProductGems",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_GoldTypeId",

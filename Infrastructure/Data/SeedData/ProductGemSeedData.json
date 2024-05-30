@@ -2,75 +2,90 @@
   {
     "ProductId": 2,
     "GemTypeId": 2,
-    "GemWeight": 0.5
+    "GemWeight": 0.5,
+    "Quantity":  5
   },
   {
     "ProductId": 3,
     "GemTypeId": 3,
-    "GemWeight": 0.1
+    "GemWeight": 0.1,
+    "Quantity": 2
   },
   {
     "ProductId": 3,
     "GemTypeId": 4,
-    "GemWeight": 0.08
+    "GemWeight": 0.08,
+    "Quantity": 2
   },
   {
     "ProductId": 4,
     "GemTypeId": 1,
     "GemWeight": 1.5,
-    "CertificateCode": "1234567890"
+    "CertificateCode": "1234567890",
+    "Quantity": 1
   },
   {
     "ProductId": 4,
     "GemTypeId": 3,
-    "GemWeight": 0.1
+    "GemWeight": 0.1,
+    "Quantity": 2
   },
   {
     "ProductId": 4,
     "GemTypeId": 4,
-    "GemWeight": 0.08
+    "GemWeight": 0.08,
+    "Quantity": 2
   },
   {
     "ProductId": 6,
     "GemTypeId": 2,
-    "GemWeight": 1
+    "GemWeight": 1,
+    "Quantity": 10
   },
   {
     "ProductId": 8,
     "GemTypeId": 2,
-    "GemWeight": 0.5
+    "GemWeight": 0.5,
+    "Quantity": 5
   },
   {
     "ProductId": 16,
     "GemTypeId": 1,
     "GemWeight": 1.5,
-    "CertificateCode": "2345678901"
+    "CertificateCode": "2345678901",
+    "Quantity": 1
   },
   {
     "ProductId": 17,
     "GemTypeId": 10,
     "GemWeight": 1.5,
-    "CertificateCode": "1245678903"
+    "CertificateCode": "1245678903",
+    "Quantity": 1
   },
   {
     "ProductId": 18,
     "GemTypeId": 10,
     "GemWeight": 1.5,
-    "CertificateCode": "1456789032"
+    "CertificateCode": "1456789032",
+    "Quantity": 1
   },
   {
     "ProductId": 18,
     "GemTypeId": 9,
-    "GemWeight": 2.5
+    "GemWeight": 2.5,
+    "Quantity": 25
   },
   {
     "ProductId": 19,
     "GemTypeId": 7,
-    "GemWeight": 2.5
+    "GemWeight": 2.5,
+    "Quantity": 10
   },
   {
     "ProductId": 20,
     "GemTypeId": 6,
-    "GemWeight": 2
+    "GemWeight": 2,
+    "CertificateCode": "1456759032",
+    "Quantity": 1
   }
 ]

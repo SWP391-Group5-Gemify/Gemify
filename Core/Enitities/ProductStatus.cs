@@ -12,5 +12,6 @@ namespace Core.Enitities
 
         [EnumMember(Value = "Unavailable")]
         Unavailable,
+
     }
 }
