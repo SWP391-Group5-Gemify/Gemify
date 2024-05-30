@@ -38,7 +38,7 @@ namespace Core.Specifications
         }
 
         public ProductSpecification(int id)
-        : base(x => x.Id == id) 
+        : base(x => x.Id == id && x.Status != "Unavailable") 
         {
             AddInclude(x => x.ProductGems);
             AddInclude(x => x.Gems);

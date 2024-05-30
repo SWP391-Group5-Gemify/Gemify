@@ -47,7 +47,7 @@ namespace API.Controllers
 
         // Get product by ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDto>> GetProduct(int id)
+        public async Task<ActionResult<ProductDto>> GetNewProduct(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null) { return NotFound(new ApiResponse(404, "This product does not exist!")); }
@@ -56,6 +56,7 @@ namespace API.Controllers
 
         // Add a new product
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AddProduct (ProductToAddDto productDto)
         {
             var product = _mapper.Map<ProductToAddDto,Product>(productDto);
@@ -66,6 +67,7 @@ namespace API.Controllers
 
         //Update product information
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateProduct(int id, ProductToAddDto productDto)
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);
@@ -83,6 +85,7 @@ namespace API.Controllers
 
         // Delete Product
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteProduct (int id)
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);
