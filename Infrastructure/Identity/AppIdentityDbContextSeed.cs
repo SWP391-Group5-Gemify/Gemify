@@ -42,7 +42,7 @@ namespace Infrastructure.Identity
                 };
 
                 await userManager.CreateAsync(user, "Pa$$w0rd");
-                await userManager.AddToRoleAsync(user, "Admin");
+                await userManager.AddToRoleAsync(user, "StoreOwner");
             }
 
         }

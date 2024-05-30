@@ -24,7 +24,7 @@ namespace API.Controllers
         
         // Get all products with specification
         [HttpGet]
-        [Authorize(Roles = "Admin,Manager,Sales,Repurchaser,Cashier")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductParams productParams)
         {
             var spec = new ProductSpecification(productParams);
@@ -37,7 +37,7 @@ namespace API.Controllers
 
         // Get product by ID
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin,Manager,Sales,Repurchaser,Cashier")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<ProductDto>> GetNewProduct(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -47,7 +47,7 @@ namespace API.Controllers
 
         // Add a new product
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> AddProduct (ProductToAddDto productDto)
         {
             var product = _mapper.Map<ProductToAddDto,Product>(productDto);
@@ -58,7 +58,7 @@ namespace API.Controllers
 
         //Update product information
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> UpdateProduct(int id, ProductToAddDto productDto)
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);
@@ -76,7 +76,7 @@ namespace API.Controllers
 
         // Delete Product
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> DeleteProduct (int id)
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);

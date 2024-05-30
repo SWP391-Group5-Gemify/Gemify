@@ -23,7 +23,7 @@ namespace API.Controllers
 
         //Get all sale counters with spec
         [HttpGet]
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<IReadOnlyList<SaleCounterDto>>> GetSaleCounters([FromQuery] SaleCounterParams saleCounterParams)
         {
             var spec = new SaleCounterSpecification(saleCounterParams);
@@ -34,7 +34,7 @@ namespace API.Controllers
 
         // Get sale counter by id
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SaleCounterDto>> GetSaleCounter (int id)
@@ -47,7 +47,7 @@ namespace API.Controllers
 
         //Create sale counter
         [HttpPost]
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> AddSaleCounter (SaleCounterDto saleCounterDto)
         {
             var saleCounter = _mapper.Map<SaleCounterDto, SaleCounter>(saleCounterDto);
@@ -58,7 +58,7 @@ namespace API.Controllers
         }
         //Update sale counter
         [HttpPut]
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> UpdateSaleCounter (SaleCounterDto saleCounterDto)
         {
             var spec = new SaleCounterSpecification(saleCounterDto.Id);
@@ -76,7 +76,7 @@ namespace API.Controllers
 
         //Delete counter
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> DeleteSaleCounter (int id)
         {
             var spec = new SaleCounterSpecification(id);
