@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Enitities
 {
@@ -14,13 +9,9 @@ namespace Core.Enitities
         public int GoldTypeId { get; set; }
         public GoldType GoldType { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
-        public float LatestBidPrice { get; set; }
+        public float BidPrice { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
-        public float LatestAskPrice { get; set; }
-        [Column(TypeName = "decimal(18,2)"), Required]
-        public float LatestBidRate { get; set; }
-        [Column(TypeName = "decimal(18,2)"), Required]
-        public float LatestAskRate { get; set; }
+        public float AskPrice { get; set; }
         [Required]
         public DateTime DateTime { get; set; } = DateTime.UtcNow;
     }

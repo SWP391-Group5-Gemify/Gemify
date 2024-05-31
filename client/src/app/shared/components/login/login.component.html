@@ -11,11 +11,11 @@
       <input matInput
              type="text"
              placeholder="Username"
-             formControlName="username" />
+             formControlName="userName" />
 
       <!-- Handle Error on Control -->
-      @if (signInForm.get('username')?.invalid) {
-      <mat-error>{{updateErrorMessage('username')}}</mat-error>
+      @if (signInForm.get('userName')?.invalid) {
+      <mat-error>{{updateErrorMessage('userName')}}</mat-error>
       }
     </mat-form-field>
   </div>

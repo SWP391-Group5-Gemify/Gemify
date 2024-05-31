@@ -1,13 +1,8 @@
-﻿using Core.Enitities;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Routing.Constraints;
-
-namespace API.Dtos
+﻿namespace API.Dtos
 {
     public class ProductGemDto
     {
-        public string GemTypeId { get; set; }
+        public int GemTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public float Proportion { get; set; }

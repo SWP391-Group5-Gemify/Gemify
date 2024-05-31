@@ -9,7 +9,7 @@ namespace API.Dtos
         public int ProductQuantity { get; set; }
         public bool Status { get; set; }
         public string EmployeeName { get; set; }
-        public string EmployeeUsername { get; set; }
+        public string EmployeeId { get; set; }
 
     }
 }

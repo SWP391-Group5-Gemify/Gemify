@@ -16,5 +16,6 @@ namespace Core.Enitities.OrderAggregate
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         public int Quantity { get; set; }
+        public IReadOnlyList<OrderItemGem> OrderItemGems { get; set; }
     }
 }

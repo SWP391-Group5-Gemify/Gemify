@@ -12,13 +12,28 @@ export class AuthService {
   // == Fields
   // ====================
   private baseAccountUrl = environment.baseApiUrl.concat('/account');
-  private isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
+
+  // external access to change component's layout
+  public isLoggedIn$ = this._isLoggedIn$.asObservable();
   private readonly TOKEN_NAME = 'jwt_token';
 
   // ====================
   // == Lifecycle
   // ====================
-  constructor(private http: HttpClient, private router: Router) {}
+
+  /**
+   * Constructor
+   * - that maintain the state of application using token
+   * - Extract token, !!123 = !false = true, !!undefined = !true = false, and make sure storing only boolean
+   * and the
+   * @param http
+   * @param router
+   */
+  constructor(private http: HttpClient, private router: Router) {
+    const tokenValue: String = localStorage.getItem(this.TOKEN_NAME) ?? '';
+    this._isLoggedIn$.next(!!tokenValue); // Convert value to falsy and truthy
+  }
   // ====================
   // == Methods
   // ====================
@@ -27,25 +42,31 @@ export class AuthService {
    * Login using JWT Authentication
    * - tap: allows to perform side effect action without modifying the stream
    * - When return the observable, tapping on the stream, and set the token to the local storage
-   * @param username
-   * @param password
+   * @param values
    * @returns
    */
-  login(username: string, password: string): any {
+  login(values: any): Observable<any> {
     const url = `${this.baseAccountUrl}/login`;
-    let params = new HttpParams();
-    params.append('userName', username);
-    params.append('password', password);
-
-    return this.http.post(url, { params: params }).pipe(
+    return this.http.post(url, values).pipe(
       tap((response: any) => {
-        this.isLoggedIn$.next(true);
+        this._isLoggedIn$.next(true); // emit the true as logged in user
         localStorage.setItem(this.TOKEN_NAME, response.token);
       })
     );
   }
 
-  get getToken(): string | undefined {
-    return localStorage.getItem(this.TOKEN_NAME) || undefined;
+  /**
+   * Logout of the system
+   */
+  logout() {
+    localStorage.removeItem(this.TOKEN_NAME);
+    this._isLoggedIn$.next(false);
+  }
+
+  /**
+   * Get token from local storage
+   */
+  get getToken(): string | '' {
+    return localStorage.getItem(this.TOKEN_NAME) || '';
   }
 }

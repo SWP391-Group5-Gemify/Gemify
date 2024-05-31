@@ -12,6 +12,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -35,14 +37,16 @@ export class LoginComponent implements OnInit {
     number: '0909 312 423',
   };
 
-  // Inject FormBuilder Service into the constructor
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  // On Init
   ngOnInit(): void {
     this.signInForm = this.formBuilder.group({
       // required, min length is 6, max is 32, receive a to z, case insensitive
-      username: new FormControl(
+      userName: new FormControl(
         '',
         Validators.compose([
           Validators.required,
@@ -59,7 +63,6 @@ export class LoginComponent implements OnInit {
   // Checking if the input is valid or not for mat-errors
   updateErrorMessage(controlName: string): string {
     const control = this.signInForm.get(controlName);
-
     let errorMessage: string = '';
 
     switch (true) {
@@ -70,7 +73,7 @@ export class LoginComponent implements OnInit {
         errorMessage = 'Must be between 6 and 32 characters long';
         break;
       case control?.hasError('pattern'):
-        if (controlName === 'username') {
+        if (controlName === 'userName') {
           errorMessage =
             'Username must contain only letters and between 6 and 32 characters long';
         }
@@ -79,6 +82,25 @@ export class LoginComponent implements OnInit {
     return errorMessage;
   }
 
-  // On Submit Form
-  login(): void {}
+  /**
+   * Login function for the form group
+   * - From Group invalid when any single validator applied to the FormControl failed
+   * - Calling AuthService to login
+   *    - If success, goes to dashboard based on role
+   *    - If failed, popup or showing to message
+   */
+  login(): void {
+    if (!this.signInForm.invalid) {
+      this.authService.login(this.signInForm.value).subscribe({
+        next: (responsee) => {
+          this.router.navigate(['/store-owner']);
+        },
+
+        error: (error) => {
+          //TODO: Popup or redirect user to Error Page
+          console.log(error);
+        },
+      });
+    }
+  }
 }
