@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Enitities.OrderAggregate
 {
@@ -6,15 +7,16 @@ namespace Core.Enitities.OrderAggregate
     {
         public OrderItemGem() { }
 
-        public OrderItemGem(int orderItemId, ProductGemsItemOrdered gemsItemOrdered)
+        public OrderItemGem(ProductGemsItemOrdered gemsItemOrdered)
         {
-            OrderItemId = orderItemId;
             GemsItemOrdered = gemsItemOrdered;
         }
 
-        [Required]
-        public int OrderItemId { get; set; }
-        public OrderItem OrderItem { get; set; }
         public ProductGemsItemOrdered GemsItemOrdered { get; set; }
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Price { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

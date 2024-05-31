@@ -9,10 +9,6 @@ namespace Infrastructure.Config
         public void Configure(EntityTypeBuilder<OrderItemGem> builder)
         {
             builder.OwnsOne(gi => gi.GemsItemOrdered, gio => { gio.WithOwner(); });
-
-            builder.HasOne(og => og.OrderItem)
-                .WithMany()
-                .HasForeignKey(og => og.OrderItemId);
         }
     }
 }

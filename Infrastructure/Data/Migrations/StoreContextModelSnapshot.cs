@@ -51,7 +51,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("varchar(50)");
 
                     b.Property<int>("MembershipId")
@@ -163,23 +162,17 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("AskPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BidPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("GoldTypeId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("LatestAskPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("LatestAskRate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("LatestBidPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("LatestBidRate")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -202,13 +195,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<decimal>("LatestAskPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("LatestAskRate")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<decimal>("LatestBidPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("LatestBidRate")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
@@ -351,7 +338,6 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("varchar(50)");
 
                     b.Property<decimal>("Total")
@@ -406,7 +392,13 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderItemId")
+                    b.Property<int?>("OrderItemId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -764,11 +756,9 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Enitities.OrderAggregate.OrderItemGem", b =>
                 {
-                    b.HasOne("Core.Enitities.OrderAggregate.OrderItem", "OrderItem")
-                        .WithMany()
-                        .HasForeignKey("OrderItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Core.Enitities.OrderAggregate.OrderItem", null)
+                        .WithMany("OrderItemGems")
+                        .HasForeignKey("OrderItemId");
 
                     b.OwnsOne("Core.Enitities.OrderAggregate.ProductGemsItemOrdered", "GemsItemOrdered", b1 =>
                         {
@@ -799,8 +789,6 @@ namespace Infrastructure.Data.Migrations
                         });
 
                     b.Navigation("GemsItemOrdered");
-
-                    b.Navigation("OrderItem");
                 });
 
             modelBuilder.Entity("Core.Enitities.Product", b =>
@@ -900,6 +888,11 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Enitities.OrderAggregate.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("Core.Enitities.OrderAggregate.OrderItem", b =>
+                {
+                    b.Navigation("OrderItemGems");
                 });
 
             modelBuilder.Entity("Core.Enitities.Product", b =>

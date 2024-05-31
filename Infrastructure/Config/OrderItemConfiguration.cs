@@ -9,6 +9,8 @@ namespace Infrastructure.Config
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
             builder.OwnsOne(i => i.ItemOrdered, io => { io.WithOwner(); });
+
+            builder.HasMany(o => o.OrderItemGems).WithOne();
         }
     }
 }

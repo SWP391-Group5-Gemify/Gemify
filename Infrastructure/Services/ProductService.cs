@@ -2,7 +2,6 @@
 using Core.Enitities;
 using Core.Interfaces;
 using Core.Specifications;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Infrastructure.Services
 {
@@ -46,11 +45,6 @@ namespace Infrastructure.Services
         {
             return await _unitOfWork.Repository<Product>().ListAsync(spec);
         }       
-
-        public void RemoveProductAsync(Product product)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<bool> UpdateProductAsync(Product product)
         {
