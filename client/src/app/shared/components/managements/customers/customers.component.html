@@ -1,1 +1,13 @@
-<p>customers works!</p>
+@for (customer of customers$ |async; track $index) {
+<div>
+  <p>{{ customer.name }} ({{ customer.membershipRate }})</p>
+  <p>{{ customer.phone }}</p>
+  <p>{{ customer.address }}</p>
+  <p>Points: {{ customer.point }}</p>
+</div>
+}
+
+<!-- <mat-paginator [length]="totalCustomers"
+               [pageSize]="pageSize"
+               [pageIndex]="pageIndex">
+</mat-paginator> -->
