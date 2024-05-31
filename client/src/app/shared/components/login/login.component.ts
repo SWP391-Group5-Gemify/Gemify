@@ -37,18 +37,16 @@ export class LoginComponent implements OnInit {
     number: '0909 312 423',
   };
 
-  // Inject FormBuilder Service into the constructor
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) {}
 
-  // On Init
   ngOnInit(): void {
     this.signInForm = this.formBuilder.group({
       // required, min length is 6, max is 32, receive a to z, case insensitive
-      username: new FormControl(
+      userName: new FormControl(
         '',
         Validators.compose([
           Validators.required,
@@ -76,7 +74,7 @@ export class LoginComponent implements OnInit {
         errorMessage = 'Must be between 6 and 32 characters long';
         break;
       case control?.hasError('pattern'):
-        if (controlName === 'username') {
+        if (controlName === 'userName') {
           errorMessage =
             'Username must contain only letters and between 6 and 32 characters long';
         }
@@ -94,11 +92,7 @@ export class LoginComponent implements OnInit {
    */
   login(): void {
     if (!this.signInForm.invalid) {
-      const username: string = this.signInForm.get('username')?.value;
-      const password: string = this.signInForm.get('password')?.value;
-
-      // calling login service
-      this.authService.login(username, password).subscribe({
+      this.authService.login(this.signInForm.value).subscribe({
         next: (responsee) => {
           this.router.navigate(['/store-owner']);
         },

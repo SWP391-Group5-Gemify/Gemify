@@ -12,9 +12,10 @@ export class AuthService {
   // == Fields
   // ====================
   private baseAccountUrl = environment.baseApiUrl.concat('/account');
-  private _isLoggedIn$ = new BehaviorSubject<boolean>(false); // internal state
-  public isLoggedIn$ = this._isLoggedIn$.asObservable(); // external access to change component's layout
+  private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
 
+  // external access to change component's layout
+  public isLoggedIn$ = this._isLoggedIn$.asObservable();
   private readonly TOKEN_NAME = 'jwt_token';
 
   // ====================
@@ -22,7 +23,7 @@ export class AuthService {
   // ====================
 
   /**
-   * Constructur
+   * Constructor
    * - that maintain the state of application using token
    * - Extract token, !!123 = !false = true, !!undefined = !true = false, and make sure storing only boolean
    * and the
@@ -41,17 +42,12 @@ export class AuthService {
    * Login using JWT Authentication
    * - tap: allows to perform side effect action without modifying the stream
    * - When return the observable, tapping on the stream, and set the token to the local storage
-   * @param username
-   * @param password
+   * @param values
    * @returns
    */
-  login(username: string, password: string): Observable<any> {
+  login(values: any): Observable<any> {
     const url = `${this.baseAccountUrl}/login`;
-    let params = new HttpParams();
-    params.append('userName', username);
-    params.append('password', password);
-
-    return this.http.post(url, { params: params }).pipe(
+    return this.http.post(url, values).pipe(
       tap((response: any) => {
         this._isLoggedIn$.next(true); // emit the true as logged in user
         localStorage.setItem(this.TOKEN_NAME, response.token);
@@ -59,6 +55,17 @@ export class AuthService {
     );
   }
 
+  /**
+   * Logout of the system
+   */
+  logout() {
+    localStorage.removeItem(this.TOKEN_NAME);
+    this._isLoggedIn$.next(false);
+  }
+
+  /**
+   * Get token from local storage
+   */
   get getToken(): string | '' {
     return localStorage.getItem(this.TOKEN_NAME) || '';
   }
