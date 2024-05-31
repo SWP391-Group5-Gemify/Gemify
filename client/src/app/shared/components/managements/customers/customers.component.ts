@@ -59,9 +59,7 @@ export class CustomersComponent implements OnInit {
 
   editCustomer(customer: Customer): void {
     this.customerService.updateCustomerById(customer).subscribe({
-      next(value) {
-        this.loadCustomers();
-      },
+      next(value) {},
     });
   }
 }
