@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit {
   // Checking if the input is valid or not for mat-errors
   updateErrorMessage(controlName: string): string {
     const control = this.signInForm.get(controlName);
-
     let errorMessage: string = '';
 
     switch (true) {
