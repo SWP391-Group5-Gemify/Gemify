@@ -12,6 +12,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +38,11 @@ export class LoginComponent implements OnInit {
   };
 
   // Inject FormBuilder Service into the constructor
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   // On Init
   ngOnInit(): void {
@@ -79,6 +85,29 @@ export class LoginComponent implements OnInit {
     return errorMessage;
   }
 
-  // On Submit Form
-  login(): void {}
+  /**
+   * Login function for the form group
+   * - From Group invalid when any single validator applied to the FormControl failed
+   * - Calling AuthService to login
+   *    - If success, goes to dashboard based on role
+   *    - If failed, popup or showing to message
+   */
+  login(): void {
+    if (!this.signInForm.invalid) {
+      const username: string = this.signInForm.get('username')?.value;
+      const password: string = this.signInForm.get('password')?.value;
+
+      // calling login service
+      this.authService.login(username, password).subscribe({
+        next: (responsee) => {
+          this.router.navigate(['/store-owner']);
+        },
+
+        error: (error) => {
+          //TODO: Popup or redirect user to Error Page
+          console.log(error);
+        },
+      });
+    }
+  }
 }
