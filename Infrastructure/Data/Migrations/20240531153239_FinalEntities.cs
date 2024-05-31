@@ -59,8 +59,6 @@ namespace Infrastructure.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     LatestBidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LatestAskPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LatestBidRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LatestAskRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Unit = table.Column<string>(type: "nvarchar(10)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     Content = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -187,10 +185,8 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GoldTypeId = table.Column<int>(type: "int", nullable: false),
-                    LatestBidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LatestAskPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LatestBidRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LatestAskRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AskPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -211,7 +207,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    Gender = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Gender = table.Column<string>(type: "varchar(50)", nullable: true),
                     Phone = table.Column<string>(type: "varchar(20)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     Point = table.Column<int>(type: "int", nullable: false),
@@ -339,7 +335,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Status = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Status = table.Column<string>(type: "varchar(50)", nullable: true),
                     OrderTypeId = table.Column<int>(type: "int", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
@@ -409,12 +405,14 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderItemId = table.Column<int>(type: "int", nullable: false),
                     GemsItemOrdered_GemName = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     GemsItemOrdered_GemColor = table.Column<string>(type: "varchar(10)", nullable: true),
                     GemsItemOrdered_GemWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     GemsItemOrdered_GemPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    GemsItemOrdered_GemCarat = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                    GemsItemOrdered_GemCarat = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    OrderItemId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -423,8 +421,7 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_OrderItemGems_OrderItems_OrderItemId",
                         column: x => x.OrderItemId,
                         principalTable: "OrderItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
