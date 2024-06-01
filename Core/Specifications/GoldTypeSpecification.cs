@@ -8,5 +8,16 @@ namespace Core.Specifications
         {
 
         }
+
+        public GoldTypeSpecification(GoldTypeParams goldTypeParams)
+            : base (x => string.IsNullOrEmpty(goldTypeParams.Search)
+                || x.Name.ToLower().Contains(goldTypeParams.Search))              
+        {
+            AddOrderBy(x => x.Name);
+            ApplyPaging(goldTypeParams.PageSize * (goldTypeParams.PageIndex - 1),
+                goldTypeParams.PageSize);
+        }
+
+
     }
 }

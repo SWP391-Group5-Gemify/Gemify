@@ -1,48 +1,97 @@
 using Core.Enitities;
+using Core.Interfaces;
 using Core.Specifications;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore.Storage.Json;
-using Microsoft.Identity.Client;
 
 namespace Infrastructure.Services
 {
-    public class GoldService 
+    public class GoldService : IGoldService
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public Task<IReadOnlyList<GoldType>> GetAllGoldTypes()
+        public GoldService(IUnitOfWork unitOfWork)
         {
-            var allGoldTypes = _unitOfWork.Repository<GoldType>().ListAllAsync();
-            return allGoldTypes;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<IReadOnlyList<GoldPrice>> GetGoldPricesByGoldTypeId(GoldPriceSpecification spec)
+        // Get gold type list with specification
+        public async Task<IReadOnlyList<GoldType>> GetGoldTypesAsync(GoldTypeSpecification spec)
         {
-            
-            var goldPrices = _unitOfWork.Repository<GoldPrice>().ListAsync(spec);
+            var goldTypes = await _unitOfWork.Repository<GoldType>().ListAsync(spec);
+            return goldTypes;
+        }
+
+        // Get gold type by id
+        public async Task<GoldType> GetGoldTypeByIdAsync(int id)
+        {
+            var spec = new GoldTypeSpecification(id);
+            var exist_goldType = await _unitOfWork.Repository<GoldType>().GetEntityWithSpec(spec);
+            return exist_goldType;
+        }
+
+        // Add new gold type
+        public async Task<bool> AddGoldTypeAsync(GoldType goldType)
+        {
+            // Add new gold type
+            _unitOfWork.Repository<GoldType>().Add(goldType);
+            var goldResult = await _unitOfWork.Complete();
+            if(goldResult <= 0) return false;
+
+            // Add gold prices to gold price history
+            var newGoldPrice = new GoldPrice(goldType.Id,goldType.LatestBidPrice,goldType.LatestAskPrice);
+            _unitOfWork.Repository<GoldPrice>().Add(newGoldPrice);
+            var goldPriceResult = await _unitOfWork.Complete();
+
+            return goldPriceResult > 0 ? true : false;
+        }
+
+        // Count number of gold types in list
+        public async Task<int> CountGoldTypesAsync(ISpecification<GoldType> spec)
+        {
+            var count = await _unitOfWork.Repository<GoldType>().CountAsync(spec);
+            return count;
+        }
+
+        // Get gold price history by gold type id
+        public async Task<IReadOnlyList<GoldPrice>> GetGoldPricesByIdAsync(GoldPriceSpecification spec)
+        {
+            var goldPrices = await _unitOfWork.Repository<GoldPrice>().ListAsync(spec);
             return goldPrices;
         }
 
-
+        // Disable gold type status
         public async Task<bool> DeleteGoldTypeAsync(int id)
         {
-            var result = false;
-            var spec = new GoldTypeSpecification(id);
             var exist_goldType = await _unitOfWork.Repository<GoldType>().GetByIdAsync(id);
-            if(exist_goldType == null) return result ;
+            if(exist_goldType == null) return false;
             exist_goldType.Status = false;       
             _unitOfWork.Repository<GoldType>().Update(exist_goldType);
-            result = await _unitOfWork.Repository<GoldType>().SaveAllAsync();
+            var result = await _unitOfWork.Repository<GoldType>().SaveAllAsync();
             return result;
         }
 
-        public async Task<int> CountGoldPricesAsync(int goldTypeId)
+        // Count number of prices of gold type
+        public async Task<int> CountGoldPricesAsync(ISpecification<GoldPrice> spec)
         {
-            var goldPriceParams = new GoldPriceParams(){ goldTypeId = goldTypeId };
-            var spec = new GoldPriceSpecification(goldPriceParams);
             var count = await _unitOfWork.Repository<GoldPrice>().CountAsync(spec);
             return count;
         }
 
+        // Update latest gold prices
+        public async Task<bool> UpdateGoldPriceAsync(GoldPrice goldPrice)
+        {            
+            var exist_goldType = await _unitOfWork.Repository<GoldType>().GetByIdAsync(goldPrice.GoldTypeId);
+            if(exist_goldType == null) return false;
+
+            // Add new prices to gold price history
+            _unitOfWork.Repository<GoldPrice>().Add(goldPrice);
+
+            // Update gold type prices
+            exist_goldType.LatestBidPrice = goldPrice.BidPrice;
+            exist_goldType.LatestAskPrice = goldPrice.AskPrice;
+            _unitOfWork.Repository<GoldType>().Update(exist_goldType);
+
+            var result = await _unitOfWork.Complete();
+            return result > 0 ? true : false;
+        }
     }
 }
