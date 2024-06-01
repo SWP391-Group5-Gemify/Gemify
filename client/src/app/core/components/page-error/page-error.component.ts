@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RouteErrorResponse } from '../../models/RouteErrorResponse';
 import { Location } from '@angular/common';
+import { RouteErrorResponse } from '../../models/route/error/route-error-response.model';
 @Component({
   selector: 'app-page-error',
   standalone: true,

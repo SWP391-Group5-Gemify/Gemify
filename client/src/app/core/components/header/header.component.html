@@ -3,24 +3,19 @@
 
   <span class="divider"></span>
 
-  <!-- If user is currently on session, change to logout component -->
-
   <nav class="header__nav">
-    @if (!(authService.isLoggedIn$ | async)) {
-    @for (component of componentsNotLogin; track $index) {
+    @if ((authService.isLoggedIn$ | async)) {
+    @for (link of navLinksNotLogin; track $index) {
     <a href="#"
        class="btn btn--grad"
-       routerLink="{{component.route}}">{{component.name}}</a>
+       routerLink="{{link.route}}">{{link.name}}</a>
     }
     } @else {
-    <!-- @for (component of componentsNotLogin; track $index) {
-    <a href="#"
-       class="btn btn--grad"
-       routerLink="{{component.route}}">{{component.name}}</a>
-    } -->
+    @for (link of navLinksAlreadyLogin; track $index) {
+    <a (click)="logout()"
+       class="btn btn--grad">{{link.name}}</a>
+    }
     }
   </nav>
-
-
 
 </header>
