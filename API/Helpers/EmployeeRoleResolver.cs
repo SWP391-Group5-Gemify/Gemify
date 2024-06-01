@@ -7,9 +7,9 @@ namespace API.Helpers
 {
     public class EmployeeRoleResolver : IValueResolver<User, EmployeeDto, string>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userRepository;
 
-        public EmployeeRoleResolver(IUserRepository userRepository)
+        public EmployeeRoleResolver(IUserService userRepository)
         {
             _userRepository = userRepository;
         }

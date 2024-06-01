@@ -1,0 +1,122 @@
+[
+  {
+    "gemTypeId": 1,
+    "price": 1000,
+    "dateTime": "2024-06-01T08:00:00Z"
+  },
+  {
+    "gemTypeId": 2,
+    "price": 800,
+    "dateTime": "2024-06-01T08:15:00Z"
+  },
+  {
+    "gemTypeId": 3,
+    "price": 1500,
+    "dateTime": "2024-06-01T08:30:00Z"
+  },
+  {
+    "gemTypeId": 4,
+    "price": 1200,
+    "dateTime": "2024-06-01T08:45:00Z"
+  },
+  {
+    "gemTypeId": 5,
+    "price": 900,
+    "dateTime": "2024-06-01T09:00:00Z"
+  },
+  {
+    "gemTypeId": 6,
+    "price": 1100,
+    "dateTime": "2024-06-01T09:15:00Z"
+  },
+  {
+    "gemTypeId": 7,
+    "price": 1300,
+    "dateTime": "2024-06-01T09:30:00Z"
+  },
+  {
+    "gemTypeId": 8,
+    "price": 950,
+    "dateTime": "2024-06-01T09:45:00Z"
+  },
+  {
+    "gemTypeId": 9,
+    "price": 1400,
+    "dateTime": "2024-06-01T10:00:00Z"
+  },
+  {
+    "gemTypeId": 10,
+    "price": 1050,
+    "dateTime": "2024-06-01T10:15:00Z"
+  },
+  {
+    "gemTypeId": 1,
+    "price": 975,
+    "dateTime": "2024-05-15T10:30:00Z"
+  },
+  {
+    "gemTypeId": 2,
+    "price": 1180,
+    "dateTime": "2024-05-16T09:45:00Z"
+  },
+  {
+    "gemTypeId": 3,
+    "price": 1325,
+    "dateTime": "2024-05-17T11:00:00Z"
+  },
+  {
+    "gemTypeId": 4,
+    "price": 990,
+    "dateTime": "2024-05-18T12:15:00Z"
+  },
+  {
+    "gemTypeId": 5,
+    "price": 1095,
+    "dateTime": "2024-05-19T13:30:00Z"
+  },
+  {
+    "gemTypeId": 6,
+    "price": 1285,
+    "dateTime": "2024-05-20T14:45:00Z"
+  },
+  {
+    "gemTypeId": 7,
+    "price": 920,
+    "dateTime": "2024-05-21T16:00:00Z"
+  },
+  {
+    "gemTypeId": 8,
+    "price": 1435,
+    "dateTime": "2024-05-22T17:15:00Z"
+  },
+  {
+    "gemTypeId": 9,
+    "price": 1245,
+    "dateTime": "2024-05-23T18:30:00Z"
+  },
+  {
+    "gemTypeId": 10,
+    "price": 1165,
+    "dateTime": "2024-05-24T19:45:00Z"
+  },
+  {
+    "gemTypeId": 1,
+    "price": 640,
+    "dateTime": "2024-05-15T10:30:00Z"
+  },
+  {
+    "gemTypeId": 1,
+    "price": 802,
+    "dateTime": "2024-05-15T10:30:00Z"
+  },
+  {
+    "gemTypeId": 1,
+    "price": 503,
+    "dateTime": "2024-05-15T10:30:00Z"
+  },
+  {
+    "gemTypeId": 1,
+    "price": 975,
+    "dateTime": "2024-05-16T10:30:00Z"
+  }
+]

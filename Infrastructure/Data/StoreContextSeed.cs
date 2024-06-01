@@ -167,6 +167,21 @@ namespace Infrastructure.Data
 
                 await context.SaveChangesAsync();
             }
+
+            //Seed Gem Prices
+            if (!context.GemPrices.Any())
+            {
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/GemPriceSeedData.json");
+
+                var list = JsonSerializer.Deserialize<List<GemPrice>>(data, options);
+
+                foreach (var item in list)
+                {
+                    context.GemPrices.Add(item);
+                }
+
+                await context.SaveChangesAsync();
+            }
         }
     }
        

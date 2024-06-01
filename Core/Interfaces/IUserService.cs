@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace Core.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         Task<IReadOnlyList<User>> ListAllUsersAsync();
         Task<User> GetUserWithSpec(ISpecification<User> spec);
