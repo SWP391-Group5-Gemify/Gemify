@@ -1,4 +1,4 @@
-﻿using API.Dtos;
+using API.Dtos;
 using AutoMapper;
 using Core.Enitities;
 using Core.Enitities.Identity;
@@ -58,6 +58,12 @@ namespace API.Helpers
 
             CreateMap<IdentityRole, RoleDto>();
 
+            CreateMap<Category, CategoryDto>();
+            CreateMap<SubCategory, SubCategoryDto>();
+            
+            CreateMap<GemType, GemTypeDto>().ReverseMap();
+
+            CreateMap<GemPrice, GemPriceDto>();
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Core.Enitities
     {
         [Column(TypeName = "nvarchar(100)"), Required]
         public string Name { get; set; }
+        public IReadOnlyList<SubCategory> SubCategories { get; set; }
     }
 }

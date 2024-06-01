@@ -16,7 +16,7 @@ namespace Core.Attributes
                 || role == Role.Cashier.ToString()
                 || role == Role.StoreManager.ToString()
                 || role == Role.Repurchaser.ToString()
-                || role == Role.Repurchaser.ToString();
+                || role == Role.Seller.ToString();
         }
     }
 }

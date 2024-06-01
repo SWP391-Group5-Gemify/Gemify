@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { UserModel } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,16 @@ export class AuthService {
 
   // external access to change component's layout
   public isLoggedIn$ = this._isLoggedIn$.asObservable();
+  public currentUser?: UserModel;
   private readonly TOKEN_NAME = 'jwt_token';
+
+  /**
+   * Get token from local storage
+   * - Used in HTTP Interceptor, sending token for every request
+   */
+  get token(): string | null {
+    return localStorage.getItem(this.TOKEN_NAME);
+  }
 
   // ====================
   // == Lifecycle
@@ -30,9 +40,9 @@ export class AuthService {
    * @param http
    * @param router
    */
-  constructor(private http: HttpClient, private router: Router) {
-    const tokenValue: String = localStorage.getItem(this.TOKEN_NAME) ?? '';
-    this._isLoggedIn$.next(!!tokenValue); // Convert value to falsy and truthy
+  constructor(private http: HttpClient) {
+    this._isLoggedIn$.next(!!this.token); // Convert value to falsy and truthy
+    this.currentUser = this.getCurrentUser(this.token);
   }
   // ====================
   // == Methods
@@ -45,10 +55,11 @@ export class AuthService {
    * @param values
    * @returns
    */
-  login(values: any): Observable<any> {
+  public login(values: any): Observable<any> {
     const url = `${this.baseAccountUrl}/login`;
     return this.http.post(url, values).pipe(
       tap((response: any) => {
+        this.currentUser = this.getCurrentUser(response.token);
         this._isLoggedIn$.next(true); // emit the true as logged in user
         localStorage.setItem(this.TOKEN_NAME, response.token);
       })
@@ -58,15 +69,18 @@ export class AuthService {
   /**
    * Logout of the system
    */
-  logout() {
+  public logout() {
     localStorage.removeItem(this.TOKEN_NAME);
     this._isLoggedIn$.next(false);
   }
 
   /**
-   * Get token from local storage
+   * Decrypt the token payload, get the user information
+   * @param token
    */
-  get getToken(): string | '' {
-    return localStorage.getItem(this.TOKEN_NAME) || '';
+  private getCurrentUser(token: string | null): UserModel | undefined {
+    return token
+      ? (JSON.parse(atob(token?.split('.')[1])) as UserModel)
+      : undefined;
   }
 }

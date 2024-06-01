@@ -11,11 +11,11 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly IUserRepository _userRepo;
+        private readonly IUserService _userRepo;
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(IUserRepository userRepo, 
+        public AccountController(IUserService userRepo, 
             SignInManager<User> signInManager, ITokenService tokenService) 
         {
             _userRepo = userRepo;
