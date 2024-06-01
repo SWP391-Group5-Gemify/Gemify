@@ -2,12 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../../../core/guard/auth/auth.guard';
 import { StoreOwnerComponent } from '../../components/dashboards/store-owner/store-owner.component';
+import { roleGuard } from '../../../core/guard/authorization/role.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: StoreOwnerComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: {
+      role: 'StoreOwner',
+    },
     children: [
       {
         path: '',

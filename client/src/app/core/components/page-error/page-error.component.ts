@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { RouteErrorResponse } from '../../models/route/error/route-error-response.model';
+import { RouteErrorResponseModel } from '../../models/route-error-response.model';
 @Component({
   selector: 'app-page-error',
   standalone: true,
@@ -10,14 +10,14 @@ import { RouteErrorResponse } from '../../models/route/error/route-error-respons
   styleUrl: './page-error.component.scss',
 })
 export class PageErrorComponent implements OnInit {
-  errorData!: RouteErrorResponse;
+  errorData!: RouteErrorResponseModel;
   constructor(
     private router: ActivatedRoute,
     private routeLocation: Location
   ) {}
 
   ngOnInit(): void {
-    this.errorData = this.router.snapshot.data as RouteErrorResponse;
+    this.errorData = this.router.snapshot.data as RouteErrorResponseModel;
   }
 
   onGoBack(): void {

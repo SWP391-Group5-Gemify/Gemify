@@ -1,4 +1,4 @@
-export interface Customer {
+export interface CustomerModel {
   id: number;
   name: string;
   gender: string;
@@ -7,11 +7,4 @@ export interface Customer {
   point: number;
   membershipId: number;
   membershipRate: string;
-}
-
-export interface CustomerResponse {
-  pageIndex: number;
-  pageSize: number;
-  count: number;
-  data: Customer[];
 }
