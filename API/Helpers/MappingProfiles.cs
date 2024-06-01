@@ -64,6 +64,8 @@ namespace API.Helpers
             CreateMap<GemType, GemTypeDto>().ReverseMap();
 
             CreateMap<GemPrice, GemPriceDto>();
+
+            CreateMap<GoldPrice, GoldPriceDto>();
         }
     }
 }
