@@ -58,6 +58,10 @@ namespace API.Helpers
 
             CreateMap<IdentityRole, RoleDto>();
 
+            CreateMap<GemType, GemTypeDto>().ReverseMap();
+
+            CreateMap<GemPrice, GemPriceDto>();
+
         }
     }
 }
