@@ -1,6 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 
 namespace Core.Enitities
@@ -9,6 +10,7 @@ namespace Core.Enitities
     {
         [Required]
         public int CategoryId { get; set; }
+        [JsonIgnore]
         public Category Category { get; set; }
 
         [Column(TypeName = "nvarchar(100)"), Required]

@@ -58,6 +58,10 @@ namespace API.Helpers
 
             CreateMap<IdentityRole, RoleDto>();
 
+            CreateMap<Category, CategoryDto>();
+            CreateMap<SubCategory, SubCategoryDto>();
+
+
         }
     }
 }
