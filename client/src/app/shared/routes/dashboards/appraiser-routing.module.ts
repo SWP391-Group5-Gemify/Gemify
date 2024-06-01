@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../../../core/guard/auth/auth.guard';
 import { AppraiserComponent } from '../../components/dashboards/appraiser/appraiser.component';
+import { roleGuard } from '../../../core/guard/authorization/role.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: AppraiserComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
   },
 ];
 
