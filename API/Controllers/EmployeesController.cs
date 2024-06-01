@@ -14,12 +14,12 @@ namespace API.Controllers
     [Authorize(Roles = "StoreOwner")]
     public class EmployeesController : BaseApiController
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IUserRepository userRepository, IMapper mapper)
+        public EmployeesController(IUserService userService, IMapper mapper)
         {
-            _userRepository = userRepository;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -31,9 +31,9 @@ namespace API.Controllers
 
             var countSpec = new EmployeeWithFilterForCountSpecification(employeeParams);
 
-            var employees = await _userRepository.ListUsersAsync(spec, employeeParams.Role);
+            var employees = await _userService.ListUsersAsync(spec, employeeParams.Role);
 
-            var totalEmployees = await _userRepository.CountAsync(countSpec, employeeParams.Role);
+            var totalEmployees = await _userService.CountAsync(countSpec, employeeParams.Role);
 
             var data = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<EmployeeDto>>(employees);
 
@@ -46,7 +46,7 @@ namespace API.Controllers
         {
             var spec = new EmployeeSpecification(id);
 
-            var employee = await _userRepository.GetUserWithSpec(spec);
+            var employee = await _userService.GetUserWithSpec(spec);
 
             if(employee==null) return NotFound(new ApiResponse(404));
 
@@ -55,37 +55,37 @@ namespace API.Controllers
             return Ok(data);
         }
 
-        [HttpPut("delete")]
+        [HttpDelete]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<EmployeeDto>> DeleteEmployee([FromQuery] string id)
         {
             var spec = new EmployeeSpecification(id);
 
-            var exist_emp = await _userRepository.GetUserWithSpec(spec);
+            var exist_emp = await _userService.GetUserWithSpec(spec);
 
             if(exist_emp==null) return NotFound(new ApiResponse(404));
 
             exist_emp.Status = "Closed";
 
-            var result = await _userRepository.UpdateUserAsync(exist_emp);
+            var result = await _userService.UpdateUserAsync(exist_emp);
 
             if(result.Succeeded) return Ok("Close Account Succeeded");
             else return BadRequest(new ApiResponse(400));
         }
 
-        [HttpPut("update")]
+        [HttpPut]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<EmployeeDto>> UpdateEmployee(EmployeeDto employee)
         {
             var spec = new EmployeeSpecification(employee.Id);
 
-            var exist_emp = await _userRepository.GetUserWithSpec(spec);
+            var exist_emp = await _userService.GetUserWithSpec(spec);
 
             if(exist_emp==null) return NotFound(new ApiResponse(404));
 
             _mapper.Map(employee,exist_emp);
 
-            var result = await _userRepository.UpdateUserAsync(exist_emp);
+            var result = await _userService.UpdateUserAsync(exist_emp);
 
             if(result.Succeeded) return Ok("Update Succeeded");
             else return BadRequest(new ApiResponse(400));
@@ -95,7 +95,7 @@ namespace API.Controllers
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<IReadOnlyList<IdentityRole>>> GetAllRoles()
         {
-            var roles = await _userRepository.GetAllRolesAsync();
+            var roles = await _userService.GetAllRolesAsync();
 
             return Ok(_mapper.Map<IReadOnlyList<IdentityRole>, IReadOnlyList<RoleDto>>(roles));
         }

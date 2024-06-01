@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Security.Claims;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Services
 {
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserRepository(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public UserService(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;

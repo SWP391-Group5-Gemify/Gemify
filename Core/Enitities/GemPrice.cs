@@ -7,6 +7,13 @@ namespace Core.Enitities
 {
     public class GemPrice : BaseEntity
     {
+
+        public GemPrice(int gemTypeId, float price) 
+        {
+            GemTypeId = gemTypeId;
+            Price = price;
+        }
+
         [Required]
         public int GemTypeId { get; set; }
         public GemType GemType { get; set; }
