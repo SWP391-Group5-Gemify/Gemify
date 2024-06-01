@@ -4,7 +4,7 @@
   <span class="divider"></span>
 
   <nav class="header__nav">
-    @if ((authService.isLoggedIn$ | async)) {
+    @if (!(authService.isLoggedIn$ | async)) {
     @for (link of navLinksNotLogin; track $index) {
     <a href="#"
        class="btn btn--grad"

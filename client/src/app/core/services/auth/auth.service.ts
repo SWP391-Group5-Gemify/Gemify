@@ -31,7 +31,7 @@ export class AuthService {
    * @param router
    */
   constructor(private http: HttpClient, private router: Router) {
-    const tokenValue: String = localStorage.getItem(this.TOKEN_NAME) ?? '';
+    const tokenValue: String | null = localStorage.getItem(this.TOKEN_NAME);
     this._isLoggedIn$.next(!!tokenValue); // Convert value to falsy and truthy
   }
   // ====================
