@@ -2,10 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import {
-  Customer,
-  CustomerResponse,
-} from '../../models/customer/customer.model';
+import { CustomerModel } from '../../models/customer.model';
+import { PaginationModel } from '../../models/pagination-model.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,25 +23,31 @@ export class CustomerService {
   // == Methods
   // ====================
 
+  /**
+   * Get customers on paging
+   * @param pageIndex current page index
+   * @param pageSize  no. of items on 1 page
+   * @returns
+   */
   getCustomers(
     pageIndex: number,
     pageSize: number
-  ): Observable<CustomerResponse> {
+  ): Observable<PaginationModel<CustomerModel>> {
     let params = new HttpParams();
     params.append('pageIndex', pageIndex.toString());
     params.append('pageSize', pageSize.toString());
 
-    return this.http.get<CustomerResponse>(this.baseCustomerUrl, {
+    return this.http.get<PaginationModel<CustomerModel>>(this.baseCustomerUrl, {
       params: params,
     });
   }
 
-  getCustomerById(id: number): Observable<Customer> {
-    return this.http.get<Customer>(`${this.baseCustomerUrl}/${id}/`);
+  getCustomerById(id: number): Observable<CustomerModel> {
+    return this.http.get<CustomerModel>(`${this.baseCustomerUrl}/${id}/`);
   }
 
-  updateCustomerById(customer: Customer): Observable<Customer> {
-    return this.http.put<Customer>(
+  updateCustomerById(customer: CustomerModel): Observable<CustomerModel> {
+    return this.http.put<CustomerModel>(
       `${this.baseCustomerUrl}/${customer.id}/`,
       customer
     );

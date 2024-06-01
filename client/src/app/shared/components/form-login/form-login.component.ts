@@ -16,7 +16,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-form-login',
   standalone: true,
   imports: [
     MatInputModule,
@@ -27,10 +27,10 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     CommonModule,
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './form-login.component.html',
+  styleUrl: './form-login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class FormLoginComponent implements OnInit {
   signInForm!: FormGroup;
   contact = {
     text: 'If you forgot your password. Please contact admin',
@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
    *    - If failed, popup or showing to message
    */
   login(): void {
-    if (!this.signInForm.invalid) {
+    if (this.signInForm.valid) {
       this.authService.login(this.signInForm.value).subscribe({
         next: (responsee) => {
           this.router.navigate(['/store-owner']);

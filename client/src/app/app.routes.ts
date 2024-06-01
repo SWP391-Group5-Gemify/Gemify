@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './shared/components/login/login.component';
-import { PageErrorComponent } from './shared/components/page-error/page-error.component';
+import { FormLoginComponent } from './shared/components/form-login/form-login.component';
+import { PageErrorComponent } from './core/components/page-error/page-error.component';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'prefix' },
-  { path: 'login', component: LoginComponent },
+  { path: '', component: FormLoginComponent, pathMatch: 'prefix' },
+  { path: 'login', component: FormLoginComponent },
 
   // === Testing Purpose ========================================================
   // {
