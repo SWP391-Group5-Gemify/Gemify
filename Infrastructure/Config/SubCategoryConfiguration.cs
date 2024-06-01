@@ -13,7 +13,7 @@ namespace Infrastructure.Config
     {
         public void Configure(EntityTypeBuilder<SubCategory> builder)
         {
-            builder.HasOne(sc => sc.Category).WithMany().HasForeignKey(sc => sc.CategoryId);
+            builder.HasOne(sc => sc.Category).WithMany(d => d.SubCategories).HasForeignKey(sc => sc.CategoryId);
         }
     }
 }
