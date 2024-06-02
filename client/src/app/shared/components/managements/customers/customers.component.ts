@@ -13,6 +13,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TableDatasourceComponent } from '../../table-datasource/table-datasource.component';
+import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
 
 @Component({
   selector: 'app-customers',
@@ -28,6 +29,7 @@ import { TableDatasourceComponent } from '../../table-datasource/table-datasourc
     MatInputModule,
     CommonModule,
     TableDatasourceComponent,
+    StatsTotalRowsComponent,
   ],
 })
 export class CustomersComponent implements OnInit {

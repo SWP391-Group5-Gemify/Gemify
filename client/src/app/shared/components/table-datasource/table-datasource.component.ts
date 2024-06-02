@@ -66,8 +66,8 @@ export class TableDatasourceComponent implements AfterViewInit {
     this.onPageChangeFromChild.emit(event);
   }
 
-  // Update Object
-  updateObject(event: Event): void {
-    this.onUpdateFromChild.emit(event);
-  }
+  // // Update Object
+  // updateObject(event: Event): void {
+  //   this.onUpdateFromChild.emit(event);
+  // }
 }
