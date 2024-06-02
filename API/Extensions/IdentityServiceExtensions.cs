@@ -3,6 +3,7 @@ using Core.Interfaces.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -23,6 +24,11 @@ namespace API.Extensions
             {
                 //Set you account options here (e.g., Password, Email)
                 opt.SignIn.RequireConfirmedAccount = false;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 8;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
