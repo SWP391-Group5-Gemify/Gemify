@@ -22,7 +22,8 @@
 
       <!-- Loops and extract the value from each object Customer -->
       @for (column of columnsToDisplay; track $index) {
-      <ng-container [matColumnDef]="column">
+      <ng-container [matColumnDef]="
+          column">
         <th mat-header-cell
             *matHeaderCellDef
             mat-sort-header>{{column}}</th>
