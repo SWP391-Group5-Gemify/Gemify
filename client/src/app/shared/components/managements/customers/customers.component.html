@@ -1,13 +1,12 @@
-@for (customer of customers$ |async; track $index) {
-<div>
-  <p>{{ customer.name }} ({{ customer.membershipRate }})</p>
-  <p>{{ customer.phone }}</p>
-  <p>{{ customer.address }}</p>
-  <p>Points: {{ customer.point }}</p>
-</div>
-}
+<div class="customers-container">
 
-<!-- <mat-paginator [length]="totalCustomers"
-               [pageSize]="pageSize"
-               [pageIndex]="pageIndex">
-</mat-paginator> -->
+
+  <app-table-datasource [columnsToDisplay]="tableConfig.columnsToDisplay"
+                        [dataSource]="tableConfig.dataSource"
+                        [pageSize]="tableConfig.pageSize"
+                        [pageIndex]="tableConfig.pageIndex"
+                        [count]="tableConfig.totalCustomers"
+                        (onPageChangeFromChild)="onPageEvent($event)"
+                        (onFilterFromChild)="onApplyFilter($event)">
+  </app-table-datasource>
+</div>

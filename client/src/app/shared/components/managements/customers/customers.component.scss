@@ -1,0 +1,5 @@
+@import "abstracts/mixins";
+
+.customers-container {
+  @include content-container;
+}

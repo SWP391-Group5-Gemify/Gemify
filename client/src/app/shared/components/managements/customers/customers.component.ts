@@ -1,27 +1,61 @@
-import { Component, OnInit } from '@angular/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../../core/services/auth/auth.service';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { TableDatasourceComponent } from '../../table-datasource/table-datasource.component';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [MatPaginatorModule, CommonModule],
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    CommonModule,
+    TableDatasourceComponent,
+  ],
 })
 export class CustomersComponent implements OnInit {
   // ====================
-  // == Fields
+  // == Fields for Table
   // ====================
 
-  customers$: Observable<CustomerModel[]> | undefined;
-  pageIndex: number = 1;
-  pageSize: number = 5;
-  totalCustomers: number = 0;
+  tableConfig = {
+    columnsToDisplay: [
+      'id',
+      'name',
+      'gender',
+      'phone',
+      'address',
+      'point',
+      'membershipId',
+      'membershipRate',
+    ],
+
+    dataSource: new MatTableDataSource<CustomerModel>(),
+    pageIndex: 0, // Since the API is 1-based, but the table is 1-based
+    pageSize: 5,
+    totalCustomers: 0,
+  };
+
+  // ====================
+  // == Fields for Paging
+  // ====================
 
   // ====================
   // == Life Cycle
@@ -31,6 +65,7 @@ export class CustomersComponent implements OnInit {
   ngOnInit(): void {
     this.loadCustomers();
   }
+
   // ====================
   // == Methods
   // ====================
@@ -41,13 +76,13 @@ export class CustomersComponent implements OnInit {
    * - Return the Observable<Customer[]>
    */
   loadCustomers(): void {
-    this.customers$ = this.customerService
-      .getCustomers(this.pageIndex, this.pageSize)
+    this.customerService
+      .getCustomers(this.tableConfig.pageIndex + 1, this.tableConfig.pageSize) // convert to 1-based
       .pipe(
         map((response) => {
-          this.pageIndex = response.pageIndex;
-          this.pageSize = response.pageSize;
-          this.totalCustomers = response.count;
+          this.tableConfig.pageIndex = response.pageIndex - 1; // convert to 0-based
+          this.tableConfig.pageSize = response.pageSize;
+          this.tableConfig.totalCustomers = response.count;
           return response.data;
         }),
 
@@ -55,12 +90,40 @@ export class CustomersComponent implements OnInit {
           console.error('Error comes from: ', error);
           return of([]);
         })
-      );
+      )
+      .subscribe((data) => {
+        this.tableConfig.dataSource.data = data;
+      });
   }
 
-  editCustomer(customer: CustomerModel): void {
-    this.customerService.updateCustomerById(customer).subscribe({
-      next(value) {},
-    });
+  /**
+   * Trigger event when the page is pagination
+   * @param event
+   */
+  onPageEvent(event: PageEvent) {
+    this.tableConfig.pageIndex = event.pageIndex; // Still 0-based
+    this.tableConfig.pageSize = event.pageSize;
+    this.loadCustomers();
   }
+
+  /**
+   * Filter on data source
+   * @param event
+   */
+  onApplyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.tableConfig.dataSource.filter = filterValue.trim().toLocaleLowerCase();
+
+    if (this.tableConfig.dataSource.paginator) {
+      this.tableConfig.dataSource.paginator.firstPage();
+      this.tableConfig.pageIndex = 0; // Reset to the first page (0-based)
+    }
+  }
+
+  // //FIXME: Edit Customer Information
+  // editCustomer(customer: CustomerModel): void {
+  //   this.customerService.updateCustomerById(customer).subscribe({
+  //     next(value) {},
+  //   });
+  // }
 }
