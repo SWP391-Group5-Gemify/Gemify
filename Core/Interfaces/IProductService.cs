@@ -10,5 +10,6 @@ namespace Core.Interfaces
         Task<bool> AddProductAsync(Product product);
         Task<int> CountProductsAsync(ISpecification<Product> spec);
         Task<bool> UpdateProductAsync(Product product);
+        Task<IReadOnlyList<Category>> GetAllCategoriesAsync(ISpecification<Category> spec);
     }
 }

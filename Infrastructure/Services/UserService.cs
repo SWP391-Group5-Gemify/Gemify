@@ -1,6 +1,7 @@
 ﻿using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
+using Core.Specifications.Employees;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -11,9 +12,9 @@ namespace Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public UserService(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public UserService(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -29,7 +30,7 @@ namespace Infrastructure.Services
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task<IReadOnlyList<IdentityRole>> GetAllRolesAsync()
+        public async Task<IReadOnlyList<IdentityRole<int>>> GetAllRolesAsync()
         {
             return await _roleManager.Roles.ToListAsync();
         }

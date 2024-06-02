@@ -6,6 +6,7 @@ using API.Dtos;
 using Core.Specifications;
 using API.Errors;
 using Microsoft.AspNetCore.Authorization;
+using Core.Specifications.Counters;
 
 namespace API.Controllers
 {

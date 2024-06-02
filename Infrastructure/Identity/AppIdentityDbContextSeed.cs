@@ -8,7 +8,7 @@ namespace Infrastructure.Identity
 {
     public class AppIdentityDbContextSeed
     {
-        public static async Task SeedAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -18,7 +18,7 @@ namespace Infrastructure.Identity
             {
                 var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/UserRoleSeedData.json");
 
-                var list = JsonSerializer.Deserialize<List<IdentityRole>>(data, options);
+                var list = JsonSerializer.Deserialize<List<IdentityRole<int>>>(data, options);
 
                 foreach (var item in list)
                 {

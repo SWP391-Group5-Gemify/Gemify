@@ -4,7 +4,7 @@ using API.Helpers;
 using AutoMapper;
 using Core.Enitities;
 using Core.Interfaces;
-using Core.Specifications;
+using Core.Specifications.Customers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

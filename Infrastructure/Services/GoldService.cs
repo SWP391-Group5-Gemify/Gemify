@@ -1,6 +1,7 @@
 using Core.Enitities;
 using Core.Interfaces;
 using Core.Specifications;
+using Core.Specifications.Golds;
 
 namespace Infrastructure.Services
 {

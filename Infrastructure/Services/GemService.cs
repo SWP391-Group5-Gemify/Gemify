@@ -33,7 +33,7 @@ namespace Infrastructure.Services
 
             if (gemType == null) return false;
 
-            gemType.Status = false;
+            gemType.IsProcurable = false;
 
             _unitOfWork.Repository<GemType>().Update(gemType);
             var result = await _unitOfWork.Complete();

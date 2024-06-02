@@ -11,7 +11,7 @@ namespace Core.Enitities
         public string Name { get; set; }
         public int? ProductQuantity { get; set; }
         public bool Status { get; set; } = true;
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
     }
 }

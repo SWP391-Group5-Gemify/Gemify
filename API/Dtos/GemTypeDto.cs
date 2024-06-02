@@ -19,6 +19,5 @@ namespace API.Dtos
         public string Shape { get; set; }
         public float LatestPrice { get; set; }
         public bool IsProcurable { get; set; } = true;
-        public bool Status { get; set; } = true;
     }
 }
