@@ -21,6 +21,7 @@ namespace API.Extensions
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IGemService, GemService>();
+            services.AddScoped<IGoldService, GoldService>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

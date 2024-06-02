@@ -5,6 +5,14 @@ namespace Core.Enitities
 {
     public class GoldPrice : BaseEntity
     {
+        public GoldPrice(int GoldTypeId, float BidPrice, float AskPrice)
+        {
+            this.GoldTypeId = GoldTypeId;
+            this.BidPrice = BidPrice;
+            this.AskPrice = AskPrice;
+            this.DateTime = DateTime.UtcNow;
+        }
+
         [Required]
         public int GoldTypeId { get; set; }
         public GoldType GoldType { get; set; }
