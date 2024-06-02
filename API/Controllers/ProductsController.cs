@@ -5,6 +5,7 @@ using AutoMapper;
 using Core.Enitities;
 using Core.Interfaces;
 using Core.Specifications;
+using Core.Specifications.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -91,5 +92,15 @@ namespace API.Controllers
             return BadRequest(new ApiResponse(400, "Fail to delete product information!"));
         }
 
+        // Get all categories with specification
+        [HttpGet("categories")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier")]
+        public async Task<ActionResult<IReadOnlyList<CategoryDto>>> GetCategories()
+        {
+            var spec = new CategorySpecification();
+            var categories = await _productService.GetAllCategoriesAsync(spec);
+            var data = _mapper.Map<IReadOnlyList<Category>, IReadOnlyList<CategoryDto>>(categories);
+            return Ok(data);
+        }
     }
 }

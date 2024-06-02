@@ -23,6 +23,7 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
 
+        // Get the currently logged in user
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
@@ -47,18 +48,21 @@ namespace API.Controllers
             };
         }
 
+        // Check if the Email existed
         [HttpGet("email_exists")]
         public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
         {
             return await _userRepo.GetUserByEmailAsync(email) != null;
         }
 
+        // Check if the Username existed
         [HttpGet("username_exists")]
         public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string userName)
         {
             return await _userRepo.GetUserByUserNameAsync(userName) != null;
         }
 
+        // Login and return User object
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
@@ -88,6 +92,7 @@ namespace API.Controllers
             };
         }
 
+        // Register and return User object
         [HttpPost("register")]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)

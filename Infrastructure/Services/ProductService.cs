@@ -1,6 +1,7 @@
 ﻿using Core.Enitities;
 using Core.Interfaces;
 using Core.Specifications;
+using Core.Specifications.Products;
 
 namespace Infrastructure.Services
 {
@@ -50,6 +51,11 @@ namespace Infrastructure.Services
             _unitOfWork.Repository<Product>().Update(product);
             var result = await _unitOfWork.Complete();
             return result > 0;
+        }
+
+        public async Task<IReadOnlyList<Category>> GetAllCategoriesAsync(ISpecification<Category> spec)
+        {
+            return await _unitOfWork.Repository<Category>().ListAsync(spec);
         }
     }
 }

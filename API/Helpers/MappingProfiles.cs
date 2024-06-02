@@ -56,7 +56,7 @@ namespace API.Helpers
 
             CreateMap<EmployeeDto,User>();
 
-            CreateMap<IdentityRole, RoleDto>();
+            CreateMap<IdentityRole<int>, RoleDto>();
 
             CreateMap<Category, CategoryDto>();
             CreateMap<SubCategory, SubCategoryDto>();

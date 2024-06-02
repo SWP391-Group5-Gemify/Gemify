@@ -5,6 +5,7 @@ using AutoMapper;
 using Core.Enitities;
 using Core.Interfaces;
 using Core.Specifications;
+using Core.Specifications.Gems;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

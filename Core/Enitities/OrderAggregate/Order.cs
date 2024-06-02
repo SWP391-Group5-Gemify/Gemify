@@ -11,7 +11,7 @@ namespace Core.Enitities.OrderAggregate
         {
         }
         public Order(DateTime orderDate, int orderTypeId, 
-            decimal total, int customerId, string userId, int receiptId, 
+            decimal total, int customerId, int userId, int receiptId, 
             string paymentIntentId, IReadOnlyList<OrderItem> orderItems)
         {
             OrderDate = orderDate;
@@ -37,7 +37,7 @@ namespace Core.Enitities.OrderAggregate
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
         public int ReceiptId { get; set; }
         public Receipt Receipt { get; set; }

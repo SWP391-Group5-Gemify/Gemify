@@ -5,6 +5,7 @@ using AutoMapper;
 using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
+using Core.Specifications.Employees;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        // Get Employees with filter and paging
         [HttpGet]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<Pagination<EmployeeDto>>> GetEmployees([FromQuery] EmployeeSpecParams employeeParams)
@@ -40,9 +42,10 @@ namespace API.Controllers
             return Ok(new Pagination<EmployeeDto>(employeeParams.PageIndex, employeeParams.PageSize, totalEmployees, data));
         }
 
+        //Get Employee By Id
         [HttpGet("{id}")]
         [Authorize(Roles = "StoreOwner")]
-        public async Task<ActionResult<EmployeeDto>> EmployeeDetails(string id)
+        public async Task<ActionResult<EmployeeDto>> EmployeeDetails(int id)
         {
             var spec = new EmployeeSpecification(id);
 
@@ -55,9 +58,10 @@ namespace API.Controllers
             return Ok(data);
         }
 
+        // Disable Employee Account
         [HttpDelete]
         [Authorize(Roles = "StoreOwner")]
-        public async Task<ActionResult<EmployeeDto>> DeleteEmployee([FromQuery] string id)
+        public async Task<ActionResult<EmployeeDto>> DeleteEmployee([FromQuery] int id)
         {
             var spec = new EmployeeSpecification(id);
 
@@ -73,6 +77,7 @@ namespace API.Controllers
             else return BadRequest(new ApiResponse(400));
         }
 
+        // Update Employee Information
         [HttpPut]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<EmployeeDto>> UpdateEmployee(EmployeeDto employee)
@@ -91,13 +96,14 @@ namespace API.Controllers
             else return BadRequest(new ApiResponse(400));
         }
 
+        // Get All Roles
         [HttpGet("roles")]
         [Authorize(Roles = "StoreOwner")]
-        public async Task<ActionResult<IReadOnlyList<IdentityRole>>> GetAllRoles()
+        public async Task<ActionResult<IReadOnlyList<IdentityRole<int>>>> GetAllRoles()
         {
             var roles = await _userService.GetAllRolesAsync();
 
-            return Ok(_mapper.Map<IReadOnlyList<IdentityRole>, IReadOnlyList<RoleDto>>(roles));
+            return Ok(_mapper.Map<IReadOnlyList<IdentityRole<int>>, IReadOnlyList<RoleDto>>(roles));
         }
     }
 }

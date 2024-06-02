@@ -9,8 +9,8 @@ namespace Core.Enitities
         [Column(TypeName = "decimal(18, 2)"), Required]
         public decimal TotalPrice { get; set; }
 
-        [Column(TypeName = "nvarchar(450)"), Required]
-        public string UserId { get; set; }
+        [Required]
+        public int UserId { get; set; }
         public User User { get; set; }
 
         public DateTime DateTime { get; set; } = DateTime.UtcNow;

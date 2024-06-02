@@ -48,7 +48,7 @@ var services = scope.ServiceProvider;
 var storeContext = services.GetRequiredService<StoreContext>();
 var identityContext = services.GetRequiredService<AppIdentityDbContext>();
 var userManager = services.GetRequiredService<UserManager<User>>();
-var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 
 try
