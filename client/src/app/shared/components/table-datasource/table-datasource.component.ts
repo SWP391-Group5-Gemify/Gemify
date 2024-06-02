@@ -46,7 +46,11 @@ export class TableDatasourceComponent implements AfterViewInit {
 
   @Output() onPageChangeFromChild: EventEmitter<PageEvent> = new EventEmitter();
   @Output() onFilterFromChild: EventEmitter<Event> = new EventEmitter();
+  @Output() onUpdateFromChild: EventEmitter<Event> = new EventEmitter();
 
+  /**
+   * Render
+   */
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -60,5 +64,10 @@ export class TableDatasourceComponent implements AfterViewInit {
   // Emit pagination event
   pageEvent(event: PageEvent): void {
     this.onPageChangeFromChild.emit(event);
+  }
+
+  // Update Object
+  updateObject(event: Event): void {
+    this.onUpdateFromChild.emit(event);
   }
 }

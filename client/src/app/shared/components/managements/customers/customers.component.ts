@@ -96,24 +96,22 @@ export class CustomersComponent implements OnInit {
       });
   }
 
-  // //FIXME: Edit Customer Information
-  // editCustomer(customer: CustomerModel): void {
-  //   this.customerService.updateCustomerById(customer).subscribe({
-  //     next(value) {},
-  //   });
-  // }
-
+  /**
+   * Trigger event when the page is pagination
+   * @param event
+   */
   onPageEvent(event: PageEvent) {
     this.tableConfig.pageIndex = event.pageIndex; // Still 0-based
     this.tableConfig.pageSize = event.pageSize;
     this.loadCustomers();
   }
 
+  /**
+   * Filter on data source
+   * @param event
+   */
   onApplyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-
-    console.table(filterValue);
-
     this.tableConfig.dataSource.filter = filterValue.trim().toLocaleLowerCase();
 
     if (this.tableConfig.dataSource.paginator) {
@@ -121,4 +119,11 @@ export class CustomersComponent implements OnInit {
       this.tableConfig.pageIndex = 0; // Reset to the first page (0-based)
     }
   }
+
+  // //FIXME: Edit Customer Information
+  // editCustomer(customer: CustomerModel): void {
+  //   this.customerService.updateCustomerById(customer).subscribe({
+  //     next(value) {},
+  //   });
+  // }
 }
