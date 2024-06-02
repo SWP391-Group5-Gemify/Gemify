@@ -33,9 +33,10 @@ export class CustomerService {
     pageIndex: number,
     pageSize: number
   ): Observable<PaginationModel<CustomerModel>> {
-    let params = new HttpParams();
-    params.append('pageIndex', pageIndex.toString());
-    params.append('pageSize', pageSize.toString());
+    const params = {
+      pageIndex: pageIndex.toString(),
+      pageSize: pageSize.toString(),
+    };
 
     return this.http.get<PaginationModel<CustomerModel>>(this.baseCustomerUrl, {
       params: params,
