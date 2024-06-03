@@ -1,27 +1,32 @@
 export interface EmployeeModel {
-  id: number | string;
+  id: number;
   fullName: string;
   email: string;
   userName: string;
   gender: string;
   phoneNumber: string;
   dateOfBirth: string;
-  status: EmployeeStatus;
+  status: EmployeeStatusEnum;
   image_Url: string;
   address: string;
-  role: EmployeeRole;
+  role: EmployeeRoleEnum;
 }
 
-export enum EmployeeStatus {
+export interface EmployeeRoleModel {
+  id: number;
+  name: string;
+}
+
+export enum EmployeeStatusEnum {
   Active = 'Active',
   Closed = 'Closed',
 }
 
-export interface EmployeeRole {
-  storeManager: string;
-  repurchaser: string;
-  appraiser: string;
-  cashier: string;
-  seller: string;
-  storeOwner: string;
+export enum EmployeeRoleEnum {
+  StoreManager = 'StoreManager',
+  Repurchaser = 'Repurchaser',
+  Appraiser = 'Appraiser',
+  Cashier = 'Cashier',
+  Seller = 'Seller',
+  StoreOwner = 'StoreOwner',
 }

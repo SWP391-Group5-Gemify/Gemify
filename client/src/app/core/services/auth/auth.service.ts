@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 
@@ -19,14 +24,6 @@ export class AuthService {
   public isLoggedIn$ = this._isLoggedIn$.asObservable();
   public currentUser?: UserModel;
   private readonly TOKEN_NAME = 'jwt_token';
-
-  /**
-   * Get token from local storage
-   * - Used in HTTP Interceptor, sending token for every request
-   */
-  get token(): string | null {
-    return localStorage.getItem(this.TOKEN_NAME);
-  }
 
   // ====================
   // == Lifecycle
@@ -47,6 +44,14 @@ export class AuthService {
   // ====================
   // == Methods
   // ====================
+
+  /**
+   * Get token from local storage
+   * - Used in HTTP Interceptor, sending token for every request
+   */
+  get token(): string | null {
+    return localStorage.getItem(this.TOKEN_NAME);
+  }
 
   /**
    * Login using JWT Authentication
@@ -71,6 +76,7 @@ export class AuthService {
    */
   public logout() {
     localStorage.removeItem(this.TOKEN_NAME);
+    this.currentUser = undefined;
     this._isLoggedIn$.next(false);
   }
 
