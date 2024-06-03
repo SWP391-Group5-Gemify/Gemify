@@ -33,9 +33,9 @@ namespace API.Controllers
 
             var countSpec = new EmployeeWithFilterForCountSpecification(employeeParams);
 
-            var employees = await _userService.ListUsersAsync(spec, employeeParams.Role);
+            var employees = await _userService.ListUsersAsync(spec, employeeParams.RoleId);
 
-            var totalEmployees = await _userService.CountAsync(countSpec, employeeParams.Role);
+            var totalEmployees = await _userService.CountAsync(countSpec, employeeParams.RoleId);
 
             var data = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<EmployeeDto>>(employees);
 

@@ -11,7 +11,7 @@
             set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
         }
 
-        public string Role { get; set; }
+        public int? RoleId { get; set; }
         public string Sort { get; set; }
 
         public string Status { get; set; }

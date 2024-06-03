@@ -78,13 +78,18 @@ namespace Infrastructure.Services
             return await _userManager.Users.ToListAsync();
         }
 
-        public async Task<IReadOnlyList<User>> ListUsersAsync(ISpecification<User> spec, string role)
+        public async Task<IReadOnlyList<User>> ListUsersAsync(ISpecification<User> spec, int? roleId)
         {
             var query = _userManager.Users.AsQueryable();
 
-            if (!string.IsNullOrEmpty(role))
+            if(roleId.HasValue)
             {
-                var usersWithRole = await _userManager.GetUsersInRoleAsync(role);
+                var role = await _roleManager.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
+
+                // Return an empty user list if role is not found
+                if (role == null) return Array.Empty<User>();
+
+                var usersWithRole = await _userManager.GetUsersInRoleAsync(role.Name);
 
                 // Filter the query to only include users in the retrieved role list
                 query = query.Where(u => usersWithRole.Contains(u));
@@ -93,13 +98,18 @@ namespace Infrastructure.Services
             return await ApplySpecification(query, spec).ToListAsync();
         }
 
-        public async Task<int> CountAsync(ISpecification<User> spec, string role)
+        public async Task<int> CountAsync(ISpecification<User> spec, int? roleId)
         {
             var query = _userManager.Users.AsQueryable();
 
-            if (!string.IsNullOrEmpty(role))
+            if(roleId.HasValue)
             {
-                var usersWithRole = await _userManager.GetUsersInRoleAsync(role);
+                var role = await _roleManager.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
+
+                // Return an empty user list if role is not found
+                if (role == null) return 0;
+
+                var usersWithRole = await _userManager.GetUsersInRoleAsync(role.Name);
 
                 // Filter the query to only include users in the retrieved role list
                 query = query.Where(u => usersWithRole.Contains(u));
