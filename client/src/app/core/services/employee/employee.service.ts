@@ -6,6 +6,7 @@ import { PaginationModel } from '../../models/pagination-model.model';
 import {
   EmployeeModel,
   EmployeeRoleEnum,
+  EmployeeRoleModel,
   EmployeeStatusEnum,
 } from '../../models/employee.model';
 
@@ -35,11 +36,17 @@ export class EmployeeService {
    */
   getEmployees(
     pageIndex: number,
-    pageSize: number
+    pageSize: number,
+    roles?: EmployeeRoleEnum
   ): Observable<PaginationModel<EmployeeModel>> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
+
+    // if having roles
+    if (roles) {
+      params.set('roles', roles);
+    }
 
     return this.http.get<PaginationModel<EmployeeModel>>(this.baseEmployeeUrl, {
       params: params,
@@ -56,11 +63,11 @@ export class EmployeeService {
   }
 
   /**
-   * Get roles of the employees
+   * Get total roles
    * @returns
    */
-  getEmployeeRoles(): Observable<EmployeeRoleEnum[]> {
-    return this.http.get<EmployeeRoleEnum[]>(`${this.baseEmployeeUrl}/roles`);
+  getEmployeeRoles(): Observable<EmployeeRoleModel[]> {
+    return this.http.get<EmployeeRoleModel[]>(`${this.baseEmployeeUrl}/roles`);
   }
 
   /**

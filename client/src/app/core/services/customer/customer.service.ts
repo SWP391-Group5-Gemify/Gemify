@@ -52,10 +52,12 @@ export class CustomerService {
     return this.http.get<CustomerModel>(`${this.baseCustomerUrl}/${id}/`);
   }
 
-  updateCustomerById(customer: CustomerModel): Observable<CustomerModel> {
-    return this.http.put<CustomerModel>(
-      `${this.baseCustomerUrl}/${customer.id}/`,
-      customer
-    );
+  /**
+   * Update Customer based on Object
+   * @param customer
+   * @returns
+   */
+  updateCustomer(customer: CustomerModel): Observable<CustomerModel> {
+    return this.http.put<CustomerModel>(`${this.baseCustomerUrl}`, customer);
   }
 }

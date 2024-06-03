@@ -14,13 +14,13 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-table-datasource',
+  selector: 'app-table-data-source',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -31,10 +31,10 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     CommonModule,
   ],
-  templateUrl: './table-datasource.component.html',
-  styleUrl: './table-datasource.component.scss',
+  templateUrl: './table-data-source.component.html',
+  styleUrl: './table-data-source.component.scss',
 })
-export class TableDatasourceComponent implements AfterViewInit {
+export class TableDataSourceComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -49,19 +49,26 @@ export class TableDatasourceComponent implements AfterViewInit {
   @Output() onUpdateFromChild: EventEmitter<Event> = new EventEmitter();
 
   /**
-   * Render
+   * Render @ViewChild element after paginator and sort
+   * have been initialized
    */
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  // Emit filter event
+  /**
+   * Emit the event for parent to handle the searching filter logic
+   * @param event
+   */
   applyFilter(event: Event): void {
     this.onFilterFromChild.emit(event);
   }
 
-  // Emit pagination event
+  /**
+   * Emit the evnt for parent to handle page changing logic
+   * @param event
+   */
   pageEvent(event: PageEvent): void {
     this.onPageChangeFromChild.emit(event);
   }

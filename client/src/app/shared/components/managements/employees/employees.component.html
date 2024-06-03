@@ -1,15 +1,52 @@
-<!-- <section class="employees">
+<section class="employees">
 
-  <app-stats-total-rows [label]="'Total Employees'"
-                        [count]="tableConfig.totalCustomers"
+  <h4>Employee's Roles</h4>
+  <mat-form-field>
+    <mat-label>Choose roles</mat-label>
+    <mat-select>
+      @for (role of employeeRoles$ | async; track role.name) {
+      <mat-option [value]="role.id">{{role.name}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <!-- <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
                         [icon]="'person'"></app-stats-total-rows>
 
-  <app-table-datasource [columnsToDisplay]="tableConfig.columnsToDisplay"
-                        [dataSource]="tableConfig.dataSource"
-                        [pageSize]="tableConfig.pageSize"
-                        [pageIndex]="tableConfig.pageIndex"
-                        [count]="tableConfig.totalCustomers"
-                        (onPageChangeFromChild)="onPageEvent($event)"
-                        (onFilterFromChild)="onApplyFilter($event)">
-  </app-table-datasource>
-</section> -->
+  <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
+                        [icon]="'person'"></app-stats-total-rows>
+
+  <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
+                        [icon]="'person'"></app-stats-total-rows>
+
+  <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
+                        [icon]="'person'"></app-stats-total-rows>
+  <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
+                        [icon]="'person'"></app-stats-total-rows>
+
+  <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
+                        [icon]="'person'"></app-stats-total-rows>
+
+  <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
+                        [icon]="'person'"></app-stats-total-rows>
+
+  <app-stats-total-rows [label]="'Total Employees'"
+                        [count]="tableConfig.totalEmployees"
+                        [icon]="'person'"></app-stats-total-rows> -->
+
+  <app-table-data-source [columnsToDisplay]="tableConfig.columnsToDisplay"
+                         [dataSource]="tableConfig.dataSource"
+                         [pageSize]="tableConfig.pageSize"
+                         [pageIndex]="tableConfig.pageIndex"
+                         [count]="tableConfig.totalEmployees"
+                         (onPageChangeFromChild)="onPageEvent($event)"
+                         (onFilterFromChild)="onApplyFilter($event)">
+  </app-table-data-source>
+</section>

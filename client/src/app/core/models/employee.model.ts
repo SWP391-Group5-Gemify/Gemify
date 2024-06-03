@@ -1,5 +1,5 @@
 export interface EmployeeModel {
-  id: number | string;
+  id: number;
   fullName: string;
   email: string;
   userName: string;
@@ -12,16 +12,21 @@ export interface EmployeeModel {
   role: EmployeeRoleEnum;
 }
 
+export interface EmployeeRoleModel {
+  id: number;
+  name: string;
+}
+
 export enum EmployeeStatusEnum {
   Active = 'Active',
   Closed = 'Closed',
 }
 
-export interface EmployeeRoleEnum {
-  storeManager: 'StoreManager';
-  repurchaser: 'Repurchaser';
-  appraiser: 'Appraiser';
-  cashier: 'Cashier';
-  seller: 'Seller';
-  storeOwner: 'StoreOwner';
+export enum EmployeeRoleEnum {
+  StoreManager = 'StoreManager',
+  Repurchaser = 'Repurchaser',
+  Appraiser = 'Appraiser',
+  Cashier = 'Cashier',
+  Seller = 'Seller',
+  StoreOwner = 'StoreOwner',
 }

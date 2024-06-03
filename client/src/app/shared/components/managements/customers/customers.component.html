@@ -4,12 +4,12 @@
                         [count]="tableConfig.totalCustomers"
                         [icon]="'person'"></app-stats-total-rows>
 
-  <app-table-datasource [columnsToDisplay]="tableConfig.columnsToDisplay"
+  <app-table-data-source [columnsToDisplay]="tableConfig.columnsToDisplay"
                         [dataSource]="tableConfig.dataSource"
                         [pageSize]="tableConfig.pageSize"
                         [pageIndex]="tableConfig.pageIndex"
                         [count]="tableConfig.totalCustomers"
                         (onPageChangeFromChild)="onPageEvent($event)"
                         (onFilterFromChild)="onApplyFilter($event)">
-  </app-table-datasource>
+  </app-table-data-source>
 </section>

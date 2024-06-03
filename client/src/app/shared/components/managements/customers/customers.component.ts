@@ -3,35 +3,22 @@ import { catchError, map, of } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
 import { CommonModule } from '@angular/common';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { TableDatasourceComponent } from '../../table-datasource/table-datasource.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { TableDataSourceComponent } from '../../table-data-source/table-data-source.component';
 import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatInputModule,
-    CommonModule,
-    TableDatasourceComponent,
-    StatsTotalRowsComponent,
-  ],
+  imports: [CommonModule, TableDataSourceComponent, StatsTotalRowsComponent],
 })
 export class CustomersComponent implements OnInit {
-  // ====================
-  // == Fields for Table
-  // ====================
+  // ==========================================
+  // == Fields for Table + Paging + Filters
+  // ==========================================
 
   tableConfig = {
     columnsToDisplay: [
@@ -46,14 +33,10 @@ export class CustomersComponent implements OnInit {
     ],
 
     dataSource: new MatTableDataSource<CustomerModel>(),
-    pageIndex: 0, // Since the API is 1-based, but the table is 1-based
+    pageIndex: 0, // Since the API is 1-based, but the table is 0-based
     pageSize: 5,
     totalCustomers: 0,
   };
-
-  // ====================
-  // == Fields for Paging
-  // ====================
 
   // ====================
   // == Life Cycle
@@ -110,7 +93,7 @@ export class CustomersComponent implements OnInit {
    */
   onApplyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.tableConfig.dataSource.filter = filterValue.trim().toLocaleLowerCase();
+    this.tableConfig.dataSource.filter = filterValue.trim();
 
     if (this.tableConfig.dataSource.paginator) {
       this.tableConfig.dataSource.paginator.firstPage();

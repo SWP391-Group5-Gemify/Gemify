@@ -102,7 +102,6 @@ const routes: Routes = [
             (m) => m.WarrantyRoutingModule
           ),
       },
-      { path: '', redirectTo: 'statistic-dashboard', pathMatch: 'full' },
     ],
   },
 ];
