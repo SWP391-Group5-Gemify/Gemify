@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/internal/Observable';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { PaginationModel } from '../../models/pagination-model.model';
-import { EmployeeModel, EmployeeStatus } from '../../models/employee.model';
+import {
+  EmployeeModel,
+  EmployeeRoleEnum,
+  EmployeeRoleModel,
+  EmployeeStatusEnum,
+} from '../../models/employee.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,12 +36,17 @@ export class EmployeeService {
    */
   getEmployees(
     pageIndex: number,
-    pageSize: number
+    pageSize: number,
+    roles?: EmployeeRoleEnum
   ): Observable<PaginationModel<EmployeeModel>> {
-    const params = {
-      pageIndex: pageIndex.toString(),
-      pageSize: pageSize.toString(),
-    };
+    const params = new HttpParams()
+      .set('pageIndex', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
+
+    // if having roles
+    if (roles) {
+      params.set('roles', roles);
+    }
 
     return this.http.get<PaginationModel<EmployeeModel>>(this.baseEmployeeUrl, {
       params: params,
@@ -48,9 +58,16 @@ export class EmployeeService {
    * @param id
    * @returns
    */
-  getEmployeeById(id: number) {
-    const url = `${this.baseEmployeeUrl}/${id}`;
-    return this.http.get<EmployeeModel>(url);
+  getEmployeeById(id: number): Observable<EmployeeModel> {
+    return this.http.get<EmployeeModel>(`${this.baseEmployeeUrl}/${id}`);
+  }
+
+  /**
+   * Get total roles
+   * @returns
+   */
+  getEmployeeRoles(): Observable<EmployeeRoleModel[]> {
+    return this.http.get<EmployeeRoleModel[]>(`${this.baseEmployeeUrl}/roles`);
   }
 
   /**
@@ -58,7 +75,15 @@ export class EmployeeService {
    * @param employee
    * @returns
    */
-  updateEmployee(employee: EmployeeModel) {
+  updateEmployee(employee: EmployeeModel): Observable<any> {
     return this.http.put(`${this.baseEmployeeUrl}`, { data: employee });
+  }
+
+  /**
+   * Disable Employee account
+   * @param id
+   */
+  disableEmployee(id: number): Observable<any> {
+    return this.http.delete(`${this.baseEmployeeUrl}/${id}`);
   }
 }
