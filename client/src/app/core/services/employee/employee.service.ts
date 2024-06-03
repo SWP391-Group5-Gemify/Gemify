@@ -3,7 +3,11 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { PaginationModel } from '../../models/pagination-model.model';
-import { EmployeeModel, EmployeeStatus } from '../../models/employee.model';
+import {
+  EmployeeModel,
+  EmployeeRole,
+  EmployeeStatus,
+} from '../../models/employee.model';
 
 @Injectable({
   providedIn: 'root',
@@ -49,8 +53,15 @@ export class EmployeeService {
    * @returns
    */
   getEmployeeById(id: number) {
-    const url = `${this.baseEmployeeUrl}/${id}`;
-    return this.http.get<EmployeeModel>(url);
+    return this.http.get<EmployeeModel>(`${this.baseEmployeeUrl}/${id}`);
+  }
+
+  /**
+   * Get roles of the employees
+   * @returns
+   */
+  getEmployeeRoles() {
+    return this.http.get<EmployeeRole>(`${this.baseEmployeeUrl}/roles`);
   }
 
   /**
@@ -60,5 +71,13 @@ export class EmployeeService {
    */
   updateEmployee(employee: EmployeeModel) {
     return this.http.put(`${this.baseEmployeeUrl}`, { data: employee });
+  }
+
+  /**
+   * Disable Employee account
+   * @param id
+   */
+  disableEmployee(id: number) {
+    return this.http.delete(`${this.baseEmployeeUrl}/${id}`);
   }
 }

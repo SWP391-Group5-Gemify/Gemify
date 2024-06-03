@@ -1,14 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { catchError, map, of } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
 import { CommonModule } from '@angular/common';
-import {
-  MatPaginator,
-  MatPaginatorModule,
-  PageEvent,
-} from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
