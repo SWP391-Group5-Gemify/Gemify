@@ -6,22 +6,22 @@ export interface EmployeeModel {
   gender: string;
   phoneNumber: string;
   dateOfBirth: string;
-  status: EmployeeStatus;
+  status: EmployeeStatusEnum;
   image_Url: string;
   address: string;
-  role: EmployeeRole;
+  role: EmployeeRoleEnum;
 }
 
-export enum EmployeeStatus {
+export enum EmployeeStatusEnum {
   Active = 'Active',
   Closed = 'Closed',
 }
 
-export interface EmployeeRole {
-  storeManager: string;
-  repurchaser: string;
-  appraiser: string;
-  cashier: string;
-  seller: string;
-  storeOwner: string;
+export interface EmployeeRoleEnum {
+  storeManager: 'StoreManager';
+  repurchaser: 'Repurchaser';
+  appraiser: 'Appraiser';
+  cashier: 'Cashier';
+  seller: 'Seller';
+  storeOwner: 'StoreOwner';
 }

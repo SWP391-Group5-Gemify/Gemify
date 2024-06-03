@@ -25,14 +25,6 @@ export class AuthService {
   public currentUser?: UserModel;
   private readonly TOKEN_NAME = 'jwt_token';
 
-  /**
-   * Get token from local storage
-   * - Used in HTTP Interceptor, sending token for every request
-   */
-  get token(): string | null {
-    return localStorage.getItem(this.TOKEN_NAME);
-  }
-
   // ====================
   // == Lifecycle
   // ====================
@@ -52,6 +44,14 @@ export class AuthService {
   // ====================
   // == Methods
   // ====================
+
+  /**
+   * Get token from local storage
+   * - Used in HTTP Interceptor, sending token for every request
+   */
+  get token(): string | null {
+    return localStorage.getItem(this.TOKEN_NAME);
+  }
 
   /**
    * Login using JWT Authentication
@@ -76,6 +76,7 @@ export class AuthService {
    */
   public logout() {
     localStorage.removeItem(this.TOKEN_NAME);
+    this.currentUser = undefined;
     this._isLoggedIn$.next(false);
   }
 

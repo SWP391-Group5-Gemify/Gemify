@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../../../core/guard/auth/auth.guard';
 import { CashierComponent } from '../../components/dashboards/cashier/cashier.component';
-import { roleGuard } from '../../../core/guard/authorization/role.guard';
+import { roleGuard } from '../../../core/guard/roles/role.guard';
 
 const routes: Routes = [
   {

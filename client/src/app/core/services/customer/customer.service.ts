@@ -43,6 +43,11 @@ export class CustomerService {
     });
   }
 
+  /**
+   * Get customers on Id
+   * @param id id of the customer
+   * @returns
+   */
   getCustomerById(id: number): Observable<CustomerModel> {
     return this.http.get<CustomerModel>(`${this.baseCustomerUrl}/${id}/`);
   }
