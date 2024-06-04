@@ -18,6 +18,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-table-data-source',
@@ -29,7 +32,10 @@ import { CommonModule } from '@angular/common';
     MatSortModule,
     MatPaginatorModule,
     MatInputModule,
+    MatIconModule,
     CommonModule,
+    MatButtonModule,
+    MatTooltipModule,
   ],
   templateUrl: './table-data-source.component.html',
   styleUrl: './table-data-source.component.scss',
@@ -46,7 +52,7 @@ export class TableDataSourceComponent implements AfterViewInit {
 
   @Output() onPageChangeFromChild: EventEmitter<PageEvent> = new EventEmitter();
   @Output() onFilterFromChild: EventEmitter<Event> = new EventEmitter();
-  @Output() onUpdateFromChild: EventEmitter<Event> = new EventEmitter();
+  // @Output() onUpdateFromChild: EventEmitter<Event> = new EventEmitter();
 
   /**
    * Render @ViewChild element after paginator and sort
