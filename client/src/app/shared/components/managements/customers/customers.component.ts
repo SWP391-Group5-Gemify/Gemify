@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, map, of } from 'rxjs';
+import { catchError, firstValueFrom, map, of } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
 import { CommonModule } from '@angular/common';
@@ -28,8 +28,8 @@ export class CustomersComponent implements OnInit {
       'phone',
       'address',
       'point',
-      'membershipId',
       'membershipRate',
+      'actions',
     ],
 
     dataSource: new MatTableDataSource<CustomerModel>(),
@@ -93,6 +93,8 @@ export class CustomersComponent implements OnInit {
    */
   onApplyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
+
+    console.log(firstValueFrom);
     this.tableConfig.dataSource.filter = filterValue.trim();
 
     if (this.tableConfig.dataSource.paginator) {

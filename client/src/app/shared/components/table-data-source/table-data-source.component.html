@@ -1,7 +1,8 @@
-<div class="table-datasource">
+<div class="table-data-source">
   <!-- Filter, Searching Input  -->
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Search your information</mat-label>
+    <mat-icon matSuffix>search</mat-icon>
     <input matInput
            placeholder="Search your keyword"
            (keyup)="applyFilter($event)"
@@ -9,7 +10,8 @@
   </mat-form-field>
 
   <!-- Main Table -->
-  <div class="mat-elevation-z1">
+
+  <div class="table-data-source__table">
     <table mat-table
            matSort
            [dataSource]="dataSource">
@@ -22,13 +24,31 @@
 
       <!-- Loops and extract the value from each object Customer -->
       @for (column of columnsToDisplay; track $index) {
+
       <ng-container [matColumnDef]="
           column">
         <th mat-header-cell
             *matHeaderCellDef
-            mat-sort-header>{{column}}</th>
+            mat-sort-header
+            class="u-text-bold-uppercase">{{column}}</th>
+
         <td mat-cell
-            *matCellDef="let object">{{object[column]}}</td>
+            *matCellDef="let object">
+          @if(column !== "actions") {
+          {{object[column]}}
+          } @else {
+          <button mat-icon-button
+                  matTooltip="Primary"
+                  aria-label="Edit Icon">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button
+                  matTooltip="Primary"
+                  aria-label="Edit Icon">
+            <mat-icon>delete</mat-icon>
+          </button>
+          }
+        </td>
       </ng-container>
       }
 
@@ -39,7 +59,6 @@
             colspan="5">No data matching the filter "{{input.value}}"</td>
       </tr>
     </table>
-
     <!-- Pagination -->
     <mat-paginator [length]="columnsToDisplay"
                    [pageSize]="pageSize"
@@ -48,4 +67,6 @@
                    [pageSizeOptions]="[5, 10, 25, 100]"
                    aria-label="Select items per page"></mat-paginator>
   </div>
+
+
 </div>

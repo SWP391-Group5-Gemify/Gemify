@@ -1,21 +1,6 @@
 .sidenav-content {
   height: 100%;
-  // border-radius: 20px;
-
   // Side Bar
-  &__sidenav {
-    background-color: $color-white;
-    overflow: hidden;
-    scroll-behavior: smooth;
-  }
-
-  &__navlist {
-    padding: 0;
-  }
-
-  &__item {
-    padding: 3rem;
-  }
 
   &__item-text {
     display: flex;
@@ -27,11 +12,23 @@
     font-family: "Merriweather" !important;
     letter-spacing: 1.3px;
     font-weight: bold;
-
   }
 
-  // Content
-  &__content {
-    // background-color: gray;
+
+  mat-sidenav {
+    overflow: hidden;
+    scroll-behavior: smooth;
+    border-radius: 2rem;
+    padding: 1.4rem;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
+
+  mat-nav-list {
+    padding: 0;
+  }
+
+  mat-sidenav-content {
+    padding-left: 2rem;
+    background-color: $color-white;
   }
 }

@@ -3,9 +3,8 @@
 
   <!-- Sidebar and Nav Items -->
   <mat-sidenav opened="true"
-               mode="side"
-               class="sidenav-content__sidenav">
-    <mat-nav-list class="sidenav-content__navlist">
+               mode="side">
+    <mat-nav-list>
       @for (item of navItems; track $index) {
       <a mat-list-item
          class="sidenav-content__item"

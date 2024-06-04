@@ -5,11 +5,11 @@
                         [icon]="'person'"></app-stats-total-rows>
 
   <app-table-data-source [columnsToDisplay]="tableConfig.columnsToDisplay"
-                        [dataSource]="tableConfig.dataSource"
-                        [pageSize]="tableConfig.pageSize"
-                        [pageIndex]="tableConfig.pageIndex"
-                        [count]="tableConfig.totalCustomers"
-                        (onPageChangeFromChild)="onPageEvent($event)"
-                        (onFilterFromChild)="onApplyFilter($event)">
+                         [dataSource]="tableConfig.dataSource"
+                         [pageSize]="tableConfig.pageSize"
+                         [pageIndex]="tableConfig.pageIndex"
+                         [count]="tableConfig.totalCustomers"
+                         (onPageChangeFromChild)="onPageEvent($event)"
+                         (onFilterFromChild)="onApplyFilter($event)">
   </app-table-data-source>
 </section>
