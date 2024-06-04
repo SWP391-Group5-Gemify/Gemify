@@ -22,8 +22,13 @@ mat-form-field {
     overflow: auto;
   }
 
-
   th {
     color: $color-primary;
+    text-transform: uppercase;
+
+    &:nth-child(1) {
+      border-right: 1px solid $color-grey-dark-2;
+      font-weight: bold;
+    }
   }
 }

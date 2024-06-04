@@ -9,7 +9,6 @@
                          [pageSize]="tableConfig.pageSize"
                          [pageIndex]="tableConfig.pageIndex"
                          [count]="tableConfig.totalCustomers"
-                         (onPageChangeFromChild)="onPageEvent($event)"
-                         (onFilterFromChild)="onApplyFilter($event)">
+                         (onPageChangeFromChild)="onPageEvent($event)">
   </app-table-data-source>
 </section>

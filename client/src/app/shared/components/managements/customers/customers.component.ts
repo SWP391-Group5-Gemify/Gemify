@@ -29,7 +29,6 @@ export class CustomersComponent implements OnInit {
       'address',
       'point',
       'membershipRate',
-      'actions',
     ],
 
     dataSource: new MatTableDataSource<CustomerModel>(),
@@ -50,32 +49,6 @@ export class CustomersComponent implements OnInit {
   // ====================
   // == Methods
   // ====================
-
-  /**
-   * Load Customers
-   * - Map response with page field
-   * - Return the Observable<Customer[]>
-   */
-  loadCustomers(): void {
-    this.customerService
-      .getCustomers(this.tableConfig.pageIndex + 1, this.tableConfig.pageSize) // convert to 1-based
-      .pipe(
-        map((response) => {
-          this.tableConfig.pageIndex = response.pageIndex - 1; // convert to 0-based
-          this.tableConfig.pageSize = response.pageSize;
-          this.tableConfig.totalCustomers = response.count;
-          return response.data;
-        }),
-
-        catchError((error) => {
-          console.error('Error comes from: ', error);
-          return of([]);
-        })
-      )
-      .subscribe((data) => {
-        this.tableConfig.dataSource.data = data;
-      });
-  }
 
   /**
    * Trigger event when the page is pagination
@@ -103,10 +76,29 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-  // //FIXME: Edit Customer Information
-  // editCustomer(customer: CustomerModel): void {
-  //   this.customerService.updateCustomerById(customer).subscribe({
-  //     next(value) {},
-  //   });
-  // }
+  /**
+   * Load Customers
+   * - Map response with page field
+   * - Return the Observable<Customer[]>
+   */
+  loadCustomers(): void {
+    this.customerService
+      .getCustomers(this.tableConfig.pageIndex + 1, this.tableConfig.pageSize) // convert to 1-based
+      .pipe(
+        map((response) => {
+          this.tableConfig.pageIndex = response.pageIndex - 1; // convert to 0-based
+          this.tableConfig.pageSize = response.pageSize;
+          this.tableConfig.totalCustomers = response.count;
+          return response.data;
+        }),
+
+        catchError((error) => {
+          console.error('Error comes from: ', error);
+          return of([]);
+        })
+      )
+      .subscribe((data) => {
+        this.tableConfig.dataSource.data = data;
+      });
+  }
 }

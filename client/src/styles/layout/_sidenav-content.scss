@@ -9,11 +9,15 @@
     gap: 1.5rem;
     padding: 0.75rem;
     font-size: 1.6rem;
-    font-family: "Merriweather" !important;
     letter-spacing: 1.3px;
     font-weight: bold;
-  }
+    transform: all 2s ease-in-out;
 
+    &:hover {
+      color: $color-primary-dark;
+      transform: scale(1.04) translateX(0.2rem);
+    }
+  }
 
   mat-sidenav {
     overflow: hidden;

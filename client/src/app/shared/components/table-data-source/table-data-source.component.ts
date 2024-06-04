@@ -52,7 +52,8 @@ export class TableDataSourceComponent implements AfterViewInit {
 
   @Output() onPageChangeFromChild: EventEmitter<PageEvent> = new EventEmitter();
   @Output() onFilterFromChild: EventEmitter<Event> = new EventEmitter();
-  // @Output() onUpdateFromChild: EventEmitter<Event> = new EventEmitter();
+  @Output() onEditFromChild: EventEmitter<any> = new EventEmitter();
+  @Output() onDisableFromChild: EventEmitter<any> = new EventEmitter();
 
   /**
    * Render @ViewChild element after paginator and sort
@@ -79,8 +80,21 @@ export class TableDataSourceComponent implements AfterViewInit {
     this.onPageChangeFromChild.emit(event);
   }
 
-  // // Update Object
-  // updateObject(event: Event): void {
-  //   this.onUpdateFromChild.emit(event);
-  // }
+  /**
+   * Edit the current data source based on updated data
+   * @param object
+   */
+  editObject(object: any): void {
+    console.log(object);
+    this.onEditFromChild.emit(object);
+  }
+
+  /**
+   * Disable object from the current data source
+   * @param object
+   */
+  deleteObject(object: any): void {
+    console.log(object);
+    this.onDisableFromChild.emit(object);
+  }
 }

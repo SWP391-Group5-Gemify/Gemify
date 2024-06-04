@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableDataSourceComponent } from '../../table-data-source/table-data-source.component';
@@ -50,6 +50,7 @@ export class EmployeesComponent implements OnInit {
       'image_Url',
       'address',
       'role',
+      'actions',
     ],
 
     dataSource: new MatTableDataSource<EmployeeModel>(),
@@ -72,30 +73,6 @@ export class EmployeesComponent implements OnInit {
   // ====================
   // == Methods
   // ====================
-  loadEmployees(roles?: EmployeeRoleEnum): void {
-    this.employeeService
-      .getEmployees(
-        this.tableConfig.pageIndex + 1,
-        this.tableConfig.pageSize,
-        roles
-      )
-      .pipe(
-        map((response: any) => {
-          this.tableConfig.pageIndex = response.pageIndex - 1;
-          this.tableConfig.pageSize = response.pageSize;
-          this.tableConfig.totalEmployees = response.count;
-          return response.data;
-        }),
-
-        catchError((error) => {
-          console.error('Error comes from: ', error);
-          return of([]);
-        })
-      )
-      .subscribe((data) => {
-        this.tableConfig.dataSource.data = data;
-      });
-  }
 
   /**
    * Trigger event when the page is pagination
@@ -122,9 +99,49 @@ export class EmployeesComponent implements OnInit {
   }
 
   /**
+   * Load employees from the server
+   * @param roles
+   */
+  loadEmployees(roles?: EmployeeRoleEnum): void {
+    this.employeeService
+      .getEmployees(
+        this.tableConfig.pageIndex + 1,
+        this.tableConfig.pageSize,
+        roles
+      )
+      .pipe(
+        map((response: any) => {
+          this.tableConfig.pageIndex = response.pageIndex - 1;
+          this.tableConfig.pageSize = response.pageSize;
+          this.tableConfig.totalEmployees = response.count;
+          return response.data;
+        }),
+
+        catchError((error) => {
+          console.error('Error comes from: ', error);
+          return of([]);
+        })
+      )
+      .subscribe((data) => {
+        this.tableConfig.dataSource.data = data;
+      });
+  }
+
+  /**
    * Load all roles for the dropdown role's items
    */
   loadRoles(): void {
     this.employeeRoles$ = this.employeeService.getEmployeeRoles();
+  }
+
+  disableEmployee(employee: EmployeeModel) {
+    this.employeeService.disableEmployee(employee.id).subscribe({
+      next: (response) => {
+        this.loadEmployees();
+      },
+    });
+
+    //!ERROR
+    this.tableConfig.dataSource.data.filter((item) => item.id !== employee.id);
   }
 }
