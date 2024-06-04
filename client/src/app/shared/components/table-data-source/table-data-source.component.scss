@@ -1,10 +1,29 @@
-.mat-mdc-form-field {
-  font-size: 1.4rem;
+@import "abstracts/variables";
+
+// .mat-mdc-form-field {
+//   font-size: 1.4rem;
+//   width: 100%;
+// }
+
+mat-form-field {
   width: 100%;
 }
 
-.table-datasource {
+.table-data-source {
   display: block;
   width: 100%;
   overflow-x: auto;
+  // height: 500px;
+
+  &__table {
+    min-height: 70rem;
+    height: 70rem;
+    max-height: max-content;
+    overflow: auto;
+  }
+
+
+  th {
+    color: $color-primary;
+  }
 }

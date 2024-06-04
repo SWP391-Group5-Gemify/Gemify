@@ -5,10 +5,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  width: 30rem;
+  max-width: 30rem;
   height: max-content;
-  border: 2px solid $color-primary-dark;
-  border-radius: 5px;
+  // border: 2px solid $color-primary-dark;
+
+  border-width: 2px;
+  border-style: solid;
+  border-image:
+    linear-gradient(to bottom,
+      $color-primary-dark,
+      $color-grey-dark-2) 1 100%;
 
   &__text {
     // flex: 1;

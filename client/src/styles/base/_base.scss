@@ -45,6 +45,7 @@ huge
 html,
 body {
   height: 100%;
+  width: 100%;
 }
 
 html {
@@ -53,12 +54,10 @@ html {
 
 body {
   box-sizing: border-box;
-  padding: 2rem;
+  padding: 2rem 2rem 0 2rem;
   // min-height: 100vh;
   background-color: $color-white;
-  font-family: "Merriweather", sans-serif;
-
-  // display: flex;
+  font-family: 'Roboto', sans-serif; // display: flex;
   // flex-direction: column;
   // min-height: 100vh;
 }

@@ -59,7 +59,8 @@ ORDER: Base + typography > general layout + grid > page layout > components
 }
 
 @mixin content-container {
-  width: 100%;
-  height: 100%;
-  padding: 2rem;
+  // width: 100%;
+  // height: 100%;
+  // padding: 2rem;
+  // padding-right: 0rem;
 }
