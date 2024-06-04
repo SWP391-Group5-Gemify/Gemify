@@ -31,7 +31,7 @@ export class CustomersComponent implements OnInit {
       'membershipRate',
     ],
 
-    dataSource: new MatTableDataSource<CustomerModel>(),
+    dataSource: new MatTableDataSource<CustomerModel>([]),
     pageIndex: 0, // Since the API is 1-based, but the table is 0-based
     pageSize: 5,
     totalCustomers: 0,
@@ -66,8 +66,6 @@ export class CustomersComponent implements OnInit {
    */
   onApplyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-
-    console.log(firstValueFrom);
     this.tableConfig.dataSource.filter = filterValue.trim();
 
     if (this.tableConfig.dataSource.paginator) {
@@ -99,6 +97,7 @@ export class CustomersComponent implements OnInit {
       )
       .subscribe((data) => {
         this.tableConfig.dataSource.data = data;
+        this.tableConfig.dataSource._updateChangeSubscription();
       });
   }
 }

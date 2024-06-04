@@ -35,8 +35,8 @@ export class EmployeeService {
    * @returns
    */
   getEmployees(
-    pageIndex: number,
-    pageSize: number,
+    pageIndex: number = 1,
+    pageSize: number = 5,
     roles?: EmployeeRoleEnum
   ): Observable<PaginationModel<EmployeeModel>> {
     const params = new HttpParams()

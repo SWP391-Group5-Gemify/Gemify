@@ -60,7 +60,7 @@ export class TableDataSourceComponent implements AfterViewInit {
    * have been initialized
    */
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
@@ -85,7 +85,6 @@ export class TableDataSourceComponent implements AfterViewInit {
    * @param object
    */
   editObject(object: any): void {
-    console.log(object);
     this.onEditFromChild.emit(object);
   }
 
@@ -94,7 +93,6 @@ export class TableDataSourceComponent implements AfterViewInit {
    * @param object
    */
   deleteObject(object: any): void {
-    console.log(object);
     this.onDisableFromChild.emit(object);
   }
 }

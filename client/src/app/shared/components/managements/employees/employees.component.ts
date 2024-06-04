@@ -81,6 +81,8 @@ export class EmployeesComponent implements OnInit {
   onPageEvent(event: PageEvent) {
     this.tableConfig.pageIndex = event.pageIndex; // Still 0-based
     this.tableConfig.pageSize = event.pageSize;
+
+    console.table(event);
     this.loadEmployees();
   }
 
@@ -114,6 +116,8 @@ export class EmployeesComponent implements OnInit {
           this.tableConfig.pageIndex = response.pageIndex - 1;
           this.tableConfig.pageSize = response.pageSize;
           this.tableConfig.totalEmployees = response.count;
+
+          console.log(this.tableConfig);
           return response.data;
         }),
 
@@ -134,14 +138,15 @@ export class EmployeesComponent implements OnInit {
     this.employeeRoles$ = this.employeeService.getEmployeeRoles();
   }
 
+  /**
+   * Disable Employee's status
+   * @param employee
+   */
   disableEmployee(employee: EmployeeModel) {
     this.employeeService.disableEmployee(employee.id).subscribe({
       next: (response) => {
         this.loadEmployees();
       },
     });
-
-    //!ERROR
-    this.tableConfig.dataSource.data.filter((item) => item.id !== employee.id);
   }
 }

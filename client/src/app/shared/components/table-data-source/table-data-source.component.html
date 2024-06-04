@@ -61,7 +61,8 @@
       </tr>
     </table>
     <!-- Pagination -->
-    <mat-paginator [length]="columnsToDisplay"
+    <mat-paginator showFirstLastButtons
+                   [length]="count"
                    [pageSize]="pageSize"
                    [pageIndex]="pageIndex"
                    (page)="pageEvent($event)"

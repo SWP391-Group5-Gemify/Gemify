@@ -1,0 +1,78 @@
+<mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Full Name</mat-label>
+    <input matInput
+           [(ngModel)]="employee.fullName"
+           name="fullName">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput
+           [(ngModel)]="employee.email"
+           name="email">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>User Name</mat-label>
+    <input matInput
+           [(ngModel)]="employee.userName"
+           name="userName">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Gender</mat-label>
+    <input matInput
+           [(ngModel)]="employee.gender"
+           name="gender">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Phone Number</mat-label>
+    <input matInput
+           [(ngModel)]="employee.phoneNumber"
+           name="phoneNumber">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date of Birth</mat-label>
+    <input matInput
+           [(ngModel)]="employee.dateOfBirth"
+           name="dateOfBirth">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <input matInput
+           [(ngModel)]="employee.status"
+           name="status">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Image URL</mat-label>
+    <input matInput
+           [(ngModel)]="employee.image_Url"
+           name="image_Url">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Address</mat-label>
+    <input matInput
+           [(ngModel)]="employee.address"
+           name="address">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Role</mat-label>
+    <input matInput
+           [(ngModel)]="employee.role"
+           name="role">
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button
+          (click)="onCancelClick()">Cancel</button>
+  <button mat-button
+          (click)="onSaveClick()">Save</button>
+</mat-dialog-actions>
