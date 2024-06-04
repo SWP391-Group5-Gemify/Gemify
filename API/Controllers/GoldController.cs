@@ -66,8 +66,8 @@ namespace API.Controllers
         public async Task<ActionResult> AddGoldType(GoldType goldType)
         {
             var result = await _goldService.AddGoldTypeAsync(goldType);
-            if(result) return Ok("Add gold type successful.");
-            else return BadRequest(new ApiResponse(400, "Failed to add new gold type."));
+            if(result) return Ok(new ApiResponse(200, "Add gold type successful"));
+            else return BadRequest(new ApiResponse(400, "Failed to add new gold type"));
         }
 
         // Disable gold type status
@@ -76,8 +76,8 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteGoldType([FromQuery] int id)
         {
             var result = await _goldService.DeleteGoldTypeAsync(id);
-            if(result) return Ok("Disable successful.");
-            else return BadRequest(new ApiResponse(400,"Failed to disable gold type."));
+            if(result) return Ok(new ApiResponse(200, "Disable successful"));
+            else return BadRequest(new ApiResponse(400,"Failed to disable gold type"));
         }
 
         // Update gold prices and add to gold price history
@@ -86,8 +86,8 @@ namespace API.Controllers
         public async Task<ActionResult> UpdateGoldPrice(GoldPrice goldPrice)
         {
             var result = await _goldService.UpdateGoldPriceAsync(goldPrice);
-            if(result) return Ok("Update gold prices successful.");
-            else return BadRequest(new ApiResponse(400,"Failed to update gold prices."));
+            if(result) return Ok(new ApiResponse(200, "Update gold prices successful"));
+            else return BadRequest(new ApiResponse(400,"Failed to update gold prices"));
         }
            
     }

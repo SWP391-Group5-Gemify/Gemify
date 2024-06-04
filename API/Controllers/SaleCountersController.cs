@@ -54,8 +54,10 @@ namespace API.Controllers
             var saleCounter = _mapper.Map<SaleCounterDto, SaleCounter>(saleCounterDto);
             saleCounter.Status = true;
             _saleCountersRepo.Add(saleCounter);
-            if (await _saleCountersRepo.SaveAllAsync()) { return Ok("Successfully created a new sale counter"); }
-            return BadRequest("Fail to create a new sale counter");
+            if (await _saleCountersRepo.SaveAllAsync()) { 
+                return Ok(new ApiResponse(200, "Successfully created a new sale counter")); 
+            }
+            return BadRequest(new ApiResponse(400, "Fail to create a new sale counter"));
         }
 
         //Update sale counter
@@ -72,8 +74,8 @@ namespace API.Controllers
             _saleCountersRepo.Update(existingSaleCounter);
 
             if (await _saleCountersRepo.SaveAllAsync()) 
-                return Ok("Successfully updated!");
-            return BadRequest("Fail to update sale counter!");
+                return Ok(new ApiResponse(200, "Successfully updated"));
+            return BadRequest(new ApiResponse(400, "Fail to update sale counter!"));
         }
 
         //Delete counter
@@ -90,8 +92,8 @@ namespace API.Controllers
             _saleCountersRepo.Update(existingSaleCounter);
 
             if (await _saleCountersRepo.SaveAllAsync())
-                return Ok("Successfully deleted!");
-            return BadRequest("Fail to delete sale counter!");
+                return Ok(new ApiResponse(200,"Successfully deleted"));
+            return BadRequest(new ApiResponse(400, "Fail to delete sale counter"));
         }
 
     }

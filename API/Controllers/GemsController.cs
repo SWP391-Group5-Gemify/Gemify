@@ -79,7 +79,7 @@ namespace API.Controllers
 
             if (!(await _gemService.AddGem(gem))) return BadRequest(new ApiResponse(400, "Failed to add new Gem"));
 
-            return Ok("Add Gem Successfully");
+            return Ok(new ApiResponse(200, "Add Gem Successfully"));
         }
 
         [HttpDelete]
@@ -88,7 +88,7 @@ namespace API.Controllers
         {
             if (!(await _gemService.DeleteGem(id))) return BadRequest(new ApiResponse(400, "Failed to delete Gem"));
 
-            return Ok("Delete Gem Successfully");
+            return Ok(new ApiResponse(200, "Delete Gem Successfully"));
         }
 
         [HttpPut]
@@ -97,7 +97,7 @@ namespace API.Controllers
         {
             if (!(await _gemService.UpdateGemPrice(gemPrice))) return BadRequest(new ApiResponse(400, "Failed to update Gem Price"));
 
-            return Ok("Update Gem Price Successfully");
+            return Ok(new ApiResponse(200, "Update Gem Price Successfully"));
         }
 
     }

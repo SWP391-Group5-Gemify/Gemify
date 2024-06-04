@@ -73,8 +73,8 @@ namespace API.Controllers
 
             var result = await _userService.UpdateUserAsync(exist_emp);
 
-            if(result.Succeeded) return Ok("Close Account Succeeded");
-            else return BadRequest(new ApiResponse(400));
+            if(result.Succeeded) return Ok(new ApiResponse(200, "Close Account Succeeded"));
+            else return BadRequest(new ApiResponse(400, "Failed to close employee account"));
         }
 
         // Update Employee Information
@@ -92,8 +92,8 @@ namespace API.Controllers
 
             var result = await _userService.UpdateUserAsync(exist_emp);
 
-            if(result.Succeeded) return Ok("Update Succeeded");
-            else return BadRequest(new ApiResponse(400));
+            if(result.Succeeded) return Ok(new ApiResponse(200, "Update Succeeded"));
+            else return BadRequest(new ApiResponse(400, "Failed to update employee"));
         }
 
         // Get All Roles

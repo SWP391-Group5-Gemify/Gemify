@@ -59,8 +59,8 @@ namespace API.Controllers
             _mapper.Map(customerDto,existingCustomer);
             _customerRepo.Update(existingCustomer);
             if (await _customerRepo.SaveAllAsync())
-                return Ok("Successfully updated!");
-            return BadRequest("Fail to update customer information!");
+                return Ok(new ApiResponse(200, "Successfully updated!"));
+            return BadRequest(new ApiResponse(400, "Failed to update customer information"));
         }
 
 
