@@ -60,6 +60,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'appraiser',
+    loadChildren: () =>
+      import('./shared/routes/dashboards/appraiser-routing.module').then(
+        (m) => m.AppraiserRoutingModule
+      ),
+  },
+  {
     path: 'repurchaser',
     loadChildren: () =>
       import('./shared/routes/dashboards/repurchaser-routing.module').then(
@@ -71,13 +78,6 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./shared/routes/dashboards/seller-routing.module').then(
         (m) => m.SellerRoutingModule
-      ),
-  },
-  {
-    path: 'appraiser',
-    loadChildren: () =>
-      import('./shared/routes/dashboards/appraiser-routing.module').then(
-        (m) => m.AppraiserRoutingModule
       ),
   },
 

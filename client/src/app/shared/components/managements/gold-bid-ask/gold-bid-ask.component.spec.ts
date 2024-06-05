@@ -8,10 +8,9 @@ describe('GoldBidAskComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoldBidAskComponent]
-    })
-    .compileComponents();
-    
+      imports: [GoldBidAskComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(GoldBidAskComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
