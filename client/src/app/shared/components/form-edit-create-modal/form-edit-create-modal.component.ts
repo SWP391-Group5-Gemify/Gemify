@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './form-edit-create-modal.component.scss',
 })
 export class FormEditCreateModalComponent implements OnInit {
-  form!: FormGroup;
+  formEditOrCreate!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +31,7 @@ export class FormEditCreateModalComponent implements OnInit {
    */
   closeModal() {
     this.ref.close();
-    console.log(this.dataFromParent);
+    console.table(this.dataFromParent);
   }
 
   // This will call the request api

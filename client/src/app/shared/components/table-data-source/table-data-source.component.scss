@@ -25,10 +25,17 @@ mat-form-field {
   th {
     color: $color-primary;
     text-transform: uppercase;
+    text-align: center !important;
+    vertical-align: middle !important;
 
     &:nth-child(1) {
       border-right: 1px solid $color-grey-dark-2;
       font-weight: bold;
     }
+  }
+
+  &__action-groups {
+    display: flex;
+    background-color: $color-grey-dark-2;
   }
 }

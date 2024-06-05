@@ -9,6 +9,58 @@ const routes: Routes = [
     path: '',
     component: SellerComponent,
     canActivate: [authGuard, roleGuard],
+    data: {
+      role: 'Repurchaser',
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: 'products',
+        pathMatch: 'full',
+      },
+      {
+        path: 'orders',
+        loadChildren: () =>
+          import('../../routes/managements/orders-routing.module').then(
+            (m) => m.OrdersRoutingModule
+          ),
+      },
+      {
+        path: 'products',
+        loadChildren: () =>
+          import('../../routes/managements/products-routing.module').then(
+            (m) => m.ProductsRoutingModule
+          ),
+      },
+      {
+        path: 'exchange',
+        loadChildren: () =>
+          import('../../routes/managements/exchange-routing.module').then(
+            (m) => m.ExchangeRoutingModule
+          ),
+      },
+      {
+        path: 'products',
+        loadChildren: () =>
+          import('../../routes/managements/products-routing.module').then(
+            (m) => m.ProductsRoutingModule
+          ),
+      },
+      {
+        path: 'buyback',
+        loadChildren: () =>
+          import('../../routes/managements/buyback-routing.module').then(
+            (m) => m.BuybackRoutingModule
+          ),
+      },
+      {
+        path: 'warranty',
+        loadChildren: () =>
+          import('../../routes/managements/warranty-routing.module').then(
+            (m) => m.WarrantyRoutingModule
+          ),
+      },
+    ],
   },
 ];
 

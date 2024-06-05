@@ -36,18 +36,20 @@
           @if(column !== "actions") {
           {{object[column]}}
           } @else {
-          <button mat-icon-button
-                  matTooltip="Edit"
-                  aria-label="Edit Icon"
-                  (click)="editObject(object)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button
-                  matTooltip="Disable"
-                  aria-label="Disable Icon"
-                  (click)="deleteObject(object)">
-            <mat-icon>delete</mat-icon>
-          </button>
+          <div class="table-data-source__action-groups">
+            <button mat-icon-button
+                    matTooltip="Edit"
+                    aria-label="Edit Icon"
+                    (click)="editObject(object)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button
+                    matTooltip="Disable"
+                    aria-label="Disable Icon"
+                    (click)="deleteObject(object)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
           }
         </td>
       </ng-container>

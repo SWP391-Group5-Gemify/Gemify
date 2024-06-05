@@ -170,7 +170,7 @@ export class EmployeesComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((dataPassFromChild) => {
-        console.log(dataPassFromChild);
+        console.log('Data Pass From Child: ', dataPassFromChild);
       });
   }
 }
