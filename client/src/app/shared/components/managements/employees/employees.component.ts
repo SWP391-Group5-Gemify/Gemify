@@ -17,6 +17,8 @@ import {
 import { EmployeeService } from '../../../../core/services/employee/employee.service';
 import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { FormEditCreateModalComponent } from '../../form-edit-create-modal/form-edit-create-modal.component';
 
 @Component({
   selector: 'app-employees',
@@ -63,7 +65,10 @@ export class EmployeesComponent implements OnInit {
   // ====================
   // == Life Cycle
   // ====================
-  constructor(private employeeService: EmployeeService) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private createOrEditModal: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadEmployees();
@@ -81,8 +86,6 @@ export class EmployeesComponent implements OnInit {
   onPageEvent(event: PageEvent) {
     this.tableConfig.pageIndex = event.pageIndex; // Still 0-based
     this.tableConfig.pageSize = event.pageSize;
-
-    console.table(event);
     this.loadEmployees();
   }
 
@@ -116,8 +119,6 @@ export class EmployeesComponent implements OnInit {
           this.tableConfig.pageIndex = response.pageIndex - 1;
           this.tableConfig.pageSize = response.pageSize;
           this.tableConfig.totalEmployees = response.count;
-
-          console.log(this.tableConfig);
           return response.data;
         }),
 
@@ -148,5 +149,28 @@ export class EmployeesComponent implements OnInit {
         this.loadEmployees();
       },
     });
+  }
+
+  /**
+   * Open the Modal for Editing Employee's data
+   * - When close, pass data from child back to parent
+   * - When open, pass data from parent to child
+   * @param employee
+   */
+  openEditEmployee(employee: EmployeeModel) {
+    this.createOrEditModal
+      .open(FormEditCreateModalComponent, {
+        width: '50%',
+        enterAnimationDuration: '300ms',
+        exitAnimationDuration: '300ms',
+        data: {
+          title: 'Edit Employee',
+          ...employee, // shallow copy to avoid hot-changing
+        },
+      })
+      .afterClosed()
+      .subscribe((dataPassFromChild) => {
+        console.log(dataPassFromChild);
+      });
   }
 }
