@@ -6,10 +6,10 @@ export interface EmployeeModel {
   gender: string;
   phoneNumber: string;
   dateOfBirth: string;
-  status: EmployeeStatusEnum;
+  status: string;
   image_Url: string;
   address: string;
-  role: EmployeeRoleEnum;
+  role: string;
 }
 
 export interface EmployeeRoleModel {

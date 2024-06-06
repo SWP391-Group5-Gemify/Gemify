@@ -76,7 +76,7 @@ export class EmployeeService {
    * @returns
    */
   updateEmployee(employee: EmployeeModel): Observable<any> {
-    return this.http.put(this.baseEmployeeUrl, { data: employee });
+    return this.http.put(this.baseEmployeeUrl, employee);
   }
 
   /**

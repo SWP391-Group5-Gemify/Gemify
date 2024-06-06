@@ -173,14 +173,17 @@ export class EmployeesComponent implements OnInit {
 
     // Subscribe to the EventEmitter for editing
     // - Calling the employee service for update
-    // FIXME: [ERROR 400]
+    //TODO: Handle error case
     dialogRef.componentInstance.editDataFromChild.subscribe({
       next: (employee: EmployeeModel) => {
-        console.table(employee);
-        this.employeeService
-          .updateEmployee(employee)
-          .subscribe((response) => {});
-        // this.loadEmployees();
+        this.employeeService.updateEmployee(employee).subscribe({
+          next: (value) => {
+            this.loadEmployees();
+          },
+          error(err) {
+            console.log(err);
+          },
+        });
       },
     });
   }
