@@ -27,10 +27,13 @@
 
       <ng-container [matColumnDef]="
           column">
+
+        <!-- Header -->
         <th mat-header-cell
             *matHeaderCellDef
             mat-sort-header>{{column}}</th>
 
+        <!-- Cell -->
         <td mat-cell
             *matCellDef="let object">
           @if(column !== "actions") {

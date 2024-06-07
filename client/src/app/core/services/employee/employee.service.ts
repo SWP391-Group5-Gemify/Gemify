@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { PaginationModel } from '../../models/pagination-model.model';
 import {
   EmployeeModel,
@@ -9,6 +9,7 @@ import {
   EmployeeRoleModel,
   EmployeeStatusEnum,
 } from '../../models/employee.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class EmployeeService {
   // ====================
   // == Life Cycle
   // ====================
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   // ====================
   // == Methods
@@ -76,7 +77,7 @@ export class EmployeeService {
    * @returns
    */
   updateEmployee(employee: EmployeeModel): Observable<any> {
-    return this.http.put(`${this.baseEmployeeUrl}`, { data: employee });
+    return this.http.put(this.baseEmployeeUrl, employee);
   }
 
   /**
@@ -86,5 +87,21 @@ export class EmployeeService {
   disableEmployee(id: number): Observable<any> {
     const params = new HttpParams().set('id', Number(id));
     return this.http.delete(this.baseEmployeeUrl, { params });
+  }
+
+  /**
+   * Register a new employee account
+   * - Only StoreOwner can register an account for other employees
+   */
+  registerNewEmployee(employee: EmployeeModel): Observable<any> {
+    const currentUser = this.authService.getCurrentUser(this.authService.token);
+
+    if (currentUser?.role == EmployeeRoleEnum.StoreOwner) {
+      return this.authService.registerNewUser(employee);
+    }
+
+    return of(
+      new Error('Unauthorized: Only StoreOwner can register an account')
+    );
   }
 }

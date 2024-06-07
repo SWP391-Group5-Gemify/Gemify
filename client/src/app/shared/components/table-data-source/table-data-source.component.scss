@@ -36,6 +36,9 @@ mat-form-field {
 
   &__action-groups {
     display: flex;
-    background-color: $color-grey-dark-2;
+    background-color: $color-grey-light;
+    border-radius: 24rem;
+    margin: 1.6rem 0;
+    width: max-content;
   }
 }

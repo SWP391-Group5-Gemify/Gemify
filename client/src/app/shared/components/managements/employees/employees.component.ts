@@ -158,19 +158,34 @@ export class EmployeesComponent implements OnInit {
    * @param employee
    */
   openEditEmployee(employee: EmployeeModel) {
-    this.createOrEditModal
-      .open(FormEditCreateModalComponent, {
+    const dialogRef = this.createOrEditModal.open(
+      FormEditCreateModalComponent,
+      {
         width: '50%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
         data: {
           title: 'Edit Employee',
-          ...employee, // shallow copy to avoid hot-changing
+
+          initialData: { ...employee }, // shallow copy to avoid hot-changing
         },
-      })
-      .afterClosed()
-      .subscribe((dataPassFromChild) => {
-        console.log('Data Pass From Child: ', dataPassFromChild);
-      });
+      }
+    );
+
+    // Subscribe to the EventEmitter for editing
+    // - Calling the employee service for update
+    //TODO: Handle error case
+    dialogRef.componentInstance.editDataFromChild.subscribe({
+      next: (employee: EmployeeModel) => {
+        this.employeeService.updateEmployee(employee).subscribe({
+          next: (value) => {
+            this.loadEmployees();
+          },
+          error(err) {
+            console.log(err);
+          },
+        });
+      },
+    });
   }
 }
