@@ -35,8 +35,8 @@ export class EmployeeService {
    * @returns
    */
   getEmployees(
-    pageIndex: number,
-    pageSize: number,
+    pageIndex: number = 1,
+    pageSize: number = 5,
     roles?: EmployeeRoleEnum
   ): Observable<PaginationModel<EmployeeModel>> {
     const params = new HttpParams()
@@ -84,6 +84,7 @@ export class EmployeeService {
    * @param id
    */
   disableEmployee(id: number): Observable<any> {
-    return this.http.delete(`${this.baseEmployeeUrl}/${id}`);
+    const params = new HttpParams().set('id', Number(id));
+    return this.http.delete(this.baseEmployeeUrl, { params });
   }
 }

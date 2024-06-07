@@ -1,0 +1,67 @@
+<h2>{{dataFromParent.title}}</h2>
+
+<!-- Ccontent -->
+<mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Full Name</mat-label>
+    <input matInput
+           name="fullName">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput
+           name="email">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>User Name</mat-label>
+    <input matInput
+           name="userName">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Gender</mat-label>
+    <input matInput
+           name="gender">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Phone Number</mat-label>
+    <input matInput
+           name="phoneNumber">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date of Birth</mat-label>
+    <input matInput
+           name="dateOfBirth">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <input matInput
+           name="status">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Address</mat-label>
+    <input matInput
+           name="address">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Role</mat-label>
+    <input matInput
+           name="role">
+  </mat-form-field>
+</mat-dialog-content>
+
+
+<!-- Action to Close or Save -->
+<mat-dialog-actions>
+  <button class="btn btn--grad"
+          (click)="closeModal()">Cancel</button>
+  <button class="btn btn--primary"
+          (click)="saveModal()">Save</button>
+</mat-dialog-actions>

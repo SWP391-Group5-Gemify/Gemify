@@ -26,6 +26,8 @@
                          [pageIndex]="tableConfig.pageIndex"
                          [count]="tableConfig.totalEmployees"
                          (onPageChangeFromChild)="onPageEvent($event)"
-                         (onFilterFromChild)="onApplyFilter($event)">
+                         (onFilterFromChild)="onApplyFilter($event)"
+                         (onDisableFromChild)="disableEmployee($event)"
+                         (onEditFromChild)="openEditEmployee($event)">
   </app-table-data-source>
 </section>

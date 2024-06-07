@@ -29,10 +29,9 @@ export class CustomersComponent implements OnInit {
       'address',
       'point',
       'membershipRate',
-      'actions',
     ],
 
-    dataSource: new MatTableDataSource<CustomerModel>(),
+    dataSource: new MatTableDataSource<CustomerModel>([]),
     pageIndex: 0, // Since the API is 1-based, but the table is 0-based
     pageSize: 5,
     totalCustomers: 0,
@@ -50,6 +49,30 @@ export class CustomersComponent implements OnInit {
   // ====================
   // == Methods
   // ====================
+
+  /**
+   * Trigger event when the page is pagination
+   * @param event
+   */
+  onPageEvent(event: PageEvent) {
+    this.tableConfig.pageIndex = event.pageIndex; // Still 0-based
+    this.tableConfig.pageSize = event.pageSize;
+    this.loadCustomers();
+  }
+
+  /**
+   * Filter on data source
+   * @param event
+   */
+  onApplyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.tableConfig.dataSource.filter = filterValue.trim();
+
+    if (this.tableConfig.dataSource.paginator) {
+      this.tableConfig.dataSource.paginator.firstPage();
+      this.tableConfig.pageIndex = 0; // Reset to the first page (0-based)
+    }
+  }
 
   /**
    * Load Customers
@@ -74,39 +97,7 @@ export class CustomersComponent implements OnInit {
       )
       .subscribe((data) => {
         this.tableConfig.dataSource.data = data;
+        this.tableConfig.dataSource._updateChangeSubscription();
       });
   }
-
-  /**
-   * Trigger event when the page is pagination
-   * @param event
-   */
-  onPageEvent(event: PageEvent) {
-    this.tableConfig.pageIndex = event.pageIndex; // Still 0-based
-    this.tableConfig.pageSize = event.pageSize;
-    this.loadCustomers();
-  }
-
-  /**
-   * Filter on data source
-   * @param event
-   */
-  onApplyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-
-    console.log(firstValueFrom);
-    this.tableConfig.dataSource.filter = filterValue.trim();
-
-    if (this.tableConfig.dataSource.paginator) {
-      this.tableConfig.dataSource.paginator.firstPage();
-      this.tableConfig.pageIndex = 0; // Reset to the first page (0-based)
-    }
-  }
-
-  // //FIXME: Edit Customer Information
-  // editCustomer(customer: CustomerModel): void {
-  //   this.customerService.updateCustomerById(customer).subscribe({
-  //     next(value) {},
-  //   });
-  // }
 }
