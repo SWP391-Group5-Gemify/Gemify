@@ -1,16 +1,6 @@
-export interface EmployeeModel {
-  id: number;
-  fullName: string;
-  email: string;
-  userName: string;
-  gender: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-  status: string;
-  image_Url: string;
-  address: string;
-  role: string;
-}
+import { UserModel } from './user.model';
+
+export interface EmployeeModel extends UserModel {}
 
 export interface EmployeeRoleModel {
   id: number;

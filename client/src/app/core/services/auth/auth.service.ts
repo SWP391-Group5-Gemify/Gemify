@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 
@@ -61,8 +55,7 @@ export class AuthService {
    * @returns
    */
   public login(values: any): Observable<any> {
-    const url = `${this.baseAccountUrl}/login`;
-    return this.http.post(url, values).pipe(
+    return this.http.post(`${this.baseAccountUrl}/login`, values).pipe(
       tap((response: any) => {
         this.currentUser = this.getCurrentUser(response.token);
         this._isLoggedIn$.next(true); // emit the true as logged in user
@@ -84,9 +77,16 @@ export class AuthService {
    * Decrypt the token payload, get the user information
    * @param token
    */
-  private getCurrentUser(token: string | null): UserModel | undefined {
+  public getCurrentUser(token: string | null): UserModel | undefined {
     return token
       ? (JSON.parse(atob(token?.split('.')[1])) as UserModel)
       : undefined;
+  }
+
+  /**
+   * Register a new user account
+   */
+  public registerNewUser(user: UserModel): Observable<any> {
+    return this.http.post(`${this.baseAccountUrl}/register`, user);
   }
 }

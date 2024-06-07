@@ -36,12 +36,18 @@ export class FormEditCreateModalComponent implements OnInit {
   // =========================
 
   @Output() editDataFromChild = new EventEmitter<any>();
-  formEditOrCreate!: FormGroup;
-  inputData: any;
+  public formEditOrCreate!: FormGroup;
+  private inputData: any;
 
   // =========================
   // == Life cycle
   // =========================
+  /**
+   *
+   * @param formBuilder
+   * @param dataFromParent
+   * @param ref
+   */
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dataFromParent: any,
@@ -60,6 +66,10 @@ export class FormEditCreateModalComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]),
+      // password: this.formBuilder.control(this.inputData.password || '', [
+      //   Validators.required,
+      //   Validators.email,
+      // ]),
     });
   }
 
@@ -85,6 +95,7 @@ export class FormEditCreateModalComponent implements OnInit {
         ...this.formEditOrCreate.value,
       };
 
+      // Let the base class handle the event
       this.editDataFromChild.emit(updatedData);
     }
   }

@@ -1,4 +1,7 @@
+import { EmployeeModel } from './employee.model';
+
 export interface UserModel {
+  id: number;
   fullName: string;
   email: string;
   userName: string;

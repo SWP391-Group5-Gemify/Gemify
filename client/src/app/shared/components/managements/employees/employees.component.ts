@@ -166,6 +166,7 @@ export class EmployeesComponent implements OnInit {
         exitAnimationDuration: '300ms',
         data: {
           title: 'Edit Employee',
+
           initialData: { ...employee }, // shallow copy to avoid hot-changing
         },
       }
