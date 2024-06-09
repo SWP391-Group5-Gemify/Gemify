@@ -4,7 +4,7 @@
     "Content": 61,
     "LatestAskPrice": 4590,
     "LatestBidPrice": 4410,
-    "Unit": "Chỉ",
+    "Unit": "Lượng",
     "Status": true
   },
   {
@@ -12,7 +12,7 @@
     "Content": 99.99,
     "LatestAskPrice": 7730,
     "LatestBidPrice": 7550,
-    "Unit": "Chỉ",
+    "Unit": "Lượng",
     "Status": true
   },
   {
@@ -20,7 +20,7 @@
     "Content": 75,
     "LatestAskPrice": 7230,
     "LatestBidPrice": 7400,
-    "Unit": "Chỉ",
+    "Unit": "Lượng",
     "Status": true
   },
   {
@@ -28,7 +28,7 @@
     "Content": 58.5,
     "LatestAskPrice": 5040,
     "LatestBidPrice": 5220,
-    "Unit": "Chỉ",
+    "Unit": "Lượng",
     "Status": true
   },
   {
@@ -36,7 +36,7 @@
     "Content": 99.99,
     "LatestAskPrice": 8840,
     "LatestBidPrice": 9040,
-    "Unit": "Chỉ",
+    "Unit": "Lượng",
     "Status": true
   }
 ]

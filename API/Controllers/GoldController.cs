@@ -23,7 +23,7 @@ namespace API.Controllers
         }
 
         // Get gold type list with specification
-        [HttpGet("types")]
+        [HttpGet]
         [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<IReadOnlyList<GoldType>>> GetGoldTypes([FromQuery] GoldTypeParams goldTypeParams)
         {  
@@ -61,7 +61,7 @@ namespace API.Controllers
         }
 
         // Get latest gold prices
-        [HttpGet]
+        [HttpGet("latest")]
         public async Task<ActionResult<IReadOnlyList<LatestGoldPriceDto>>> GetLatestGoldPrices()
         {
             var spec = new GoldTypeSpecification();
