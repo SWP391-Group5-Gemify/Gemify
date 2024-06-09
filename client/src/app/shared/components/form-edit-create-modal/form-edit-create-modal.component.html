@@ -1,14 +1,18 @@
 <!-- Content -->
 <form [formGroup]="formEditOrCreate"
-      (ngSubmit)="saveModal()">
+      (ngSubmit)="saveModal()"
+      class="form--edit">
 
   <!-- Title -->
-  <h2 mat-dialog-title>{{dataFromParent.title}}</h2>
+  <h2 class="form--edit__title"
+      mat-dialog-title>{{dataFromParent.title}}</h2>
 
-  <!-- Full Name -->
-  <mat-dialog-content class="grid u-padding-top-medium">
-    <mat-form-field appearance="outline"
-                    class="grid__item">
+  <mat-dialog-content class="
+      form--edit__content
+      u-padding-top-medium">
+
+    <!-- Full Name -->
+    <mat-form-field appearance="outline">
       <mat-label>Full Name</mat-label>
       <input matInput
              formControlName="fullName"
@@ -16,8 +20,7 @@
     </mat-form-field>
 
     <!-- Email -->
-    <mat-form-field appearance="outline"
-                    class="grid__item">
+    <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput
              formControlName="email"
@@ -26,8 +29,7 @@
 
 
     <!-- Password -->
-    <mat-form-field appearance="outline"
-                    class="grid__item">
+    <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput
              type="password"
@@ -37,8 +39,7 @@
 
 
     <!-- Retype Password -->
-    <mat-form-field appearance="outline"
-                    class="grid__item">
+    <mat-form-field appearance="outline">
       <mat-label>Re-type Password</mat-label>
       <input matInput
              type="password"
@@ -47,8 +48,7 @@
 
     <!-- Phone Number -->
 
-    <mat-form-field appearance="outline"
-                    class="grid__item">
+    <mat-form-field appearance="outline">
       <mat-label>Phone</mat-label>
       <input matInput
              type="tel"
@@ -57,21 +57,8 @@
     </mat-form-field>
 
 
-    <!-- Gender -->
-    <div class="grid__item">
-      <mat-label>Gender</mat-label>
-      <mat-radio-group aria-label="Select your gender"
-                       formControlName="gender"
-                       name="gender">
-
-        @for (gender of this.genderOptions; track $index) {
-        <mat-radio-button value="{{gender.id}}">{{gender.name}}</mat-radio-button>
-        }
-      </mat-radio-group>
-    </div>
-
     <!-- Date Of Birth -->
-    <mat-form-field class="grid__item">
+    <mat-form-field>
       <mat-label>Date of Birth</mat-label>
       <input matInput
              [matDatepicker]="picker"
@@ -84,17 +71,28 @@
     </mat-form-field>
 
     <!-- Address -->
-    <mat-form-field appearance="outline"
-                    class="grid__item">
+    <mat-form-field appearance="outline">
       <mat-label>Address</mat-label>
       <input matInput
              formControlName="address"
              name="address">
     </mat-form-field>
 
+    <!-- Gender -->
+    <div>
+      <mat-label>Gender</mat-label>
+      <mat-radio-group aria-label="Select your gender"
+                       formControlName="gender"
+                       name="gender">
+
+        @for (gender of this.genderOptions; track $index) {
+        <mat-radio-button value="{{gender.id}}">{{gender.name}}</mat-radio-button>
+        }
+      </mat-radio-group>
+    </div>
 
     <!-- Role -->
-    <div class="grid__item">
+    <div>
       <mat-label>Role: </mat-label>
       <mat-button-toggle-group name="role"
                                formControlName="role"
@@ -107,13 +105,10 @@
   </mat-dialog-content>
 
   <!-- Action to Close or Save -->
-  <mat-dialog-actions>
-    <button class="btn
-                  btn--grad"
+  <mat-dialog-actions class="form--edit__input-controls">
+    <button class="btn btn--grad"
             (click)="closeModal()">Cancel</button>
     <button class="btn btn--primary"
             type="submit">Save</button>
   </mat-dialog-actions>
-
-  <pre>{{inputData.initialData | json}}</pre>
 </form>

@@ -162,7 +162,7 @@ export class EmployeesComponent implements OnInit {
       FormEditCreateModalComponent,
       {
         width: '80%',
-        height: '80%',
+        height: '80vh',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
         data: {

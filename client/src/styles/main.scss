@@ -54,7 +54,7 @@ $client-theme: mat.define-light-theme((color: (primary: $client-primary,
 
 // layout
 @import "layout/sidenav-content";
-@import "layout/grid";
+
 
 // theme
 @import "themes/dark";
