@@ -1,0 +1,53 @@
+<!-- Latest Shop's Gold Prices -->
+<div class="gold-table mat-elevation-z8">
+  <div class="table-header">
+    <span>
+      Giá Vàng Cửa Hàng |
+      {{ currentDate | date:'h:mm a, dd/MM/yyyy' }} <br>
+      (Đơn vị: VND/lượng)
+    </span>
+  </div>
+  <div>
+    <table mat-table [dataSource]="prices">
+  
+        <!-- Gold Type Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0,0,0,0.6); color: white"> Tên Vàng </th>
+            <td mat-cell *matCellDef="let gold"> {{gold.name}} </td>
+        </ng-container>
+      
+        <!-- Latest Bid Price Column -->
+        <ng-container matColumnDef="latestBidPrice">
+          <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0,0,0,0.6); color: white"> Mua Vào </th>
+          <td mat-cell *matCellDef="let gold"> {{gold.latestBidPrice}} </td>
+        </ng-container>
+      
+        <!-- Latest Ask Price Column -->
+        <ng-container matColumnDef="latestAskPrice">
+          <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0,0,0,0.6); color: white"> Bán Ra </th>
+          <td mat-cell *matCellDef="let gold" class="ask-cell"> {{gold.latestAskPrice}} </td>
+        </ng-container>
+      
+        <!-- Gold Content Column -->
+        <ng-container matColumnDef="content">
+          <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0,0,0,0.6); color: white"> Loại Vàng </th>
+          <td mat-cell *matCellDef="let gold"> {{gold.content}}%</td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
+</div>
+
+
+<!-- Global Gold Price Chart -->
+<div class="gold-chart mat-elevation-z8" id="tradingview-widget">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="chart-header">
+    <span>
+      Giá Vàng Thế Giới <br>
+      (USD/ounce)
+    </span>
+  </div>
+</div>
