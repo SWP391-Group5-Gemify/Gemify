@@ -62,7 +62,6 @@ namespace API.Controllers
 
         // Get latest gold prices
         [HttpGet]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<IReadOnlyList<LatestGoldPriceDto>>> GetLatestGoldPrices()
         {
             var spec = new GoldTypeSpecification();
