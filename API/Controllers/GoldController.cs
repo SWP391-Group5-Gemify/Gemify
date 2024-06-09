@@ -23,7 +23,7 @@ namespace API.Controllers
         }
 
         // Get gold type list with specification
-        [HttpGet]
+        [HttpGet("types")]
         [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<IReadOnlyList<GoldType>>> GetGoldTypes([FromQuery] GoldTypeParams goldTypeParams)
         {  
@@ -60,6 +60,17 @@ namespace API.Controllers
                     (goldPriceParams.PageIndex,goldPriceParams.PageSize,totalPrices,data));
         }
 
+        // Get latest gold prices
+        [HttpGet]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
+        public async Task<ActionResult<IReadOnlyList<LatestGoldPriceDto>>> GetLatestGoldPrices()
+        {
+            var spec = new GoldTypeSpecification();
+            var latestGoldPrices = await _goldService.GetGoldTypesAsync(spec);
+            return Ok(_mapper.Map<IReadOnlyList<GoldType>, IReadOnlyList<LatestGoldPriceDto>>(latestGoldPrices));
+        }
+
+
         // Add new gold type
         [HttpPost]
         [Authorize(Roles = "StoreOwner,StoreManager")] 
@@ -89,6 +100,6 @@ namespace API.Controllers
             if(result) return Ok(new ApiResponse(200, "Update gold prices successful"));
             else return BadRequest(new ApiResponse(400,"Failed to update gold prices"));
         }
-           
+         
     }
 }
