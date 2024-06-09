@@ -4,7 +4,7 @@ namespace Core.Specifications.Golds
 {
     public class GoldTypeSpecification : BaseSpecification<GoldType>
     {
-        public GoldTypeSpecification() 
+        public GoldTypeSpecification() : base(x => x.Status == true)
         {
 
         }
