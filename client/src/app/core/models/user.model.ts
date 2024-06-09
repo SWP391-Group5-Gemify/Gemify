@@ -13,3 +13,8 @@ export interface UserModel {
   address: string;
   role: string;
 }
+
+export const genderOptions = [
+  { id: 1, name: 'Male' },
+  { id: 2, name: 'Female' },
+];

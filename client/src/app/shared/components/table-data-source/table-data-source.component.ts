@@ -73,7 +73,7 @@ export class TableDataSourceComponent implements AfterViewInit {
   }
 
   /**
-   * Emit the evnt for parent to handle page changing logic
+   * Emit the event for parent to handle page changing logic
    * @param event
    */
   pageEvent(event: PageEvent): void {
