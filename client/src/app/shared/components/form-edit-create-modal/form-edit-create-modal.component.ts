@@ -14,7 +14,14 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
-
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { genderOptions } from '../../../core/models/user.model';
+import { EmployeeService } from '../../../core/services/employee/employee.service';
+import { EmployeeRoleModel } from '../../../core/models/employee.model';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-form-edit-create-modal',
   standalone: true,
@@ -26,9 +33,13 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './form-edit-create-modal.component.html',
   styleUrl: './form-edit-create-modal.component.scss',
+  providers: [provideNativeDateAdapter()],
 })
 export class FormEditCreateModalComponent implements OnInit {
   // =========================
@@ -37,7 +48,9 @@ export class FormEditCreateModalComponent implements OnInit {
 
   @Output() editDataFromChild = new EventEmitter<any>();
   public formEditOrCreate!: FormGroup;
-  private inputData: any;
+  public inputData: any;
+  public genderOptions: any;
+  public roleOptions$!: Observable<EmployeeRoleModel[]>;
 
   // =========================
   // == Life cycle
@@ -51,25 +64,29 @@ export class FormEditCreateModalComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dataFromParent: any,
-    private ref: MatDialogRef<FormEditCreateModalComponent>
-  ) {}
+    private ref: MatDialogRef<FormEditCreateModalComponent>,
+    private employeeService: EmployeeService
+  ) {
+    this.genderOptions = genderOptions;
+    this.roleOptions$ = employeeService.getEmployeeRoles();
+  }
 
   ngOnInit(): void {
     this.inputData = this.dataFromParent.initialData;
 
     this.formEditOrCreate = this.formBuilder.group({
-      fullName: this.formBuilder.control(
-        this.inputData.fullName || '',
-        Validators.required
-      ),
-      email: this.formBuilder.control(this.inputData.email || '', [
-        Validators.required,
-        Validators.email,
-      ]),
-      // password: this.formBuilder.control(this.inputData.password || '', [
-      //   Validators.required,
-      //   Validators.email,
-      // ]),
+      fullName: [this.inputData.fullName || '', Validators.required],
+      email: [
+        this.inputData.email || '',
+        [Validators.required, Validators.email],
+      ],
+      password: [this.inputData.password || '', Validators.required],
+      retypePassword: ['', Validators.required],
+      phoneNumber: [this.inputData.phoneNumber || '', Validators.required],
+      gender: [this.inputData.gender || 'Male', Validators.required],
+      dateOfBirth: [this.inputData.dateOfBirth || '', Validators.required],
+      address: [this.inputData.address || '', Validators.required],
+      role: [this.inputData.role || '', Validators.required],
     });
   }
 
@@ -87,6 +104,7 @@ export class FormEditCreateModalComponent implements OnInit {
   /**
    * Save the updated data
    * - Emit data to the parent component for service handling
+   * - Handle both edit and create
    */
   saveModal() {
     if (this.formEditOrCreate.valid) {
@@ -97,6 +115,7 @@ export class FormEditCreateModalComponent implements OnInit {
 
       // Let the base class handle the event
       this.editDataFromChild.emit(updatedData);
+      this.ref.close();
     }
   }
 }
