@@ -66,6 +66,8 @@ namespace API.Helpers
             CreateMap<GemPrice, GemPriceDto>();
 
             CreateMap<GoldPrice, GoldPriceDto>();
+
+            CreateMap<GoldType,LatestGoldPriceDto>();
         }
     }
 }
