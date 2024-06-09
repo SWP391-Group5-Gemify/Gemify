@@ -11,8 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   EmployeeModel,
   EmployeeStatusEnum,
-  EmployeeRoleEnum,
   EmployeeRoleModel,
+  EmployeeRoleEnum,
 } from '../../../../core/models/employee.model';
 import { EmployeeService } from '../../../../core/services/employee/employee.service';
 import { PageEvent } from '@angular/material/paginator';
@@ -151,7 +151,7 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  /**
+  /**s
    * Open the Modal for Editing Employee's data
    * - When close, pass data from child back to parent
    * - When open, pass data from parent to child
@@ -161,7 +161,8 @@ export class EmployeesComponent implements OnInit {
     const dialogRef = this.createOrEditModal.open(
       FormEditCreateModalComponent,
       {
-        width: '50%',
+        width: '80%',
+        height: '80%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
         data: {
