@@ -2,6 +2,7 @@
 using AutoMapper;
 using Core.Enitities;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -18,6 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller")]
         public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
         {
             var basket = await _basketRepository.GetBasketAsync(id);
@@ -26,6 +28,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller")]
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
         {
             var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
@@ -36,6 +39,7 @@ namespace API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller")]
         public async Task<ActionResult> DeleteBasketAsync(string id)
         {
             return Ok(await _basketRepository.DeleteBasketAsync(id));
