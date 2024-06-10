@@ -5,18 +5,24 @@ import { LatestGoldPrices } from './../../../core/models/latest-gold-prices.mode
 import { map, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoldChartService {
-  baseUrl = environment.baseApiUrl;
+  baseGoldChartUrl: string = environment.baseApiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
+  /**
+   * Calling the api and get the latest gold price
+   * @returns
+   */
   getLatestGoldPrices(): Observable<LatestGoldPrices[]> {
-    return this.http.get<LatestGoldPrices[]>(this.baseUrl + '/golds/latest').pipe(
-      map(response => {
-        return response;
-      })
-    )
+    return this.http
+      .get<LatestGoldPrices[]>(this.baseGoldChartUrl + '/golds/latest')
+      .pipe(
+        map((response) => {
+          return response;
+        })
+      );
   }
 }
