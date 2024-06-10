@@ -63,12 +63,12 @@ export class GoldChartComponent implements OnInit {
       "locale": "en",
       "colorTheme": "light",
       "autosize": true,
-      "showVolume": true,
-      "showMA": false,
+      "showVolume": false,
+      "showMA": true,
       "hideDateRanges": false,
       "hideMarketStatus": true,
       "hideSymbolLogo": true,
-      "scalePosition": "right",
+      "scalePosition": "left",
       "scaleMode": "Normal",
       "fontFamily": "Roboto, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
       "fontSize": "10",
@@ -97,6 +97,7 @@ export class GoldChartComponent implements OnInit {
     this.goldChartService.getLatestGoldPrices().subscribe({
       next: (response) => {
         this.prices = response;
+        console.table(this.prices);
       },
       error: (error) => console.log(error),
     });
