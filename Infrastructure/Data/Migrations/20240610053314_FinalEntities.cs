@@ -263,35 +263,43 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Receipts",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Status = table.Column<string>(type: "varchar(50)", nullable: true),
+                    OrderTypeId = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "varchar(100)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    PaymentIntentId = table.Column<string>(type: "varchar(200)", nullable: true),
                     PromotionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Receipts", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Receipts_Customers_CustomerId",
+                        name: "FK_Orders_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Receipts_Promotion_PromotionId",
+                        name: "FK_Orders_OrderTypes_OrderTypeId",
+                        column: x => x.OrderTypeId,
+                        principalTable: "OrderTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Promotion_PromotionId",
                         column: x => x.PromotionId,
                         principalTable: "Promotion",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Receipts_User_UserId",
+                        name: "FK_Orders_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -323,49 +331,6 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_ProductGems_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Status = table.Column<string>(type: "varchar(50)", nullable: true),
-                    OrderTypeId = table.Column<int>(type: "int", nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ReceiptId = table.Column<int>(type: "int", nullable: false),
-                    PaymentIntentId = table.Column<string>(type: "varchar(200)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_OrderTypes_OrderTypeId",
-                        column: x => x.OrderTypeId,
-                        principalTable: "OrderTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_Receipts_ReceiptId",
-                        column: x => x.ReceiptId,
-                        principalTable: "Receipts",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -409,6 +374,8 @@ namespace Infrastructure.Data.Migrations
                     GemsItemOrdered_GemWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     GemsItemOrdered_GemPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     GemsItemOrdered_GemCarat = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    GemsItemOrdered_GemClarity = table.Column<string>(type: "varchar(10)", nullable: true),
+                    GemsItemOrdered_GemCertificateCode = table.Column<string>(type: "varchar(50)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderItemId = table.Column<int>(type: "int", nullable: true)
@@ -459,9 +426,9 @@ namespace Infrastructure.Data.Migrations
                 column: "OrderTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ReceiptId",
+                name: "IX_Orders_PromotionId",
                 table: "Orders",
-                column: "ReceiptId");
+                column: "PromotionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -492,21 +459,6 @@ namespace Infrastructure.Data.Migrations
                 name: "IX_Products_SubCategoryId",
                 table: "Products",
                 column: "SubCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Receipts_CustomerId",
-                table: "Receipts",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Receipts_PromotionId",
-                table: "Receipts",
-                column: "PromotionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Receipts_UserId",
-                table: "Receipts",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SaleCounters_UserId",
@@ -556,19 +508,16 @@ namespace Infrastructure.Data.Migrations
                 name: "SubCategories");
 
             migrationBuilder.DropTable(
-                name: "OrderTypes");
-
-            migrationBuilder.DropTable(
-                name: "Receipts");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
                 name: "Customers");
 
             migrationBuilder.DropTable(
+                name: "OrderTypes");
+
+            migrationBuilder.DropTable(
                 name: "Promotion");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Memberships");

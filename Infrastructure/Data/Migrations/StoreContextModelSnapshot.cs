@@ -334,7 +334,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("PaymentIntentId")
                         .HasColumnType("varchar(200)");
 
-                    b.Property<int>("ReceiptId")
+                    b.Property<int>("PromotionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -352,7 +352,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("OrderTypeId");
 
-                    b.HasIndex("ReceiptId");
+                    b.HasIndex("PromotionId");
 
                     b.HasIndex("UserId");
 
@@ -545,44 +545,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Promotion");
                 });
 
-            modelBuilder.Entity("Core.Enitities.Receipt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("PromotionId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("PromotionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Receipts");
-                });
-
             modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
                 {
                     b.Property<int>("Id")
@@ -684,10 +646,10 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Enitities.Receipt", "Receipt")
+                    b.HasOne("Core.Enitities.Promotion", "Promotion")
                         .WithMany()
-                        .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("PromotionId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Enitities.Identity.User", "User")
@@ -700,7 +662,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Navigation("OrderType");
 
-                    b.Navigation("Receipt");
+                    b.Navigation("Promotion");
 
                     b.Navigation("User");
                 });
@@ -766,6 +728,12 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<decimal>("GemCarat")
                                 .HasColumnType("decimal(18, 2)");
 
+                            b1.Property<string>("GemCertificateCode")
+                                .HasColumnType("varchar(50)");
+
+                            b1.Property<string>("GemClarity")
+                                .HasColumnType("varchar(10)");
+
                             b1.Property<string>("GemColor")
                                 .HasColumnType("varchar(10)");
 
@@ -796,7 +764,7 @@ namespace Infrastructure.Data.Migrations
                         .HasForeignKey("GoldTypeId");
 
                     b.HasOne("Core.Enitities.SaleCounter", "SaleCounter")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("SaleCounterId");
 
                     b.HasOne("Core.Enitities.SubCategory", "SubCategory")
@@ -829,33 +797,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("GemType");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Core.Enitities.Receipt", b =>
-                {
-                    b.HasOne("Core.Enitities.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Enitities.Promotion", "Promotion")
-                        .WithMany()
-                        .HasForeignKey("PromotionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Enitities.Identity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Promotion");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
@@ -901,6 +842,11 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Enitities.Product", b =>
                 {
                     b.Navigation("ProductGems");
+                });
+
+            modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

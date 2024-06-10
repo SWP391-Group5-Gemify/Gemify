@@ -11,7 +11,7 @@ namespace Core.Enitities.OrderAggregate
         {
         }
         public Order(DateTime orderDate, int orderTypeId, 
-            decimal total, int customerId, int userId, int receiptId, 
+            decimal total, int customerId, int userId, 
             string paymentIntentId, IReadOnlyList<OrderItem> orderItems)
         {
             OrderDate = orderDate;
@@ -19,7 +19,6 @@ namespace Core.Enitities.OrderAggregate
             Total = total;
             CustomerId = customerId;
             UserId = userId;
-            ReceiptId = receiptId;
             PaymentIntentId = paymentIntentId;
             OrderItems = orderItems;
         }
@@ -39,10 +38,11 @@ namespace Core.Enitities.OrderAggregate
         [Required]
         public int UserId { get; set; }
         public User User { get; set; }
-        public int ReceiptId { get; set; }
-        public Receipt Receipt { get; set; }
+
         [Column(TypeName = "varchar(200)")]
         public string PaymentIntentId { get; set; }
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
+        public int PromotionId { get; set; }
+        public Promotion Promotion { get; set; }
     }
 }
