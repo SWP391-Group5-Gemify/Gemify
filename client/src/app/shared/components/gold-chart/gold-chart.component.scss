@@ -1,38 +1,97 @@
-.gold-table {
-    float: left;
-    margin: 2% 2% 0 2%;
-    width: 30%;
+@import "abstracts/variables.scss";
+
+
+.flex {
+  display: flex;
+  justify-content: stretch;
+  align-items: flex-start;
+  gap: 2.0rem;
 }
 
-.table-header {
+// TABLE GOLD
+.table-gold {
+  flex: 1 0 20rem;
+  border-radius: 20px;
+  overflow: hidden;
+
+  &__header {
     text-align: center;
-    padding: 20px 0;
-    font-size: 20px;
-    color: white;
-    background-color: #ea580c;
+    padding: 2rem 0;
+    letter-spacing: 1.4px;
+    color: $color-black;
+    background-color: $color-white;
+    text-transform: uppercase;
+
+    & p:nth-child(1) {
+      font-size: 2.2rem;
+    }
+
+    & p:nth-child(2) {}
+
+    & p:nth-child(3) {
+      padding: 1.2rem;
+      color: $color-primary;
+      background-color: $color-white;
+      display: inline-block;
+      border-radius: 15px;
+      box-shadow: 0 7px 10px 2px rgba(0, 0, 0, 0.1);
+      margin-top: 1.2rem;
+      font-size: 2.0rem;
+    }
+  }
+
+  &__sub-header {
+    background-color: $color-grey-light;
+    color: $color-black;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+
+  &__content {}
+
+  &__item {
+    &--ask-cell-header {
+      color: $color-primary-dark;
+    }
+
+    &--ask-cell {
+      color: $color-primary-dark;
+      font-size: 2.0rem;
+      font-weight: 900;
+    }
+
+    &--bid-cell-header {
+      color: $color-primary-light;
+    }
+
+    &--bid-cell {
+      color: $color-primary-light;
+      font-size: 2.0rem;
+      font-weight: 900;
+    }
+  }
 }
 
-.header-cell {
-    background-color: rgba(0,0,0,0.9);
-}
+// CHART GOLD
+.chart-gold {
+  height: 70rem;
+  flex: 3 0 40rem;
 
-.ask-cell {
-    color: #a63111;
-}
-
-.gold-chart {
-    height: 60%;
-    width: 62%;
-    margin: 2% 2% 0 0;
-    float: right;
-}
-
-.chart-header {
+  &__header {
     text-align: center;
-    padding: 20px 0;
-    font-size: 20px;
-    color: white;
-    background-color: #ea580c;
+    padding: 1.4rem 0;
+    color: $color-grey-light;
+    font-weight: 1.5rem;
+    background-color: $color-primary;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    & p:nth-child(1) {
+      font-size: 2.2rem;
+    }
+  }
 }
-
-

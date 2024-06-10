@@ -9,7 +9,7 @@ export const routes: Routes = [
   // === Testing Purpose ========================================================
   // {
   //   path: 'validation-error',
-  //   component: PageErrorComponent,
+  //   component: PageErrorComponent,S
   //   data: { statusCode: 400, msg: 'You have made a Bad Request' },
   // },
   {
@@ -17,13 +17,11 @@ export const routes: Routes = [
     component: PageErrorComponent,
     data: { statusCode: 404, msg: 'No resource was found' },
   },
-
   {
     path: 'bad-request',
     component: PageErrorComponent,
     data: { statusCode: 400, msg: 'You have made a Bad Request' },
   },
-
   {
     path: 'server-error',
     component: PageErrorComponent,

@@ -1,65 +1,76 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { LatestGoldPrices } from '../../../core/models/latest-gold-prices.model';
 import { GoldChartService } from './gold-chart.service';
 import { CommonModule } from '@angular/common';
-import { interval, Subscription } from 'rxjs';
+import { interval, map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-gold-chart',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatTableModule
-  ],
+  imports: [CommonModule, MatTableModule],
   templateUrl: './gold-chart.component.html',
   styleUrl: './gold-chart.component.scss',
 })
-
-export class GoldChartComponent implements OnInit, OnDestroy{
+export class GoldChartComponent implements OnInit {
+  // ======================================
+  // == Fields
+  // ======================================
   prices: LatestGoldPrices[] = [];
-  displayedColumns: string[] = ['name', 'latestBidPrice', 'latestAskPrice', 'content'];
-  currentDate: Date = new Date();
-  subscription: Subscription | undefined;
-  
+  displayedColumns: string[] = [
+    'name',
+    'latestBidPrice',
+    'latestAskPrice',
+    'content',
+  ];
+  currentDate$!: Observable<Date>;
 
-  constructor(private goldChartService: GoldChartService) {}
+  // ======================================
+  // == Life Cycle
+  // ======================================
+  constructor(private goldChartService: GoldChartService) {
+    this.currentDate$ = interval(60).pipe(
+      startWith(0), // Emit the initial value
+      map(() => new Date())
+    );
+  }
 
   ngOnInit(): void {
     this.getLatestGoldPrices();
     this.loadTradingViewWidget();
-    this.subscription = interval(60000).subscribe(() => {
-      this.updateDateTime();
-    })
   }
 
+  // ======================================
+  // == Methods
+  // ======================================
   // Configuring the global gold price chart
   loadTradingViewWidget() {
     const script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js';
+    script.src =
+      'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js';
     script.async = true;
     script.innerHTML = `
     {
       "symbols": [
         [
-          "TVC:GOLD|3M"
+          "TVC:GOLD|4M"
         ]
       ],
       "chartOnly": false,
       "width": "100%",
       "height": "100%",
       "locale": "en",
-      "colorTheme": "dark",
+      "colorTheme": "light",
       "autosize": true,
       "showVolume": false,
-      "showMA": false,
+      "showMA": true,
       "hideDateRanges": false,
-      "hideMarketStatus": false,
-      "hideSymbolLogo": false,
-      "scalePosition": "right",
+      "hideMarketStatus": true,
+      "hideSymbolLogo": true,
+      "scalePosition": "left",
       "scaleMode": "Normal",
-      "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+      "fontFamily": "Roboto, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
       "fontSize": "10",
       "noTimeScale": false,
       "valuesTracking": "1",
@@ -77,28 +88,18 @@ export class GoldChartComponent implements OnInit, OnDestroy{
         "all|1M"
       ]
     }`;
-    document.getElementById('tradingview-widget')?.appendChild(script);
+    document
+      .getElementById('id-gold-chart-tradingview-widget')
+      ?.appendChild(script);
   }
 
-  // Get all Latest Prices of each gold type
   getLatestGoldPrices() {
     this.goldChartService.getLatestGoldPrices().subscribe({
-      next: response => {
-        this.prices = response
+      next: (response) => {
+        this.prices = response;
+        console.table(this.prices);
       },
-      error: error => console.log(error)
-    }) 
-  }
-
-  // Update current date time
-  updateDateTime() {
-    this.currentDate = new Date();
-  }
-
-  ngOnDestroy() {
-    // Unsubscribe to prevent memory leaks
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+      error: (error) => console.log(error),
+    });
   }
 }
