@@ -18,7 +18,7 @@ namespace Infrastructure.Config
                 .HasForeignKey(p => p.SubCategoryId);
 
             builder.HasOne(p => p.SaleCounter)
-                .WithMany()
+                .WithMany(p => p.Products)
                 .HasForeignKey(p => p.SaleCounterId);
 
             builder.HasMany(p => p.Gems)

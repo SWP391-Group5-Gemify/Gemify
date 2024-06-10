@@ -12,7 +12,7 @@ namespace Infrastructure.Config
             builder.HasOne(o => o.Customer).WithMany().HasForeignKey(o => o.CustomerId);
             builder.HasOne(o => o.User).WithMany().HasForeignKey(o => o.UserId);
             builder.HasOne(o => o.OrderType).WithMany().HasForeignKey(o =>o.OrderTypeId);
-            builder.HasOne(o => o.Receipt).WithMany().HasForeignKey(o => o.ReceiptId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(o => o.Promotion).WithMany().HasForeignKey(o => o.PromotionId);
 
         }
     }
