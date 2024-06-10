@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { LatestGoldPrices } from '../../../core/models/latest-gold-prices.model';
 import { GoldChartService } from './gold-chart.service';
 import { CommonModule } from '@angular/common';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gold-chart',
@@ -15,10 +16,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './gold-chart.component.scss',
 })
 
-export class GoldChartComponent implements OnInit{
+export class GoldChartComponent implements OnInit, OnDestroy{
   prices: LatestGoldPrices[] = [];
   displayedColumns: string[] = ['name', 'latestBidPrice', 'latestAskPrice', 'content'];
   currentDate: Date = new Date();
+  subscription: Subscription | undefined;
   
 
   constructor(private goldChartService: GoldChartService) {}
@@ -26,6 +28,9 @@ export class GoldChartComponent implements OnInit{
   ngOnInit(): void {
     this.getLatestGoldPrices();
     this.loadTradingViewWidget();
+    this.subscription = interval(60000).subscribe(() => {
+      this.updateDateTime();
+    })
   }
 
   // Configuring the global gold price chart
@@ -83,5 +88,17 @@ export class GoldChartComponent implements OnInit{
       },
       error: error => console.log(error)
     }) 
+  }
+
+  // Update current date time
+  updateDateTime() {
+    this.currentDate = new Date();
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe to prevent memory leaks
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
