@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageMyProfileComponent } from './page-my-profile.component';
+import { FormViewModalComponent } from './form-view-modal.component';
 
-describe('PageMyProfileComponent', () => {
-  let component: PageMyProfileComponent;
-  let fixture: ComponentFixture<PageMyProfileComponent>;
+describe('FormViewModalComponent', () => {
+  let component: FormViewModalComponent;
+  let fixture: ComponentFixture<FormViewModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageMyProfileComponent]
+      imports: [FormViewModalComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PageMyProfileComponent);
+    fixture = TestBed.createComponent(FormViewModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

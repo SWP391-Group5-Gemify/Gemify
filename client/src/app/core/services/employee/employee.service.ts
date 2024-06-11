@@ -90,14 +90,6 @@ export class EmployeeService {
    * - Only StoreOwner can register an account for other employees
    */
   registerNewEmployee(employee: EmployeeModel): Observable<any> {
-    const currentUser = this.authService.getCurrentUser(this.authService.token);
-
-    if (currentUser?.role == RoleEnum.StoreOwner) {
-      return this.authService.registerNewUser(employee);
-    }
-
-    return of(
-      new Error('Unauthorized: Only StoreOwner can register an account')
-    );
+    return this.authService.registerNewUser(employee);
   }
 }
