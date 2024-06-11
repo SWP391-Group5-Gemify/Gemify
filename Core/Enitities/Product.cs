@@ -14,7 +14,7 @@ namespace Core.Enitities
         public string Description { get; set; }
         public int? GoldTypeId { get; set; }
         public GoldType GoldType { get; set;}
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,6)")]
         public float? GoldWeight {  get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public float TotalWeight { get; set; }
