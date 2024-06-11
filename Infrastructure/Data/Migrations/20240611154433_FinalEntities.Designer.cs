@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240610053314_FinalEntities")]
+    [Migration("20240611154433_FinalEntities")]
     partial class FinalEntities
     {
         /// <inheritdoc />
@@ -343,7 +343,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<decimal>("Total")
+                    b.Property<decimal>("SubTotal")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("UserId")
@@ -441,7 +441,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("GoldWeight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("varchar(200)");
@@ -495,7 +495,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("GemWeight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");

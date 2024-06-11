@@ -340,7 +340,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<decimal>("Total")
+                    b.Property<decimal>("SubTotal")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<int>("UserId")
@@ -438,7 +438,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("GoldWeight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("varchar(200)");
@@ -492,7 +492,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("GemWeight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
