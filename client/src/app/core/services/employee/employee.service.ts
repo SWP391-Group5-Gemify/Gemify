@@ -3,13 +3,9 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { PaginationModel } from '../../models/pagination-model.model';
-import {
-  EmployeeModel,
-  EmployeeRoleEnum,
-  EmployeeRoleModel,
-  EmployeeStatusEnum,
-} from '../../models/employee.model';
+import { EmployeeModel } from '../../models/employee.model';
 import { AuthService } from '../auth/auth.service';
+import { RoleEnum, RoleModel } from '../../models/role-model.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,15 +34,15 @@ export class EmployeeService {
   getEmployees(
     pageIndex: number = 1,
     pageSize: number = 5,
-    roles?: EmployeeRoleEnum
+    role?: RoleModel
   ): Observable<PaginationModel<EmployeeModel>> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
     // if having roles
-    if (roles) {
-      params.set('roles', roles);
+    if (role) {
+      params.set('roleId', role.id);
     }
 
     return this.http.get<PaginationModel<EmployeeModel>>(this.baseEmployeeUrl, {
@@ -67,8 +63,8 @@ export class EmployeeService {
    * Get total roles
    * @returns
    */
-  getEmployeeRoles(): Observable<EmployeeRoleModel[]> {
-    return this.http.get<EmployeeRoleModel[]>(`${this.baseEmployeeUrl}/roles`);
+  getEmployeeRoles(): Observable<RoleModel[]> {
+    return this.http.get<RoleModel[]>(`${this.baseEmployeeUrl}/roles`);
   }
 
   /**
@@ -96,7 +92,7 @@ export class EmployeeService {
   registerNewEmployee(employee: EmployeeModel): Observable<any> {
     const currentUser = this.authService.getCurrentUser(this.authService.token);
 
-    if (currentUser?.role == EmployeeRoleEnum.StoreOwner) {
+    if (currentUser?.role == RoleEnum.StoreOwner) {
       return this.authService.registerNewUser(employee);
     }
 

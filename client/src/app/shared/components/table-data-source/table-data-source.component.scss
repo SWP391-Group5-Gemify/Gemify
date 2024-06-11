@@ -27,11 +27,7 @@ mat-form-field {
     text-transform: uppercase;
     text-align: center !important;
     vertical-align: middle !important;
-
-    &:nth-child(1) {
-      border-right: 1px solid $color-grey-dark-2;
-      font-weight: bold;
-    }
+    font-weight: 900;
   }
 
   &__action-groups {

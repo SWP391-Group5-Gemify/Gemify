@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './gold-bid-ask.component.html',
-  styleUrl: './gold-bid-ask.component.scss'
+  styleUrl: './gold-bid-ask.component.scss',
 })
-export class GoldBidAskComponent {
-
-}
+export class GoldBidAskComponent {}

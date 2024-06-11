@@ -27,27 +27,16 @@
              name="email">
     </mat-form-field>
 
-
-    <!-- Password -->
-    <mat-form-field appearance="outline">
+    <!-- Password [CURRENTLY NOT ASSIGN PASSWORD]-->
+    <!-- <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
       <input matInput
-             type="password"
-             formControlName="email"
+             type="text"
+             formControlName="password"
              name="password">
-    </mat-form-field>
-
-
-    <!-- Retype Password -->
-    <mat-form-field appearance="outline">
-      <mat-label>Re-type Password</mat-label>
-      <input matInput
-             type="password"
-             name="retypePassword">
-    </mat-form-field>
+    </mat-form-field> -->
 
     <!-- Phone Number -->
-
     <mat-form-field appearance="outline">
       <mat-label>Phone</mat-label>
       <input matInput
@@ -55,7 +44,6 @@
              formControlName="phoneNumber"
              name="phoneNumber">
     </mat-form-field>
-
 
     <!-- Date Of Birth -->
     <mat-form-field>
@@ -84,7 +72,6 @@
       <mat-radio-group aria-label="Select your gender"
                        formControlName="gender"
                        name="gender">
-
         @for (gender of this.genderOptions; track $index) {
         <mat-radio-button value="{{gender.id}}">{{gender.name}}</mat-radio-button>
         }
@@ -92,7 +79,7 @@
     </div>
 
     <!-- Role -->
-    <div>
+    <!-- <div>
       <mat-label>Role: </mat-label>
       <mat-button-toggle-group name="role"
                                formControlName="role"
@@ -101,7 +88,7 @@
         <mat-button-toggle value="{{role.id}}">{{role.name}}</mat-button-toggle>
         }
       </mat-button-toggle-group>
-    </div>
+    </div> -->
   </mat-dialog-content>
 
   <!-- Action to Close or Save -->

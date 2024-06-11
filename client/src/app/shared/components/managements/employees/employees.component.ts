@@ -8,17 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import {
-  EmployeeModel,
-  EmployeeStatusEnum,
-  EmployeeRoleModel,
-  EmployeeRoleEnum,
-} from '../../../../core/models/employee.model';
+import { EmployeeModel } from '../../../../core/models/employee.model';
 import { EmployeeService } from '../../../../core/services/employee/employee.service';
 import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormEditCreateModalComponent } from '../../form-edit-create-modal/form-edit-create-modal.component';
+import { RoleModel } from '../../../../core/models/role-model.model';
 
 @Component({
   selector: 'app-employees',
@@ -60,7 +56,7 @@ export class EmployeesComponent implements OnInit {
     pageSize: 5,
     totalEmployees: 0,
   };
-  employeeRoles$!: Observable<EmployeeRoleModel[]>;
+  employeeRoles$!: Observable<RoleModel[]>;
 
   // ====================
   // == Life Cycle
@@ -107,12 +103,12 @@ export class EmployeesComponent implements OnInit {
    * Load employees from the server
    * @param roles
    */
-  loadEmployees(roles?: EmployeeRoleEnum): void {
+  loadEmployees(role?: RoleModel): void {
     this.employeeService
       .getEmployees(
         this.tableConfig.pageIndex + 1,
         this.tableConfig.pageSize,
-        roles
+        role
       )
       .pipe(
         map((response: any) => {
@@ -151,13 +147,13 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  /**s
+  /**
    * Open the Modal for Editing Employee's data
    * - When close, pass data from child back to parent
    * - When open, pass data from parent to child
    * @param employee
    */
-  openEditEmployee(employee: EmployeeModel) {
+  openEditEmployeeModal(employee: EmployeeModel) {
     const dialogRef = this.createOrEditModal.open(
       FormEditCreateModalComponent,
       {
@@ -167,8 +163,9 @@ export class EmployeesComponent implements OnInit {
         exitAnimationDuration: '300ms',
         data: {
           title: 'Edit Employee',
-
-          initialData: { ...employee }, // shallow copy to avoid hot-changing
+          initialData: {
+            ...employee,
+          }, // shallow copy to avoid hot-changing
         },
       }
     );
