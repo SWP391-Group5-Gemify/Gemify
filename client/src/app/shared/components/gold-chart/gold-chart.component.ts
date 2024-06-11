@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { LatestGoldPrices } from '../../../core/models/latest-gold-prices.model';
-import { GoldChartService } from './gold-chart.service';
+import { GoldChartService } from '../../../core/services/gold-chart/gold-chart.service';
 import { CommonModule } from '@angular/common';
 import { interval, map, Observable, startWith } from 'rxjs';
 
@@ -66,22 +66,23 @@ export class GoldChartComponent implements OnInit {
       "showVolume": false,
       "showMA": true,
       "hideDateRanges": false,
-      "hideMarketStatus": true,
+      "hideMarketStatus": false,
       "hideSymbolLogo": true,
       "scalePosition": "left",
       "scaleMode": "Normal",
-      "fontFamily": "Roboto, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+      "fontFamily": "Roboto, BlinkMacSystemFont, sans-serif",
       "fontSize": "10",
       "noTimeScale": false,
       "valuesTracking": "1",
       "changeMode": "price-and-percent",
       "chartType": "area",
-      "maLineColor": "#2962FF",
-      "maLineWidth": 1,
+      "maLineColor": "#3D3F40",
+      "maLineWidth": 2,
       "maLength": 9,
       "lineWidth": 2,
       "lineType": 0,
       "dateRanges": [
+        "1m|30",
         "3m|60",
         "12m|1D",
         "60m|1W",
@@ -93,6 +94,9 @@ export class GoldChartComponent implements OnInit {
       ?.appendChild(script);
   }
 
+  /**
+   * Get the latest gold prices when calling api
+   */
   getLatestGoldPrices() {
     this.goldChartService.getLatestGoldPrices().subscribe({
       next: (response) => {

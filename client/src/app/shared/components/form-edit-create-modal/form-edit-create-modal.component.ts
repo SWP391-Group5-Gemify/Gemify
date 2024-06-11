@@ -13,15 +13,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { genderOptions } from '../../../core/models/user.model';
+import { UserModel } from '../../../core/models/user.model';
 import { EmployeeService } from '../../../core/services/employee/employee.service';
-import { EmployeeRoleModel } from '../../../core/models/employee.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import {
+  GenderEnum,
+  GenderModel,
+} from '../../../core/models/gender-model.model';
+import { RoleEnum, RoleModel } from '../../../core/models/role-model.model';
+import EnumUtils from '../../utils/EnumUtils';
+import ObjectUtils from '../../utils/ObjectUtils';
+
 @Component({
   selector: 'app-form-edit-create-modal',
   standalone: true,
@@ -39,7 +46,7 @@ import { Observable } from 'rxjs';
   ],
   templateUrl: './form-edit-create-modal.component.html',
   styleUrl: './form-edit-create-modal.component.scss',
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(), DatePipe],
 })
 export class FormEditCreateModalComponent implements OnInit {
   // =========================
@@ -48,9 +55,9 @@ export class FormEditCreateModalComponent implements OnInit {
 
   @Output() editDataFromChild = new EventEmitter<any>();
   public formEditOrCreate!: FormGroup;
-  public inputData: any;
-  public genderOptions: any;
-  public roleOptions$!: Observable<EmployeeRoleModel[]>;
+  public inputData!: UserModel;
+  public genderOptions: GenderModel[];
+  public roleOptions$!: Observable<RoleModel[]>;
 
   // =========================
   // == Life cycle
@@ -65,9 +72,10 @@ export class FormEditCreateModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dataFromParent: any,
     private ref: MatDialogRef<FormEditCreateModalComponent>,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private datePipe: DatePipe
   ) {
-    this.genderOptions = genderOptions;
+    this.genderOptions = EnumUtils.enumToObject(GenderEnum);
     this.roleOptions$ = employeeService.getEmployeeRoles();
   }
 
@@ -80,13 +88,15 @@ export class FormEditCreateModalComponent implements OnInit {
         this.inputData.email || '',
         [Validators.required, Validators.email],
       ],
-      password: [this.inputData.password || '', Validators.required],
-      retypePassword: ['', Validators.required],
+
       phoneNumber: [this.inputData.phoneNumber || '', Validators.required],
-      gender: [this.inputData.gender || 'Male', Validators.required],
       dateOfBirth: [this.inputData.dateOfBirth || '', Validators.required],
       address: [this.inputData.address || '', Validators.required],
-      role: [this.inputData.role || '', Validators.required],
+      gender: [this.inputData.gender || GenderEnum.Male, Validators.required],
+
+      //TODO: Fix the bullshit bug coming from Backend
+      // password: [this.inputData.password || '', Validators.required],
+      // role: [this.inputData.role || RoleEnum.Seller || '', Validators.required],
     });
   }
 
@@ -105,12 +115,22 @@ export class FormEditCreateModalComponent implements OnInit {
    * Save the updated data
    * - Emit data to the parent component for service handling
    * - Handle both edit and create
+   * - Handle date serialization
    */
   saveModal() {
     if (this.formEditOrCreate.valid) {
+      console.table(this.formEditOrCreate.value);
+      console.table(this.inputData);
+
+      const dateFormatted = this.datePipe.transform(
+        this.formEditOrCreate.get('dateOfBirth')?.value,
+        'yyyy-MM-dd'
+      );
+
       const updatedData = {
         ...this.inputData,
         ...this.formEditOrCreate.value,
+        dateOfBirth: dateFormatted,
       };
 
       // Let the base class handle the event
