@@ -16,7 +16,7 @@ namespace Core.Enitities.OrderAggregate
         {
             OrderDate = orderDate;
             OrderTypeId = orderTypeId;
-            Total = total;
+            SubTotal = total;
             CustomerId = customerId;
             UserId = userId;
             PaymentIntentId = paymentIntentId;
@@ -31,7 +31,7 @@ namespace Core.Enitities.OrderAggregate
         public int OrderTypeId { get; set; }
         public OrderType OrderType { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal Total {  get; set; }
+        public decimal SubTotal {  get; set; }
         [Required]
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
@@ -44,5 +44,11 @@ namespace Core.Enitities.OrderAggregate
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
         public int PromotionId { get; set; }
         public Promotion Promotion { get; set; }
+
+        // Later changed due to Promotion and Membership benefits
+        public decimal GetTotal()
+        {
+            return SubTotal;
+        }
     }
 }

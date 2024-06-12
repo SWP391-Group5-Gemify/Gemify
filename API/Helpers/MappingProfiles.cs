@@ -19,6 +19,8 @@ namespace API.Helpers
                 .ForMember(d => d.MembershipRate, o => o.MapFrom(s => s.Membership.Name));
             CreateMap<CustomerDto, Customer>();
 
+            CreateMap<CustomerBasketDto, CustomerBasket>();
+            CreateMap<BasketItemDto, BasketItem>();
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))
