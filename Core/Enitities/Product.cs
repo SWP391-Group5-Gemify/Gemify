@@ -15,11 +15,11 @@ namespace Core.Enitities
         public int? GoldTypeId { get; set; }
         public GoldType GoldType { get; set;}
         [Column(TypeName = "decimal(18,6)")]
-        public float? GoldWeight {  get; set; }
+        public decimal? GoldWeight {  get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public float TotalWeight { get; set; }
+        public decimal TotalWeight { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public float? Labour {  get; set; }
+        public decimal? Labour {  get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]
         [Column(TypeName = "varchar(50)"), Required]
         public string Status { get; set; }

@@ -8,7 +8,7 @@ namespace Core.Enitities
     public class GemPrice : BaseEntity
     {
 
-        public GemPrice(int gemTypeId, float price) 
+        public GemPrice(int gemTypeId, decimal price) 
         {
             GemTypeId = gemTypeId;
             Price = price;
@@ -18,7 +18,7 @@ namespace Core.Enitities
         public int GemTypeId { get; set; }
         public GemType GemType { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
-        public float Price { get; set; }
+        public decimal Price { get; set; }
         public DateTime DateTime { get; set; } = DateTime.UtcNow;
     }
 }

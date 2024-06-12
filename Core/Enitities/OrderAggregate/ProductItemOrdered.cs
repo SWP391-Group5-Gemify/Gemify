@@ -7,7 +7,7 @@ namespace Core.Enitities.OrderAggregate
     {
         public ProductItemOrdered() { }
         public ProductItemOrdered(int productItemId, string productName, decimal goldPrice,
-            string goldType, decimal goldWeight, decimal productLabour, string unit, string image_Url)
+            string goldType, decimal? goldWeight, decimal? productLabour, string unit, string image_Url)
         {
             ProductItemId = productItemId;
             ProductName = productName;
@@ -28,9 +28,9 @@ namespace Core.Enitities.OrderAggregate
         [Column(TypeName = "nvarchar(100)")]
         public string GoldType { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal GoldWeight { get; set; }
+        public decimal? GoldWeight { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal ProductLabour {  get; set; }
+        public decimal? ProductLabour {  get; set; }
         [Column(TypeName = "nvarchar(20)")]
         public string Unit {  get; set; }
         [Column(TypeName = "varchar(200)")]
