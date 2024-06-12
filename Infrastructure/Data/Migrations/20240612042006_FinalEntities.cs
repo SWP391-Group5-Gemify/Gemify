@@ -233,12 +233,12 @@ namespace Infrastructure.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(1000)", nullable: true),
                     GoldTypeId = table.Column<int>(type: "int", nullable: true),
                     GoldWeight = table.Column<decimal>(type: "decimal(18,6)", nullable: true),
-                    TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Labour = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Status = table.Column<string>(type: "varchar(50)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
-                    SubCategoryId = table.Column<int>(type: "int", nullable: false),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: true),
                     SaleCounterId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -258,8 +258,7 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Products_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -348,6 +347,7 @@ namespace Infrastructure.Data.Migrations
                     ItemOrdered_GoldWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ItemOrdered_ProductLabour = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ItemOrdered_Unit = table.Column<string>(type: "nvarchar(20)", nullable: true),
+                    ItemOrdered_TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ItemOrdered_Image_Url = table.Column<string>(type: "varchar(200)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),

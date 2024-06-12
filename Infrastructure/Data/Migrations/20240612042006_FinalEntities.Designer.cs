@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240611154433_FinalEntities")]
+    [Migration("20240612042006_FinalEntities")]
     partial class FinalEntities
     {
         /// <inheritdoc />
@@ -463,10 +463,10 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalWeight")
+                    b.Property<decimal?>("TotalWeight")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -687,7 +687,7 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<string>("GoldType")
                                 .HasColumnType("nvarchar(100)");
 
-                            b1.Property<decimal>("GoldWeight")
+                            b1.Property<decimal?>("GoldWeight")
                                 .HasColumnType("decimal(18, 2)");
 
                             b1.Property<string>("Image_Url")
@@ -696,12 +696,15 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<int>("ProductItemId")
                                 .HasColumnType("int");
 
-                            b1.Property<decimal>("ProductLabour")
+                            b1.Property<decimal?>("ProductLabour")
                                 .HasColumnType("decimal(18, 2)");
 
                             b1.Property<string>("ProductName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(200)");
+
+                            b1.Property<decimal?>("TotalWeight")
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<string>("Unit")
                                 .HasColumnType("nvarchar(20)");
@@ -772,9 +775,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Enitities.SubCategory", "SubCategory")
                         .WithMany()
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubCategoryId");
 
                     b.Navigation("GoldType");
 
