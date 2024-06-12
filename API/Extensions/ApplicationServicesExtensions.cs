@@ -31,6 +31,7 @@ namespace API.Extensions
             services.AddScoped<IGoldService, GoldService>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

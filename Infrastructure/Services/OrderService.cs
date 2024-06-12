@@ -1,4 +1,5 @@
-﻿using Core.Enitities.OrderAggregate;
+﻿using Core.Enitities;
+using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Orders;
@@ -7,10 +8,12 @@ namespace Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly IBasketRepository _basketRepo;
         private readonly IUnitOfWork _unitOfWork;
 
-        public OrderService(IUnitOfWork unitOfWork)
+        public OrderService(IBasketRepository basketRepo, IUnitOfWork unitOfWork)
         {
+            _basketRepo = basketRepo;
             _unitOfWork = unitOfWork;
         }
 
@@ -19,10 +22,12 @@ namespace Infrastructure.Services
          *         CREATE SALES ORDER
          * =================================
         **/
-        public Task<Order> CreateSalesOrderAsync()
+        public Task<Order> CreateSalesOrderAsync(int customerId, string basketId)
         {
             throw new NotImplementedException();
         }
+
+
 
 
         /**
