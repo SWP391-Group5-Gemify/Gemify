@@ -21,11 +21,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { UserModel } from '../../../core/models/user.model';
 import { EmployeeService } from '../../../core/services/employee/employee.service';
 import { Observable, Subscription } from 'rxjs';
-import {
-  GenderEnum,
-  GenderModel,
-} from '../../../core/models/gender-model.model';
-import { RoleModel } from '../../../core/models/role-model.model';
+import { GenderEnum, GenderModel } from '../../../core/models/gender.model';
+import { RoleModel } from '../../../core/models/role.model';
 import EnumUtils from '../../utils/EnumUtils';
 import { ModalConfigModel } from '../../../core/models/modal.model';
 

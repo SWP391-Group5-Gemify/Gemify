@@ -1,69 +1,74 @@
 <!-- Latest Shop's Gold Prices -->
 <div class="flex">
-  <section class="table-gold mat-elevation-z3">
+  <section class="table-gold">
+    <div class="timer u-margin-bottom-medium mat-elevation-z1">
+      <p class="timer__number u-margin-bottom-small">{{currentDate$ | async | date:'hh:mm:ss a'}}</p>
+      <p class="timer__date">{{currentDate$! | async | vietNameseDatePipe}}</p>
+    </div>
 
-    <h2 class="table-gold__header">
-      <p>Giá Vàng Cửa Hàng</p>
-      <p>(Đơn vị: Nghìn VND/chỉ)</p>
-      <p>{{currentDate$ | async | date:'h:mm:ss a, dd/MM/yyyy'}}</p>
-    </h2>
+    <div class="table-gold__table mat-elevation-z1">
+      <h2 class="table-gold__header">
+        <p>Giá Vàng Cửa Hàng</p>
+        <p>(Đơn vị: Nghìn VND/chỉ)</p>
+      </h2>
 
-    <!-- Material Table Content -->
-    <table mat-table
-           class="table-gold__content"
-           [dataSource]="prices">
+      <!-- Material Table Content -->
+      <table mat-table
+             class="table-gold__content"
+             [dataSource]="prices">
 
-      <!-- Table Headers -->
-      <tr mat-header-row
-          class="table-gold__sub-header"
-          *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row
-          *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Table Headers -->
+        <tr mat-header-row
+            class="table-gold__sub-header"
+            *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      <!-- Gold Type Name -->
-      <ng-container matColumnDef="name"
-                    class="table-gold__item">
-        <th mat-header-cell
-            *matHeaderCellDef> Tên Vàng </th>
-        <td mat-cell
-            *matCellDef="let gold"> {{gold.name}} </td>
-      </ng-container>
+        <!-- Gold Type Name -->
+        <ng-container matColumnDef="name"
+                      class="table-gold__item">
+          <th mat-header-cell
+              *matHeaderCellDef>Tên Vàng</th>
+          <td mat-cell
+              *matCellDef="let gold"> {{gold.name}} </td>
+        </ng-container>
 
-      <!-- Latest Bid Price Column -->
-      <ng-container matColumnDef="latestBidPrice"
-                    class="table-gold__item">
-        <th mat-header-cell
-            *matHeaderCellDef
-            class="table-gold__item--bid-cell-header"> Mua Vào </th>
-        <td mat-cell
-            class="table-gold__item--bid-cell"
-            *matCellDef="let gold"> {{gold.latestBidPrice}} </td>
-      </ng-container>
+        <!-- Latest Bid Price Column -->
+        <ng-container matColumnDef="latestBidPrice"
+                      class="table-gold__item">
+          <th mat-header-cell
+              *matHeaderCellDef
+              class="table-gold__item--bid-cell-header">Mua Vào</th>
+          <td mat-cell
+              class="table-gold__item--bid-cell"
+              *matCellDef="let gold"> {{gold.latestBidPrice}} </td>
+        </ng-container>
 
-      <!-- Latest Ask Price Column -->
-      <ng-container matColumnDef="latestAskPrice"
-                    class="table-gold__item">
-        <th mat-header-cell
-            *matHeaderCellDef
-            class="table-gold__item--ask-cell-header"> Bán Ra </th>
-        <td mat-cell
-            *matCellDef="let gold"
-            class="table-gold__item--ask-cell"> {{gold.latestAskPrice}} </td>
-      </ng-container>
+        <!-- Latest Ask Price Column -->
+        <ng-container matColumnDef="latestAskPrice"
+                      class="table-gold__item">
+          <th mat-header-cell
+              *matHeaderCellDef
+              class="table-gold__item--ask-cell-header">Bán Ra</th>
+          <td mat-cell
+              *matCellDef="let gold"
+              class="table-gold__item--ask-cell"> {{gold.latestAskPrice}} </td>
+        </ng-container>
 
-      <!-- Gold Content Column -->
-      <ng-container matColumnDef="content"
-                    class="table-gold__item">
-        <th mat-header-cell
-            *matHeaderCellDef> Loại Vàng </th>
-        <td mat-cell
-            *matCellDef="let gold"> {{gold.content}}%</td>
-      </ng-container>
-    </table>
+        <!-- Gold Content Column -->
+        <ng-container matColumnDef="content"
+                      class="table-gold__item">
+          <th mat-header-cell
+              *matHeaderCellDef>Loại Vàng</th>
+          <td mat-cell
+              *matCellDef="let gold">{{gold.content}}%</td>
+        </ng-container>
+      </table>
+    </div>
   </section>
 
   <!-- Global Gold Price Chart -->
-  <section class="chart-gold"
+  <section class="chart-gold mat-elevation-z1"
            id="id-gold-chart-tradingview-widget">
     <h2 class="chart-gold__header">
       <p>Giá Vàng Thế Giới</p>

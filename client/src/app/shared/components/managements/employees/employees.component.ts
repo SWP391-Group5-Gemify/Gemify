@@ -14,7 +14,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormEditCreateModalComponent } from '../../form-edit-create-modal/form-edit-create-modal.component';
-import { RoleModel } from '../../../../core/models/role-model.model';
+import { RoleModel } from '../../../../core/models/role.model';
 import {
   ModalConfigModel,
   ModalModeEnum,

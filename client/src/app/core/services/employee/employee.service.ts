@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { PaginationModel } from '../../models/pagination-model.model';
+import { PaginationModel } from '../../models/pagination.model';
 import { EmployeeModel } from '../../models/employee.model';
 import { AuthService } from '../auth/auth.service';
-import { RoleEnum, RoleModel } from '../../models/role-model.model';
+import { RoleEnum, RoleModel } from '../../models/role.model';
 
 @Injectable({
   providedIn: 'root',
