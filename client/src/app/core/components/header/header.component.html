@@ -12,7 +12,7 @@
     }
     } @else {
     @for (link of navLinksAlreadyLogin; track $index) {
-    <a (click)="logout()"
+    <a (click)="link.action()"
        class="btn btn--grad">{{link.name}}</a>
     }
     }

@@ -4,11 +4,12 @@ import { LatestGoldPrices } from '../../../core/models/latest-gold-prices.model'
 import { GoldChartService } from '../../../core/services/gold-chart/gold-chart.service';
 import { CommonModule } from '@angular/common';
 import { interval, map, Observable, startWith } from 'rxjs';
+import { VietNameseDatePipe } from '../../pipes/vietnameses-date-pipe/vietnamese-date.pipe';
 
 @Component({
   selector: 'app-gold-chart',
   standalone: true,
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, VietNameseDatePipe],
   templateUrl: './gold-chart.component.html',
   styleUrl: './gold-chart.component.scss',
 })
@@ -71,7 +72,7 @@ export class GoldChartComponent implements OnInit {
       "scalePosition": "left",
       "scaleMode": "Normal",
       "fontFamily": "Roboto, BlinkMacSystemFont, sans-serif",
-      "fontSize": "10",
+      "fontSize": "15",
       "noTimeScale": false,
       "valuesTracking": "1",
       "changeMode": "price-and-percent",
@@ -101,7 +102,6 @@ export class GoldChartComponent implements OnInit {
     this.goldChartService.getLatestGoldPrices().subscribe({
       next: (response) => {
         this.prices = response;
-        console.table(this.prices);
       },
       error: (error) => console.log(error),
     });

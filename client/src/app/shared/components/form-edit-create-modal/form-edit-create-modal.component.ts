@@ -21,13 +21,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { UserModel } from '../../../core/models/user.model';
 import { EmployeeService } from '../../../core/services/employee/employee.service';
 import { Observable, Subscription } from 'rxjs';
-import {
-  GenderEnum,
-  GenderModel,
-} from '../../../core/models/gender-model.model';
-import { RoleEnum, RoleModel } from '../../../core/models/role-model.model';
+import { GenderEnum, GenderModel } from '../../../core/models/gender.model';
+import { RoleModel } from '../../../core/models/role.model';
 import EnumUtils from '../../utils/EnumUtils';
-import ObjectUtils from '../../utils/ObjectUtils';
+import { ModalConfigModel } from '../../../core/models/modal.model';
 
 @Component({
   selector: 'app-form-edit-create-modal',
@@ -55,7 +52,7 @@ export class FormEditCreateModalComponent implements OnInit {
 
   @Output() editDataFromChild = new EventEmitter<any>();
   public formEditOrCreate!: FormGroup;
-  public inputData!: UserModel;
+  public modalDataConfig!: ModalConfigModel;
   public genderOptions: GenderModel[];
   public roleOptions$!: Observable<RoleModel[]>;
 
@@ -63,7 +60,7 @@ export class FormEditCreateModalComponent implements OnInit {
   // == Life cycle
   // =========================
   /**
-   *
+   * Constructor
    * @param formBuilder
    * @param dataFromParent
    * @param ref
@@ -80,19 +77,35 @@ export class FormEditCreateModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.inputData = this.dataFromParent.initialData;
+    // Load config data passed from the parent
+    this.modalDataConfig = this.dataFromParent;
 
     this.formEditOrCreate = this.formBuilder.group({
-      fullName: [this.inputData.fullName || '', Validators.required],
+      fullName: [
+        this.modalDataConfig.initialData.fullName || '',
+        Validators.required,
+      ],
       email: [
-        this.inputData.email || '',
+        this.modalDataConfig.initialData.email || '',
         [Validators.required, Validators.email],
       ],
 
-      phoneNumber: [this.inputData.phoneNumber || '', Validators.required],
-      dateOfBirth: [this.inputData.dateOfBirth || '', Validators.required],
-      address: [this.inputData.address || '', Validators.required],
-      gender: [this.inputData.gender || GenderEnum.Male, Validators.required],
+      phoneNumber: [
+        this.modalDataConfig.initialData.phoneNumber || '',
+        Validators.required,
+      ],
+      dateOfBirth: [
+        this.modalDataConfig.initialData.dateOfBirth || '',
+        Validators.required,
+      ],
+      address: [
+        this.modalDataConfig.initialData.address || '',
+        Validators.required,
+      ],
+      gender: [
+        this.modalDataConfig.initialData.gender || GenderEnum.Male,
+        Validators.required,
+      ],
 
       //TODO: Fix the bullshit bug coming from Backend
       // password: [this.inputData.password || '', Validators.required],
@@ -119,16 +132,13 @@ export class FormEditCreateModalComponent implements OnInit {
    */
   saveModal() {
     if (this.formEditOrCreate.valid) {
-      console.table(this.formEditOrCreate.value);
-      console.table(this.inputData);
-
       const dateFormatted = this.datePipe.transform(
         this.formEditOrCreate.get('dateOfBirth')?.value,
         'yyyy-MM-dd'
       );
 
       const updatedData = {
-        ...this.inputData,
+        ...this.modalDataConfig.initialData,
         ...this.formEditOrCreate.value,
         dateOfBirth: dateFormatted,
       };

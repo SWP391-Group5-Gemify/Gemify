@@ -33,7 +33,7 @@ export class AuthService {
    */
   constructor(private http: HttpClient) {
     this._isLoggedIn$.next(!!this.token); // Convert value to falsy and truthy
-    this.currentUser = this.getCurrentUser(this.token);
+    this.currentUser = this.getCurrentUserFromToken(this.token);
   }
   // ====================
   // == Methods
@@ -57,7 +57,7 @@ export class AuthService {
   public login(values: any): Observable<any> {
     return this.http.post(`${this.baseAccountUrl}/login`, values).pipe(
       tap((response: any) => {
-        this.currentUser = this.getCurrentUser(response.token);
+        this.currentUser = this.getCurrentUserFromToken(response.token);
         this._isLoggedIn$.next(true); // emit the true as logged in user
         localStorage.setItem(this.TOKEN_NAME, response.token);
       })
@@ -77,7 +77,7 @@ export class AuthService {
    * Decrypt the token payload, get the user information
    * @param token
    */
-  public getCurrentUser(token: string | null): UserModel | undefined {
+  private getCurrentUserFromToken(token: string | null): UserModel | undefined {
     return token
       ? (JSON.parse(atob(token?.split('.')[1])) as UserModel)
       : undefined;
@@ -88,5 +88,12 @@ export class AuthService {
    */
   public registerNewUser(user: UserModel): Observable<any> {
     return this.http.post(`${this.baseAccountUrl}/register`, user);
+  }
+
+  /**
+   * Get the current user profile
+   */
+  public getCurrentUserProfile(): Observable<any> {
+    return this.http.get(this.baseAccountUrl);
   }
 }

@@ -14,7 +14,12 @@ import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormEditCreateModalComponent } from '../../form-edit-create-modal/form-edit-create-modal.component';
-import { RoleModel } from '../../../../core/models/role-model.model';
+import { RoleModel } from '../../../../core/models/role.model';
+import {
+  ModalConfigModel,
+  ModalModeEnum,
+  ModalTitle,
+} from '../../../../core/models/modal.model';
 
 @Component({
   selector: 'app-employees',
@@ -154,6 +159,14 @@ export class EmployeesComponent implements OnInit {
    * @param employee
    */
   openEditEmployeeModal(employee: EmployeeModel) {
+    const modalData: ModalConfigModel = {
+      title: ModalTitle.EditEmployeeTitle,
+      mode: ModalModeEnum.Edit,
+      initialData: {
+        ...employee,
+      },
+    };
+
     const dialogRef = this.createOrEditModal.open(
       FormEditCreateModalComponent,
       {
@@ -161,12 +174,7 @@ export class EmployeesComponent implements OnInit {
         height: '80vh',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
-        data: {
-          title: 'Edit Employee',
-          initialData: {
-            ...employee,
-          }, // shallow copy to avoid hot-changing
-        },
+        data: modalData,
       }
     );
 
