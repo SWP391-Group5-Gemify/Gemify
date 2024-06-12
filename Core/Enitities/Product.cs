@@ -17,7 +17,7 @@ namespace Core.Enitities
         [Column(TypeName = "decimal(18,6)")]
         public decimal? GoldWeight {  get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public decimal TotalWeight { get; set; }
+        public decimal? TotalWeight { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal? Labour {  get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]
@@ -26,7 +26,7 @@ namespace Core.Enitities
         public int? Quantity { get; set; }
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }
-        public int SubCategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
         public int? SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }
