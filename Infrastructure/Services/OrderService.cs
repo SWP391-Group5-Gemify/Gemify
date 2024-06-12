@@ -1,5 +1,6 @@
 ﻿using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
+using Core.Specifications;
 using Core.Specifications.Orders;
 
 namespace Infrastructure.Services
@@ -44,6 +45,11 @@ namespace Infrastructure.Services
         public async Task<IReadOnlyList<Order>> GetOrdersAsync(OrdersSpecification ordersSpec)
         {
             return await _unitOfWork.Repository<Order>().ListAsync(ordersSpec);  
+        }
+
+        public async Task<int> CountOrdersWithSpecAsync(ISpecification<Order> spec)
+        {
+            return await _unitOfWork.Repository<Order>().CountAsync(spec);
         }
     }
 }
