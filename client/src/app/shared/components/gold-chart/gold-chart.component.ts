@@ -71,7 +71,7 @@ export class GoldChartComponent implements OnInit {
       "scalePosition": "left",
       "scaleMode": "Normal",
       "fontFamily": "Roboto, BlinkMacSystemFont, sans-serif",
-      "fontSize": "10",
+      "fontSize": "20",
       "noTimeScale": false,
       "valuesTracking": "1",
       "changeMode": "price-and-percent",

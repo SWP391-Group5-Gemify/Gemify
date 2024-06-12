@@ -10,7 +10,7 @@
 
 // TABLE GOLD
 .table-gold {
-  flex: 1 0 20rem;
+  flex: 1 0 50rem;
   border-radius: 20px;
   overflow: hidden;
 
@@ -50,6 +50,7 @@
   &__content {}
 
   &__item {
+
     &--ask-cell-header {
       color: $color-primary-dark;
     }
@@ -75,7 +76,7 @@
 // CHART GOLD
 .chart-gold {
   height: 70rem;
-  flex: 3 0 40rem;
+  flex: 1 0 50rem;
 
   &__header {
     text-align: center;
