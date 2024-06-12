@@ -4,7 +4,7 @@ import { LogoComponent } from '../logo/logo.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule, Location } from '@angular/common';
 import { Action } from 'rxjs/internal/scheduler/Action';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Observer, switchMap } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { FormViewModalComponent } from '../../../shared/components/form-view-modal/form-view-modal.component';
@@ -21,7 +21,7 @@ import {
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   // ================================
   // == Fields
   // ================================
@@ -51,11 +51,6 @@ export class HeaderComponent implements OnInit {
     private location: Location,
     public viewModal: MatDialog
   ) {}
-
-  ngOnInit(): void {
-    this.loadCurrentUserProfile();
-  }
-
   // ================================
   // == Methods
   // ================================
@@ -70,17 +65,16 @@ export class HeaderComponent implements OnInit {
 
   /**
    * Load the current user profile
-   * TODO: Handle error route later
    */
   loadCurrentUserProfile() {
     this.authService.getCurrentUserProfile().subscribe({
-      next: (data: any) => {
+      next: (data: UserModel) => {
         this.currentUserProfile = data;
       },
 
       error: (err) => {
         // Handle Error later
-        console.log(err);
+        console.error(err);
       },
     });
   }
@@ -89,6 +83,8 @@ export class HeaderComponent implements OnInit {
    * Open the modal for viewing
    */
   openCurrentUserModal() {
+    this.loadCurrentUserProfile();
+
     const modalData: ModalConfigModel = {
       title: ModalTitle.ViewCurrentUserProfileTitle,
       mode: ModalModeEnum.View,

@@ -8,10 +8,6 @@ const routes: Routes = [
   {
     path: '',
     component: AppraiserComponent,
-    canActivate: [authGuard, roleGuard],
-    data: {
-      role: 'Appraiser',
-    },
     children: [],
   },
 ];

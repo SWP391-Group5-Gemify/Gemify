@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserModel } from '../../models/user.model';
+import { RoleEnum } from '../../models/role.model';
 
 @Injectable({
   providedIn: 'root',
@@ -93,7 +94,16 @@ export class AuthService {
   /**
    * Get the current user profile
    */
-  public getCurrentUserProfile(): Observable<any> {
-    return this.http.get(this.baseAccountUrl);
+  public getCurrentUserProfile(): Observable<UserModel> {
+    return this.http.get<UserModel>(this.baseAccountUrl);
+  }
+
+  /**
+   * A function to check if current user role satistifed with some predefined route's roles
+   * @param expectedRoles
+   * @returns
+   */
+  public belongToAnyRoles(expectedRoles: RoleEnum[]): boolean {
+    return expectedRoles.some((role) => role === this.currentUser?.role);
   }
 }

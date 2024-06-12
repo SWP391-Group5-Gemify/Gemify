@@ -8,10 +8,6 @@ const routes: Routes = [
   {
     path: '',
     component: SellerComponent,
-    canActivate: [authGuard, roleGuard],
-    data: {
-      role: 'Repurchaser',
-    },
     children: [
       {
         path: '',

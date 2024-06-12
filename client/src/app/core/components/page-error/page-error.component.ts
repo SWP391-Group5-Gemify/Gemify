@@ -20,6 +20,7 @@ export class PageErrorComponent implements OnInit {
     this.errorData = this.router.snapshot.data as RouteErrorResponseModel;
   }
 
+  // TODO: Fix error on go back to the guarded routes
   onGoBack(): void {
     this.routeLocation.back();
   }
