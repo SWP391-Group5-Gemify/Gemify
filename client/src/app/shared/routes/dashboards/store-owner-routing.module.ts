@@ -3,20 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../../../core/guard/auth/auth.guard';
 import { StoreOwnerComponent } from '../../components/dashboards/store-owner/store-owner.component';
 import { roleGuard } from '../../../core/guard/roles/role.guard';
+import { RoleEnum } from '../../../core/models/role.model';
 
 const routes: Routes = [
   {
     path: '',
     component: StoreOwnerComponent,
-    canActivate: [authGuard, roleGuard],
-    data: {
-      role: 'StoreOwner',
-    },
     children: [
       {
         path: '',
         redirectTo: 'statistic-dashboard',
-        pathMatch: 'full',
+        pathMatch: 'prefix',
       },
       {
         path: 'statistic-dashboard',
@@ -101,6 +98,11 @@ const routes: Routes = [
           import('../../routes/managements/warranty-routing.module').then(
             (m) => m.WarrantyRoutingModule
           ),
+      },
+      {
+        path: '**',
+        redirectTo: 'statistic-dashboard',
+        pathMatch: 'full',
       },
     ],
   },

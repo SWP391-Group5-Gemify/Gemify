@@ -17,9 +17,12 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   // If not login => token remove => always redirect to  /login route
   return authService.isLoggedIn$.pipe(
-    tap((isLoggedIn) => {
+    tap((isLoggedIn: boolean) => {
       if (!isLoggedIn) {
         router.navigate(['login']);
+        return false;
+      } else {
+        return true;
       }
     })
   );
