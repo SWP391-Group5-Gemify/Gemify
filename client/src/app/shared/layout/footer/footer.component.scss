@@ -1,8 +1,6 @@
 @import "abstracts/variables";
 
 .footer {
-  display: flex;
-  align-items: center;
   position: sticky;
   bottom: 0px;
   left: 0px;
@@ -13,7 +11,7 @@
   padding-left: $padding-layout;
   z-index: 10;
 
-  height: 6rem;
+  line-height: 5.5rem;
   border-top: 2px solid $color-primary;
 
   &__copyright {
