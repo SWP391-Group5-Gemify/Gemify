@@ -23,8 +23,10 @@ namespace Infrastructure.Services
          * =================================
         **/
         public Task<Order> CreateSalesOrderAsync(int customerId, string basketId)
-        {
+        { 
             throw new NotImplementedException();
+            // product price = goldweight*bidprice + labour + gemprice*quantity
+            // order total = total*promotion
         }
 
 
@@ -44,21 +46,16 @@ namespace Infrastructure.Services
         public async Task<Order> GetOrderByIdAsync(int id)
         {
             var spec = new OrdersSpecification(id);
-            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
-            if(order == null) return null;
-            return order;
+            return await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
         }
 
         public async Task<OrderItem> GetOrderItemByIdAsync(int id) {
-            var orderItem = await _unitOfWork.Repository<OrderItem>().GetByIdAsync(id);
-            if (orderItem == null) return null;
-            return orderItem;
+            return await _unitOfWork.Repository<OrderItem>().GetByIdAsync(id);
         }
 
         public async Task<IReadOnlyList<Order>> GetOrdersAsync(OrdersSpecification ordersSpec)
         {
-            var orders = await _unitOfWork.Repository<Order>().ListAsync(ordersSpec);              
-            return orders;
+            return await _unitOfWork.Repository<Order>().ListAsync(ordersSpec);              
         }
 
         public async Task<int> CountOrdersWithSpecAsync(ISpecification<Order> spec)

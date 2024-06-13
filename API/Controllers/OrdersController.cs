@@ -28,7 +28,7 @@ namespace API.Controllers
             var order = await _orderService.GetOrderByIdAsync(id);
             if(order == null) return NotFound(new ApiResponse(404,"Order not found!"));
             return Ok(_mapper.Map<Order,OrderDto>(order));
-        }
+        } 
 
         [HttpGet("orderitem/{id}")]
         public async Task<ActionResult<OrderItem>> GetOrderItemById(int id) {
