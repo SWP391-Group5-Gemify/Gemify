@@ -40,6 +40,7 @@
   mat-sidenav-content {
     border-top: 2px solid $color-primary-dark;
     padding-top: $padding-layout;
+    overflow: hidden;
     @include paddingHorizon($padding-layout);
   }
 }

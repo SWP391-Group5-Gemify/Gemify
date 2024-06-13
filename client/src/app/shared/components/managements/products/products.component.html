@@ -10,9 +10,10 @@
 <mat-toolbar>Will have filter, categories card here</mat-toolbar>
 
 <!-- Paginator -->
-<mat-paginator [length]="100"
-               [pageSize]="10"
+<mat-paginator [length]="paginatorConfig.totalProducts"
+               [pageSize]="paginatorConfig.pageSize"
                [pageSizeOptions]="[5, 10, 25, 100]"
+               (page)="onPageChange($event)"
                aria-label="Select page">
 </mat-paginator>
 
@@ -20,22 +21,7 @@
 <!-- List of Product -->
 <!-- - Using @for too loop through the cards -->
 <section class="grid grid--responsive">
-  @for (product of products; track $index) {
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{product.title}}</mat-card-title>
-    </mat-card-header>
-
-    <img mat-card-image
-         [src]="product.imageUrl" />
-    <mat-card-content>
-      <p>{{product.description}}</p>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-button>Add To Card</button>
-      <button mat-button>Disable</button>
-    </mat-card-actions>
-  </mat-card>
+  @for (product of products$ | async; track $index) {
+  <app-card-product [product]="product"></app-card-product>
   }
 </section>
