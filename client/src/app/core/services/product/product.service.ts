@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EmployeeModel } from '../../models/employee.model';
 import { CategoryModel, ProductModel } from '../../models/product.model';
 import { environment } from '../../../../environments/environment';
 import { PaginationModel } from '../../models/pagination.model';
@@ -34,15 +33,26 @@ export class ProductService {
     subcategoryId?: number,
     sort?: string
   ): Observable<PaginationModel<ProductModel>> {
-    const params: any = {
-      pageIndex: pageIndex.toString(),
-      pageSize: pageSize.toString(),
-      search: search?.toString() ?? undefined,
-      goldTypeId: goldTypeId?.toString() ?? undefined,
-      categoryId: categoryId?.toString() ?? undefined,
-      subcategoryId: subcategoryId?.toString() ?? undefined,
-      sort: sort?.toString() ?? undefined,
-    };
+    let params = new HttpParams()
+      .set('pageIndex', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
+
+    // Assign params if existences
+    if (search) {
+      params = params.set('search', search);
+    }
+    if (goldTypeId) {
+      params = params.set('goldTypeId', goldTypeId.toString());
+    }
+    if (categoryId) {
+      params = params.set('categoryId', categoryId.toString());
+    }
+    if (subcategoryId) {
+      params = params.set('subcategoryId', subcategoryId.toString());
+    }
+    if (sort) {
+      params = params.set('sort', sort);
+    }
 
     return this.httpClient.get<PaginationModel<ProductModel>>(
       this.baseProductUrl,
@@ -64,7 +74,7 @@ export class ProductService {
    * @param product
    * @returns
    */
-  updateProduct(product: ProductModel) {
+  updateProduct(product: ProductModel): any {
     return this.httpClient.put<ProductModel>(
       `${this.baseProductUrl}/${product.id}`,
       product
@@ -76,7 +86,7 @@ export class ProductService {
    * @param id
    * @returns
    */
-  disableProduct(id: number) {
+  disableProduct(id: number): any {
     return this.httpClient.delete(`${this.baseProductUrl}/${id}`);
   }
 

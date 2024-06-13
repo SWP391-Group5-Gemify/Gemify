@@ -1,6 +1,6 @@
 .sidenav-content {
   height: 100%;
-  // Side Bar
+  @include paddingHorizon($padding-layout);
 
   &__item-text {
     display: flex;
@@ -22,6 +22,7 @@
   mat-sidenav {
     overflow: hidden;
     scroll-behavior: smooth;
+    height: min-content;
     border-radius: 2rem;
     padding: 1.4rem;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -32,7 +33,6 @@
   }
 
   mat-sidenav-content {
-    padding-left: 2rem;
-    background-color: $color-white;
+    @include paddingHorizon($padding-layout);
   }
 }

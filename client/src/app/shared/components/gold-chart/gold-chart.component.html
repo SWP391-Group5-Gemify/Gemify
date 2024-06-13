@@ -1,12 +1,12 @@
 <!-- Latest Shop's Gold Prices -->
-<div class="flex">
+<div class="flex u-padding-left-small u padding-right-small">
   <section class="table-gold">
-    <div class="timer u-margin-bottom-medium mat-elevation-z1">
-      <p class="timer__number u-margin-bottom-small">{{currentDate$ | async | date:'hh:mm:ss a'}}</p>
+    <div class="timer mat-elevation-z2">
+      <p class="timer__number">{{currentDate$ | async | date:'hh:mm:ss a'}}</p>
       <p class="timer__date">{{currentDate$! | async | vietNameseDatePipe}}</p>
     </div>
 
-    <div class="table-gold__table mat-elevation-z1">
+    <div class="table-gold__table mat-elevation-z2">
       <h2 class="table-gold__header">
         <p>Giá Vàng Cửa Hàng</p>
         <p>(Đơn vị: Nghìn VND/chỉ)</p>
@@ -68,9 +68,9 @@
   </section>
 
   <!-- Global Gold Price Chart -->
-  <section class="chart-gold mat-elevation-z1"
+  <section class="chart-gold"
            id="id-gold-chart-tradingview-widget">
-    <h2 class="chart-gold__header">
+    <h2 class="chart-gold__header mat-elevation-z2">
       <p>Giá Vàng Thế Giới</p>
       <p>(USD/ounce)</p>
     </h2>

@@ -3,6 +3,8 @@ import { Component, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 type CardContent = {
   title: string;
   description: string;
@@ -12,7 +14,13 @@ type CardContent = {
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatToolbarModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatPaginatorModule,
+  ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
@@ -42,6 +50,90 @@ export class ProductsComponent {
     },
     {
       title: 'Product 4',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
+      description:
+        "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+      imageUrl: 'https://picsum.photos/id/237/200/300',
+    },
+    {
+      title: 'Product 5',
       description:
         "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       imageUrl: 'https://picsum.photos/id/237/200/300',

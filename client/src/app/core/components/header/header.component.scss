@@ -1,6 +1,8 @@
 @import "abstracts/variables";
+@import "abstracts/mixins";
 
 .header {
+  @include paddingHorizon($padding-layout);
   display: flex;
   flex-direction: row;
   justify-content: space-between;

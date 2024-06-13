@@ -1,4 +1,4 @@
-export interface LatestGoldPrices {
+export interface LatestGoldPricesModel {
   name: string;
   latestBidPrice: number;
   latestAskPrice: number;
