@@ -18,11 +18,11 @@ namespace Infrastructure.Config
                 .HasForeignKey(p => p.SubCategoryId);
 
             builder.HasOne(p => p.SaleCounter)
-                .WithMany(p => p.Products)
+                .WithMany()
                 .HasForeignKey(p => p.SaleCounterId);
 
             builder.HasMany(p => p.Gems)
-                .WithMany(p => p.Products)
+                .WithMany()
                 .UsingEntity<ProductGem>();
         }
     }

@@ -3,6 +3,8 @@ using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Orders;
+using Core.Specifications.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -22,24 +24,10 @@ namespace Infrastructure.Services
          *         CREATE SALES ORDER
          * =================================
         **/
-        public Task<Order> CreateSalesOrderAsync(int customerId, string basketId)
+        public Task<Order> CreateSalesOrderAsync()
         {
-            // Get basket from redis database
-             // var basket = await _basketRepo.GetBasketAsync(basketId);
-
-            // Get items from product repo to prevent client from tampering with price data
-            /** var items = new List<OrderItem>();
-            foreach(var item in basket.Items)
-            {
-                var productItem = await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
-                var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice, 
-                    productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit, 
-                    productItem.TotalWeight, productItem.ImageUrl);
-
-                var orderItem = new OrderItem(itemOrdered, )
-            }
-            **/
             throw new NotImplementedException();
+
         }
 
 

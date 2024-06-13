@@ -7,6 +7,7 @@ using Core.Specifications.Orders;
 using Microsoft.AspNetCore.Mvc;
 using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Core.Enitities;
 
 namespace API.Controllers
 {
@@ -41,6 +42,13 @@ namespace API.Controllers
             var data = _mapper.Map<IReadOnlyList<Order>,IReadOnlyList<OrderDto>>(orders);
             return Ok(new Pagination<OrderDto>
                 (orderSpecParams.PageIndex,orderSpecParams.PageSize,totalOrders,data));
+        }
+
+        [HttpGet("test")]
+        public async Task<ActionResult<IReadOnlyList<ProductGem>>> CreateOrder()
+        {
+           var data = await _orderService.CreateSalesOrderAsync();
+           return Ok(data);
         }
     }
 }
