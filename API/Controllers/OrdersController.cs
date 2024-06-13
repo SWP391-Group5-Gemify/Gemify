@@ -1,7 +1,12 @@
-﻿using AutoMapper;
+﻿using API.Errors;
+using API.Dtos;
+using AutoMapper;
 using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
+using Core.Specifications.Orders;
 using Microsoft.AspNetCore.Mvc;
+using API.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -17,10 +22,25 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderItem>> GetOrderItemById(int id)
+        [Authorize]
+        public async Task<ActionResult<Order>> GetOrderById(int id)
         {
-            return Ok(await _orderService.GetOrderItemByIdAsync(id));
+            var order = await _orderService.GetOrderByIdAsync(id);
+            if(order == null) return NotFound(new ApiResponse(404,"Order not found!"));
+            return Ok(_mapper.Map<Order, OrderDto>(order));
         }
-        
+
+        [HttpGet]
+        [Authorize(Roles = "StoreOwner,StoreManager,Repurchaser,Cashier")]
+        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrders([FromQuery] OrderSpecParams orderSpecParams)
+        {
+            var spec = new OrdersSpecification(orderSpecParams);
+            var countSpec = new OrderWithFilterForCountSpecification(orderSpecParams);
+            var orders = await _orderService.GetOrdersAsync(spec);
+            var totalOrders = await _orderService.CountOrdersWithSpecAsync(countSpec);
+            var data = _mapper.Map<IReadOnlyList<Order>,IReadOnlyList<OrderDto>>(orders);
+            return Ok(new Pagination<OrderDto>
+                (orderSpecParams.PageIndex,orderSpecParams.PageSize,totalOrders,data));
+        }
     }
 }
