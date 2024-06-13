@@ -9,5 +9,7 @@ namespace Core.Interfaces
         Task<Order> CreateBuyBackOrderAsync();
         Task<IReadOnlyList<Order>> GetOrdersAsync(OrdersSpecification ordersSpec);
         Task<Order> GetOrderByIdAsync(int id);
+
+        Task<OrderItem> GetOrderItemByIdAsync(int id);
     }
 }

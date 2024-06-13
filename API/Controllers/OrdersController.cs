@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -14,7 +16,11 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OrderItem>> GetOrderItemById(int id)
+        {
+            return Ok(await _orderService.GetOrderItemByIdAsync(id));
+        }
         
     }
 }
