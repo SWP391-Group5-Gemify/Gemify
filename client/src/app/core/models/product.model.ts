@@ -36,3 +36,15 @@ export interface GemModel {
   quantity: number;
   gemsPrice: number;
 }
+
+export interface CategoryModel {
+  id: number;
+  name: string;
+  subCategories: SubCategoryModel[];
+}
+
+export interface SubCategoryModel {
+  id: number;
+  name: string;
+  unit: string;
+}
