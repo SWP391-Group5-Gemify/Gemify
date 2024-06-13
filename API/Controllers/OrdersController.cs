@@ -21,7 +21,8 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Order>> GetOrderById(int id)
         {
             var order = await _orderService.GetOrderByIdAsync(id);
@@ -29,8 +30,14 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order,OrderDto>(order));
         }
 
+        [HttpGet("orderitem/{id}")]
+        public async Task<ActionResult<OrderItem>> GetOrderItemById(int id) {
+            var order = await _orderService.GetOrderItemByIdAsync(id);
+            return Ok(order);
+        }
+
         [HttpGet]
-        [Authorize(Roles = "StoreManager,Owner")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Repurchaser,Cashier")]
         public async Task<ActionResult<IReadOnlyList<Order>>> GetOrders([FromQuery] OrderSpecParams orderSpecParams)
         {
             var spec = new OrdersSpecification(orderSpecParams);
@@ -41,6 +48,7 @@ namespace API.Controllers
             return Ok(new Pagination<OrderDto>
                 (orderSpecParams.PageIndex,orderSpecParams.PageSize,totalOrders,data));
         }
+
         
     }
 }

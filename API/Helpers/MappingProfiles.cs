@@ -79,9 +79,8 @@ namespace API.Helpers
                 .ForMember(d => d.GemPrice, o => o.MapFrom(s => s.GemsItemOrdered.GemPrice))
                 .ForMember(d => d.GemCarat, o => o.MapFrom(s => s.GemsItemOrdered.GemCarat))
                 .ForMember(d => d.GemClarity, o => o.MapFrom(s => s.GemsItemOrdered.GemClarity))
-                .ForMember(d => d.GemCertificateCode, o => o.MapFrom(s => s.GemsItemOrdered.GemCertificateCode))
-                .ForMember(d => d.Price, o => o.MapFrom(s => s.Price))
-                .ForMember(d => d.Quantity, o => o.MapFrom(s => s.Quantity));
+                .ForMember(d => d.GemCertificateCode, o => o.MapFrom(s => s.GemsItemOrdered.GemCertificateCode));
+            CreateMap<OrderItemGem,OrderItemGemDto>();
 
             CreateMap<OrderItem,OrderItemDto>()
                 .ForMember(d => d.ProductItemId, o => o.MapFrom(s => s.ItemOrdered.ProductItemId))
@@ -92,14 +91,13 @@ namespace API.Helpers
                 .ForMember(d => d.ProductLabour, o => o.MapFrom(s => s.ItemOrdered.ProductLabour))
                 .ForMember(d => d.Unit, o => o.MapFrom(s => s.ItemOrdered.Unit))
                 .ForMember(d => d.Image_Url, o => o.MapFrom(s => s.ItemOrdered.Image_Url))
-                .ForMember(d => d.Price, o => o.MapFrom(s => s.Price))
-                .ForMember(d => d.Quantity, o => o.MapFrom(s => s.Quantity));
+                .ForMember(d => d.OrderItemGems, o => o.MapFrom(s => s.OrderItemGems));
 
             CreateMap<Order,OrderDto>()
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.Customer.Name))
                 .ForMember(d => d.Phone, o => o.MapFrom(s => s.Customer.Phone))
-                .ForMember(d => d.MembershipId, o => o.MapFrom(s => s.Customer.MembershipId));
-            CreateMap<Order,OrderDto>();
+                .ForMember(d => d.MembershipId, o => o.MapFrom(s => s.Customer.MembershipId))
+                .ForMember(d => d.OrderItems, o => o.MapFrom(s => s.OrderItems));
             
         }
     }

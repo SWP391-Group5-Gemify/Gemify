@@ -1,8 +1,8 @@
 namespace API.Dtos
 {
     public class OrderDto
-{
-    public DateTime OrderDate { get; set; }
+    {
+        public DateTime OrderDate { get; set; }
         public string Status { get; set; }
         public int OrderTypeId { get; set; }
         public decimal SubTotal {  get; set; }
@@ -13,6 +13,8 @@ namespace API.Dtos
         public int UserId { get; set; }
         public string PaymentIntentId { get; set; }
         public int PromotionId { get; set; }
-}
+        public IReadOnlyList<OrderItemDto> OrderItems {get; set;}
+
+    }
 
 }
