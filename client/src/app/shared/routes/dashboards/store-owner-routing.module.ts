@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from '../../../core/guard/auth/auth.guard';
 import { StoreOwnerComponent } from '../../components/dashboards/store-owner/store-owner.component';
-import { roleGuard } from '../../../core/guard/roles/role.guard';
-import { RoleEnum } from '../../../core/models/role.model';
 
 const routes: Routes = [
   {

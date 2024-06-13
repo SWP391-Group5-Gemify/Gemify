@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 import { FormLoginComponent } from './shared/components/form-login/form-login.component';
 import { PageErrorComponent } from './core/components/page-error/page-error.component';
-import { roleGuard } from './core/guard/roles/role.guard';
-import { authGuard } from './core/guard/auth/auth.guard';
 import { RoleEnum } from './core/models/role.model';
+import { authGuard, roleGuard } from './core/guards';
 
 export const routes: Routes = [
   { path: '', component: FormLoginComponent, pathMatch: 'full' },
@@ -72,6 +71,19 @@ export const routes: Routes = [
       role: [RoleEnum.Cashier],
     },
   },
+
+  {
+    path: 'seller',
+    loadChildren: () =>
+      import('./shared/routes/dashboards/seller-routing.module').then(
+        (m) => m.SellerRoutingModule
+      ),
+    canActivate: [authGuard, roleGuard],
+    data: {
+      role: [RoleEnum.Seller],
+    },
+  },
+
   {
     path: 'appraiser',
     loadChildren: () =>
@@ -92,17 +104,6 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard],
     data: {
       role: [RoleEnum.Repurchaser],
-    },
-  },
-  {
-    path: 'seller',
-    loadChildren: () =>
-      import('./shared/routes/dashboards/seller-routing.module').then(
-        (m) => m.SellerRoutingModule
-      ),
-    canActivate: [authGuard, roleGuard],
-    data: {
-      role: [RoleEnum.Seller],
     },
   },
 

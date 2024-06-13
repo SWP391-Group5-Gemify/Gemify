@@ -54,16 +54,13 @@ html {
 
 body {
   box-sizing: border-box;
-  padding: 2rem 2rem 0 2rem;
-  // min-height: 100vh;
   background-color: $color-white;
   font-family: 'Roboto', sans-serif; // display: flex;
-  // flex-direction: column;
-  // min-height: 100vh;
 }
 
 main {
-  height: 100%;
+  height: calc(100% - 10rem - 6rem);
+  padding-bottom: $padding-layout;
 }
 
 ul {
