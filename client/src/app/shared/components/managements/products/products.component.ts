@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIcon } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 type CardContent = {
   title: string;
@@ -20,6 +22,8 @@ type CardContent = {
     MatButtonModule,
     MatToolbarModule,
     MatPaginatorModule,
+    MatIcon,
+    MatBadgeModule,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',

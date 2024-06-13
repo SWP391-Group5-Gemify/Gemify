@@ -1,6 +1,21 @@
-<!-- Search Product, Filter Product Name,  Categories, Subcategory -->
+<!-- Cart icon -->
 
+<div class="cart">
+  <mat-icon matBadge="15"
+            matBadgeColor="accent"
+            matBadgeSize="medium">shopping_cart</mat-icon>
+</div>
+
+<!-- Search Product, Filter Product Name,  Categories, Subcategory -->
 <mat-toolbar>Will have filter, categories card here</mat-toolbar>
+
+<!-- Paginator -->
+<mat-paginator [length]="100"
+               [pageSize]="10"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               aria-label="Select page">
+</mat-paginator>
+
 
 <!-- List of Product -->
 <!-- - Using @for too loop through the cards -->
@@ -24,9 +39,3 @@
   </mat-card>
   }
 </section>
-
-<mat-paginator [length]="100"
-               [pageSize]="10"
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               aria-label="Select page">
-</mat-paginator>

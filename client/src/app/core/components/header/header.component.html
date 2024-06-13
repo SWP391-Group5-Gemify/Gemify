@@ -1,10 +1,11 @@
 <header class="header
-                u-margin-bottom-small
+                u-padding-bottom-small
                 u-padding-top-small">
   <app-logo [classLogoSize]="'logo--big'"></app-logo>
 
   <span class="divider"></span>
 
+  <!-- A group of action buttons -->
   <nav class="header__nav">
     @if (!(authService.isLoggedIn$ | async)) {
     @for (link of navLinksNotLogin; track $index) {
@@ -17,6 +18,8 @@
     <a (click)="link.action()"
        class="btn btn--grad">{{link.name}}</a>
     }
+
+    <!-- A shopping cart -->
     }
   </nav>
 

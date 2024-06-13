@@ -59,7 +59,8 @@ body {
 }
 
 main {
-  height: 100%;
+  height: calc(100% - 10rem - 6rem);
+  padding-bottom: $padding-layout;
 }
 
 ul {

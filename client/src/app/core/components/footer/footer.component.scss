@@ -1,19 +1,23 @@
 @import "abstracts/variables";
 
 .footer {
-  display: block;
+  display: flex;
+  align-items: center;
   position: sticky;
   bottom: 0px;
   left: 0px;
-  // height: 6vh;
+
   width: 100%;
   background-color: $color-black;
   color: $color-white;
   padding-left: $padding-layout;
   z-index: 10;
 
+  height: 6rem;
+  border-top: 2px solid $color-primary;
+
   &__copyright {
-    line-height: 5.5rem;
+    display: inline-block;
 
     span {
       font-size: 1.1rem;
