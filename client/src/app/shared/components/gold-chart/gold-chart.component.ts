@@ -30,7 +30,7 @@ export class GoldChartComponent implements OnInit {
   // == Life Cycle
   // ======================================
   constructor(private goldChartService: GoldChartService) {
-    this.currentDate$ = interval(60).pipe(
+    this.currentDate$ = interval(1000).pipe(
       startWith(0), // Emit the initial value
       map(() => new Date())
     );
