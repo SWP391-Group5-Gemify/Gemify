@@ -1,22 +1,21 @@
 ﻿using Core.Enitities;
 using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
-using Core.Specifications;
-using Core.Specifications.Customers;
 using Core.Specifications.Orders;
 using Infrastructure.Data;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly IBasketRepository _basketRepo;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly BasketRepository _basketRepository;
 
-        public OrderService(IUnitOfWork unitOfWork, BasketRepository basketRepository)
+        public OrderService(IBasketRepository basketRepo, IUnitOfWork unitOfWork)
         {
+            _basketRepo = basketRepo;
             _unitOfWork = unitOfWork;
-            _basketRepository = basketRepository;
         }
 
         /**
@@ -24,10 +23,12 @@ namespace Infrastructure.Services
          *         CREATE SALES ORDER
          * =================================
         **/
-        public Task<Order> CreateSalesOrderAsync()
+        public Task<Order> CreateSalesOrderAsync(int customerId, string basketId)
         {
             throw new NotImplementedException();
         }
+
+
 
 
         /**
@@ -37,27 +38,69 @@ namespace Infrastructure.Services
         **/
         public async Task<Order> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
         {
-            // add customer (if not exist)
-            var customer = _unitOfWork.Repository<Customer>().GetByIdAsync(customerId);
+            // total price
+            decimal totalPrice = 0;
 
             // get basket
-            var basket = await _basketRepository.GetBasketAsync(basketId);
+            var basket = await _basketRepo.GetBasketAsync(basketId);
 
             // add items in basket
-            List<Product> productList = new List<Product>();
+            List<OrderItem> orderItemList = new List<OrderItem>();
             if (basket != null)
             {
                 foreach (var item in basket.Items)
                 {
                     var product = await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
 
-                    var itemOrdered = new ProductItemOrdered(product.Id, product.Name, 0, product.GoldType.Name, product.GoldWeight
-                        , 0, product.SubCategory.Unit, product.ImageUrl);
-                    var orderItem = new OrderItem(itemOrdered, 0, 1);
+                    // get purchase gold price
+                    var goldType = await _unitOfWork.Repository<GoldType>().GetByIdAsync((int)product.GoldTypeId);
+                    var purchaseGoldPrice = (decimal)(goldType.LatestAskPrice * product.GoldWeight);
 
-                    productList.Add(product);
+                    var itemOrdered = new ProductItemOrdered(product.Id, product.Name, purchaseGoldPrice, product.GoldType.Name, product.GoldWeight
+                        , 0, null, product.TotalWeight, product.ImageUrl);
+
+                    // create order item
+                    var orderItem = new OrderItem(itemOrdered, 0, 1);
+                    orderItem.Price = itemOrdered.GoldPrice;
+
+                    // check whether product has gem or not
+                    var gemList = product.ProductGems;
+                    if (!gemList.IsNullOrEmpty())
+                    {
+                        var orderItemGemList = new List<OrderItemGem>();
+                        foreach (var gem in gemList)
+                        {
+                            var gemPrice = gem.GemType.LatestPrice * (decimal) 0.7;
+                            var gemItemOrdered = new ProductGemsItemOrdered(gem.GemType.Name, gem.GemType.Color, gem.GemWeight,gemPrice,
+                                gem.GemType.Carat, gem.GemType.Clarity, gem.CertificateCode);
+
+                            var orderItemGem = new OrderItemGem(gemItemOrdered);
+                            orderItemGem.Quantity = gem.Quantity;
+                            orderItemGem.Price = gemPrice * gem.Quantity;
+                            // add gem price to order item
+                            orderItem.Price += orderItemGem.Price;
+
+                            orderItemGemList.Add(orderItemGem);
+
+                        }
+                        orderItem.OrderItemGems = orderItemGemList;
+                        
+                    }
+                    totalPrice += orderItem.Price;
+                    orderItemList.Add(orderItem);
                 }
             }
+
+            // create order
+            var orderDate = DateTime.Now;
+
+            var order = new Order(orderDate, basket.OrderTypeId, totalPrice, customerId, repurchaserId, null, orderItemList);
+            _unitOfWork.Repository<Order>().Add(order);
+
+            // save to db
+            var result = await _unitOfWork.Complete();
+            if (result <= 0) return null;
+            return order;
         }
 
 

@@ -2,6 +2,7 @@ using API.Dtos;
 using AutoMapper;
 using Core.Enitities;
 using Core.Enitities.Identity;
+using Core.Enitities.OrderAggregate;
 using Microsoft.AspNetCore.Identity;
 
 namespace API.Helpers
@@ -24,7 +25,6 @@ namespace API.Helpers
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))
-                .ForMember(d => d.Status, o => o.MapFrom(s => s.Status))
                 .ForMember(d => d.SubCategoryName, o => o.MapFrom(s => s.SubCategory.Name))
                 .ForMember(d => d.CategoryName, o => o.MapFrom(s => s.SubCategory.Category.Name))
                 .ForMember(d => d.SaleCounterName, o => o.MapFrom(s => s.SaleCounter.Name))
@@ -70,6 +70,11 @@ namespace API.Helpers
             CreateMap<GoldPrice, GoldPriceDto>();
 
             CreateMap<GoldType,LatestGoldPriceDto>();
+
+            CreateMap<Order, OrderToReturnDto>()
+                .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.Name))
+                .ForMember(d => d.Customer, o => o.MapFrom(s => s.Customer))
+                .ForMember(d => d.User, o => o.MapFrom(s => s.User));
         }
     }
 }

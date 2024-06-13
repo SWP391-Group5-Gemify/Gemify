@@ -20,7 +20,7 @@ namespace Core.Enitities
         [Column(TypeName = "varchar(10)")]
         public string Fluorescence { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public float Carat { get; set; }
+        public decimal Carat { get; set; }
         [Column(TypeName = "varchar(10)")]
         public string Cut { get; set; }
         [Column(TypeName = "varchar(10)")]
@@ -30,7 +30,7 @@ namespace Core.Enitities
         [Column(TypeName = "varchar(10)")]
         public string Shape { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
-        public float LatestPrice { get; set; }
+        public decimal LatestPrice { get; set; }
         public bool IsProcurable { get; set; } = true;
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
         public IReadOnlyList<Product> Products { get; set; }

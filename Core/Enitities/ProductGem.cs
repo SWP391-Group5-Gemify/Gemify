@@ -14,7 +14,7 @@ namespace Core.Enitities
         public int GemTypeId { get; set; }
         public GemType GemType { get; set; }
         [Column(TypeName = "decimal(18,6)"), Required]
-        public float GemWeight { get; set; }
+        public decimal GemWeight { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string CertificateCode { get; set; }
         public int Quantity { get; set; }

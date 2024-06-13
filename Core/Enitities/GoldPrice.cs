@@ -5,7 +5,7 @@ namespace Core.Enitities
 {
     public class GoldPrice : BaseEntity
     {
-        public GoldPrice(int GoldTypeId, float BidPrice, float AskPrice)
+        public GoldPrice(int GoldTypeId, decimal BidPrice, decimal AskPrice)
         {
             this.GoldTypeId = GoldTypeId;
             this.BidPrice = BidPrice;
@@ -17,9 +17,9 @@ namespace Core.Enitities
         public int GoldTypeId { get; set; }
         public GoldType GoldType { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
-        public float BidPrice { get; set; }
+        public decimal BidPrice { get; set; }
         [Column(TypeName = "decimal(18,2)"), Required]
-        public float AskPrice { get; set; }
+        public decimal AskPrice { get; set; }
         [Required]
         public DateTime DateTime { get; set; } = DateTime.UtcNow;
     }
