@@ -6,27 +6,24 @@ const routes: Routes = [
   {
     path: '',
     component: CashierComponent,
-    data: {
-      role: 'Cashier',
-    },
     children: [
       {
         path: '',
         redirectTo: 'orders',
-        pathMatch: 'full',
+        pathMatch: 'prefix',
+      },
+      {
+        path: 'baskets',
+        loadChildren: () =>
+          import('../../routes/managements/basket-routing.module').then(
+            (m) => m.BasketRoutingModule
+          ),
       },
       {
         path: 'orders',
         loadChildren: () =>
           import('../../routes/managements/orders-routing.module').then(
             (m) => m.OrdersRoutingModule
-          ),
-      },
-      {
-        path: 'customers',
-        loadChildren: () =>
-          import('../../routes/managements/customers-routing.module').then(
-            (m) => m.CustomersRoutingModule
           ),
       },
       {
@@ -63,6 +60,11 @@ const routes: Routes = [
           import('../../routes/managements/warranty-routing.module').then(
             (m) => m.WarrantyRoutingModule
           ),
+      },
+      {
+        path: '**',
+        redirectTo: 'orders',
+        pathMatch: 'full',
       },
     ],
   },

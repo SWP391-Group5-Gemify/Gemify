@@ -27,6 +27,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'baskets',
+        loadChildren: () =>
+          import('../../routes/managements/basket-routing.module').then(
+            (m) => m.BasketRoutingModule
+          ),
+      },
+      {
         path: 'exchange',
         loadChildren: () =>
           import('../../routes/managements/exchange-routing.module').then(
@@ -46,6 +53,11 @@ const routes: Routes = [
           import('../../routes/managements/warranty-routing.module').then(
             (m) => m.WarrantyRoutingModule
           ),
+      },
+      {
+        path: '**',
+        redirectTo: 'products',
+        pathMatch: 'full',
       },
     ],
   },

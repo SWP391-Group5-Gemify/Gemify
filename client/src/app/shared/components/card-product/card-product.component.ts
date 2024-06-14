@@ -18,7 +18,6 @@ export class CardProductComponent {
   @Input() product!: ProductModel;
   @Output() addToCart = new EventEmitter<ProductModel>();
   @Output() viewDetail = new EventEmitter<ProductModel>();
-
   // ======================================
   // == Methods
   // ======================================

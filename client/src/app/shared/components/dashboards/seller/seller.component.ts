@@ -29,6 +29,7 @@ export class SellerComponent {
   navItems: NavItemsModel[] = [
     { name: 'Products', icon: 'shopping_bag', route: '/seller/products' },
     { name: 'Orders', icon: 'receipt', route: '/seller/orders' },
+    { name: 'Baskets', icon: 'shopping_cart', route: '/seller/baskets' },
     {
       name: 'Check Exchange Policy',
       icon: 'compare_arrows',
