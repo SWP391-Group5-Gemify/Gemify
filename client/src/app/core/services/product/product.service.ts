@@ -1,7 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CategoryModel, ProductModel } from '../../models/product.model';
+import { map, Observable } from 'rxjs';
+import {
+  CategoryModel,
+  ProductModel,
+  ProductSearchingCriteria,
+  SubCategoryModel,
+} from '../../models/product.model';
 import { environment } from '../../../../environments/environment';
 import { PaginationModel } from '../../models/pagination.model';
 
@@ -14,44 +19,35 @@ export class ProductService {
   constructor(private httpClient: HttpClient) {}
 
   /**
-   * Get products on paging
-   * @param pageIndex
-   * @param pageSize
-   * @param search
-   * @param goldTypeId
-   * @param categoryId
-   * @param subcategoryId
-   * @param sort
+   * Get the list of products based on searching criteria
+   * @param productSearchCriteria
    * @returns
    */
   getProducts(
-    pageIndex: number,
-    pageSize: number,
-    search?: string,
-    goldTypeId?: number,
-    categoryId?: number,
-    subcategoryId?: number,
-    sort?: string
+    productSearchCriteria: ProductSearchingCriteria
   ): Observable<PaginationModel<ProductModel>> {
     let params = new HttpParams()
-      .set('pageIndex', pageIndex.toString())
-      .set('pageSize', pageSize.toString());
+      .set('pageIndex', productSearchCriteria.pageIndex.toString())
+      .set('pageSize', productSearchCriteria.pageSize.toString());
 
     // Assign params if existences
-    if (search) {
-      params = params.set('search', search);
+    if (productSearchCriteria.search) {
+      params = params.set('search', productSearchCriteria.search);
     }
-    if (goldTypeId) {
-      params = params.set('goldTypeId', goldTypeId.toString());
+    if (productSearchCriteria.goldTypeId) {
+      params = params.set(
+        'goldTypeId',
+        productSearchCriteria.goldTypeId.toString()
+      );
     }
-    if (categoryId) {
-      params = params.set('categoryId', categoryId.toString());
+    if (productSearchCriteria.subCategoryId) {
+      params = params.set(
+        'subcategoryId',
+        productSearchCriteria.subCategoryId.toString()
+      );
     }
-    if (subcategoryId) {
-      params = params.set('subcategoryId', subcategoryId.toString());
-    }
-    if (sort) {
-      params = params.set('sort', sort);
+    if (productSearchCriteria.sort) {
+      params = params.set('sort', productSearchCriteria.sort);
     }
 
     return this.httpClient.get<PaginationModel<ProductModel>>(
@@ -98,5 +94,25 @@ export class ProductService {
     return this.httpClient.get<CategoryModel[]>(
       this.baseProductUrl.concat('/categories')
     );
+  }
+
+  /**
+   * Get the Subcategories by reducing the array of Categories
+   * in to the array of SubCategories
+   * @returns
+   */
+  getSubCategories(): Observable<SubCategoryModel[]> {
+    return this.httpClient
+      .get<CategoryModel[]>(this.baseProductUrl.concat('/categories'))
+      .pipe(
+        map((categories: CategoryModel[]) => {
+          return categories.reduce(
+            (acc: SubCategoryModel[], curr: CategoryModel) => {
+              return acc.concat(curr.subCategories);
+            },
+            []
+          );
+        })
+      );
   }
 }

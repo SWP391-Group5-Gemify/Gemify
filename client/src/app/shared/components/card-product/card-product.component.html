@@ -7,11 +7,11 @@
        class="card__img"
        [src]="product.imageUrl" />
 
-  <mat-card-content>
+  <mat-card-content class="card__content">
     <p>{{product.description}}</p>
   </mat-card-content>
 
-  <mat-card-actions>
+  <mat-card-actions class="card__actions">
     <button mat-button
             (click)="addToCartFromChild()">Add To Card</button>
     <button (click)="viewProductDetailFromChild()"

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GoldChartService } from './gold-chart.service';
+import { GoldService } from './gold.service';
 
-describe('GoldChartService', () => {
-  let service: GoldChartService;
+describe('GoldService', () => {
+  let service: GoldService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GoldChartService);
+    service = TestBed.inject(GoldService);
   });
 
   it('should be created', () => {

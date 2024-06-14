@@ -6,17 +6,9 @@ img {
   object-fit: cover;
 }
 
-.cart {
-  position: absolute;
-  top: 0;
-  right: 0;
-  --size: 7rem;
-  border-radius: 50%;
-  width: var(--size);
-  height: var((--size));
-  background-color: $color-grey-dark;
-
-  mat-icon {
-    font-size: 3.2rem;
-  }
+.flex {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  flex-wrap: wrap;
 }
