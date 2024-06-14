@@ -1,4 +1,5 @@
 ﻿using Core.Enitities.OrderAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specifications.Orders
 {
@@ -12,7 +13,10 @@ namespace Core.Specifications.Orders
             )
         {
             AddInclude(o => o.Customer);
-            AddInclude(o => o.OrderItems);
+            AddInclude(o => o.User);
+            AddInclude(o => o.Promotion);
+            AddInclude(o => o.OrderType);
+            AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
             AddOrderByDescending(o => o.OrderDate);
         }
 
@@ -20,7 +24,10 @@ namespace Core.Specifications.Orders
             : base(o => o.Id == id)
         {
             AddInclude(o => o.Customer);
-            AddInclude(o => o.OrderItems);
+            AddInclude(o => o.User);
+            AddInclude(o => o.Promotion);
+            AddInclude(o => o.OrderType);
+            AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
         }
     }
 }

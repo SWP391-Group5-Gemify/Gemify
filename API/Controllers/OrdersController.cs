@@ -30,25 +30,17 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order,OrderDto>(order));
         } 
 
-        [HttpGet("orderitem/{id}")]
-        public async Task<ActionResult<OrderItem>> GetOrderItemById(int id) {
-            var order = await _orderService.GetOrderItemByIdAsync(id);
-            return Ok(order);
-        }
-
         [HttpGet]
         [Authorize(Roles = "StoreOwner,StoreManager,Repurchaser,Cashier")]
         public async Task<ActionResult<IReadOnlyList<Order>>> GetOrders([FromQuery] OrderSpecParams orderSpecParams)
         {
             var spec = new OrdersSpecification(orderSpecParams);
-            var countSpec = new OrderWithFilerForCountSpecification(orderSpecParams);
+            var countSpec = new OrderWithFilterForCountSpecification(orderSpecParams);
             var orders = await _orderService.GetOrdersAsync(spec);
             var totalOrders = await _orderService.CountOrdersWithSpecAsync(countSpec);
             var data = _mapper.Map<IReadOnlyList<Order>,IReadOnlyList<OrderDto>>(orders);
             return Ok(new Pagination<OrderDto>
                 (orderSpecParams.PageIndex,orderSpecParams.PageSize,totalOrders,data));
         }
-
-        
     }
 }

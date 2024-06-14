@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace Core.Specifications
 {
@@ -57,12 +58,27 @@ namespace Core.Specifications
         public bool IsPagingEnabled { get; private set; }
 
         /// <summary>
+        /// The list of custom include queries for nested include entities
+        /// </summary>
+        public List<Func<IQueryable<T>, IIncludableQueryable<T, object>>> CustomIncludes { get; } = new List<Func<IQueryable<T>, IIncludableQueryable<T, object>>>();
+
+        /// <summary>
         /// Adds Include expression to the Includes list
         /// </summary>
         /// <param name="includeExpression"></param>
         protected void AddInclude(Expression<Func<T, object>> includeExpression)
         {
             Includes.Add(includeExpression);
+        }
+
+
+        /// <summary>
+        /// Add custom include queries to the CustomIncludes list
+        /// </summary>
+        /// <param name="customIncludeExpression"></param>
+        protected void AddCustomInclude(Func<IQueryable<T>, IIncludableQueryable<T, object>> customIncludeExpression)
+        {
+            CustomIncludes.Add(customIncludeExpression);
         }
 
         /// <summary>
