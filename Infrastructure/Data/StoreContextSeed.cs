@@ -196,6 +196,21 @@ namespace Infrastructure.Data
 
                 await context.SaveChangesAsync();
             }
+
+            //Seed Promotions
+            if (!context.Promotions.Any())
+            {
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/PromotionSeedData.json");
+
+                var list = JsonSerializer.Deserialize<List<Promotion>>(data, options);
+
+                foreach (var item in list)
+                {
+                    context.Promotions.Add(item);
+                }
+
+                await context.SaveChangesAsync();
+            }
         }
     }
        
