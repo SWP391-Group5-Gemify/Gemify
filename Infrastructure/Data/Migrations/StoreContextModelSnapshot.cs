@@ -437,20 +437,20 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int?>("GoldTypeId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("GoldWeight")
+                    b.Property<decimal>("GoldWeight")
                         .HasColumnType("decimal(18,6)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("varchar(200)");
 
-                    b.Property<decimal?>("Labour")
+                    b.Property<decimal>("Labour")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int?>("Quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int?>("SaleCounterId")
@@ -460,7 +460,7 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalWeight")
@@ -542,7 +542,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Promotion");
+                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
@@ -684,7 +684,7 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<string>("GoldType")
                                 .HasColumnType("nvarchar(100)");
 
-                            b1.Property<decimal>("GoldWeight")
+                            b1.Property<decimal?>("GoldWeight")
                                 .HasColumnType("decimal(18, 2)");
 
                             b1.Property<string>("Image_Url")
@@ -693,12 +693,15 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<int>("ProductItemId")
                                 .HasColumnType("int");
 
-                            b1.Property<decimal>("ProductLabour")
+                            b1.Property<decimal?>("ProductLabour")
                                 .HasColumnType("decimal(18, 2)");
 
                             b1.Property<string>("ProductName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(200)");
+
+                            b1.Property<decimal?>("TotalWeight")
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<string>("Unit")
                                 .HasColumnType("nvarchar(20)");
@@ -764,14 +767,12 @@ namespace Infrastructure.Data.Migrations
                         .HasForeignKey("GoldTypeId");
 
                     b.HasOne("Core.Enitities.SaleCounter", "SaleCounter")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("SaleCounterId");
 
                     b.HasOne("Core.Enitities.SubCategory", "SubCategory")
                         .WithMany()
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubCategoryId");
 
                     b.Navigation("GoldType");
 
@@ -783,7 +784,7 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Enitities.ProductGem", b =>
                 {
                     b.HasOne("Core.Enitities.GemType", "GemType")
-                        .WithMany("ProductGems")
+                        .WithMany()
                         .HasForeignKey("GemTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -824,11 +825,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("SubCategories");
                 });
 
-            modelBuilder.Entity("Core.Enitities.GemType", b =>
-                {
-                    b.Navigation("ProductGems");
-                });
-
             modelBuilder.Entity("Core.Enitities.OrderAggregate.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -842,11 +838,6 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Enitities.Product", b =>
                 {
                     b.Navigation("ProductGems");
-                });
-
-            modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

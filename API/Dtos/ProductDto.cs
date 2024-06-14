@@ -11,10 +11,10 @@ namespace API.Dtos
         public string Name { get; set; }
         public string Description { get; set; }
         public string GoldType { get; set; }
-        public float GoldWeight { get; set; }
-        public float LatestBidPrice { get; set; }
-        public float TotalWeight { get; set; }
-        public float Labour { get; set; }
+        public decimal GoldWeight { get; set; }
+        public decimal LatestBidPrice { get; set; }
+        public decimal TotalWeight { get; set; }
+        public decimal Labour { get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]
         public string Status { get; set; }
         public int Quantity { get; set; }
@@ -23,7 +23,7 @@ namespace API.Dtos
         public string CategoryName { get; set; }
         public string SaleCounterName { get; set; }
         public IReadOnlyList<ProductGemDto> Gems { get; set; }
-        public float ProductPrice 
+        public decimal ProductPrice 
         {
             get
             {

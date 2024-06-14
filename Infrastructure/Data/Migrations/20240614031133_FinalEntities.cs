@@ -96,7 +96,7 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Promotion",
+                name: "Promotions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -111,7 +111,7 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Promotion", x => x.Id);
+                    table.PrimaryKey("PK_Promotions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,13 +232,13 @@ namespace Infrastructure.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", nullable: true),
                     GoldTypeId = table.Column<int>(type: "int", nullable: true),
-                    GoldWeight = table.Column<decimal>(type: "decimal(18,6)", nullable: true),
+                    GoldWeight = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
                     TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Labour = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Labour = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Status = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
-                    SubCategoryId = table.Column<int>(type: "int", nullable: false),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: true),
                     SaleCounterId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -258,8 +258,7 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Products_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -293,9 +292,9 @@ namespace Infrastructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Promotion_PromotionId",
+                        name: "FK_Orders_Promotions_PromotionId",
                         column: x => x.PromotionId,
-                        principalTable: "Promotion",
+                        principalTable: "Promotions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -348,6 +347,7 @@ namespace Infrastructure.Data.Migrations
                     ItemOrdered_GoldWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ItemOrdered_ProductLabour = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ItemOrdered_Unit = table.Column<string>(type: "nvarchar(20)", nullable: true),
+                    ItemOrdered_TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ItemOrdered_Image_Url = table.Column<string>(type: "varchar(200)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
@@ -514,7 +514,7 @@ namespace Infrastructure.Data.Migrations
                 name: "OrderTypes");
 
             migrationBuilder.DropTable(
-                name: "Promotion");
+                name: "Promotions");
 
             migrationBuilder.DropTable(
                 name: "Categories");
