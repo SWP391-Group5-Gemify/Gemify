@@ -13,7 +13,7 @@ namespace Infrastructure.Config
                 .HasForeignKey(pg => pg.ProductId);
 
             builder.HasOne(pg => pg.GemType)
-                .WithMany(p => p.ProductGems)
+                .WithMany()
                 .HasForeignKey(pg => pg.GemTypeId);
         }
     }

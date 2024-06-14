@@ -10,16 +10,16 @@ namespace Core.Enitities.OrderAggregate
         public Order()
         {
         }
-        public Order(DateTime orderDate, int orderTypeId, 
-            decimal total, int customerId, int userId, 
-            string paymentIntentId, IReadOnlyList<OrderItem> orderItems)
+        public Order(int orderTypeId, 
+            decimal subtotal, int customerId, int userId, 
+            string paymentIntentId, int promotionId, IReadOnlyList<OrderItem> orderItems)
         {
-            OrderDate = orderDate;
             OrderTypeId = orderTypeId;
-            SubTotal = total;
+            SubTotal = subtotal;
             CustomerId = customerId;
             UserId = userId;
             PaymentIntentId = paymentIntentId;
+            PromotionId = promotionId;
             OrderItems = orderItems;
         }
         [Column(TypeName = "datetime")]
