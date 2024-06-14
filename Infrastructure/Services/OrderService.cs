@@ -56,7 +56,8 @@ namespace Infrastructure.Services
                 {
 
                     var orderItem = await _unitOfWork.Repository<OrderItem>().GetByIdAsync(item.Id);
-                    var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(new ProductSpecification(orderItem.Id));
+                    var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec
+                        (new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
 
                     // calculate purchase gold price
                     var purchaseGoldPrice = product.CalculatePurchaseGoldPrice();

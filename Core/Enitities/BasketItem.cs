@@ -13,6 +13,6 @@ namespace Core.Enitities
         public int Quantity { get; set; }
         public string PictureUrl { get; set; }
         /*Test buy-back*/
-        public int OrderItemId { get; set; }
+        //public int OrderItemId { get; set; }
     }
 }
