@@ -24,7 +24,7 @@ namespace Infrastructure.Services
          *         CREATE SALES ORDER
          * =================================
         **/
-        public async Task<int?> CreateSalesOrderAsync(string basketId, int customerId, int userId)
+        public async Task<Order> CreateSalesOrderAsync(string basketId, int customerId, int userId)
         {
             // Get basket from redis database
             var basket = await _basketRepo.GetBasketAsync(basketId);
@@ -76,7 +76,9 @@ namespace Infrastructure.Services
             if (result <= 0) return null;
 
             // Return the order
-            return order.Id;
+            var orderSpec = new OrdersSpecification(order.Id);
+            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+            return order;
         }
 
 

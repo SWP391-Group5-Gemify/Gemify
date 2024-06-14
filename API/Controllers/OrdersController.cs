@@ -29,18 +29,16 @@ namespace API.Controllers
         [Authorize(Roles = "Cashier")]
         public async Task<ActionResult<OrderToReturnDto>> CreateSalesOrder(OrderDto orderDto)
         {
-            var user = _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
             if (user == null) return BadRequest(new ApiResponse(400, "Error while creating order"));
-            var userId = user.Result.Id;
+            var userId = user.Id;
 
-            var orderId = await _orderService.CreateSalesOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
+            var order = await _orderService.CreateSalesOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
 
-            if(!orderId.HasValue)
+            if(order == null)
             {
                 return BadRequest(new ApiResponse(400, "Error while creating order"));
             }
-
-            var order = await _orderService.GetOrderByIdAsync(orderId);
 
             return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
         }
