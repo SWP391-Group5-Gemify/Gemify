@@ -12,7 +12,7 @@ namespace Core.Enitities.OrderAggregate
         }
         public Order(int orderTypeId, 
             decimal subtotal, int customerId, int userId, 
-            string paymentIntentId, int promotionId, IReadOnlyList<OrderItem> orderItems)
+            string paymentIntentId, int? promotionId, IReadOnlyList<OrderItem> orderItems)
         {
             OrderTypeId = orderTypeId;
             SubTotal = subtotal;
@@ -42,13 +42,13 @@ namespace Core.Enitities.OrderAggregate
         [Column(TypeName = "varchar(200)")]
         public string PaymentIntentId { get; set; }
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
-        public int PromotionId { get; set; }
+        public int? PromotionId { get; set; }
         public Promotion Promotion { get; set; }
 
         // Later changed due to Promotion and Membership benefits
         public decimal GetTotal()
         {
-            return SubTotal;
+            return SubTotal - (SubTotal * (Promotion.Discount/100));
         }
     }
 }

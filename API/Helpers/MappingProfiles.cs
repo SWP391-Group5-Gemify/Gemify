@@ -76,7 +76,6 @@ namespace API.Helpers
                 .ForMember(d => d.GemName, o => o.MapFrom(s => s.GemsItemOrdered.GemName))
                 .ForMember(d => d.GemColor, o => o.MapFrom(s => s.GemsItemOrdered.GemColor))
                 .ForMember(d => d.GemWeight, o => o.MapFrom(s => s.GemsItemOrdered.GemWeight))
-                .ForMember(d => d.GemPrice, o => o.MapFrom(s => s.GemsItemOrdered.GemPrice))
                 .ForMember(d => d.GemCarat, o => o.MapFrom(s => s.GemsItemOrdered.GemCarat))
                 .ForMember(d => d.GemClarity, o => o.MapFrom(s => s.GemsItemOrdered.GemClarity))
                 .ForMember(d => d.GemCertificateCode, o => o.MapFrom(s => s.GemsItemOrdered.GemCertificateCode));

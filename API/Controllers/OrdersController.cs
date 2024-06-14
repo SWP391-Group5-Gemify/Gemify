@@ -29,7 +29,9 @@ namespace API.Controllers
         [Authorize(Roles = "Cashier")]
         public async Task<ActionResult<OrderToReturnDto>> CreateSalesOrder(OrderDto orderDto)
         {
-            var userId = _userService.GetUserByClaimsEmailAsync(HttpContext.User).Id;
+            var user = _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            if (user == null) return BadRequest(new ApiResponse(400, "Error while creating order"));
+            var userId = user.Result.Id;
 
             var orderId = await _orderService.CreateSalesOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
 

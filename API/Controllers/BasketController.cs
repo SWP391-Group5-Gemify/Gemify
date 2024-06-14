@@ -19,7 +19,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller")]
+        [Authorize(Roles = "Cashier,Repurchaser,Seller")]
+        public async Task<ActionResult<IReadOnlyList<CustomerBasket>>> GetAllBaskets()
+        {
+            var baskets = await _basketRepository.GetAllBasketsAsync();
+            return Ok(baskets);
+        }
+
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Cashier,Repurchaser,Seller")]
         public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
         {
             var basket = await _basketRepository.GetBasketAsync(id);
@@ -28,7 +36,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller")]
+        [Authorize(Roles = "Cashier,Repurchaser,Seller")]
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
         {
             var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
@@ -39,7 +47,7 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller")]
+        [Authorize(Roles = "Cashier,Repurchaser,Seller")]
         public async Task<ActionResult> DeleteBasketAsync(string id)
         {
             return Ok(await _basketRepository.DeleteBasketAsync(id));

@@ -5,7 +5,6 @@ namespace API.Dtos
         public string GemName { get; set; }
         public string GemColor { get; set; }
         public decimal GemWeight { get; set; }
-        public decimal GemPrice { get; set; }
         public decimal GemCarat {  get; set; }
         public string GemClarity { get; set; }
         public string GemCertificateCode { get; set; }

@@ -46,8 +46,8 @@ namespace Infrastructure.Services
                 foreach(var productGem in productGems)
                 {
                     var gem = productGem.GemType;
-                    var gemItemOrdered = new ProductGemsItemOrdered(gem.Name, gem.Color, productGem.GemWeight, gem.Carat, 
-                        gem.LatestPrice, gem.Clarity, productGem.CertificateCode);
+                    var gemItemOrdered = new ProductGemsItemOrdered(gem.Name, gem.Color, productGem.GemWeight, 
+                        gem.LatestPrice, gem.Carat, gem.Clarity, productGem.CertificateCode);
                     var orderItemGem = new OrderItemGem(gemItemOrdered, gem.LatestPrice, productGem.Quantity);
                     orderItemGems.Add(orderItemGem);
                 }
@@ -67,7 +67,7 @@ namespace Infrastructure.Services
             var subtotal = items.Sum(item => item.Price * item.Quantity);
 
             // Create Order
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, 1, items);
+            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, items);
             _unitOfWork.Repository<Order>().Add(order);
 
             // Save Changes to the database
