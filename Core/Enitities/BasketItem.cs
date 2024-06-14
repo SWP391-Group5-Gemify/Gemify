@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +12,7 @@ namespace Core.Enitities
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string PictureUrl { get; set; }
+        /*Test buy-back*/
+        public int OrderItemId { get; set; }
     }
 }

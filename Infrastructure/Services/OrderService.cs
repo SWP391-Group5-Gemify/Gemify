@@ -1,9 +1,12 @@
 ﻿using Core.Enitities;
 using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
+using Core.Specifications;
 using Core.Specifications.Orders;
 using Infrastructure.Data;
 using Microsoft.IdentityModel.Tokens;
+using Core.Specifications.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -23,9 +26,10 @@ namespace Infrastructure.Services
          *         CREATE SALES ORDER
          * =================================
         **/
-        public Task<Order> CreateSalesOrderAsync(int customerId, string basketId)
+        public Task<Order> CreateSalesOrderAsync()
         {
             throw new NotImplementedException();
+
         }
 
 
@@ -36,7 +40,7 @@ namespace Infrastructure.Services
          *         CREATE BUYBACK ORDER
          * =================================
         **/
-        public async Task<Order> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
+        public async Task<int?> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
         {
             // total price
             decimal totalPrice = 0;
@@ -50,48 +54,38 @@ namespace Infrastructure.Services
             {
                 foreach (var item in basket.Items)
                 {
-                    var product = await _unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
 
-                    // get purchase gold price
-                    var goldType = await _unitOfWork.Repository<GoldType>().GetByIdAsync((int)product.GoldTypeId);
-                    var purchaseGoldPrice = (decimal)(goldType.LatestAskPrice * product.GoldWeight);
+                    var orderItem = await _unitOfWork.Repository<OrderItem>().GetByIdAsync(item.Id);
+                    var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(new ProductSpecification(orderItem.Id));
 
-                    var itemOrdered = new ProductItemOrdered(product.Id, product.Name, purchaseGoldPrice, product.GoldType.Name, product.GoldWeight
-                        , 0, null, product.TotalWeight, product.ImageUrl);
+                    // calculate purchase gold price
+                    var purchaseGoldPrice = product.CalculatePurchaseGoldPrice();
+                    orderItem.ItemOrdered.GoldPrice = (decimal) purchaseGoldPrice;
 
-                    // create order item
-                    var orderItem = new OrderItem(itemOrdered, 0, 1);
-                    orderItem.Price = itemOrdered.GoldPrice;
-
-                    // check whether product has gem or not
-                    var gemList = product.ProductGems;
-                    if (!gemList.IsNullOrEmpty())
+                    // calculate purchase gem price
+                    decimal totalPurchaseGemPrice = 0;
+                    if (!orderItem.OrderItemGems.IsNullOrEmpty())
                     {
-                        var orderItemGemList = new List<OrderItemGem>();
-                        foreach (var gem in gemList)
+                        foreach (var gem in orderItem.OrderItemGems)
                         {
-                            var gemPrice = gem.GemType.LatestPrice * (decimal) 0.7;
-                            var gemItemOrdered = new ProductGemsItemOrdered(gem.GemType.Name, gem.GemType.Color, gem.GemWeight,gemPrice,
-                                gem.GemType.Carat, gem.GemType.Clarity, gem.CertificateCode);
-
-                            var orderItemGem = new OrderItemGem(gemItemOrdered);
-                            orderItemGem.Quantity = gem.Quantity;
-                            orderItemGem.Price = gemPrice * gem.Quantity;
-                            // add gem price to order item
-                            orderItem.Price += orderItemGem.Price;
-
-                            orderItemGemList.Add(orderItemGem);
-
+                            gem.Price /= (decimal)0.7;
+                            gem.GemsItemOrdered.GemPrice /= (decimal)0.7;
+                            totalPurchaseGemPrice += gem.Price;
                         }
-                        orderItem.OrderItemGems = orderItemGemList;
-                        
                     }
+                    
+                    // calculate total purchase product price
+                    orderItem.Price = orderItem.ItemOrdered.GoldPrice + totalPurchaseGemPrice;
+
+                    // calculate total order price
                     totalPrice += orderItem.Price;
+
+                    // add order item to order
                     orderItemList.Add(orderItem);
                 }
             }
 
-            // create order
+            // create purchase order
             var orderDate = DateTime.Now;
 
             var order = new Order(orderDate, basket.OrderTypeId, totalPrice, customerId, repurchaserId, null, orderItemList);
@@ -100,19 +94,46 @@ namespace Infrastructure.Services
             // save to db
             var result = await _unitOfWork.Complete();
             if (result <= 0) return null;
-            return order;
+            return order.Id;
+        }
+
+        /* Test */
+        public async Task<decimal> CalculatePurchaseGemPrice (int salesOrderId, int productId)
+        {
+            decimal result = 0;
+            var salesOrder = await _unitOfWork.Repository<Order>().GetEntityWithSpec(new OrdersSpecification(salesOrderId));
+            foreach(var item in salesOrder.OrderItems)
+            {
+                if (item.Id == productId && !item.OrderItemGems.IsNullOrEmpty())
+                {
+                   foreach (var gem in item.OrderItemGems)
+                    {
+                        result += gem.Price;
+                    }
+                    result /= (decimal) 0.7;
+                }
+            }
+            return result;
         }
 
 
         public async Task<Order> GetOrderByIdAsync(int id)
         {
             var spec = new OrdersSpecification(id);
-            return await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+            if(order == null) return null;
+            return order;
         }
 
         public async Task<IReadOnlyList<Order>> GetOrdersAsync(OrdersSpecification ordersSpec)
         {
-            return await _unitOfWork.Repository<Order>().ListAsync(ordersSpec);  
+            var orders = await _unitOfWork.Repository<Order>().ListAsync(ordersSpec);              
+            return orders;
+        }
+
+        public async Task<int> CountOrdersWithSpecAsync(ISpecification<Order> spec)
+        {
+            return await _unitOfWork.Repository<Order>().CountAsync(spec);
         }
     }
 }
