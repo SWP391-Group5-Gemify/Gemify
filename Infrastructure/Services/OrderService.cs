@@ -58,7 +58,7 @@ namespace Infrastructure.Services
 
                 // Calculate the total price of the product
                 // Product price = (gold weight * bid price) + labour + (gem price * quantity)
-                var itemPrice = (productItem.GoldWeight * productItem.GoldType.LatestBidPrice) + productItem.Labour + gemPrice;
+                var itemPrice = productItem.CalculateGoldBidPrice() + productItem.Labour + gemPrice;
 
                 var orderItem = new OrderItem(itemOrdered, itemPrice, item.Quantity, orderItemGems);
 
@@ -91,7 +91,7 @@ namespace Infrastructure.Services
          *         CREATE BUYBACK ORDER
          * =================================
         **/
-        public async Task<int?> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
+        public async Task<Order> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
         {
             // total price
             decimal totalPrice = 0;
@@ -111,8 +111,8 @@ namespace Infrastructure.Services
                         (new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
 
                     // calculate purchase gold price
-                    var purchaseGoldPrice = product.CalculatePurchaseGoldPrice();
-                    orderItem.ItemOrdered.GoldPrice = (decimal) purchaseGoldPrice;
+                    var purchaseGoldPrice = product.CalculateGoldAskPrice();
+                    orderItem.ItemOrdered.GoldPrice = purchaseGoldPrice;
 
                     // calculate purchase gem price
                     decimal totalPurchaseGemPrice = 0;
@@ -138,15 +138,18 @@ namespace Infrastructure.Services
             }
 
             // create purchase order
-            var orderDate = DateTime.Now;
 
-            var order = new Order(basket.OrderTypeId, totalPrice, customerId, repurchaserId, null,null, orderItemList);
+            var order = new Order(basket.OrderTypeId, totalPrice, customerId, repurchaserId, basket.PaymentIntentId, null, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db
             var result = await _unitOfWork.Complete();
             if (result <= 0) return null;
-            return order.Id;
+
+            // Return the order
+            var orderSpec = new OrdersSpecification(order.Id);
+            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+            return order;
         }
 
         /* Test */
@@ -169,7 +172,7 @@ namespace Infrastructure.Services
         }
 
 
-        public async Task<Order> GetOrderByIdAsync(int? id)
+        public async Task<Order> GetOrderByIdAsync(int id)
         {
             var spec = new OrdersSpecification(id);
             var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
