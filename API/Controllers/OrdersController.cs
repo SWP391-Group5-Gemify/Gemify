@@ -1,4 +1,4 @@
-﻿using API.Errors;
+using API.Errors;
 using API.Dtos;
 using AutoMapper;
 using Core.Enitities.OrderAggregate;
@@ -9,6 +9,7 @@ using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Core.Enitities;
 using System.Security.Claims;
+using Infrastructure.Services;
 
 namespace API.Controllers
 {
@@ -63,6 +64,44 @@ namespace API.Controllers
             var data = _mapper.Map<IReadOnlyList<Order>,IReadOnlyList<OrderToReturnDto>>(orders);
             return Ok(new Pagination<OrderToReturnDto>
                 (orderSpecParams.PageIndex,orderSpecParams.PageSize,totalOrders,data));
+        }
+
+        [Authorize(Roles = "Repurchaser")]
+        [HttpPost("buyback")]
+        public async Task<ActionResult<OrderToReturnDto>> CreateBuyBackOrder(OrderDto orderDto)
+        {
+            // get userId whose create order
+
+            var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            var userId = user.Id;
+
+            // create buy back order
+            var buyBackOrderId = await _orderService.CreateBuyBackOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
+
+            if (!buyBackOrderId.HasValue)
+            {
+                return BadRequest(new ApiResponse(400, "Problem creating buyback order"));
+            }
+
+            var buyBackOrder = await _orderService.GetOrderByIdAsync((int)buyBackOrderId);
+            return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
+        }
+
+        [Authorize(Roles = "Repurchaser, Appraiser, Cashier")]
+        [HttpPost("update/{id}")]
+        public async Task<ActionResult> UpdateOrder(int id, OrderDto orderDto)
+        {
+            var existingOrder = await _orderService.GetOrderByIdAsync(id);
+            if (existingOrder == null)
+                return NotFound(new ApiResponse(404, "This order does not exist!"));
+
+            _mapper.Map(orderDto, existingOrder);
+
+            //return existingOrder;
+            if (await _orderService.UpdateOrder(existingOrder) > 0)
+                return Ok(new ApiResponse(200, "Order was successfully updated"));
+
+            return BadRequest(new ApiResponse(400, "Fail to update order information!"));
         }
     }
 }

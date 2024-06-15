@@ -1,4 +1,4 @@
-namespace API.Dtos
+﻿namespace API.Dtos
 {
     public class OrderToReturnDto
     {
@@ -15,7 +15,7 @@ namespace API.Dtos
         public string PaymentIntentId { get; set; }
         public string PromotionCode { get; set; }
         public decimal PromotionDiscount { get; set; }
-        public IReadOnlyList<OrderItemDto> OrderItems {get; set;}
+        public IReadOnlyList<OrderItemDto> OrderItems { get; set; }
 
     }
 
