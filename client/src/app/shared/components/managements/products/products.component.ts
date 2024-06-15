@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -59,8 +59,12 @@ export class ProductsComponent implements OnInit {
   };
   totalProducts: number = 0;
   pageEvent!: PageEvent;
-  goldDropdown$!: DropdownModel[];
+  goldsDropdown!: DropdownModel[];
   subCategoriesDropdown!: DropdownModel[];
+
+  @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
+  @ViewChild('subCategoriesDropdownRef')
+  subCategoriesDropdownRef!: GenericDropdownComponent;
 
   // ====================
   // == Life Cycle
@@ -122,16 +126,16 @@ export class ProductsComponent implements OnInit {
     this.productService
       .getSubCategories()
       .pipe(
-        map((subCategory: SubCategoryModel[]) => {
-          return subCategory.map((subCategory: SubCategoryModel) => {
-            return { key: subCategory.id, value: subCategory.name };
-          });
+        map((subCategories: SubCategoryModel[]) => {
+          return subCategories.map((subCategory: SubCategoryModel) => ({
+            key: subCategory.id,
+            value: subCategory.name,
+          }));
         })
       )
       .subscribe({
         next: (subCategories: any) => {
           this.subCategoriesDropdown = subCategories;
-          console.table(subCategories);
         },
 
         error(err) {
@@ -141,12 +145,17 @@ export class ProductsComponent implements OnInit {
   }
 
   /**
-   * Load all gold types
+   * Load all gold types and map to the dropdown component
    * TODO: Handle error when load failed
    */
   loadGolds() {
     this.goldService.getAllGolds().subscribe({
-      next: (response: any) => {},
+      next: (response: PaginationModel<GoldModel>) => {
+        this.goldsDropdown = response.data.map((gold) => ({
+          key: gold.id,
+          value: gold.name,
+        }));
+      },
 
       error(err) {
         console.error(err);
@@ -161,8 +170,7 @@ export class ProductsComponent implements OnInit {
   onSelectChangeGoldIdFromParent($event: any) {
     const goldTypeId: string | number = $event;
     this.productSearchCriteria.goldTypeId = goldTypeId;
-
-    console.table(this.productSearchCriteria);
+    this.loadProducts();
   }
 
   /**
@@ -170,7 +178,18 @@ export class ProductsComponent implements OnInit {
    * @param $event
    */
   onSelectChangeSubCategoryIdFromParent($event: any) {
-    const categoryId: string | number = $event;
-    this.productSearchCriteria.subCategoryId;
+    const subCategoryId: string | number = $event;
+    this.productSearchCriteria.subCategoryId = subCategoryId;
+    this.loadProducts();
+  }
+
+  /**
+   * Reset all filters and load the default products
+   */
+  onResetFilters() {
+    this.subCategoriesDropdownRef.onClearSelection();
+    this.goldsDropdownRef.onClearSelection();
+    this.productSearchCriteria.goldTypeId = undefined;
+    this.productSearchCriteria.subCategoryId = undefined;
   }
 }

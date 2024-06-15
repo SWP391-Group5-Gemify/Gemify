@@ -9,11 +9,17 @@
            placeholder="Filter by name">
   </mat-form-field>
 
-  <app-generic-dropdown label="Chọn loại trang sức"
+  <app-generic-dropdown #subCategoriesDropdownRef
+                        label="Chọn loại trang sức"
                         [options]="subCategoriesDropdown"
                         (onSelectionChange)="onSelectChangeSubCategoryIdFromParent($event)">
   </app-generic-dropdown>
 
+  <app-generic-dropdown #goldsDropdownRef
+                        label="Chọn loại vàng"
+                        [options]="goldsDropdown"
+                        (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
+  </app-generic-dropdown>
 
   <!-- <span>
     <mat-form-field appearance="fill">
@@ -48,8 +54,11 @@
     </mat-form-field>
   </span> -->
 
-  <button mat-button
-          color="accent">Send Request</button>
+
+  <button class="btn btn--primary"
+          (click)="onResetFilters()"
+          color="accent">Xóa bộ lọc</button>
+
 </section>
 
 <!-- Paginator -->

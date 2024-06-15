@@ -19,10 +19,22 @@ export class GenericDropdownComponent {
   @Input() options!: DropdownModel[];
   @Output() onSelectionChange = new EventEmitter<string | number>();
 
+  // 2-way binding on the current selected value
+  selectedValue: string | number | undefined;
+
   // ===========================================
   // == Methods
   // ===========================================
   onSelectionChangeFromChild(event: any) {
-    this.onSelectionChange.emit(event.value);
+    this.onSelectionChange.emit(this.selectedValue);
+  }
+
+  /**
+   * A function to be binding later for clearing the selection
+   *
+   */
+  onClearSelection() {
+    this.selectedValue = undefined;
+    this.onSelectionChange.emit(undefined);
   }
 }
