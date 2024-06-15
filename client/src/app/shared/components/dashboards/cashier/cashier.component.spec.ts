@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CashierComponent } from './cashier-dashboard.component';
+import { CashierComponent } from './cashier.component';
 
 describe('CashierComponent', () => {
   let component: CashierComponent;
@@ -8,10 +7,9 @@ describe('CashierComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CashierComponent]
-    })
-    .compileComponents();
-    
+      imports: [CashierComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CashierComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

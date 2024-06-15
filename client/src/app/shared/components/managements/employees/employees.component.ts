@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableDataSourceComponent } from '../../table-data-source/table-data-source.component';
+import { GenericTableDataSourceComponent } from '../../generic-table-data-source/generic-table-data-source.component';
 import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -26,7 +26,7 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    TableDataSourceComponent,
+    GenericTableDataSourceComponent,
     StatsTotalRowsComponent,
     MatFormFieldModule,
     MatSelectModule,

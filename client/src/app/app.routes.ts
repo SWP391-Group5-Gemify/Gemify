@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { FormLoginComponent } from './shared/components/form-login/form-login.component';
-import { PageErrorComponent } from './core/components/page-error/page-error.component';
+import { PageErrorComponent } from './shared/layout/page-error/page-error.component';
 import { RoleEnum } from './core/models/role.model';
 import { authGuard, roleGuard } from './core/guards';
 

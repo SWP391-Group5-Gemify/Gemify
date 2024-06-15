@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableDataSourceComponent } from './table-data-source.component';
+import { BasketComponent } from './basket.component';
 
-describe('TableDataSourceComponent', () => {
-  let component: TableDataSourceComponent;
-  let fixture: ComponentFixture<TableDataSourceComponent>;
+describe('BasketComponent', () => {
+  let component: BasketComponent;
+  let fixture: ComponentFixture<BasketComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TableDataSourceComponent]
+      imports: [BasketComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TableDataSourceComponent);
+    fixture = TestBed.createComponent(BasketComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

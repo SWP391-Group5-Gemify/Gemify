@@ -1,0 +1,15 @@
+.card {
+  height: 30rem;
+
+  &__header {}
+
+  &__img {
+    width: 100%;
+    height: 20rem;
+    object-fit: center;
+  }
+
+  &__content {}
+
+  &__actions {}
+}

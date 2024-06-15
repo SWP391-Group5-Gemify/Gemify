@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LogoComponent } from '../logo/logo.component';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { CommonModule, Location } from '@angular/common';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { Observable, Observer, switchMap } from 'rxjs';
-import { UserModel } from '../../models/user.model';
+import { UserModel } from '../../../core/models/user.model';
 import { MatDialog } from '@angular/material/dialog';
-import { FormViewModalComponent } from '../../../shared/components/form-view-modal/form-view-modal.component';
+import { FormViewModalComponent } from '../../components/form-view-modal/form-view-modal.component';
 import {
   ModalConfigModel,
   ModalModeEnum,
   ModalTitle,
-} from '../../models/modal.model';
+} from '../../../core/models/modal.model';
 
 @Component({
   selector: 'app-header',
