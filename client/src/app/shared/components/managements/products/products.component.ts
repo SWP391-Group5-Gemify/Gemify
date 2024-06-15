@@ -10,6 +10,7 @@ import { ProductService } from '../../../../core/services/product/product.servic
 import {
   ProductModel,
   ProductsSearchingCriteriaModel,
+  SortProductsEnum,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,8 +19,8 @@ import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdow
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { GoldModel } from '../../../../core/models/gold.model';
 import { GoldService } from '../../../../core/services/gold/gold.service';
-import { GenericStackedChipsComponent } from '../../generic-stacked-chips/generic-stacked-chips.component';
 import { CardProductComponent } from './card-product/card-product.component';
+import EnumUtils from '../../../utils/EnumUtils';
 
 @Component({
   selector: 'app-products',
@@ -34,7 +35,6 @@ import { CardProductComponent } from './card-product/card-product.component';
     MatFormFieldModule,
     MatInputModule,
     GenericDropdownComponent,
-    GenericStackedChipsComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
@@ -56,10 +56,13 @@ export class ProductsComponent implements OnInit {
   pageEvent!: PageEvent;
   goldsDropdown!: DropdownModel[];
   subCategoriesDropdown!: DropdownModel[];
+  sortsCriteriaDropdown!: DropdownModel[];
 
   @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
   @ViewChild('subCategoriesDropdownRef')
   subCategoriesDropdownRef!: GenericDropdownComponent;
+  @ViewChild('sortsCriteriaDropdownRef')
+  sortsCriteriaDropdownRef!: GenericDropdownComponent;
 
   // ====================
   // == Life Cycle
@@ -158,6 +161,10 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  loadSortsCriteria() {
+    console.table(EnumUtils.enumToObject(SortProductsEnum));
+  }
+
   /**
    * Select Gold Id from the dropdown
    * @param $event
@@ -188,5 +195,6 @@ export class ProductsComponent implements OnInit {
     this.productSearchCriteria.subCategoryId = undefined;
   }
 
-  onSelectSortProductsFromParent($event: any) {}
+  //TODO: Map the enum into the key-value pair, but key and value is the same
+  onSelectChangeSortsCriteriaFromParent($event: any) {}
 }

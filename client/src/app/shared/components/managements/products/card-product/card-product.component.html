@@ -1,20 +1,32 @@
-<mat-card class="card">
-  <mat-card-header class="card__header">
-    <mat-card-title>{{product.name}}</mat-card-title>
-  </mat-card-header>
+<mat-card class="card"
+          appearance="outlined">
 
+  <!-- Image -->
   <img mat-card-image
        class="card__img"
+       [alt]="product.name"
        [src]="product.imageUrl" />
 
+
+  <!-- Name and SubCategory -->
+  <mat-card-header class="card__name">
+    <mat-card-title>{{product.name}}</mat-card-title>
+    <mat-card-subtitle>{{product.subCategoryName}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <!-- Content -->
   <mat-card-content class="card__content">
-    <p>{{product.description}}</p>
+    <p class="card__price">{{product.productPrice | currency:"VND"}}</p>
+    <p class="card__quantity">Số lượng:{{product.quantity}}</p>
+    <p class="card__status">Hiện trạng:{{product.status}}</p>
   </mat-card-content>
 
+  <!-- Actions -->
   <mat-card-actions class="card__actions">
-    <button mat-button
-            (click)="addToCartFromChild()">Add To Card</button>
+    <button mat-raised-button
+            (click)="addToCartFromChild()">Thêm vào giỏ hàng</button>
+
     <button (click)="viewProductDetailFromChild()"
-            mat-button>View Detail</button>
+            mat-raised-button>Chi tiết</button>
   </mat-card-actions>
 </mat-card>

@@ -1,12 +1,19 @@
 .card {
-  height: 30rem;
-
-  &__header {}
+  height: 45rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 
   &__img {
+
+    justify-self: start;
     width: 100%;
-    height: 20rem;
+    height: 25rem;
     object-fit: center;
+  }
+
+  &__name {
+    flex: 1;
   }
 
   &__content {}
