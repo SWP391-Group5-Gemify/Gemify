@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EmployeeModel } from '../../models/employee.model';
+import { ProductModel } from '../../models/product.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductServiceService {
+export class ProductService implements OnInit {
   constructor(httpClient: HttpClient) {}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
   getProducts(
     pageIndex: number,
     pageSize: number,
     search?: string,
     sort?: string
-  ): any {}
+  ): Observable<ProductModel> {}
 }

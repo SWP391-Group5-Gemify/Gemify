@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from '../../../core/guard/auth/auth.guard';
 import { SellerComponent } from '../../components/dashboards/seller/seller.component';
-import { roleGuard } from '../../../core/guard/roles/role.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: SellerComponent,
-    canActivate: [authGuard, roleGuard],
-    data: {
-      role: 'Repurchaser',
-    },
     children: [
       {
         path: '',
         redirectTo: 'products',
-        pathMatch: 'full',
+        pathMatch: 'prefix',
+      },
+      {
+        path: 'products',
+        loadChildren: () =>
+          import('../../routes/managements/products-routing.module').then(
+            (m) => m.ProductsRoutingModule
+          ),
       },
       {
         path: 'orders',
@@ -26,24 +27,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'products',
-        loadChildren: () =>
-          import('../../routes/managements/products-routing.module').then(
-            (m) => m.ProductsRoutingModule
-          ),
-      },
-      {
         path: 'exchange',
         loadChildren: () =>
           import('../../routes/managements/exchange-routing.module').then(
             (m) => m.ExchangeRoutingModule
-          ),
-      },
-      {
-        path: 'products',
-        loadChildren: () =>
-          import('../../routes/managements/products-routing.module').then(
-            (m) => m.ProductsRoutingModule
           ),
       },
       {

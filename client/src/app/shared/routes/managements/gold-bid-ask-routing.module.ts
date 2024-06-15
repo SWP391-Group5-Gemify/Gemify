@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GoldBidAskComponent } from '../../components/managements/gold-bid-ask/gold-bid-ask.component';
-import { authGuard } from '../../../core/guard/auth/auth.guard';
+import { authGuard } from '../../../core/guards/auth.guard';
 
 const routes: Routes = [
   {

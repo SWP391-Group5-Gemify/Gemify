@@ -1,1 +1,25 @@
-<p>seller-dashboard works!</p>
+<mat-sidenav-container autosize
+                       class="sidenav-content">
+
+  <!-- Sidebar and Nav Items -->
+  <mat-sidenav opened="true"
+               mode="side">
+    <mat-nav-list>
+      @for (item of navItems; track $index) {
+      <a mat-list-item
+         class="sidenav-content__item"
+         routerLink="{{item.route}}">
+        <div class="sidenav-content__item-text">
+          <mat-icon>{{item.icon}}</mat-icon>
+          <span>{{item.name}}</span>
+        </div>
+      </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Content -->
+  <mat-sidenav-content class="sidenav-content__content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

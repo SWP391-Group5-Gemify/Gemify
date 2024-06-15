@@ -45,7 +45,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = "StoreOwner,StoreManager,Repurchaser,Seller,Cashier")]
         public async Task<ActionResult<Order>> GetOrderById(int id)
         {
             var order = await _orderService.GetOrderByIdAsync(id);
@@ -54,7 +54,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "StoreOwner,StoreManager,Repurchaser,Cashier")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Repurchaser,Seller,Cashier")]
         public async Task<ActionResult<IReadOnlyList<Order>>> GetOrders([FromQuery] OrderSpecParams orderSpecParams)
         {
             var spec = new OrdersSpecification(orderSpecParams);

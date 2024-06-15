@@ -57,3 +57,8 @@ ORDER: Base + typography > general layout + grid > page layout > components
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@mixin paddingHorizon($value) {
+  padding-right: $value;
+  padding-left: $value
+}

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { LatestGoldPrices } from '../../models/latest-gold-prices.model';
+import { LatestGoldPricesModel } from '../../models/latest-gold-prices.model';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -16,9 +16,9 @@ export class GoldChartService {
    * Calling the api and get the latest gold price
    * @returns
    */
-  getLatestGoldPrices(): Observable<LatestGoldPrices[]> {
+  getLatestGoldPrices(): Observable<LatestGoldPricesModel[]> {
     return this.http
-      .get<LatestGoldPrices[]>(this.baseGoldChartUrl + '/golds/latest')
+      .get<LatestGoldPricesModel[]>(this.baseGoldChartUrl + '/golds/latest')
       .pipe(
         map((response) => {
           return response;

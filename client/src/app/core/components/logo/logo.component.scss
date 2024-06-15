@@ -1,7 +1,5 @@
 @import "abstracts/variables";
 
-
-
 .logo {
   display: inline-block;
   font-family: 'MajorMonoDisplay';
@@ -16,7 +14,7 @@
   }
 
   &--small {
-    font-size: 1.8em;
+    font-size: 1.8rem;
   }
 
   &--medium {

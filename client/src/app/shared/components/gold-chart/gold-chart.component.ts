@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { LatestGoldPrices } from '../../../core/models/latest-gold-prices.model';
+import { LatestGoldPricesModel } from '../../../core/models/latest-gold-prices.model';
 import { GoldChartService } from '../../../core/services/gold-chart/gold-chart.service';
 import { CommonModule } from '@angular/common';
 import { interval, map, Observable, startWith } from 'rxjs';
@@ -17,7 +17,7 @@ export class GoldChartComponent implements OnInit {
   // ======================================
   // == Fields
   // ======================================
-  prices: LatestGoldPrices[] = [];
+  prices: LatestGoldPricesModel[] = [];
   displayedColumns: string[] = [
     'name',
     'latestBidPrice',
@@ -30,7 +30,7 @@ export class GoldChartComponent implements OnInit {
   // == Life Cycle
   // ======================================
   constructor(private goldChartService: GoldChartService) {
-    this.currentDate$ = interval(60).pipe(
+    this.currentDate$ = interval(1000).pipe(
       startWith(0), // Emit the initial value
       map(() => new Date())
     );
@@ -72,12 +72,12 @@ export class GoldChartComponent implements OnInit {
       "scalePosition": "left",
       "scaleMode": "Normal",
       "fontFamily": "Roboto, BlinkMacSystemFont, sans-serif",
-      "fontSize": "15",
+      "fontSize": "16",
       "noTimeScale": false,
       "valuesTracking": "1",
       "changeMode": "price-and-percent",
       "chartType": "area",
-      "maLineColor": "#3D3F40",
+      "maLineColor": "#EA580C",
       "maLineWidth": 2,
       "maLength": 9,
       "lineWidth": 2,
