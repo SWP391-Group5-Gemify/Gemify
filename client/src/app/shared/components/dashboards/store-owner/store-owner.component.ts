@@ -5,6 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { NavItemsModel } from '../../../../core/models/nav-items.model';
 @Component({
   selector: 'app-store-owner',
   standalone: true,
@@ -24,7 +25,7 @@ export class StoreOwnerComponent {
   // ===========================
   // == Fields
   // ===========================
-  navItems: any = [
+  navItems: NavItemsModel[] = [
     {
       name: 'Statistic Dashboard',
       icon: 'home',

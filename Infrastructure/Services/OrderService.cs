@@ -3,6 +3,8 @@ using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Orders;
+using Infrastructure.Data;
+using Microsoft.IdentityModel.Tokens;
 using Core.Specifications.Products;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +26,7 @@ namespace Infrastructure.Services
          *         CREATE SALES ORDER
          * =================================
         **/
-        public async Task<int?> CreateSalesOrderAsync(string basketId, int customerId, int userId)
+        public async Task<Order> CreateSalesOrderAsync(string basketId, int customerId, int userId)
         {
             // Get basket from redis database
             var basket = await _basketRepo.GetBasketAsync(basketId);
@@ -46,8 +48,8 @@ namespace Infrastructure.Services
                 foreach(var productGem in productGems)
                 {
                     var gem = productGem.GemType;
-                    var gemItemOrdered = new ProductGemsItemOrdered(gem.Name, gem.Color, productGem.GemWeight, gem.Carat, 
-                        gem.LatestPrice, gem.Clarity, productGem.CertificateCode);
+                    var gemItemOrdered = new ProductGemsItemOrdered(gem.Name, gem.Color, productGem.GemWeight, 
+                        gem.LatestPrice, gem.Carat, gem.Clarity, productGem.CertificateCode);
                     var orderItemGem = new OrderItemGem(gemItemOrdered, gem.LatestPrice, productGem.Quantity);
                     orderItemGems.Add(orderItemGem);
                 }
@@ -67,7 +69,7 @@ namespace Infrastructure.Services
             var subtotal = items.Sum(item => item.Price * item.Quantity);
 
             // Create Order
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, 1, items);
+            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, items);
             _unitOfWork.Repository<Order>().Add(order);
 
             // Save Changes to the database
@@ -76,7 +78,9 @@ namespace Infrastructure.Services
             if (result <= 0) return null;
 
             // Return the order
-            return order.Id;
+            var orderSpec = new OrdersSpecification(order.Id);
+            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+            return order;
         }
 
 
@@ -87,9 +91,81 @@ namespace Infrastructure.Services
          *         CREATE BUYBACK ORDER
          * =================================
         **/
-        public Task<Order> CreateBuyBackOrderAsync()
+        public async Task<int?> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
         {
-            throw new NotImplementedException();
+            // total price
+            decimal totalPrice = 0;
+
+            // get basket
+            var basket = await _basketRepo.GetBasketAsync(basketId);
+
+            // add items in basket
+            List<OrderItem> orderItemList = new List<OrderItem>();
+            if (basket != null)
+            {
+                foreach (var item in basket.Items)
+                {
+
+                    var orderItem = await _unitOfWork.Repository<OrderItem>().GetByIdAsync(item.Id);
+                    var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec
+                        (new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
+
+                    // calculate purchase gold price
+                    var purchaseGoldPrice = product.CalculatePurchaseGoldPrice();
+                    orderItem.ItemOrdered.GoldPrice = (decimal) purchaseGoldPrice;
+
+                    // calculate purchase gem price
+                    decimal totalPurchaseGemPrice = 0;
+                    if (!orderItem.OrderItemGems.IsNullOrEmpty())
+                    {
+                        foreach (var gem in orderItem.OrderItemGems)
+                        {
+                            gem.Price /= (decimal)0.7;
+                            gem.GemsItemOrdered.GemPrice /= (decimal)0.7;
+                            totalPurchaseGemPrice += gem.Price;
+                        }
+                    }
+                    
+                    // calculate total purchase product price
+                    orderItem.Price = orderItem.ItemOrdered.GoldPrice + totalPurchaseGemPrice;
+
+                    // calculate total order price
+                    totalPrice += orderItem.Price;
+
+                    // add order item to order
+                    orderItemList.Add(orderItem);
+                }
+            }
+
+            // create purchase order
+            var orderDate = DateTime.Now;
+
+            var order = new Order(basket.OrderTypeId, totalPrice, customerId, repurchaserId, null,null, orderItemList);
+            _unitOfWork.Repository<Order>().Add(order);
+
+            // save to db
+            var result = await _unitOfWork.Complete();
+            if (result <= 0) return null;
+            return order.Id;
+        }
+
+        /* Test */
+        public async Task<decimal> CalculatePurchaseGemPrice (int salesOrderId, int productId)
+        {
+            decimal result = 0;
+            var salesOrder = await _unitOfWork.Repository<Order>().GetEntityWithSpec(new OrdersSpecification(salesOrderId));
+            foreach(var item in salesOrder.OrderItems)
+            {
+                if (item.Id == productId && !item.OrderItemGems.IsNullOrEmpty())
+                {
+                   foreach (var gem in item.OrderItemGems)
+                    {
+                        result += gem.Price;
+                    }
+                    result /= (decimal) 0.7;
+                }
+            }
+            return result;
         }
 
 

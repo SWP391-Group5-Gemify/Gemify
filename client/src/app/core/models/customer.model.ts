@@ -1,4 +1,4 @@
-import { GenderEnum } from './gender-model.model';
+import { GenderEnum } from './gender.model';
 
 export interface CustomerModel {
   id: number;

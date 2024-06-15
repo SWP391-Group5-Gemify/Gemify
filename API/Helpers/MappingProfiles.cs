@@ -25,7 +25,6 @@ namespace API.Helpers
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))
-                .ForMember(d => d.Status, o => o.MapFrom(s => s.Status))
                 .ForMember(d => d.SubCategoryName, o => o.MapFrom(s => s.SubCategory.Name))
                 .ForMember(d => d.CategoryName, o => o.MapFrom(s => s.SubCategory.Category.Name))
                 .ForMember(d => d.SaleCounterName, o => o.MapFrom(s => s.SaleCounter.Name))
@@ -76,7 +75,6 @@ namespace API.Helpers
                 .ForMember(d => d.GemName, o => o.MapFrom(s => s.GemsItemOrdered.GemName))
                 .ForMember(d => d.GemColor, o => o.MapFrom(s => s.GemsItemOrdered.GemColor))
                 .ForMember(d => d.GemWeight, o => o.MapFrom(s => s.GemsItemOrdered.GemWeight))
-                .ForMember(d => d.GemPrice, o => o.MapFrom(s => s.GemsItemOrdered.GemPrice))
                 .ForMember(d => d.GemCarat, o => o.MapFrom(s => s.GemsItemOrdered.GemCarat))
                 .ForMember(d => d.GemClarity, o => o.MapFrom(s => s.GemsItemOrdered.GemClarity))
                 .ForMember(d => d.GemCertificateCode, o => o.MapFrom(s => s.GemsItemOrdered.GemCertificateCode));
@@ -97,7 +95,6 @@ namespace API.Helpers
                 .ForMember(d => d.MembershipId, o => o.MapFrom(s => s.Customer.MembershipId))
                 .ForMember(d => d.PromotionCode, o => o.MapFrom(s => s.Promotion.Code))
                 .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount));
-            
         }
     }
 }

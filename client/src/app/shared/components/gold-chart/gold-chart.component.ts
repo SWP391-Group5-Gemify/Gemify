@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { LatestGoldPrices } from '../../../core/models/latest-gold-prices.model';
-import { GoldChartService } from '../../../core/services/gold-chart/gold-chart.service';
+import { LatestGoldPricesModel } from '../../../core/models/gold.model';
+import { GoldService } from '../../../core/services/gold/gold.service';
 import { CommonModule } from '@angular/common';
 import { interval, map, Observable, startWith } from 'rxjs';
+import { VietNameseDatePipe } from '../../pipes/vietnameses-date-pipe/vietnamese-date.pipe';
 
 @Component({
   selector: 'app-gold-chart',
   standalone: true,
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, VietNameseDatePipe],
   templateUrl: './gold-chart.component.html',
   styleUrl: './gold-chart.component.scss',
 })
@@ -16,7 +17,7 @@ export class GoldChartComponent implements OnInit {
   // ======================================
   // == Fields
   // ======================================
-  prices: LatestGoldPrices[] = [];
+  prices: LatestGoldPricesModel[] = [];
   displayedColumns: string[] = [
     'name',
     'latestBidPrice',
@@ -28,8 +29,8 @@ export class GoldChartComponent implements OnInit {
   // ======================================
   // == Life Cycle
   // ======================================
-  constructor(private goldChartService: GoldChartService) {
-    this.currentDate$ = interval(60).pipe(
+  constructor(private goldService: GoldService) {
+    this.currentDate$ = interval(1000).pipe(
       startWith(0), // Emit the initial value
       map(() => new Date())
     );
@@ -71,12 +72,12 @@ export class GoldChartComponent implements OnInit {
       "scalePosition": "left",
       "scaleMode": "Normal",
       "fontFamily": "Roboto, BlinkMacSystemFont, sans-serif",
-      "fontSize": "10",
+      "fontSize": "16",
       "noTimeScale": false,
       "valuesTracking": "1",
       "changeMode": "price-and-percent",
       "chartType": "area",
-      "maLineColor": "#3D3F40",
+      "maLineColor": "#EA580C",
       "maLineWidth": 2,
       "maLength": 9,
       "lineWidth": 2,
@@ -98,10 +99,9 @@ export class GoldChartComponent implements OnInit {
    * Get the latest gold prices when calling api
    */
   getLatestGoldPrices() {
-    this.goldChartService.getLatestGoldPrices().subscribe({
+    this.goldService.getLatestGoldPrices().subscribe({
       next: (response) => {
         this.prices = response;
-        console.table(this.prices);
       },
       error: (error) => console.log(error),
     });

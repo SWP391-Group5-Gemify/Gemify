@@ -274,7 +274,7 @@ namespace Infrastructure.Data.Migrations
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     PaymentIntentId = table.Column<string>(type: "varchar(200)", nullable: true),
-                    PromotionId = table.Column<int>(type: "int", nullable: false)
+                    PromotionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

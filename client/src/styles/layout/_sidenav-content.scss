@@ -1,6 +1,7 @@
 .sidenav-content {
   height: 100%;
-  // Side Bar
+
+  @include paddingHorizon($padding-layout);
 
   &__item-text {
     display: flex;
@@ -22,9 +23,14 @@
   mat-sidenav {
     overflow: hidden;
     scroll-behavior: smooth;
-    border-radius: 2rem;
+    height: min-content;
+    border-top-left-radius: 1.4rem;
+    border-bottom-right-radius: 1.4rem;
+    border-bottom-left-radius: 1.4rem;
+    border: 2px solid $color-primary;
+    border-top-color: $color-primary-dark;
     padding: 1.4rem;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 3px, rgba(0, 0, 0, 0.24) 0px 2px 2px;
   }
 
   mat-nav-list {
@@ -32,7 +38,11 @@
   }
 
   mat-sidenav-content {
-    padding-left: 2rem;
-    background-color: $color-white;
+    border-top: 2px solid $color-primary-dark;
+    padding-top: $padding-layout;
+    padding-bottom: $padding-layout;
+    height: 100%;
+    overflow: auto;
+    @include paddingHorizon($padding-layout);
   }
 }

@@ -4,7 +4,7 @@ import { CustomerModel } from '../../../../core/models/customer.model';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableDataSourceComponent } from '../../table-data-source/table-data-source.component';
+import { GenericTableDataSourceComponent } from '../../generic-table-data-source/generic-table-data-source.component';
 import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -13,7 +13,7 @@ import { PageEvent } from '@angular/material/paginator';
   standalone: true,
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
-  imports: [CommonModule, TableDataSourceComponent, StatsTotalRowsComponent],
+  imports: [CommonModule, GenericTableDataSourceComponent, StatsTotalRowsComponent],
 })
 export class CustomersComponent implements OnInit {
   // ==========================================

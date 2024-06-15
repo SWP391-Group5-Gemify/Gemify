@@ -40,5 +40,6 @@ namespace Core.Enitities.OrderAggregate
 
         [Column(TypeName = "varchar(200)")]
         public string Image_Url { get; set; }
+
     }
 }

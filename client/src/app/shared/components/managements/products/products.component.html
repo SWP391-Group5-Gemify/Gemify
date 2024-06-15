@@ -1,1 +1,84 @@
-<p>products works!</p>
+<!-- Cart icon -->
+
+<!-- Search Product, Filter Product Name,  Categories, Subcategory -->
+<section class="flex">
+
+  <!-- Filter on Names -->
+  <mat-form-field appearance="fill">
+    <mat-label>Tìm theo tên</mat-label>
+    <input matInput
+           placeholder="Filter by name">
+  </mat-form-field>
+
+  <!-- Filter on Sub Categories -->
+  <app-generic-dropdown #subCategoriesDropdownRef
+                        label="Chọn loại trang sức"
+                        [options]="subCategoriesDropdown"
+                        (onSelectionChange)="onSelectChangeSubCategoryIdFromParent($event)">
+  </app-generic-dropdown>
+
+  <!-- Filter on Golds -->
+  <app-generic-dropdown #goldsDropdownRef
+                        label="Chọn loại vàng"
+                        [options]="goldsDropdown"
+                        (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
+  </app-generic-dropdown>
+
+  <app-generic-stacked-chips></app-generic-stacked-chips>
+
+  <!-- <span>
+    <mat-form-field appearance="fill">
+      <mat-label></mat-label>
+      <mat-select>
+        <mat-option value="cart1">Cart 1</mat-option>
+        <mat-option value="cart2">Cart 2</mat-option>
+        <mat-option value="cart3">Cart 3</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+
+  <span>
+    <mat-form-field appearance="fill">
+      <mat-label>Loại vàng</mat-label>
+      <mat-select>
+        <mat-option value="cart1">Cart 1</mat-option>
+        <mat-option value="cart2">Cart 2</mat-option>
+        <mat-option value="cart3">Cart 3</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+
+  <span>
+    <mat-form-field appearance="fill">
+      <mat-label>Loại mặt hàng</mat-label>
+      <mat-select>
+        <mat-option value="cart1">Cart 1</mat-option>
+        <mat-option value="cart2">Cart 2</mat-option>
+        <mat-option value="cart3">Cart 3</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span> -->
+
+
+  <button class="btn btn--primary"
+          (click)="onResetFilters()"
+          color="accent">Xóa bộ lọc</button>
+
+</section>
+
+<!-- Paginator -->
+<mat-paginator [length]="totalProducts"
+               [pageSize]="productSearchCriteria.pageSize"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               (page)="onPageChange($event)"
+               aria-label="Select page">
+</mat-paginator>
+
+
+<!-- List of Product -->
+<!-- - Using @for too loop through the cards -->
+<section class="grid grid--responsive">
+  @for (product of products$ | async; track $index) {
+  <app-card-product [product]="product"></app-card-product>
+  }
+</section>

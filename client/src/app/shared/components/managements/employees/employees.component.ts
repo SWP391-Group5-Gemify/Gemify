@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableDataSourceComponent } from '../../table-data-source/table-data-source.component';
+import { GenericTableDataSourceComponent } from '../../generic-table-data-source/generic-table-data-source.component';
 import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,14 +14,19 @@ import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormEditCreateModalComponent } from '../../form-edit-create-modal/form-edit-create-modal.component';
-import { RoleModel } from '../../../../core/models/role-model.model';
+import { RoleModel } from '../../../../core/models/role.model';
+import {
+  ModalConfigModel,
+  ModalModeEnum,
+  ModalTitle,
+} from '../../../../core/models/modal.model';
 
 @Component({
   selector: 'app-employees',
   standalone: true,
   imports: [
     CommonModule,
-    TableDataSourceComponent,
+    GenericTableDataSourceComponent,
     StatsTotalRowsComponent,
     MatFormFieldModule,
     MatSelectModule,
@@ -154,6 +159,14 @@ export class EmployeesComponent implements OnInit {
    * @param employee
    */
   openEditEmployeeModal(employee: EmployeeModel) {
+    const modalData: ModalConfigModel = {
+      title: ModalTitle.EditEmployeeTitle,
+      mode: ModalModeEnum.Edit,
+      initialData: {
+        ...employee,
+      },
+    };
+
     const dialogRef = this.createOrEditModal.open(
       FormEditCreateModalComponent,
       {
@@ -161,12 +174,7 @@ export class EmployeesComponent implements OnInit {
         height: '80vh',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
-        data: {
-          title: 'Edit Employee',
-          initialData: {
-            ...employee,
-          }, // shallow copy to avoid hot-changing
-        },
+        data: modalData,
       }
     );
 

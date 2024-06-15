@@ -1,5 +1,5 @@
-import { GenderEnum } from './gender-model.model';
-import { RoleEnum } from './role-model.model';
+import { GenderEnum } from './gender.model';
+import { RoleEnum } from './role.model';
 
 export interface UserModel {
   id: number;

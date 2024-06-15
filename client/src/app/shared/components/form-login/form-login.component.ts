@@ -14,6 +14,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { RoleEnum } from '../../../core/models/role.model';
 
 @Component({
   selector: 'app-form-login',
@@ -92,8 +93,36 @@ export class FormLoginComponent implements OnInit {
   login(): void {
     if (this.signInForm.valid) {
       this.authService.login(this.signInForm.value).subscribe({
-        next: (responsee) => {
-          this.router.navigate(['/store-owner']);
+        next: (resp) => {
+          let pathToDashboard: string = '';
+          switch (this.authService.currentUser?.role) {
+            case RoleEnum.StoreOwner: {
+              pathToDashboard = '/store-owner';
+              break;
+            }
+            case RoleEnum.StoreManager: {
+              pathToDashboard = '/store-manager';
+              break;
+            }
+            case RoleEnum.Appraiser: {
+              pathToDashboard = '/appraiser';
+              break;
+            }
+            case RoleEnum.Cashier: {
+              pathToDashboard = '/cashier';
+              break;
+            }
+            case RoleEnum.Repurchaser: {
+              pathToDashboard = '/repurchaser';
+              break;
+            }
+            case RoleEnum.Seller: {
+              pathToDashboard = '/seller';
+              break;
+            }
+          }
+
+          this.router.navigate([pathToDashboard]);
         },
 
         error: (error) => {

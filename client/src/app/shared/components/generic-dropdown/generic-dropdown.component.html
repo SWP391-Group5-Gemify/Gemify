@@ -1,0 +1,9 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{label}}</mat-label>
+  <mat-select [(value)]="selectedValue"
+              (selectionChange)="onSelectionChangeFromChild($event)">
+    @for (option of options; track $index) {
+    <mat-option value="{{option.key}}">{{option.value}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

@@ -15,4 +15,3 @@ namespace API.Dtos
         public IReadOnlyList<OrderItemGemDto> OrderItemGems {get; set;}
     }
 }
-

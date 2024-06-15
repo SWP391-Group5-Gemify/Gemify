@@ -1,0 +1,10 @@
+.grid {
+  display: grid;
+  gap: $gutter-layout;
+  // overflow-y: auto;
+  // height: 100%;
+}
+
+.grid--responsive {
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+}
