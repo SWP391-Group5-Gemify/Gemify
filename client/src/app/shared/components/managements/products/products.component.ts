@@ -2,27 +2,24 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatIcon } from '@angular/material/icon';
-import { MatBadgeModule } from '@angular/material/badge';
 import { CardProductComponent } from '../../card-product/card-product.component';
 import { catchError, map, mergeMap, Observable } from 'rxjs';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
 import {
-  CategoryModel,
   ProductModel,
   ProductSearchingCriteria,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { GoldModel } from '../../../../core/models/gold.model';
 import { GoldService } from '../../../../core/services/gold/gold.service';
+import { GenericStackedChipsComponent } from '../../generic-stacked-chips/generic-stacked-chips.component';
 
 @Component({
   selector: 'app-products',
@@ -31,15 +28,13 @@ import { GoldService } from '../../../../core/services/gold/gold.service';
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatToolbarModule,
     MatPaginatorModule,
     MatIcon,
-    MatBadgeModule,
     CardProductComponent,
-    MatToolbarModule,
     MatFormFieldModule,
     MatInputModule,
     GenericDropdownComponent,
+    GenericStackedChipsComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',

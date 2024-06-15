@@ -3,23 +3,28 @@
 <!-- Search Product, Filter Product Name,  Categories, Subcategory -->
 <section class="flex">
 
+  <!-- Filter on Names -->
   <mat-form-field appearance="fill">
     <mat-label>Tìm theo tên</mat-label>
     <input matInput
            placeholder="Filter by name">
   </mat-form-field>
 
+  <!-- Filter on Sub Categories -->
   <app-generic-dropdown #subCategoriesDropdownRef
                         label="Chọn loại trang sức"
                         [options]="subCategoriesDropdown"
                         (onSelectionChange)="onSelectChangeSubCategoryIdFromParent($event)">
   </app-generic-dropdown>
 
+  <!-- Filter on Golds -->
   <app-generic-dropdown #goldsDropdownRef
                         label="Chọn loại vàng"
                         [options]="goldsDropdown"
                         (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
   </app-generic-dropdown>
+
+  <app-generic-stacked-chips></app-generic-stacked-chips>
 
   <!-- <span>
     <mat-form-field appearance="fill">
