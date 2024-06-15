@@ -9,7 +9,7 @@ import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
 import {
   ProductModel,
-  ProductSearchingCriteria,
+  ProductsSearchingCriteriaModel,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -44,7 +44,7 @@ export class ProductsComponent implements OnInit {
   // == Fields
   // ==========================================
   products$!: Observable<ProductModel[]>;
-  productSearchCriteria: ProductSearchingCriteria = {
+  productSearchCriteria: ProductsSearchingCriteriaModel = {
     pageSize: 10,
     pageIndex: 0,
     search: undefined,
@@ -187,4 +187,6 @@ export class ProductsComponent implements OnInit {
     this.productSearchCriteria.goldTypeId = undefined;
     this.productSearchCriteria.subCategoryId = undefined;
   }
+
+  onSelectSortProductsFromParent($event: any) {}
 }

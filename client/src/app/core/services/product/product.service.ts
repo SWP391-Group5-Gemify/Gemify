@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import {
   CategoryModel,
   ProductModel,
-  ProductSearchingCriteria,
+  ProductsSearchingCriteriaModel,
   SubCategoryModel,
 } from '../../models/product.model';
 import { environment } from '../../../../environments/environment';
@@ -24,7 +24,7 @@ export class ProductService {
    * @returns
    */
   getProducts(
-    productSearchCriteria: ProductSearchingCriteria
+    productSearchCriteria: ProductsSearchingCriteriaModel
   ): Observable<PaginationModel<ProductModel>> {
     let params = new HttpParams()
       .set('pageIndex', productSearchCriteria.pageIndex.toString())
