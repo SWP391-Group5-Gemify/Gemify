@@ -4,7 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatIcon } from '@angular/material/icon';
-import { CardProductComponent } from '../../card-product/card-product.component';
 import { catchError, map, mergeMap, Observable } from 'rxjs';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
@@ -20,6 +19,7 @@ import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { GoldModel } from '../../../../core/models/gold.model';
 import { GoldService } from '../../../../core/services/gold/gold.service';
 import { GenericStackedChipsComponent } from '../../generic-stacked-chips/generic-stacked-chips.component';
+import { CardProductComponent } from './card-product/card-product.component';
 
 @Component({
   selector: 'app-products',
