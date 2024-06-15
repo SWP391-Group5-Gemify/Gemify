@@ -58,7 +58,7 @@ namespace Infrastructure.Services
 
                 // Calculate the total price of the product
                 // Product price = (gold weight * bid price) + labour + (gem price * quantity)
-                var itemPrice = (productItem.GoldWeight * productItem.GoldType.LatestBidPrice) + productItem.Labour + gemPrice;
+                var itemPrice = productItem.CalculateGoldBidPrice() + productItem.Labour + gemPrice;
 
                 var orderItem = new OrderItem(itemOrdered, itemPrice, item.Quantity, orderItemGems);
 
@@ -111,8 +111,8 @@ namespace Infrastructure.Services
                         (new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
 
                     // calculate purchase gold price
-                    var purchaseGoldPrice = product.CalculatePurchaseGoldPrice();
-                    orderItem.ItemOrdered.GoldPrice = (decimal) purchaseGoldPrice;
+                    var purchaseGoldPrice = product.CalculateGoldAskPrice();
+                    orderItem.ItemOrdered.GoldPrice = purchaseGoldPrice;
 
                     // calculate purchase gem price
                     decimal totalPurchaseGemPrice = 0;
@@ -172,7 +172,7 @@ namespace Infrastructure.Services
         }
 
 
-        public async Task<Order> GetOrderByIdAsync(int? id)
+        public async Task<Order> GetOrderByIdAsync(int id)
         {
             var spec = new OrdersSpecification(id);
             var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
