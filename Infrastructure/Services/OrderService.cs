@@ -91,7 +91,7 @@ namespace Infrastructure.Services
          *         CREATE BUYBACK ORDER
          * =================================
         **/
-        public async Task<int?> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
+        public async Task<Order> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
         {
             // total price
             decimal totalPrice = 0;
@@ -138,15 +138,18 @@ namespace Infrastructure.Services
             }
 
             // create purchase order
-            var orderDate = DateTime.Now;
 
-            var order = new Order(basket.OrderTypeId, totalPrice, customerId, repurchaserId, null,null, orderItemList);
+            var order = new Order(basket.OrderTypeId, totalPrice, customerId, repurchaserId, basket.PaymentIntentId, null, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db
             var result = await _unitOfWork.Complete();
             if (result <= 0) return null;
-            return order.Id;
+
+            // Return the order
+            var orderSpec = new OrdersSpecification(order.Id);
+            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+            return order;
         }
 
         /* Test */
