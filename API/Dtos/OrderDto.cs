@@ -5,4 +5,5 @@
         public int CustomerId { get; set; }
         public string BasketId { get; set; }
     }
+
 }

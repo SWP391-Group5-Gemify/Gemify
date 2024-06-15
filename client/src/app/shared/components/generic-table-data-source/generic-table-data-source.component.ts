@@ -23,7 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-table-data-source',
+  selector: 'app-generic-table-data-source',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -37,10 +37,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatTooltipModule,
   ],
-  templateUrl: './table-data-source.component.html',
-  styleUrl: './table-data-source.component.scss',
+  templateUrl: './generic-table-data-source.component.html',
+  styleUrl: './generic-table-data-source.component.scss',
 })
-export class TableDataSourceComponent implements AfterViewInit {
+export class GenericTableDataSourceComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

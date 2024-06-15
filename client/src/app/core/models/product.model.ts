@@ -48,3 +48,12 @@ export interface SubCategoryModel {
   name: string;
   unit: string;
 }
+
+export interface ProductSearchingCriteria {
+  pageSize: number;
+  pageIndex: number;
+  search: string | undefined;
+  goldTypeId: number | string | undefined;
+  subCategoryId: number | string | undefined;
+  sort: string | undefined;
+}
