@@ -9,5 +9,10 @@ import { MatChipsModule } from '@angular/material/chips';
   styleUrl: './generic-stacked-chips.component.scss',
 })
 export class GenericStackedChipsComponent {
-  readonly bestBoys: string[] = ['Samoyed', 'Akita Inu', 'Alaskan Malamute', 'Siberian Husky'];
+  readonly bestBoys: string[] = [
+    'Samoyed',
+    'Akita Inu',
+    'Alaskan Malamute',
+    'Siberian Husky',
+  ];
 }

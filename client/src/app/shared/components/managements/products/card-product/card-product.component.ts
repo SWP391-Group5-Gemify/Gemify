@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { ProductModel } from '../../../core/models/product.model';
+import { ProductModel } from '../../../../../core/models/product.model';
 
 @Component({
   selector: 'app-card-product',

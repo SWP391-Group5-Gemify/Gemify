@@ -7,12 +7,12 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 import { Observable, Observer, switchMap } from 'rxjs';
 import { UserModel } from '../../../core/models/user.model';
 import { MatDialog } from '@angular/material/dialog';
-import { FormViewModalComponent } from '../../components/form-view-modal/form-view-modal.component';
 import {
   ModalConfigModel,
   ModalModeEnum,
   ModalTitle,
 } from '../../../core/models/modal.model';
+import { FormViewModalComponent } from '../../../shared/components/form-view-modal/form-view-modal.component';
 
 @Component({
   selector: 'app-header',
