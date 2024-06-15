@@ -1,4 +1,6 @@
 ﻿using Core.Enitities.OrderAggregate;
+using Core.Specifications.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specifications.Orders
 {
@@ -12,15 +14,23 @@ namespace Core.Specifications.Orders
             )
         {
             AddInclude(o => o.Customer);
-            AddInclude(o => o.OrderItems);
+            AddInclude(o => o.User);
+            AddInclude(o => o.Promotion);
+            AddInclude(o => o.OrderType);
+            AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
             AddOrderByDescending(o => o.OrderDate);
+            ApplyPaging(orderSpecParams.PageSize * (orderSpecParams.PageIndex - 1),
+                orderSpecParams.PageSize);
         }
 
-        public OrdersSpecification(int id)
+        public OrdersSpecification(int? id)
             : base(o => o.Id == id)
         {
             AddInclude(o => o.Customer);
-            AddInclude(o => o.OrderItems);
+            AddInclude(o => o.User);
+            AddInclude(o => o.Promotion);
+            AddInclude(o => o.OrderType);
+            AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
         }
     }
 }
