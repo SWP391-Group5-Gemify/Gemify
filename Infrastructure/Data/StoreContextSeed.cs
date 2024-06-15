@@ -1,9 +1,8 @@
-﻿
-
-using System.Text.Json;
+﻿using System.Text.Json;
 using Core.Enitities;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Core.Enitities.OrderAggregate;
 
 namespace Infrastructure.Data
 {
@@ -178,6 +177,36 @@ namespace Infrastructure.Data
                 foreach (var item in list)
                 {
                     context.GemPrices.Add(item);
+                }
+
+                await context.SaveChangesAsync();
+            }
+
+            //Seed Order Types
+            if (!context.OrderTypes.Any())
+            {
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/OrderTypeSeedData.json");
+
+                var list = JsonSerializer.Deserialize<List<OrderType>>(data, options);
+
+                foreach (var item in list)
+                {
+                    context.OrderTypes.Add(item);
+                }
+
+                await context.SaveChangesAsync();
+            }
+
+            //Seed Promotions
+            if (!context.Promotions.Any())
+            {
+                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/PromotionSeedData.json");
+
+                var list = JsonSerializer.Deserialize<List<Promotion>>(data, options);
+
+                foreach (var item in list)
+                {
+                    context.Promotions.Add(item);
                 }
 
                 await context.SaveChangesAsync();

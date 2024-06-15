@@ -18,6 +18,24 @@ namespace Infrastructure.Data
             _database = redis.GetDatabase();
         }
 
+        public async Task<IReadOnlyList<CustomerBasket>> GetAllBasketsAsync()
+        {
+            // Get all the keys in redis server
+            var endpoints = _database.Multiplexer.GetEndPoints();
+            var server = _database.Multiplexer.GetServer(endpoints[0]);
+            var keys = server.Keys();
+
+            // Find basket by key and deserialize basket then add to baskets list
+            var baskets = new List<CustomerBasket>();
+            foreach (var key in keys)
+            {
+                var data = await _database.StringGetAsync(key);
+                var basket = JsonSerializer.Deserialize<CustomerBasket>(data);
+                baskets.Add(basket);
+            }
+            return baskets;
+        }
+
         public async Task<bool> DeleteBasketAsync(string basketId)
         {
             return await _database.KeyDeleteAsync(basketId);

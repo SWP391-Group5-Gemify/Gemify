@@ -41,6 +41,9 @@ namespace Core.Specifications
             }
 
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
+
+            query = spec.CustomIncludes.Aggregate(query, (current, include) => include(current));
+
             return query;
         }
     }

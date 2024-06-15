@@ -15,18 +15,18 @@ namespace Core.Enitities
         public int? GoldTypeId { get; set; }
         public GoldType GoldType { get; set;}
         [Column(TypeName = "decimal(18,6)")]
-        public float? GoldWeight {  get; set; }
+        public decimal GoldWeight {  get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public float TotalWeight { get; set; }
+        public decimal TotalWeight { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public float? Labour {  get; set; }
+        public decimal Labour {  get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]
         [Column(TypeName = "varchar(50)"), Required]
         public string Status { get; set; }
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }
-        public int SubCategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
         public int? SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }

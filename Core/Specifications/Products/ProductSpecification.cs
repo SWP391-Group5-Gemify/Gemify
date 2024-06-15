@@ -1,4 +1,5 @@
 ﻿using Core.Enitities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specifications.Products
 {
@@ -40,12 +41,11 @@ namespace Core.Specifications.Products
         public ProductSpecification(int id)
         : base(x => x.Id == id && x.Status != "Unavailable")
         {
-            AddInclude(x => x.ProductGems);
-            AddInclude(x => x.Gems);
             AddInclude(x => x.GoldType);
             AddInclude(x => x.SubCategory);
             AddInclude(x => x.SaleCounter);
             AddInclude(x => x.SubCategory.Category);
+            AddCustomInclude(q => q.Include(p => p.ProductGems).ThenInclude(pg => pg.GemType));
         }
     }
 }

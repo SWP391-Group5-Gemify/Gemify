@@ -15,7 +15,7 @@ namespace Infrastructure.Data
 
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Promotion> Promotion { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<GemType> GemTypes { get; set; }
         public DbSet<GoldPrice> GoldPrices { get; set; }
