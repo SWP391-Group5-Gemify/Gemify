@@ -51,7 +51,7 @@
 
 <!-- List of Product -->
 <!-- - Using @for too loop through the cards -->
-<section class="grid grid--responsive">
+<section class="grid grid--responsive u-margin-top-small">
   @for (product of products$ | async; track $index) {
   <app-card-product [product]="product"></app-card-product>
   }

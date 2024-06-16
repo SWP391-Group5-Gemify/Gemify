@@ -7,7 +7,6 @@
        [alt]="product.name"
        [src]="product.imageUrl" />
 
-
   <!-- Name and SubCategory -->
   <mat-card-header class="card__name">
     <mat-card-title>{{product.name}}</mat-card-title>
@@ -17,16 +16,22 @@
   <!-- Content -->
   <mat-card-content class="card__content">
     <p class="card__price">{{product.productPrice | currency:"VND"}}</p>
-    <p class="card__quantity">Số lượng:{{product.quantity}}</p>
-    <p class="card__status">Hiện trạng:{{product.status}}</p>
+    <p class="card__quantity"><span class="card__quantity--text">Số lượng:</span><span
+            class="card__quantity--number">{{product.quantity}}</span></p>
+
+    <p class="card__status"
+       [ngClass]="{
+        'card__status--available': product.status == ProductStatusEnum.Available,
+        'card__status--unavailable': product.status == ProductStatusEnum.Unavailable}">{{product.status}}</p>
   </mat-card-content>
 
   <!-- Actions -->
-  <mat-card-actions class="card__actions">
-    <button mat-raised-button
-            (click)="addToCartFromChild()">Thêm vào giỏ hàng</button>
+  <mat-card-actions class="
+       card__actions">
+    <button class="btn btn--grad"
+            (click)="addToCartFromChild()">Giỏ hàng</button>
 
-    <button (click)="viewProductDetailFromChild()"
-            mat-raised-button>Chi tiết</button>
+    <button class="btn btn--primary-light"
+            (click)="viewProductDetailFromChild()">Chi tiết</button>
   </mat-card-actions>
 </mat-card>

@@ -1,5 +1,7 @@
+@import "abstracts/variables";
+
 .card {
-  height: 45rem;
+  height: 50rem;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -9,14 +11,89 @@
     justify-self: start;
     width: 100%;
     height: 25rem;
+    -o-object-fit: center;
     object-fit: center;
   }
 
   &__name {
     flex: 1;
+    align-self: center;
+    text-align: center;
   }
 
-  &__content {}
+  &__content {
+    width: 100%;
+    font-size: 1.6rem;
+    display: grid;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+      "price price quantity quantity"
+      "price price status status";
+  }
 
-  &__actions {}
+  &__price {
+    grid-area: price;
+    align-self: center;
+    justify-self: center;
+    font-size: 2.8rem;
+    font-weight: 900;
+
+    // Break words
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+
+  }
+
+  &__quantity {
+    grid-area: quantity;
+    padding: 0.8rem;
+    justify-self: center;
+
+    &--text {
+      text-transform: uppercase;
+      font-size: 1.4rem;
+    }
+
+    &--number {
+      margin-left: 0.8rem;
+      font-weight: bold;
+      font-size: 2.2rem;
+    }
+  }
+
+  &__status {
+    grid-area: status;
+    text-transform: uppercase;
+    padding: 1.2rem;
+    font-weight: 900;
+    justify-self: stretch;
+    text-align: center;
+    box-shadow: 0 1px 3px 2px rgba($color: #000000, $alpha: 0.1);
+    background-color: $color-grey-light;
+
+    &--available {
+      color: $color-primary-dark;
+
+    }
+
+    &--unavailable {
+      color: $color-black;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    gap: 0.8rem;
+
+    button {
+      text-transform: uppercase;
+      justify-self: center;
+      flex: 1;
+    }
+  }
 }

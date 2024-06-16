@@ -26,13 +26,13 @@
 
   <!-- Table Data Source -->
   <app-generic-table-data-source [columnsToDisplay]="tableConfig.columnsToDisplay"
-                         [dataSource]="tableConfig.dataSource"
-                         [pageSize]="tableConfig.pageSize"
-                         [pageIndex]="tableConfig.pageIndex"
-                         [count]="tableConfig.totalEmployees"
-                         (onPageChangeFromChild)="onPageEvent($event)"
-                         (onFilterFromChild)="onApplyFilter($event)"
-                         (onDisableFromChild)="disableEmployee($event)"
-                         (onEditFromChild)="openEditEmployeeModal($event)">
+                                 [dataSource]="tableConfig.dataSource"
+                                 [pageSize]="tableConfig.pageSize"
+                                 [pageIndex]="tableConfig.pageIndex"
+                                 [count]="tableConfig.totalEmployees"
+                                 (onPageChangeFromChild)="onPageEvent($event)"
+                                 (onFilterFromChild)="onApplyFilter($event)"
+                                 (onDisableFromChild)="disableEmployee($event)"
+                                 (onEditFromChild)="openEditEmployeeModal($event)">
   </app-generic-table-data-source>
 </section>
