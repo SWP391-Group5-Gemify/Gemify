@@ -1,28 +1,29 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatIcon } from '@angular/material/icon';
-import { catchError, map, mergeMap, Observable } from 'rxjs';
-import { PaginationModel } from '../../../../core/models/pagination.model';
-import { ProductService } from '../../../../core/services/product/product.service';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
+import { MatIcon } from "@angular/material/icon";
+import { catchError, map, mergeMap, Observable } from "rxjs";
+import { PaginationModel } from "../../../../core/models/pagination.model";
+import { ProductService } from "../../../../core/services/product/product.service";
 import {
   ProductModel,
   ProductsSearchingCriteriaModel,
   SortProductsQuantityEnum,
   SubCategoryModel,
-} from '../../../../core/models/product.model';
-import { MatInputModule } from '@angular/material/input';
-import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
-import { DropdownModel } from '../../../../core/models/dropdown.model';
-import { GoldModel } from '../../../../core/models/gold.model';
-import { GoldService } from '../../../../core/services/gold/gold.service';
-import { CardProductComponent } from './card-product/card-product.component';
-import { GenericSearchComponent } from '../../generic-search/generic-search.component';
+} from "../../../../core/models/product.model";
+import { MatInputModule } from "@angular/material/input";
+import { GenericDropdownComponent } from "../../generic-dropdown/generic-dropdown.component";
+import { DropdownModel } from "../../../../core/models/dropdown.model";
+import { GoldModel } from "../../../../core/models/gold.model";
+import { GoldService } from "../../../../core/services/gold/gold.service";
+import { CardProductComponent } from "./card-product/card-product.component";
+import { GenericSearchComponent } from "../../generic-search/generic-search.component";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @Component({
-  selector: 'app-products',
+  selector: "app-products",
   standalone: true,
   imports: [
     CommonModule,
@@ -34,9 +35,10 @@ import { GenericSearchComponent } from '../../generic-search/generic-search.comp
     MatInputModule,
     GenericDropdownComponent,
     GenericSearchComponent,
+    NgxSpinnerModule,
   ],
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.scss',
+  templateUrl: "./products.component.html",
+  styleUrl: "./products.component.scss",
 })
 export class ProductsComponent implements OnInit {
   // ==========================================
@@ -57,21 +59,21 @@ export class ProductsComponent implements OnInit {
   subCategoriesDropdown!: DropdownModel[];
   sortsCriteriaDropdown: DropdownModel[] = [
     {
-      name: '↓ Số lượng: giảm dần',
+      name: "↓ Số lượng: giảm dần",
       value: SortProductsQuantityEnum.QuantityDesc,
     },
     {
-      name: '↑ Số lượng: tăng dần',
+      name: "↑ Số lượng: tăng dần",
       value: SortProductsQuantityEnum.QuantityAsc,
     },
   ];
 
-  @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
-  @ViewChild('subCategoriesDropdownRef')
+  @ViewChild("goldsDropdownRef") goldsDropdownRef!: GenericDropdownComponent;
+  @ViewChild("subCategoriesDropdownRef")
   subCategoriesDropdownRef!: GenericDropdownComponent;
-  @ViewChild('sortsCriteriaDropdownRef')
+  @ViewChild("sortsCriteriaDropdownRef")
   sortsCriteriaDropdownRef!: GenericDropdownComponent;
-  @ViewChild('nameSearchInputRef') nameSearchInputRef!: GenericSearchComponent;
+  @ViewChild("nameSearchInputRef") nameSearchInputRef!: GenericSearchComponent;
 
   // ====================
   // == Life Cycle
@@ -119,7 +121,7 @@ export class ProductsComponent implements OnInit {
           return response.data;
         }),
         catchError((error) => {
-          console.error('Error loading products', error);
+          console.error("Error loading products", error);
           throw error;
         })
       );

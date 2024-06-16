@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { FormLoginComponent } from './shared/components/form-login/form-login.component';
+import { LoginComponent } from './shared/components/login/login.component';
 import { RoleEnum } from './core/models/role.model';
 import { authGuard, roleGuard } from './core/guards';
 import { PageErrorComponent } from './core/layout/page-error/page-error.component';
 
 export const routes: Routes = [
-  { path: '', component: FormLoginComponent, pathMatch: 'full' },
-  { path: 'login', component: FormLoginComponent },
+  { path: '', component: LoginComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
 
   {
     path: 'gold-chart',
