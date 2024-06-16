@@ -1,20 +1,37 @@
-<mat-card class="card">
-  <mat-card-header class="card__header">
-    <mat-card-title>{{product.name}}</mat-card-title>
-  </mat-card-header>
+<mat-card class="card-product"
+          appearance="outlined">
 
+  <!-- Image -->
   <img mat-card-image
-       class="card__img"
+       class="card-product__img"
+       [alt]="product.name"
        [src]="product.imageUrl" />
 
-  <mat-card-content class="card__content">
-    <p>{{product.description}}</p>
+  <!-- Name and SubCategory -->
+  <mat-card-header class="card-product__name">
+    <mat-card-title>{{product.name}}</mat-card-title>
+    <mat-card-subtitle>{{product.subCategoryName}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <!-- Content -->
+  <mat-card-content class="card-product__content">
+    <p class="card-product__price">{{product.productPrice | currency:"VND"}}</p>
+    <p class="card-product__quantity"><span class="card-product__quantity--text">Số lượng:</span><span
+            class="card-product__quantity--number">{{product.quantity}}</span></p>
+
+    <p class="card-product__status"
+       [ngClass]="{
+        'card-product__status--available': product.status == ProductStatusEnum.Available,
+        'card-product__status--unavailable': product.status == ProductStatusEnum.Unavailable}">{{product.status}}</p>
   </mat-card-content>
 
-  <mat-card-actions class="card__actions">
-    <button mat-button
-            (click)="addToCartFromChild()">Add To Card</button>
-    <button (click)="viewProductDetailFromChild()"
-            mat-button>View Detail</button>
+  <!-- Actions -->
+  <mat-card-actions class="
+       card-product__actions">
+    <button class="btn btn--grad"
+            (click)="addToCartFromChild()">Giỏ hàng</button>
+
+    <button class="btn btn--primary-dark"
+            (click)="viewProductDetailFromChild()">Chi tiết</button>
   </mat-card-actions>
 </mat-card>
