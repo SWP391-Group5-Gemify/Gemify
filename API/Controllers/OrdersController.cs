@@ -73,17 +73,17 @@ namespace API.Controllers
             // get userId whose create order
 
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            if (user == null) return BadRequest(new ApiResponse(400, "Error while creating buy-back order"));
             var userId = user.Id;
 
             // create buy back order
-            var buyBackOrderId = await _orderService.CreateBuyBackOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
+            var buyBackOrder = await _orderService.CreateBuyBackOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
 
-            if (!buyBackOrderId.HasValue)
+            if (buyBackOrder == null)
             {
                 return BadRequest(new ApiResponse(400, "Problem creating buyback order"));
             }
 
-            var buyBackOrder = await _orderService.GetOrderByIdAsync((int)buyBackOrderId);
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
