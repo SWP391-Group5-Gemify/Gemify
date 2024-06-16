@@ -55,7 +55,7 @@ export interface ProductsSearchingCriteriaModel {
   search: string | undefined;
   goldTypeId: number | string | undefined;
   subCategoryId: number | string | undefined;
-  sort: string | undefined;
+  sortQuantity: string | undefined;
 }
 
 export enum ProductStatusEnum {
@@ -63,7 +63,7 @@ export enum ProductStatusEnum {
   Available = 'Available',
 }
 
-export enum SortProductsEnum {
+export enum SortProductsQuantityEnum {
   QuantityDesc = 'quantityDesc',
   QuantityAsc = 'quantityAsc',
 }

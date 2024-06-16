@@ -46,8 +46,8 @@ export class ProductService {
         productSearchCriteria.subCategoryId.toString()
       );
     }
-    if (productSearchCriteria.sort) {
-      params = params.set('sort', productSearchCriteria.sort);
+    if (productSearchCriteria.sortQuantity) {
+      params = params.set('sort', productSearchCriteria.sortQuantity);
     }
 
     return this.httpClient.get<PaginationModel<ProductModel>>(

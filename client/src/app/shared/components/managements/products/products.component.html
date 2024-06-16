@@ -4,11 +4,10 @@
 <section class="flex">
 
   <!-- Filter on Names -->
-  <mat-form-field appearance="fill">
-    <mat-label>Tìm theo tên</mat-label>
-    <input matInput
-           placeholder="Filter by name">
-  </mat-form-field>
+  <app-generic-search #nameSearchInputRef
+                      label="Tìm kiếm theo tên"
+                      (onValueChanges)="onValueChangesNameFromParent($event)">
+  </app-generic-search>
 
   <!-- Filter on Sub Categories -->
   <app-generic-dropdown #subCategoriesDropdownRef
@@ -24,16 +23,14 @@
                         (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
   </app-generic-dropdown>
 
-
   <!-- Filter on Sort Criteria -->
   <app-generic-dropdown #sortsCriteriaDropdownRef
-                        label="Chọn loại sắp xếp"
+                        label="Sắp xếp số lượng"
                         [options]="sortsCriteriaDropdown"
-                        (onSelectionChange)="onSelectChangeSortsCriteriaFromParent($event)">
+                        (onSelectionChange)="onSelectChangeSortQuantityFromParent($event)">
   </app-generic-dropdown>
 
-
-
+  <!-- Reset all input element -->
   <button class="btn btn--primary"
           (click)="onResetFilters()"
           color="accent">Xóa bộ lọc</button>

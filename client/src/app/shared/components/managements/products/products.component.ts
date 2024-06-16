@@ -10,17 +10,16 @@ import { ProductService } from '../../../../core/services/product/product.servic
 import {
   ProductModel,
   ProductsSearchingCriteriaModel,
-  SortProductsEnum,
+  SortProductsQuantityEnum,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { GoldModel } from '../../../../core/models/gold.model';
 import { GoldService } from '../../../../core/services/gold/gold.service';
 import { CardProductComponent } from './card-product/card-product.component';
-import EnumUtils from '../../../utils/EnumUtils';
+import { GenericSearchComponent } from '../../generic-search/generic-search.component';
 
 @Component({
   selector: 'app-products',
@@ -32,9 +31,9 @@ import EnumUtils from '../../../utils/EnumUtils';
     MatPaginatorModule,
     MatIcon,
     CardProductComponent,
-    MatFormFieldModule,
     MatInputModule,
     GenericDropdownComponent,
+    GenericSearchComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
@@ -50,19 +49,29 @@ export class ProductsComponent implements OnInit {
     search: undefined,
     goldTypeId: undefined,
     subCategoryId: undefined,
-    sort: undefined,
+    sortQuantity: undefined,
   };
   totalProducts: number = 0;
   pageEvent!: PageEvent;
   goldsDropdown!: DropdownModel[];
   subCategoriesDropdown!: DropdownModel[];
-  sortsCriteriaDropdown!: DropdownModel[];
+  sortsCriteriaDropdown: DropdownModel[] = [
+    {
+      name: '↓ Số lượng: giảm dần',
+      value: SortProductsQuantityEnum.QuantityDesc,
+    },
+    {
+      name: '↑ Số lượng: tăng dần',
+      value: SortProductsQuantityEnum.QuantityAsc,
+    },
+  ];
 
   @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
   @ViewChild('subCategoriesDropdownRef')
   subCategoriesDropdownRef!: GenericDropdownComponent;
   @ViewChild('sortsCriteriaDropdownRef')
   sortsCriteriaDropdownRef!: GenericDropdownComponent;
+  @ViewChild('nameSearchInputRef') nameSearchInputRef!: GenericSearchComponent;
 
   // ====================
   // == Life Cycle
@@ -126,8 +135,8 @@ export class ProductsComponent implements OnInit {
       .pipe(
         map((subCategories: SubCategoryModel[]) => {
           return subCategories.map((subCategory: SubCategoryModel) => ({
-            key: subCategory.id,
-            value: subCategory.name,
+            value: subCategory.id,
+            name: subCategory.name,
           }));
         })
       )
@@ -150,8 +159,8 @@ export class ProductsComponent implements OnInit {
     this.goldService.getAllGolds().subscribe({
       next: (response: PaginationModel<GoldModel>) => {
         this.goldsDropdown = response.data.map((gold) => ({
-          key: gold.id,
-          value: gold.name,
+          value: gold.id,
+          name: gold.name,
         }));
       },
 
@@ -161,17 +170,12 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  loadSortsCriteria() {
-    console.table(EnumUtils.enumToObject(SortProductsEnum));
-  }
-
   /**
    * Select Gold Id from the dropdown
    * @param $event
    */
-  onSelectChangeGoldIdFromParent($event: any) {
-    const goldTypeId: string | number = $event;
-    this.productSearchCriteria.goldTypeId = goldTypeId;
+  onSelectChangeGoldIdFromParent(event: any) {
+    this.productSearchCriteria.goldTypeId = event?.value;
     this.loadProducts();
   }
 
@@ -179,9 +183,26 @@ export class ProductsComponent implements OnInit {
    * Select Category Id from the dropdown
    * @param $event
    */
-  onSelectChangeSubCategoryIdFromParent($event: any) {
-    const subCategoryId: string | number = $event;
-    this.productSearchCriteria.subCategoryId = subCategoryId;
+  onSelectChangeSubCategoryIdFromParent(event: any) {
+    this.productSearchCriteria.subCategoryId = event?.value;
+    this.loadProducts();
+  }
+
+  /**
+   * Select the Sort by Quantity type
+   * @param event
+   */
+  onSelectChangeSortQuantityFromParent(event: any) {
+    this.productSearchCriteria.sortQuantity = event?.value;
+    this.loadProducts();
+  }
+
+  /**
+   * Filter the product by names
+   * @param valueChanged
+   */
+  onValueChangesNameFromParent(valueChanged: any) {
+    this.productSearchCriteria.search = valueChanged;
     this.loadProducts();
   }
 
@@ -191,10 +212,11 @@ export class ProductsComponent implements OnInit {
   onResetFilters() {
     this.subCategoriesDropdownRef.onClearSelection();
     this.goldsDropdownRef.onClearSelection();
+    this.sortsCriteriaDropdownRef.onClearSelection();
+    this.nameSearchInputRef.onClearInputFilter();
     this.productSearchCriteria.goldTypeId = undefined;
     this.productSearchCriteria.subCategoryId = undefined;
+    this.productSearchCriteria.sortQuantity = undefined;
+    this.loadProducts();
   }
-
-  //TODO: Map the enum into the key-value pair, but key and value is the same
-  onSelectChangeSortsCriteriaFromParent($event: any) {}
 }
