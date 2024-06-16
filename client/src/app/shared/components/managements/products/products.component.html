@@ -1,40 +1,43 @@
 <!-- Cart icon -->
 
 <!-- Search Product, Filter Product Name,  Categories, Subcategory -->
-<section class="flex">
+<section class="filter-controls u-margin-bottom-small mat-elevation-z2">
 
-  <!-- Filter on Names -->
-  <app-generic-search #nameSearchInputRef
-                      label="Tìm kiếm theo tên"
-                      (onValueChanges)="onValueChangesNameFromParent($event)">
-  </app-generic-search>
+  <div class="filter-controls__dropdowns">
+    <!-- Filter on Sub Categories -->
+    <app-generic-dropdown #subCategoriesDropdownRef
+                          label="Chọn loại trang sức"
+                          [options]="subCategoriesDropdown"
+                          (onSelectionChange)="onSelectChangeSubCategoryIdFromParent($event)">
+    </app-generic-dropdown>
 
-  <!-- Filter on Sub Categories -->
-  <app-generic-dropdown #subCategoriesDropdownRef
-                        label="Chọn loại trang sức"
-                        [options]="subCategoriesDropdown"
-                        (onSelectionChange)="onSelectChangeSubCategoryIdFromParent($event)">
-  </app-generic-dropdown>
+    <!-- Filter on Golds -->
+    <app-generic-dropdown #goldsDropdownRef
+                          label="Chọn loại vàng"
+                          [options]="goldsDropdown"
+                          (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
+    </app-generic-dropdown>
 
-  <!-- Filter on Golds -->
-  <app-generic-dropdown #goldsDropdownRef
-                        label="Chọn loại vàng"
-                        [options]="goldsDropdown"
-                        (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
-  </app-generic-dropdown>
+    <!-- Filter on Sort Criteria -->
+    <app-generic-dropdown #sortsCriteriaDropdownRef
+                          label="Sắp xếp số lượng"
+                          [options]="sortsCriteriaDropdown"
+                          (onSelectionChange)="onSelectChangeSortQuantityFromParent($event)">
+    </app-generic-dropdown>
+  </div>
 
-  <!-- Filter on Sort Criteria -->
-  <app-generic-dropdown #sortsCriteriaDropdownRef
-                        label="Sắp xếp số lượng"
-                        [options]="sortsCriteriaDropdown"
-                        (onSelectionChange)="onSelectChangeSortQuantityFromParent($event)">
-  </app-generic-dropdown>
+  <div class="filter-controls__filter-and-reset">
+    <!-- Filter on Names -->
+    <app-generic-search #nameSearchInputRef
+                        label="Tìm kiếm theo tên"
+                        (onValueChanges)="onValueChangesNameFromParent($event)">
+    </app-generic-search>
 
-  <!-- Reset all input element -->
-  <button class="btn btn--primary"
-          (click)="onResetFilters()"
-          color="accent">Xóa bộ lọc</button>
-
+    <!-- Reset all input element -->
+    <button class="btn btn--primary"
+            (click)="onResetFilters()"
+            color="accent">Xóa bộ lọc</button>
+  </div>
 </section>
 
 <!-- Paginator -->
@@ -42,6 +45,7 @@
                [pageSize]="productSearchCriteria.pageSize"
                [pageSizeOptions]="[5, 10, 25, 100]"
                (page)="onPageChange($event)"
+               style="background-color: #FAFAFA"
                aria-label="Select page">
 </mat-paginator>
 
