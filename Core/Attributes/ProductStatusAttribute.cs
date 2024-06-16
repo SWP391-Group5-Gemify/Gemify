@@ -12,8 +12,7 @@ namespace Core.Attributes
         {
             if (value == null) return false;
             var productStatus = value.ToString();
-            return productStatus == ProductStatus.New.ToString()
-                || productStatus == ProductStatus.Old.ToString()
+            return productStatus == ProductStatus.Available.ToString()
                 || productStatus == ProductStatus.Unavailable.ToString();
         }
     }
