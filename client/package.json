@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@paralleldrive/cuid2": "^2.2.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "ngx-spinner": "^17.0.0",
