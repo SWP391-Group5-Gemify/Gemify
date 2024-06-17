@@ -1,0 +1,132 @@
+<section *ngIf="order">
+    <div class="order">
+        <!-- Order Page Header -->
+        <div class="header">
+            <div class="header__title">
+                <strong>#{{order.id}} - {{order.orderType}} - {{order.status}}</strong>
+            </div>
+            <div class="header__content mat-elevation-z3">
+                <ul class="header__list">
+                    <li class="header__info">
+                        <strong class="header__text">Customer's Name:</strong>
+                        <strong>{{order.name}}</strong>
+                    </li>
+                    <li class="header__info">
+                        <strong class="header__text">Customer's Phone Number:</strong>
+                        <strong>{{order.phone}}</strong>
+                    </li>
+                    <li class="header__info">
+                        <strong class="header__text">Customer's Membership:</strong>
+                        <strong>{{order.membership}}</strong>
+                    </li>
+                    <li class="header__info">
+                        <strong class="header__text">Staff's ID:</strong>
+                        <strong>#{{order.userId}}</strong>
+                    </li>
+                </ul>
+                
+            </div>
+        </div>
+
+        <!-- Order Page Products List -->
+        <div class="products-table">
+            <table mat-table
+                [dataSource]="dataSource" multiTemplateDataRows>
+                @for (column of columnsToDisplay; track column) {
+                    <ng-container matColumnDef="{{column}}">
+                        <th mat-header-cell *matHeaderCellDef> 
+                            {{
+                                (column === "expand") 
+                                ? "" : (column === "image_Url") 
+                                ? "Product" : column
+                            }}
+                        </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            @if (column === "expand") {
+                                <button mat-icon-button aria-label="expand row" 
+                                (click)="(expandedElement = expandedElement === element ? null : element); 
+                                $event.stopPropagation()">
+                                    @if (expandedElement === element) {
+                                    <mat-icon>keyboard_arrow_up</mat-icon>
+                                    } @else {
+                                    <mat-icon>keyboard_arrow_down</mat-icon>
+                                    }
+                                </button>
+                            }
+                            @else if (column === "image_Url" ) {
+                                <img class="product-image" src="{{element['image_Url']}}">
+                            }
+                            @else if (column === "total") {
+                                {{calculateProductTotal(element) | currency:'VND'}}
+                            }
+                            @else {
+                                {{((column.toLowerCase().includes("price") || column.toLowerCase().includes("labour")))
+                                ? (element[column] | currency:'VND') : element[column]}} 
+                            }
+                        </td>
+                    </ng-container>
+                }
+        
+                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                        <div class="element-detail" *ngIf="element.orderItemGems?.length > 0" 
+                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                            <div class="inner-table mat-elevation-z8" *ngIf="expandedElement">
+                                <div class="inner-table__title">GEMS</div>
+                                <table mat-table [dataSource]="element.orderItemGems">
+                                    <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of columnsToDisplayWithExpand">
+                                        <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            @if (innerColumn === "total"){
+                                                {{calculateGemTotal(element) | currency:'VND'}}
+                                            }
+                                            @else {
+                                                {{(innerColumn.toLowerCase().includes("price")) 
+                                                ? (element[innerColumn] | currency:'VND') : element[innerColumn]}} 
+                                            }
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithExpand;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" 
+                [class.element-row]="element.orderItemGems?.length > 0"
+                (click)="toggleRow(element)">
+                </tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+            </table>
+        </div>
+
+        <!-- Order Page Order Summary -->
+        <div class="order-summary">
+            <div class="order-summary__title">Order summary</div>
+            <div class="order-summary__content">
+                <ul class="order-summary__list">
+                    <li class="order-summary__item">
+                        <strong>Order subtotal</strong>
+                        <strong>{{order.subTotal | currency:'VND'}}</strong>
+                    </li>
+                    <li class="order-summary__item">
+                        <strong>Promotion Code</strong>
+                        <strong>{{order.promotionCode}}</strong>
+                    </li>
+                    <li class="order-summary__item">
+                        <strong>Promotion Discount</strong>
+                        <strong>{{order.promotionDiscount/100 | percent}}</strong>
+                    </li>
+                    <li class="order-summary__item">
+                        <strong>Total</strong>
+                        <strong>{{order.total | currency:'VND'}}</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

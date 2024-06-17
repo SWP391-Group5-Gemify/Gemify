@@ -15,10 +15,10 @@ namespace Core.Specifications.Orders
                 || o.OrderTypeId == orderSpecParams.OrderTypeId))
             )
         {
-            AddInclude(o => o.Customer);
             AddInclude(o => o.User);
             AddInclude(o => o.Promotion);
             AddInclude(o => o.OrderType);
+            AddCustomInclude(q => q.Include(o => o.Customer).ThenInclude(oi => oi.Membership));
             AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
             AddOrderByDescending(o => o.OrderDate);
             ApplyPaging(orderSpecParams.PageSize * (orderSpecParams.PageIndex - 1),
@@ -28,11 +28,11 @@ namespace Core.Specifications.Orders
         public OrdersSpecification(int id)
             : base(o => o.Id == id)
         {
-            AddInclude(o => o.Customer);
             AddInclude(o => o.User);
             AddInclude(o => o.Promotion);
             AddInclude(o => o.OrderType);
             AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
+            AddCustomInclude(q => q.Include(o => o.Customer).ThenInclude(oi => oi.Membership));
         }
     }
 }
