@@ -14,10 +14,10 @@ export interface BasketModel {
 // Represents for the product id as a DTO
 export interface BasketItemModel {
   id: number;
+  pictureUrl: string;
   productName: string;
   price: number;
   quantity: number;
-  pictureUrl: string;
 }
 
 // A default class for a basket

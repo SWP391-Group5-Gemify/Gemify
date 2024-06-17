@@ -34,10 +34,8 @@ export class BasketService {
    * @returns
    */
   public getBasket(id: string) {
-    let params = new HttpParams();
-    params.set("id", id);
     return this.httpClient
-      .get<BasketModel>(this.baseBasketUrl, { params })
+      .get<BasketModel>(`${this.baseBasketUrl}/${id}`)
       .subscribe({
         next: (basket) => this._basketSource.next(basket),
       });
@@ -89,7 +87,9 @@ export class BasketService {
     const basketItemToAdd = this.mapProductItemToBasketItem(item);
 
     // Check the current basket
-    const basket = this.getCurrentBasketValue() ?? this.createBasket();
+    let basket = this.getCurrentBasketValue() ?? this.createBasket();
+    console.table(this.getCurrentBasketValue());
+    console.table(this.getCurrentBasketValue());
 
     // Update the basket's items when add or update the item
     basket.items = this.addOrUpdateItem(
@@ -111,14 +111,13 @@ export class BasketService {
    * @param quantity
    * @returns
    */
+
   private addOrUpdateItem(
     items: BasketItemModel[],
     basketItemToAdd: BasketItemModel,
     quantity: number
   ): BasketItemModel[] {
-    const targetBasketItem = items.find(
-      (item) => item.id === basketItemToAdd.id
-    );
+    let targetBasketItem = items.find((item) => item.id === basketItemToAdd.id);
     if (targetBasketItem) {
       targetBasketItem.quantity += quantity;
     } else {
