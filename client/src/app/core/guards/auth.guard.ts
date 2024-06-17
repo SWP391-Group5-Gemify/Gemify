@@ -1,7 +1,7 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
 import { AuthService } from "../services/auth/auth.service";
-import { map, tap } from "rxjs";
+import { tap } from "rxjs";
 
 /*
   Guarding Authentication (using JWT) and Authorization

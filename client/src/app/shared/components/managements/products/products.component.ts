@@ -2,7 +2,11 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
-import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from "@angular/material/paginator";
 import { MatIcon } from "@angular/material/icon";
 import { catchError, map, mergeMap, Observable } from "rxjs";
 import { PaginationModel } from "../../../../core/models/pagination.model";
@@ -21,6 +25,7 @@ import { GoldService } from "../../../../core/services/gold/gold.service";
 import { CardProductComponent } from "./card-product/card-product.component";
 import { GenericSearchComponent } from "../../generic-search/generic-search.component";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { BasketService } from "../../../../core/services/basket/basket.service";
 
 @Component({
   selector: "app-products",
@@ -74,6 +79,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild("sortsCriteriaDropdownRef")
   sortsCriteriaDropdownRef!: GenericDropdownComponent;
   @ViewChild("nameSearchInputRef") nameSearchInputRef!: GenericSearchComponent;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // ====================
   // == Life Cycle
@@ -105,7 +111,7 @@ export class ProductsComponent implements OnInit {
 
   /**
    * Load products based on pagination
-   * TODO: Handle the errro exception
+   * TODO: Handle the error exception
    */
   loadProducts() {
     this.products$ = this.productService
@@ -178,6 +184,7 @@ export class ProductsComponent implements OnInit {
    */
   onSelectChangeGoldIdFromParent(event: any) {
     this.productSearchCriteria.goldTypeId = event?.value;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
@@ -187,6 +194,7 @@ export class ProductsComponent implements OnInit {
    */
   onSelectChangeSubCategoryIdFromParent(event: any) {
     this.productSearchCriteria.subCategoryId = event?.value;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
@@ -196,6 +204,7 @@ export class ProductsComponent implements OnInit {
    */
   onSelectChangeSortQuantityFromParent(event: any) {
     this.productSearchCriteria.sortQuantity = event?.value;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
@@ -205,6 +214,7 @@ export class ProductsComponent implements OnInit {
    */
   onValueChangesNameFromParent(valueChanged: any) {
     this.productSearchCriteria.search = valueChanged;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
@@ -220,5 +230,15 @@ export class ProductsComponent implements OnInit {
     this.productSearchCriteria.subCategoryId = undefined;
     this.productSearchCriteria.sortQuantity = undefined;
     this.loadProducts();
+  }
+
+  /**
+   * Reset paginator to the first page after filtering
+   */
+  onResetPaginatorToFirstPage() {
+    this.productSearchCriteria.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
   }
 }

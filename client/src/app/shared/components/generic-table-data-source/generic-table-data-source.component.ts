@@ -7,23 +7,23 @@ import {
   Output,
   output,
   ViewChild,
-} from '@angular/core';
+} from "@angular/core";
 import {
   MatPaginator,
   MatPaginatorModule,
   PageEvent,
-} from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
+} from "@angular/material/paginator";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { CommonModule } from "@angular/common";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
-  selector: 'app-generic-table-data-source',
+  selector: "app-generic-table-data-source",
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -37,8 +37,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     MatTooltipModule,
   ],
-  templateUrl: './generic-table-data-source.component.html',
-  styleUrl: './generic-table-data-source.component.scss',
+  templateUrl: "./generic-table-data-source.component.html",
+  styleUrl: "./generic-table-data-source.component.scss",
 })
 export class GenericTableDataSourceComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
