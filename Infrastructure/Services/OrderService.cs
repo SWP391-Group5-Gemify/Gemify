@@ -147,7 +147,7 @@ namespace Infrastructure.Services
             }
 
             // calculate total order price
-            var subtotal = basket.Items.Sum(p => p.Price * p.Quantity);
+            var subtotal = orderItemList.Sum(oi => oi.Price * oi.Quantity);
 
             // create purchase order
 
