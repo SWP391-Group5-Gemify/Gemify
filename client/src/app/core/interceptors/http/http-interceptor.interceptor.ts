@@ -1,7 +1,7 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { AuthService } from '../../services/auth/auth.service';
-import { inject } from '@angular/core';
-import { catchError } from 'rxjs';
+import { HttpInterceptorFn } from "@angular/common/http";
+import { AuthService } from "../../services/auth/auth.service";
+import { inject } from "@angular/core";
+import { catchError } from "rxjs";
 
 export const httpInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   const authService: AuthService = inject(AuthService);
@@ -13,12 +13,12 @@ export const httpInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
 
   // JWT Token
   if (token) {
-    headersConfig['Authorization'] = `Bearer ${token}`;
+    headersConfig["Authorization"] = `Bearer ${token}`;
   }
 
   // PUT method, then send the JSON content-type
-  if (req.method === 'PUT') {
-    headersConfig['Content-Type'] = 'application/json';
+  if (req.method === "PUT") {
+    headersConfig["Content-Type"] = "application/json";
   }
 
   // Clone the request with the updated headers

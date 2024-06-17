@@ -1,35 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { Order, OrderParams, OrderType } from '../../../../core/models/order.model';
-import { OrdersService } from './orders.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { PageEvent } from '@angular/material/paginator';
-import { DropdownModel } from '../../../../core/models/dropdown.model';
-import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
-import { GenericTableDataSourceComponent } from '../../generic-table-data-source/generic-table-data-source.component';
-import { CommonModule } from '@angular/common';
-import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
+import { Component, OnInit } from "@angular/core";
+import {
+  Order,
+  OrderParams,
+  OrderType,
+} from "../../../../core/models/order.model";
+import { OrdersService } from "../../../../core/services/orders/orders.service";
+import { MatTableDataSource } from "@angular/material/table";
+import { PageEvent } from "@angular/material/paginator";
+import { DropdownModel } from "../../../../core/models/dropdown.model";
+import { StatsTotalRowsComponent } from "../../stats-total-rows/stats-total-rows.component";
+import { GenericTableDataSourceComponent } from "../../generic-table-data-source/generic-table-data-source.component";
+import { CommonModule } from "@angular/common";
+import { GenericDropdownComponent } from "../../generic-dropdown/generic-dropdown.component";
 
 @Component({
-  selector: 'app-orders',
+  selector: "app-orders",
   standalone: true,
-  imports: [CommonModule, GenericTableDataSourceComponent, StatsTotalRowsComponent, GenericDropdownComponent],
-  templateUrl: './orders.component.html',
-  styleUrl: './orders.component.scss'
+  imports: [
+    CommonModule,
+    GenericTableDataSourceComponent,
+    StatsTotalRowsComponent,
+    GenericDropdownComponent,
+  ],
+  templateUrl: "./orders.component.html",
+  styleUrl: "./orders.component.scss",
 })
-export class OrdersComponent implements OnInit{
+export class OrdersComponent implements OnInit {
   types: OrderType[] = [];
   orderParams = new OrderParams();
-  
+
   columnsToDisplay = [
-    'id',
-    'orderDate',
-    'name',
-    'phone',
-    'promotionCode',
-    'promotionDiscount',
-    'total',
-    'orderType',
-    'status'
+    "id",
+    "orderDate",
+    "name",
+    "phone",
+    "promotionCode",
+    "promotionDiscount",
+    "total",
+    "orderType",
+    "status",
   ];
 
   dataSource = new MatTableDataSource<Order>([]);
@@ -59,13 +68,13 @@ export class OrdersComponent implements OnInit{
    */
   loadOrders() {
     this.ordersService.getOrders().subscribe({
-      next: response => {
+      next: (response) => {
         this.dataSource.data = response.data;
         this.dataSource._updateChangeSubscription();
         this.totalOrders = response.count;
       },
-      error: error => console.log(error)
-    })
+      error: (error) => console.log(error),
+    });
   }
 
   /**
@@ -75,14 +84,14 @@ export class OrdersComponent implements OnInit{
    */
   loadOrderTypes() {
     this.ordersService.getOrderTypes().subscribe({
-      next: response => {
-        this.typeDropdown = response.map((type) => ({
-          key: type.id,
-          value: type.name
-        }))
+      next: (response) => {
+        this.typeDropdown = response.map((type: OrderType) => ({
+          value: type.id,
+          name: type.name,
+        }));
       },
-      error: error => console.log(error)
-    })
+      error: (error) => console.log(error),
+    });
   }
 
   /**
@@ -92,7 +101,7 @@ export class OrdersComponent implements OnInit{
   onPageEvent(event: PageEvent) {
     const params = this.ordersService.getOrderParams();
     params.pageSize = event.pageSize;
-    if(params.pageIndex !== event.pageIndex + 1) {
+    if (params.pageIndex !== event.pageIndex + 1) {
       params.pageIndex = event.pageIndex + 1;
       this.ordersService.setOrderParams(params);
       this.orderParams = params;
@@ -110,7 +119,7 @@ export class OrdersComponent implements OnInit{
     params.pageIndex = 1;
 
     this.orderParams = params;
-    this.ordersService.setOrderParams(params); 
+    this.ordersService.setOrderParams(params);
     this.loadOrders();
   }
 

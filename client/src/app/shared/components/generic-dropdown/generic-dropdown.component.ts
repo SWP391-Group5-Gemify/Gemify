@@ -1,14 +1,14 @@
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
-import { DropdownModel } from '../../../core/models/dropdown.model';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, EventEmitter, input, Input, Output } from "@angular/core";
+import { DropdownModel } from "../../../core/models/dropdown.model";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
 
 @Component({
-  selector: 'app-generic-dropdown',
+  selector: "app-generic-dropdown",
   standalone: true,
   imports: [MatFormFieldModule, MatSelectModule],
-  templateUrl: './generic-dropdown.component.html',
-  styleUrl: './generic-dropdown.component.scss',
+  templateUrl: "./generic-dropdown.component.html",
+  styleUrl: "./generic-dropdown.component.scss",
 })
 export class GenericDropdownComponent {
   // ===========================================
@@ -32,7 +32,6 @@ export class GenericDropdownComponent {
 
   /**
    * A function to be binding later for clearing the selection
-   *
    */
   onClearSelection() {
     this.selectedValue = undefined;

@@ -12,12 +12,13 @@ export class BasketService {
   // ====================
   // == Fields
   // ====================
-  baseBasketUrl: string = environment.baseApiUrl.concat("/basket");
+  private baseBasketUrl: string = environment.baseApiUrl.concat("/basket");
+  private readonly LOCAL_STORAGE_BASKET_ID: string = "basket_id";
 
   // Create a singleton for the basket source, which will be accessed
   // from everywhere, initial value is null
   private _basketSource = new BehaviorSubject<BasketModel | null>(null);
-  basketSource$ = this._basketSource.asObservable();
+  public basketSource$ = this._basketSource.asObservable();
 
   // ====================
   // == Lifecycle
@@ -32,7 +33,7 @@ export class BasketService {
    * @param id
    * @returns
    */
-  getBasket(id: string) {
+  public getBasket(id: string) {
     let params = new HttpParams();
     params.set("id", id);
     return this.httpClient
@@ -43,11 +44,18 @@ export class BasketService {
   }
 
   /**
+   * Getter of basketId
+   */
+  public get basketId() {
+    return localStorage.getItem(this.LOCAL_STORAGE_BASKET_ID);
+  }
+
+  /**
    * Set or Update the current existing basket
    * @param basket
    * @returns
    */
-  setBasket(basket: BasketModel) {
+  public setBasket(basket: BasketModel) {
     return this.httpClient
       .post<BasketModel>(this.baseBasketUrl, basket)
       .subscribe({
@@ -60,7 +68,7 @@ export class BasketService {
   /**
    * Get the current basket value
    */
-  getCurrentBasketValue(): BasketModel | null {
+  public getCurrentBasketValue(): BasketModel | null {
     return this._basketSource.value;
   }
 
@@ -77,7 +85,7 @@ export class BasketService {
    * @param item
    * @param quantity
    */
-  addItemToBasket(item: ProductModel, quantity = 1): void {
+  public addItemToBasket(item: ProductModel, quantity = 1): void {
     const basketItemToAdd = this.mapProductItemToBasketItem(item);
 
     // Check the current basket

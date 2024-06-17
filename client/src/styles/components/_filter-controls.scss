@@ -4,7 +4,7 @@
   justify-content: space-between;
 
   padding: $padding-layout;
-  padding-bottom: calc($padding-layout - 22px);
+  padding-bottom: calc($padding-layout - 22px); // minus the predefined padding bottom of mat-input
   background-color: $color-grey-light;
   border-radius: $border-radius-general;
 

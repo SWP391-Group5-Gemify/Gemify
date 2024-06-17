@@ -6,7 +6,6 @@ import {
   ProductStatusEnum,
 } from "../../../../../core/models/product.model";
 import { CommonModule } from "@angular/common";
-import { RoleEnum, RoleModel } from "../../../../../core/models/role.model";
 import { MatIconModule } from "@angular/material/icon";
 import { BasketService } from "../../../../../core/services/basket/basket.service";
 
@@ -41,7 +40,7 @@ export class CardProductComponent {
   }
 
   /**
-   * Delegate view product detail to the parent component
+   * Implement the modal showing the product details
    */
   viewProductDetailFromChild() {}
 }
