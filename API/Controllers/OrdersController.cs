@@ -86,6 +86,14 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
+        [HttpGet("types")]
+        [Authorize]
+        public async Task<ActionResult<IReadOnlyList<OrderType>>> GetAllOrderTypes()
+        {
+            var orderTypes = await _orderService.GetOrderTypesAsync();
+            return Ok(orderTypes);
+        }
+
         // [Authorize(Roles = "Repurchaser, Appraiser, Cashier")]
         // [HttpPost("update/{id}")]
         // public async Task<ActionResult> UpdateOrder(int id, OrderDto orderDto)

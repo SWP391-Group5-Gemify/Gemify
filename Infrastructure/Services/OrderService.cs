@@ -190,5 +190,10 @@ namespace Infrastructure.Services
         {
             return await _unitOfWork.Repository<Order>().CountAsync(spec);
         }
+
+        public async Task<IReadOnlyList<OrderType>> GetOrderTypesAsync()
+        {
+            return await _unitOfWork.Repository<OrderType>().ListAllAsync();
+        }
     }
 }
