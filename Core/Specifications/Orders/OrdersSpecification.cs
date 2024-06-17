@@ -8,9 +8,11 @@ namespace Core.Specifications.Orders
     {
         public OrdersSpecification(OrderSpecParams orderSpecParams)
             : base(o => 
-                (string.IsNullOrEmpty(orderSpecParams.Search) 
-                || o.Customer.Phone.Equals(orderSpecParams.Search)
+                ((string.IsNullOrEmpty(orderSpecParams.Search) 
+                || o.Customer.Phone.Contains(orderSpecParams.Search)
                 || o.Customer.Name.ToLower().Contains(orderSpecParams.Search))
+                && ((!orderSpecParams.OrderTypeId.HasValue) 
+                || o.OrderTypeId == orderSpecParams.OrderTypeId))
             )
         {
             AddInclude(o => o.Customer);
@@ -23,7 +25,7 @@ namespace Core.Specifications.Orders
                 orderSpecParams.PageSize);
         }
 
-        public OrdersSpecification(int? id)
+        public OrdersSpecification(int id)
             : base(o => o.Id == id)
         {
             AddInclude(o => o.Customer);

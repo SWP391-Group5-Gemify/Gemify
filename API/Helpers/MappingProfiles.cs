@@ -94,7 +94,8 @@ namespace API.Helpers
                 .ForMember(d => d.Phone, o => o.MapFrom(s => s.Customer.Phone))
                 .ForMember(d => d.MembershipId, o => o.MapFrom(s => s.Customer.MembershipId))
                 .ForMember(d => d.PromotionCode, o => o.MapFrom(s => s.Promotion.Code))
-                .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount));
+                .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount))
+                .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.Name));
         }
     }
 }
