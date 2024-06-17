@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormBuilder, FormControl, ReactiveFormsModule } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { debounceTime, distinctUntilChanged } from "rxjs";
 
 @Component({
-  selector: 'app-generic-search',
+  selector: "app-generic-search",
   standalone: true,
   imports: [MatFormFieldModule, ReactiveFormsModule, MatInputModule],
-  templateUrl: './generic-search.component.html',
-  styleUrl: './generic-search.component.scss',
+  templateUrl: "./generic-search.component.html",
+  styleUrl: "./generic-search.component.scss",
 })
 export class GenericSearchComponent implements OnInit {
   @Input() label: string | undefined;
@@ -18,7 +18,7 @@ export class GenericSearchComponent implements OnInit {
   inputFilter!: FormControl;
 
   ngOnInit(): void {
-    this.inputFilter = new FormControl('');
+    this.inputFilter = new FormControl("");
     this.inputFilter.valueChanges
       .pipe(
         debounceTime(300), // pass the last recent emit after 300ms
@@ -35,7 +35,7 @@ export class GenericSearchComponent implements OnInit {
    * Clearing the input filter
    */
   onClearInputFilter() {
-    this.inputFilter.setValue('');
+    this.inputFilter.setValue("");
     this.onValueChanges.emit(undefined);
   }
 }

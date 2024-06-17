@@ -12,7 +12,7 @@ export class BasketService {
   // ====================
   // == Fields
   // ====================
-  baseBasketUrl: string = environment.baseApiUrl;
+  baseBasketUrl: string = environment.baseApiUrl.concat("/basket");
 
   // Create a singleton for the basket source, which will be accessed
   // from everywhere, initial value is null
@@ -78,13 +78,17 @@ export class BasketService {
    * @param quantity
    */
   addItemToBasket(item: ProductModel, quantity = 1): void {
-    const itemToAdd = this.mapProductItemToBasketItem(item);
+    const basketItemToAdd = this.mapProductItemToBasketItem(item);
 
     // Check the current basket
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
 
     // Update the basket's items when add or update the item
-    basket.items = this.addOrUpdateItem(basket?.items, itemToAdd, quantity);
+    basket.items = this.addOrUpdateItem(
+      basket?.items,
+      basketItemToAdd,
+      quantity
+    );
 
     // Update the basket into the basket source
     this.setBasket(basket);
@@ -95,32 +99,41 @@ export class BasketService {
    * - Scenario 1: item is existed, then update the quantity
    * - Scenario 2: item is not existed, then add to the list of basket, and set
    * @param items
-   * @param itemToAdd
+   * @param basketItemToAdd
    * @param quantity
    * @returns
    */
-  addOrUpdateItem(
+  private addOrUpdateItem(
     items: BasketItemModel[],
-    itemToAdd: BasketItemModel,
+    basketItemToAdd: BasketItemModel,
     quantity: number
   ): BasketItemModel[] {
-    const targetItem = items.find((item) => item.id === itemToAdd.id);
-    if (targetItem) {
-      targetItem.quantity += quantity;
+    const targetBasketItem = items.find(
+      (item) => item.id === basketItemToAdd.id
+    );
+    if (targetBasketItem) {
+      targetBasketItem.quantity += quantity;
     } else {
-      itemToAdd.quantity = quantity;
-      items.push(itemToAdd);
+      basketItemToAdd.quantity = quantity;
+      items.push(basketItemToAdd);
     }
     return items;
   }
 
-  // Create a new basket with default basket_id = cuid2
+  /**
+   * Create a new basket with default basket_id = cuid2
+   */
   private createBasket(): BasketModel {
     const basket = new BasketModel();
     localStorage.setItem("basket_id", basket.id);
     return basket;
   }
 
+  /**
+   * Map the product item properties into the basket item properties
+   * @param product
+   * @returns
+   */
   private mapProductItemToBasketItem(product: ProductModel): BasketItemModel {
     return {
       id: product.id,
