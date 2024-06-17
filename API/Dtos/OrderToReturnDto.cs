@@ -11,7 +11,7 @@
         public decimal Total { get; set; }
         public string Name {get; set;}
         public string Phone {get; set;}
-        public int MembershipId {get; set;}
+        public string Membership {get; set;}
         public int UserId { get; set; }
         public string PaymentIntentId { get; set; }
         public string PromotionCode { get; set; }
