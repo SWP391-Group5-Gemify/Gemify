@@ -115,7 +115,13 @@
                     </li>
                     <li class="order-summary__item">
                         <strong>Promotion Code</strong>
-                        <strong>{{order.promotionCode}}</strong>
+                        @if (order.promotionCode) {
+                            <strong>{{order.promotionCode}}</strong>
+                        }
+                        @else {
+                            <strong>NONE</strong>
+                        }
+                        
                     </li>
                     <li class="order-summary__item">
                         <strong>Promotion Discount</strong>

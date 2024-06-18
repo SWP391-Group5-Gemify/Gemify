@@ -57,7 +57,7 @@ namespace Infrastructure.Services
                 var gemPrice = orderItemGems.Aggregate(0m, (acc, g) => acc + (g.Price * g.Quantity));
 
                 // Calculate the total price of the product
-                // Product price = (gold weight * bid price) + labour + (gem price * quantity)
+                // Product price = (gold weight * bid price) + labour + (list of (gem price * quantity))
                 var itemPrice = productItem.CalculateGoldBidPrice() + productItem.Labour + gemPrice;
 
                 var orderItem = new OrderItem(itemOrdered, itemPrice, item.Quantity, orderItemGems);
