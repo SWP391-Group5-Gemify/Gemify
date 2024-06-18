@@ -4,16 +4,35 @@
   background-color: transparent;
   width: 100%;
 
+  &__product-img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
+  }
+
+  &__icon-delete {
+    color: $color-primary-dark;
+  }
+
+
+  &__icon-quantity {
+    scale: 0.8;
+    font-weight: 900;
+    color: $color-primary-dark;
+    ;
+  }
+
   .mat-mdc-header-row {
     background-color: #f5f5f5;
-    font-weight: 900;
-    font-size: 1.9rem;
+    font-weight: bolder;
+    font-size: 1.6rem;
+    text-transform: uppercase;
   }
 
   .mat-mdc-row .mat-mdc-cell {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
   }

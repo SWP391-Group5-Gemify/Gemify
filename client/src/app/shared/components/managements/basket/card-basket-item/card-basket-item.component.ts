@@ -19,5 +19,6 @@ export class CardBasketItemComponent {
     'productName',
     'quantity',
     'price',
+    'remove',
   ];
 }

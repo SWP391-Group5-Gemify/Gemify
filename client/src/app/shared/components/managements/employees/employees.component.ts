@@ -13,13 +13,14 @@ import { EmployeeService } from '../../../../core/services/employee/employee.ser
 import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { FormEditCreateModalComponent } from '../../form-edit-create-modal/form-edit-create-modal.component';
+
 import { RoleModel } from '../../../../core/models/role.model';
 import {
   ModalConfigModel,
   ModalModeEnum,
   ModalTitle,
 } from '../../../../core/models/modal.model';
+import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
 
 @Component({
   selector: 'app-employees',
@@ -168,7 +169,7 @@ export class EmployeesComponent implements OnInit {
     };
 
     const dialogRef = this.createOrEditModal.open(
-      FormEditCreateModalComponent,
+      ModalEditCreateEmployeeComponent,
       {
         width: '80%',
         height: '80vh',

@@ -25,6 +25,11 @@ import { GoldService } from '../../../../core/services/gold/gold.service';
 import { CardProductComponent } from './card-product/card-product.component';
 import { GenericSearchComponent } from '../../generic-search/generic-search.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { BasketService } from '../../../../core/services/basket/basket.service';
+import {
+  BasketItemModel,
+  BasketModel,
+} from '../../../../core/models/basket.model';
 
 @Component({
   selector: 'app-products',
@@ -69,6 +74,7 @@ export class ProductsComponent implements OnInit {
       value: SortProductsQuantityEnum.QuantityAsc,
     },
   ];
+  public basketIdAndPhoneDropdown!: DropdownModel[];
 
   @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
   @ViewChild('subCategoriesDropdownRef')
@@ -83,24 +89,28 @@ export class ProductsComponent implements OnInit {
   // ====================
   constructor(
     private productService: ProductService,
-    private goldService: GoldService
+    private goldService: GoldService,
+    public basketService: BasketService
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
-    this.loadSubCategories();
-    this.loadGolds();
+    this.loadSubCategoriesDropdown();
+    this.loadGoldsDropdown();
+    this.loadBasketIdAndPhoneDropdown();
   }
 
   // ====================
   // == Methods
   // ====================
 
+  // ========================================== Filters, Pagination, Reset =============================
+
   /**
    * Apply paginator on changing a page
    * @param e
    */
-  onPageChange(e: PageEvent) {
+  public onPageChange(e: PageEvent) {
     this.productSearchCriteria.pageIndex = e.pageIndex;
     this.productSearchCriteria.pageSize = e.pageSize;
     this.loadProducts();
@@ -110,7 +120,7 @@ export class ProductsComponent implements OnInit {
    * Load products based on pagination
    * TODO: Handle the error exception
    */
-  loadProducts() {
+  public loadProducts() {
     this.products$ = this.productService
       .getProducts({
         ...this.productSearchCriteria,
@@ -134,7 +144,7 @@ export class ProductsComponent implements OnInit {
    * Load all SubCategories, and map to the the key - value pair of * the dropdown component
    * TODO: Handle error when load failed
    */
-  loadSubCategories() {
+  public loadSubCategoriesDropdown() {
     this.productService
       .getSubCategories()
       .pipe(
@@ -158,9 +168,10 @@ export class ProductsComponent implements OnInit {
 
   /**
    * Load all gold types and map to the dropdown component
+   *
    * TODO: Handle error when load failed
    */
-  loadGolds() {
+  public loadGoldsDropdown() {
     this.goldService.getAllGolds().subscribe({
       next: (response: PaginationModel<GoldModel>) => {
         this.goldsDropdown = response.data.map((gold) => ({
@@ -179,7 +190,7 @@ export class ProductsComponent implements OnInit {
    * Select Gold Id from the dropdown
    * @param $event
    */
-  onSelectChangeGoldIdFromParent(event: any) {
+  public onSelectChangeGoldIdFromParent(event: any) {
     this.productSearchCriteria.goldTypeId = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
@@ -189,7 +200,7 @@ export class ProductsComponent implements OnInit {
    * Select Category Id from the dropdown
    * @param $event
    */
-  onSelectChangeSubCategoryIdFromParent(event: any) {
+  public onSelectChangeSubCategoryIdFromParent(event: any) {
     this.productSearchCriteria.subCategoryId = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
@@ -199,7 +210,7 @@ export class ProductsComponent implements OnInit {
    * Select the Sort by Quantity type
    * @param event
    */
-  onSelectChangeSortQuantityFromParent(event: any) {
+  public onSelectChangeSortQuantityFromParent(event: any) {
     this.productSearchCriteria.sortQuantity = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
@@ -209,7 +220,7 @@ export class ProductsComponent implements OnInit {
    * Filter the product by names
    * @param valueChanged
    */
-  onValueChangesNameFromParent(valueChanged: any) {
+  public onValueChangesNameFromParent(valueChanged: any) {
     this.productSearchCriteria.searchName = valueChanged;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
@@ -218,7 +229,7 @@ export class ProductsComponent implements OnInit {
   /**
    * Reset all filters and load the default products
    */
-  onResetFilters() {
+  public onResetFilters() {
     this.subCategoriesDropdownRef.onClearSelection();
     this.goldsDropdownRef.onClearSelection();
     this.sortsCriteriaDropdownRef.onClearSelection();
@@ -232,10 +243,55 @@ export class ProductsComponent implements OnInit {
   /**
    * Reset paginator to the first page after filtering
    */
-  onResetPaginatorToFirstPage() {
+  public onResetPaginatorToFirstPage() {
     this.productSearchCriteria.pageIndex = 0;
     if (this.paginator) {
       this.paginator.firstPage();
     }
   }
+
+  // ========================================== BASKET SOURCE =============================
+
+  /**
+   * Loads the dropdown options for basket ID and phone number.
+   * Maps baskets to dropdown model.
+   * TODO: Handle error when load failed
+   */
+  public loadBasketIdAndPhoneDropdown() {
+    this.basketService.getBaskets().subscribe((baskets: BasketModel[]) => {
+      this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
+        value: basket.id,
+        name: this.basketService.generateTempTicketId(
+          basket.id,
+          basket.phoneNumber
+        ),
+      }));
+    });
+  }
+
+  /**
+   * Handles selection change in basket ID and phone number dropdown.
+   * Update the current basket source for adding new item into it.
+   * @param event$ Event containing selected value.
+   */
+  public onSelectChangeBasketIdAndPhoneFromParent(event: any) {
+    const selectedBasketId = event?.value;
+
+    if (selectedBasketId) {
+      this.basketService.loadCurrentBasket(selectedBasketId);
+    }
+  }
+
+  /**
+   * Reduce the unique items into total of items in 1 basket
+   * @param items
+   * @returns
+   */
+  public getCountTotalItemsAddedInToBasketSource(items: BasketItemModel[]) {
+    return items.reduce((acc, curr) => {
+      return acc + curr.quantity;
+    }, 0);
+  }
+
+  public onOpenModalAndCreateBasketWithCustomerPhone() {}
 }

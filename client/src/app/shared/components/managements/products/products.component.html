@@ -37,6 +37,23 @@
   </div>
 </section>
 
+<!-- Create New Basket or Update existed Basket -->
+<section>
+  <div *ngIf="basketService.basketSource$ | async as basket">Giỏ hàng hiện tại
+    {{getCountTotalItemsAddedInToBasketSource(basket.items)}}</div>
+
+  <button class="btn btn--grad btn--with-icon"
+          (click)="onOpenModalAndCreateBasketWithCustomerPhone()">
+    <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng mới
+  </button>
+
+  <app-generic-dropdown #chooseExistingBasket
+                        label="Chọn giỏ hàng"
+                        [options]="basketIdAndPhoneDropdown"
+                        (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
+  </app-generic-dropdown>
+</section>
+
 <!-- Paginator -->
 <mat-paginator [length]="totalProducts"
                [pageSize]="productSearchCriteria.pageSize"
@@ -47,9 +64,7 @@
 </mat-paginator>
 
 <!-- List of Product -->
-<!-- - Using @for to loop through the cards -->
 <section class="grid grid--responsive u-margin-top-small">
-  <!--TODO: If not found then show the notfound item -->
   <div *ngIf="(products$ | async) === null">
     <p>No data fits your search</p>
   </div>
