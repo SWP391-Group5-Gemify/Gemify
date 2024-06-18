@@ -30,6 +30,11 @@ mat-form-field {
     font-weight: 900;
   }
 
+  tr:hover {
+    background: whitesmoke;
+    cursor: pointer;
+  }
+
   &__action-groups {
     display: flex;
     background-color: $color-grey-light;

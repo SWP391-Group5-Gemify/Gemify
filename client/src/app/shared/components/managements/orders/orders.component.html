@@ -3,6 +3,7 @@
                         [count]="totalOrders"
                         [icon]="'receipt'"></app-stats-total-rows>
 
+  <!-- Filter based on Order Types -->
   <div class="dropdown">
     <app-generic-dropdown #orderTypesDropdownRef
                           label="Chọn loại hóa đơn"
@@ -10,8 +11,6 @@
                           (onSelectionChange)="onSelectChangeOrderTypeIdFromParent($event)">
     </app-generic-dropdown>
   </div>
-  <!-- Filter based on Order Types -->
-
 
   <app-generic-table-data-source [columnsToDisplay]="columnsToDisplay"
                                  [dataSource]="dataSource"
@@ -19,6 +18,7 @@
                                  [pageIndex]="orderParams.pageIndex - 1"
                                  [count]="totalOrders"
                                  (onPageChangeFromChild)="onPageEvent($event)"
-                                 (onFilterFromChild)="onApplyFilter($event)">
+                                 (onFilterFromChild)="onApplyFilter($event)"
+                                 (onIdGetFromChild)="onGetId($event)">
   </app-generic-table-data-source>.
 </section>

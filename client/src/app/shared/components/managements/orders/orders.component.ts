@@ -12,6 +12,7 @@ import { StatsTotalRowsComponent } from "../../stats-total-rows/stats-total-rows
 import { GenericTableDataSourceComponent } from "../../generic-table-data-source/generic-table-data-source.component";
 import { CommonModule } from "@angular/common";
 import { GenericDropdownComponent } from "../../generic-dropdown/generic-dropdown.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-orders",
@@ -45,7 +46,7 @@ export class OrdersComponent implements OnInit {
   typeDropdown!: DropdownModel[];
   totalOrders = 0;
 
-  constructor(private ordersService: OrdersService) {
+  constructor(private ordersService: OrdersService, private router: Router) {
     this.orderParams = ordersService.getOrderParams();
   }
 
@@ -142,7 +143,7 @@ export class OrdersComponent implements OnInit {
    * @param $event
    */
   onSelectChangeOrderTypeIdFromParent($event: any) {
-    const orderTypeId = $event;
+    const orderTypeId = $event.value;
     this.orderParams.orderTypeId = orderTypeId;
     this.loadOrders();
   }
@@ -154,5 +155,14 @@ export class OrdersComponent implements OnInit {
     this.orderParams = new OrderParams();
     this.ordersService.setOrderParams(this.orderParams);
     this.loadOrders();
+  }
+
+  /**
+   * Get id from table row and navigate to detail page
+   * @param $event 
+   */
+  onGetId($event: any) {
+    const orderId = $event;
+    this.router.navigate([this.router.url + '/' + orderId]);
   }
 }

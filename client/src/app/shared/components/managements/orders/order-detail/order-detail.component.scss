@@ -16,6 +16,8 @@
   &__content {
     padding: 20px;
     border-radius: 15px;
+    background-color: whitesmoke;
+    
   }
 
   &__list {
@@ -32,12 +34,6 @@
   &__text {
     margin-right: 10px;
   }
-}
-
-.inner-table {
-  width: 100%;
-  max-height: max-content;
-  overflow: auto;
 }
 
 tr.detail-row {
@@ -72,13 +68,15 @@ th {
 
 .inner-table {
   width: 100%;
+  max-height: max-content;
+  overflow: hidden;
 
   &__title {
     font-size: larger;
     font-weight: bold;
     border-bottom: 1px solid black;
     padding-bottom: 5px;
-    margin-top: 10px;
+    margin-top: 20px;
   }
 }
 
