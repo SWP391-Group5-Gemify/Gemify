@@ -25,10 +25,17 @@ export class CardBasketComponent implements OnInit {
   // ======================
   // == Lifecycle
   // ======================
-  constructor(private basketService: BasketService) {}
+  constructor(public basketService: BasketService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.table(this.basketItem);
+  }
   // ======================
   // == Methods
   // ======================
+
+  //
+  public onGoToPayment() {
+    console.log('Will go to payment');
+  }
 }

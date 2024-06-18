@@ -21,8 +21,10 @@
   </div>
 </section>
 
+<h2>Danh sách giỏ hàng</h2>
+
 <!-- List of baskets -->
-<section class="list u-margin-top-small">
+<section class="grid grid--2-cols u-margin-top-small">
 
   <!-- If not found then show this message -->
   <div *ngIf="(baskets$ | async) === null">

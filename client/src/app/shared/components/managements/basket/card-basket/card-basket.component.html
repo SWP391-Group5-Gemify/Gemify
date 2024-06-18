@@ -1,16 +1,19 @@
-<mat-expansion-panel class="basket"
+<mat-expansion-panel class="card-basket mat-elevation-z2"
                      (opened)="panelOpenState.set(true)"
                      (closed)="panelOpenState.set(false)">
 
   <!-- Header -->
-  <mat-expansion-panel-header class="basket__header">
-    <mat-panel-title><mat-icon>delete_forever</mat-icon>{{basketItem.id}}</mat-panel-title>
+  <mat-expansion-panel-header class="card-basket__header">
+    <mat-panel-title>{{basketService.generateTempTicketId(basketItem.id, basketItem.phoneNumber)}}</mat-panel-title>
     <mat-panel-description>
-      Currently I am {{panelOpenState() ? '' : 'closed'}}
+      <p>Customer Number: <span>{{basketItem.phoneNumber || "NONE"}}</span></p>
+      <mat-icon>shopping_basket</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <mat-action-row class="basket__actions">
+  <!-- Actions -->
+  <mat-action-row class="card-basket__actions">
+
     <!-- Button to delete a basket -->
     <button class="btn btn--grad btn--with-icon"> <mat-icon>delete_forever</mat-icon>Xóa giỏ
       hàng</button>
@@ -20,14 +23,17 @@
       toán</button>
   </mat-action-row>
 
-  <!-- TODO: later -->
+  <!-- Basket Items  -->
   <div matExpansionPanelContent>
-    <ul class="basket__products">
-      @for (product of basketItem.items; track $index) {
-      <li>{{product | json}}</li>
-
+    <!-- Items -->
+    <div class="card-basket__items">
+      @for (item of basketItem.items; track $index) {
+      <div>{{item | json}}</div>
       }
-    </ul>
+    </div>
+
+    <!-- Coupon -->
+    <div>Apply Coupon: {{basketItem.promotionId}}</div>
   </div>
 
 </mat-expansion-panel>

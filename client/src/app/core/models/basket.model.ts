@@ -1,4 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
+import { BasketService } from '../services/basket/basket.service';
 
 // For the basket_id, using CUID2 for security awareness
 export interface BasketModel {

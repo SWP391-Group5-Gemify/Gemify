@@ -1,30 +1,30 @@
-import { CommonModule } from "@angular/common";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatIcon } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatPaginatorModule } from "@angular/material/paginator";
-import { GenericDropdownComponent } from "../../generic-dropdown/generic-dropdown.component";
-import { GenericSearchComponent } from "../../generic-search/generic-search.component";
-import { CardProductComponent } from "../products/card-product/card-product.component";
-import { DropdownModel } from "../../../../core/models/dropdown.model";
-import { HttpClient } from "@angular/common/http";
-import { BasketService } from "../../../../core/services/basket/basket.service";
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
+import { GenericSearchComponent } from '../../generic-search/generic-search.component';
+import { CardProductComponent } from '../products/card-product/card-product.component';
+import { DropdownModel } from '../../../../core/models/dropdown.model';
+import { HttpClient } from '@angular/common/http';
+import { BasketService } from '../../../../core/services/basket/basket.service';
 import {
   BasketItemModel,
   BasketModel,
   BasketsSearchingCriteriaModel,
-} from "../../../../core/models/basket.model";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { filter, map, Observable, tap } from "rxjs";
-import { CardBasketComponent } from "./card-basket/card-basket.component";
+} from '../../../../core/models/basket.model';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { filter, map, Observable, tap } from 'rxjs';
+import { CardBasketComponent } from './card-basket/card-basket.component';
 
 @Component({
-  selector: "app-basket",
+  selector: 'app-basket',
   standalone: true,
-  templateUrl: "./basket.component.html",
-  styleUrl: "./basket.component.scss",
+  templateUrl: './basket.component.html',
+  styleUrl: './basket.component.scss',
   imports: [
     CommonModule,
     MatButtonModule,
@@ -48,9 +48,9 @@ export class BasketComponent implements OnInit {
     searchPhoneNumber: undefined,
   };
 
-  @ViewChild("phoneSearchInputRef")
+  @ViewChild('phoneSearchInputRef')
   phoneSearchInputRef!: GenericSearchComponent;
-  @ViewChild("basketIdAndPhoneDropdownRef")
+  @ViewChild('basketIdAndPhoneDropdownRef')
   basketIdAndPhoneDropdownRef!: GenericDropdownComponent;
 
   // ==========================================
@@ -106,7 +106,10 @@ export class BasketComponent implements OnInit {
     this.basketService.getBaskets().subscribe((baskets: BasketModel[]) => {
       this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
         value: basket.id,
-        name: `${basket.id} - ${basket.phoneNumber ?? "Unknown Phone Number"}`,
+        name: this.basketService.generateTempTicketId(
+          basket.id,
+          basket.phoneNumber
+        ),
       }));
     });
   }

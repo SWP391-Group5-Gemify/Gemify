@@ -1,19 +1,19 @@
-import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
-import { BehaviorSubject, Observable } from "rxjs";
-import { BasketItemModel, BasketModel } from "../../models/basket.model";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { ProductModel } from "../../models/product.model";
+import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { BasketItemModel, BasketModel } from '../../models/basket.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { ProductModel } from '../../models/product.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class BasketService {
   // ====================
   // == Fields
   // ====================
-  private baseBasketUrl: string = environment.baseApiUrl.concat("/basket");
-  private readonly LOCAL_STORAGE_BASKET_ID: string = "basket_id";
+  private baseBasketUrl: string = environment.baseApiUrl.concat('/basket');
+  private readonly LOCAL_STORAGE_BASKET_ID: string = 'basket_id';
 
   // Create a singleton for the basket source, which will be accessed
   // from everywhere, initial value is null
@@ -143,7 +143,7 @@ export class BasketService {
    */
   private createBasket(): BasketModel {
     const basket = new BasketModel();
-    localStorage.setItem("basket_id", basket.id);
+    localStorage.setItem('basket_id', basket.id);
     return basket;
   }
 
@@ -170,5 +170,26 @@ export class BasketService {
    */
   public getBaskets() {
     return this.httpClient.get<BasketModel[]>(this.baseBasketUrl);
+  }
+
+  /**
+   * Generate Temp ticket id For customer preference in store
+   * @param id
+   * @returns
+   */
+  public generateTempTicketId(id: string, phoneNumber?: string): string {
+    let tempTicketId: string = 'BAS'
+      .concat('-')
+      .concat(id.slice(0, 3))
+      .toUpperCase();
+
+    // If having phone number
+    if (phoneNumber) {
+      tempTicketId
+        .concat(phoneNumber[0])
+        .concat(phoneNumber[phoneNumber.length - 1]);
+    }
+
+    return tempTicketId;
   }
 }
