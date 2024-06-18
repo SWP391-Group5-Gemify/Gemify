@@ -95,9 +95,10 @@ export class OrderDetailComponent implements OnInit {
   // Product price = (gold weight * bid price) + labour + (gem price * quantity)
   calculateProductTotal(orderItem: OrderItem) {
     return (
-      orderItem.goldPrice * orderItem.goldWeight +
+      (orderItem.goldPrice * orderItem.goldWeight +
       orderItem.productLabour +
-      this.calculateGemsTotal(orderItem.orderItemGems)
+      this.calculateGemsTotal(orderItem.orderItemGems)) *
+      orderItem.quantity
     );
   }
 

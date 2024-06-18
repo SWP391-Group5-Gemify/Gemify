@@ -54,6 +54,7 @@ export class GenericTableDataSourceComponent implements AfterViewInit {
   @Output() onFilterFromChild: EventEmitter<Event> = new EventEmitter();
   @Output() onEditFromChild: EventEmitter<any> = new EventEmitter();
   @Output() onDisableFromChild: EventEmitter<any> = new EventEmitter();
+  @Output() onIdGetFromChild: EventEmitter<any> = new EventEmitter();
 
   /**
    * Render @ViewChild element after paginator and sort
@@ -94,5 +95,13 @@ export class GenericTableDataSourceComponent implements AfterViewInit {
    */
   deleteObject(object: any): void {
     this.onDisableFromChild.emit(object);
+  }
+
+  /**
+   * Get object id from the current data source
+   * @param object
+   */
+  getId(object: any): void {
+    this.onIdGetFromChild.emit(object);
   }
 }
