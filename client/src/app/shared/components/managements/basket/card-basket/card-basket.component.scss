@@ -1,14 +1,16 @@
 @import "abstracts/variables";
 
 .card-basket {
-  padding: 2.4rem 0;
+  background-color: $color-grey-light;
 
   &__header {
+
+    padding: $gutter-layout;
 
     mat-panel-title {
       padding: 0px 0.8rem;
       height: 5rem;
-      background-color: $color-secondary-dark;
+      background-color: $color-primary-light;
       color: $color-white;
       font-weight: 900;
       font-size: 1.8rem;
@@ -19,7 +21,7 @@
     }
 
     mat-icon {
-      color: $color-primary;
+      color: $color-primary-light;
     }
 
     mat-panel-description {
@@ -30,7 +32,7 @@
         span {
           margin-left: 0.8rem;
           display: inline-block;
-          color: $color-primary;
+          color: $color-primary-light;
           letter-spacing: 1.2px;
         }
       }

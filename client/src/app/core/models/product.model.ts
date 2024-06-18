@@ -59,11 +59,11 @@ export interface ProductsSearchingCriteriaModel {
 }
 
 export enum ProductStatusEnum {
-  Unavailable = "Unavailable",
-  Available = "Available",
+  Unavailable = 'Unavailable',
+  Available = 'Available',
 }
 
 export enum SortProductsQuantityEnum {
-  QuantityDesc = "quantityDesc",
-  QuantityAsc = "quantityAsc",
+  QuantityDesc = 'quantityDesc',
+  QuantityAsc = 'quantityAsc',
 }

@@ -6,30 +6,35 @@ import { BasketModel } from '../../../../../core/models/basket.model';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { CardBasketItemComponent } from '../card-basket-item/card-basket-item.component';
 
 @Component({
   selector: 'app-card-basket',
   standalone: true,
-  imports: [MatExpansionModule, CommonModule, MatIcon, MatButtonModule],
   templateUrl: './card-basket.component.html',
   styleUrl: './card-basket.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatExpansionModule,
+    CommonModule,
+    MatIcon,
+    MatButtonModule,
+    CardBasketItemComponent,
+  ],
 })
 export class CardBasketComponent implements OnInit {
   // ======================
   // == Fields
   // ======================
   public readonly panelOpenState = signal(false);
-  @Input() public basketItem!: BasketModel;
+  @Input() public basket!: BasketModel;
 
   // ======================
   // == Lifecycle
   // ======================
   constructor(public basketService: BasketService) {}
 
-  ngOnInit(): void {
-    console.table(this.basketItem);
-  }
+  ngOnInit(): void {}
   // ======================
   // == Methods
   // ======================

@@ -1,12 +1,12 @@
-<mat-expansion-panel class="card-basket mat-elevation-z2"
+<mat-expansion-panel class="card-basket mat-elevation-z0"
                      (opened)="panelOpenState.set(true)"
                      (closed)="panelOpenState.set(false)">
 
   <!-- Header -->
   <mat-expansion-panel-header class="card-basket__header">
-    <mat-panel-title>{{basketService.generateTempTicketId(basketItem.id, basketItem.phoneNumber)}}</mat-panel-title>
+    <mat-panel-title>{{basketService.generateTempTicketId(basket.id, basket.phoneNumber)}}</mat-panel-title>
     <mat-panel-description>
-      <p>Customer Number: <span>{{basketItem.phoneNumber || "NONE"}}</span></p>
+      <p>Customer Number: <span>{{basket.phoneNumber || "NONE"}}</span></p>
       <mat-icon>shopping_basket</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
@@ -27,13 +27,11 @@
   <div matExpansionPanelContent>
     <!-- Items -->
     <div class="card-basket__items">
-      @for (item of basketItem.items; track $index) {
-      <div>{{item | json}}</div>
-      }
+      <app-card-basket-item [basketItems]="basket.items"></app-card-basket-item>
     </div>
 
     <!-- Coupon -->
-    <div>Apply Coupon: {{basketItem.promotionId}}</div>
+    <div>Apply Coupon: {{basket.promotionId}}</div>
   </div>
 
 </mat-expansion-panel>

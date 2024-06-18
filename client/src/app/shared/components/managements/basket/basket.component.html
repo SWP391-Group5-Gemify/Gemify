@@ -16,12 +16,10 @@
     </app-generic-search>
 
     <!-- Reset all input element -->
-    <button class="btn btn--primary-dark"
-            (click)="onResetFilters()">Xóa bộ lọc</button>
+    <button class="btn btn--primary-dark btn--with-icon"
+            (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
   </div>
 </section>
-
-<h2>Danh sách giỏ hàng</h2>
 
 <!-- List of baskets -->
 <section class="grid grid--2-cols u-margin-top-small">
@@ -32,5 +30,5 @@
   </div>
 
   @for (basket of baskets$ | async; track $index) {
-  <app-card-basket [basketItem]="basket"></app-card-basket> }
+  <app-card-basket [basket]="basket"></app-card-basket> }
 </section>
