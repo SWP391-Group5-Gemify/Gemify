@@ -1,0 +1,33 @@
+<mat-expansion-panel class="basket"
+                     (opened)="panelOpenState.set(true)"
+                     (closed)="panelOpenState.set(false)">
+
+  <!-- Header -->
+  <mat-expansion-panel-header class="basket__header">
+    <mat-panel-title><mat-icon>delete_forever</mat-icon>{{basketItem.id}}</mat-panel-title>
+    <mat-panel-description>
+      Currently I am {{panelOpenState() ? '' : 'closed'}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <mat-action-row class="basket__actions">
+    <!-- Button to delete a basket -->
+    <button class="btn btn--grad btn--with-icon"> <mat-icon>delete_forever</mat-icon>Xóa giỏ
+      hàng</button>
+
+    <!-- Button to send to the payment page -->
+    <button class="btn btn--primary btn--with-icon"> <mat-icon>paid</mat-icon>Thanh
+      toán</button>
+  </mat-action-row>
+
+  <!-- TODO: later -->
+  <div matExpansionPanelContent>
+    <ul class="basket__products">
+      @for (product of basketItem.items; track $index) {
+      <li>{{product | json}}</li>
+
+      }
+    </ul>
+  </div>
+
+</mat-expansion-panel>

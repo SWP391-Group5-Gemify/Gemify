@@ -46,13 +46,14 @@
                aria-label="Select page">
 </mat-paginator>
 
-<ngx-spinner>
-
-</ngx-spinner>
-
 <!-- List of Product -->
 <!-- - Using @for to loop through the cards -->
 <section class="grid grid--responsive u-margin-top-small">
+  <!--TODO: If not found then show the notfound item -->
+  <div *ngIf="(products$ | async) === null">
+    <p>No data fits your search</p>
+  </div>
+
   @for (product of products$ | async; track $index) {
   <app-card-product [product]="product"></app-card-product>
   }

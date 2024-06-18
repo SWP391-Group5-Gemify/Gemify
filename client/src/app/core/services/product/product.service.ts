@@ -1,20 +1,20 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { map, Observable } from "rxjs";
 import {
   CategoryModel,
   ProductModel,
   ProductsSearchingCriteriaModel,
   SubCategoryModel,
-} from '../../models/product.model';
-import { environment } from '../../../../environments/environment';
-import { PaginationModel } from '../../models/pagination.model';
+} from "../../models/product.model";
+import { environment } from "../../../../environments/environment";
+import { PaginationModel } from "../../models/pagination.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ProductService {
-  private baseProductUrl: string = environment.baseApiUrl.concat('/products');
+  private baseProductUrl: string = environment.baseApiUrl.concat("/products");
 
   constructor(private httpClient: HttpClient) {}
 
@@ -27,27 +27,27 @@ export class ProductService {
     productSearchCriteria: ProductsSearchingCriteriaModel
   ): Observable<PaginationModel<ProductModel>> {
     let params = new HttpParams()
-      .set('pageIndex', productSearchCriteria.pageIndex.toString())
-      .set('pageSize', productSearchCriteria.pageSize.toString());
+      .set("pageIndex", productSearchCriteria.pageIndex.toString())
+      .set("pageSize", productSearchCriteria.pageSize.toString());
 
     // Assign params if existences
-    if (productSearchCriteria.search) {
-      params = params.set('search', productSearchCriteria.search);
+    if (productSearchCriteria.searchName) {
+      params = params.set("search", productSearchCriteria.searchName);
     }
     if (productSearchCriteria.goldTypeId) {
       params = params.set(
-        'goldTypeId',
+        "goldTypeId",
         productSearchCriteria.goldTypeId.toString()
       );
     }
     if (productSearchCriteria.subCategoryId) {
       params = params.set(
-        'subcategoryId',
+        "subcategoryId",
         productSearchCriteria.subCategoryId.toString()
       );
     }
     if (productSearchCriteria.sortQuantity) {
-      params = params.set('sort', productSearchCriteria.sortQuantity);
+      params = params.set("sort", productSearchCriteria.sortQuantity);
     }
 
     return this.httpClient.get<PaginationModel<ProductModel>>(
@@ -92,7 +92,7 @@ export class ProductService {
    */
   getCategories(): Observable<CategoryModel[]> {
     return this.httpClient.get<CategoryModel[]>(
-      this.baseProductUrl.concat('/categories')
+      this.baseProductUrl.concat("/categories")
     );
   }
 
@@ -103,7 +103,7 @@ export class ProductService {
    */
   getSubCategories(): Observable<SubCategoryModel[]> {
     return this.httpClient
-      .get<CategoryModel[]>(this.baseProductUrl.concat('/categories'))
+      .get<CategoryModel[]>(this.baseProductUrl.concat("/categories"))
       .pipe(
         map((categories: CategoryModel[]) => {
           return categories.reduce(

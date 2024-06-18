@@ -1,7 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
-import { Order, OrderParams, OrderType } from "../../models/order.model";
+import {
+  OrderModel,
+  OrderParams,
+  OrderTypeModel,
+} from "../../models/order.model";
 import { Observable } from "rxjs";
 import { PaginationModel } from "../../models/pagination.model";
 
@@ -14,7 +18,7 @@ export class OrdersService {
 
   constructor(private http: HttpClient) {}
 
-  getOrders(): Observable<PaginationModel<Order>> {
+  getOrders(): Observable<PaginationModel<OrderModel>> {
     let params = new HttpParams();
 
     if (this.orderParams.orderTypeId > 0)
@@ -24,17 +28,20 @@ export class OrdersService {
     if (this.orderParams.search)
       params = params.append("search", this.orderParams.search);
 
-    return this.http.get<PaginationModel<Order>>(this.baseUrl + "/orders", {
-      params,
-    });
+    return this.http.get<PaginationModel<OrderModel>>(
+      this.baseUrl + "/orders",
+      {
+        params,
+      }
+    );
   }
 
   getOrderById(id: number) {
-    return this.http.get<Order>(this.baseUrl + "/orders/" + id);
+    return this.http.get<OrderModel>(this.baseUrl + "/orders/" + id);
   }
 
   getOrderTypes() {
-    return this.http.get<OrderType[]>(this.baseUrl + "/orders/types");
+    return this.http.get<OrderTypeModel[]>(this.baseUrl + "/orders/types");
   }
 
   getOrderParams() {

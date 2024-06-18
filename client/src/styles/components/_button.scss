@@ -8,7 +8,7 @@
     display: inline-block;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 1.2rem 3.0rem;
+    padding: 1.2rem 2.0rem;
     width: max-content;
     text-wrap: nowrap;
     border-radius: 10rem;
@@ -73,7 +73,11 @@
     }
   }
 
-
+  &--with-icon {
+    display: flex;
+    align-items: center;
+    gap: $gutter-btn-icon-text;
+  }
 
   &--word-wrap {
     word-wrap: break-word;

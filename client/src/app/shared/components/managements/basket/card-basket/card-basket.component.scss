@@ -1,0 +1,10 @@
+@import "abstracts/variables";
+
+.basket {
+
+  &__header {}
+
+  &__actions {
+    gap: $gutter-multiple-actions;
+  }
+}

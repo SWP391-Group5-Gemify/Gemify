@@ -52,18 +52,18 @@ export interface SubCategoryModel {
 export interface ProductsSearchingCriteriaModel {
   pageSize: number;
   pageIndex: number;
-  search: string | undefined;
+  searchName: string | undefined;
   goldTypeId: number | string | undefined;
   subCategoryId: number | string | undefined;
   sortQuantity: string | undefined;
 }
 
 export enum ProductStatusEnum {
-  Unavailable = 'Unavailable',
-  Available = 'Available',
+  Unavailable = "Unavailable",
+  Available = "Available",
 }
 
 export enum SortProductsQuantityEnum {
-  QuantityDesc = 'quantityDesc',
-  QuantityAsc = 'quantityAsc',
+  QuantityDesc = "quantityDesc",
+  QuantityAsc = "quantityAsc",
 }

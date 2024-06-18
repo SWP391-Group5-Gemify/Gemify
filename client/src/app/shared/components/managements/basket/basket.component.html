@@ -1,1 +1,34 @@
-<p>basket works!</p>
+<section class="filter-controls u-margin-bottom-small mat-elevation-z2">
+  <div class="filter-controls__dropdowns">
+    <!-- Filter on Sub Categories -->
+    <app-generic-dropdown #basketIdAndPhoneDropdownRef
+                          label="Chọn mã giỏ hàng"
+                          [options]="basketIdAndPhoneDropdown"
+                          (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
+    </app-generic-dropdown>
+  </div>
+
+  <div class="filter-controls__filter-and-reset">
+    <!-- Filter on Names -->
+    <app-generic-search #phoneSearchInputRef
+                        label="Tìm kiếm theo số điện thoại"
+                        (onValueChanges)="onValueChangesPhoneFromParent($event)">
+    </app-generic-search>
+
+    <!-- Reset all input element -->
+    <button class="btn btn--primary-dark"
+            (click)="onResetFilters()">Xóa bộ lọc</button>
+  </div>
+</section>
+
+<!-- List of baskets -->
+<section class="list u-margin-top-small">
+
+  <!-- If not found then show this message -->
+  <div *ngIf="(baskets$ | async) === null">
+    <p>There are no items in your basket</p>
+  </div>
+
+  @for (basket of baskets$ | async; track $index) {
+  <app-card-basket [basketItem]="basket"></app-card-basket> }
+</section>

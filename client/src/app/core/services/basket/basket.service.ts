@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
-import { BehaviorSubject } from "rxjs";
-import { BasketItemModel, BasketModel } from "../../models/basket";
+import { BehaviorSubject, Observable } from "rxjs";
+import { BasketItemModel, BasketModel } from "../../models/basket.model";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { ProductModel } from "../../models/product.model";
 
@@ -28,12 +28,15 @@ export class BasketService {
   // ====================
   // == Methods
   // ====================
+
+  // ================================ FOR A SINGLE BASKET ============================
+
   /**
-   * Get a specific basket based on id, and set to the singleton
+   * Load a basket by id into the basket source
    * @param id
    * @returns
    */
-  public getBasket(id: string) {
+  public loadCurrentBasket(id: string) {
     return this.httpClient
       .get<BasketModel>(`${this.baseBasketUrl}/${id}`)
       .subscribe({
@@ -42,9 +45,18 @@ export class BasketService {
   }
 
   /**
+   * Load a basket by id without setting to the basket source
+   * @param id
+   * @returns
+   */
+  public getBasketById(id: string): Observable<BasketModel> {
+    return this.httpClient.get<BasketModel>(`${this.baseBasketUrl}/${id}`);
+  }
+
+  /**
    * Getter of basketId
    */
-  public get basketId() {
+  public get currentBasketId() {
     return localStorage.getItem(this.LOCAL_STORAGE_BASKET_ID);
   }
 
@@ -53,7 +65,7 @@ export class BasketService {
    * @param basket
    * @returns
    */
-  public setBasket(basket: BasketModel) {
+  public setCurrentBasket(basket: BasketModel) {
     return this.httpClient
       .post<BasketModel>(this.baseBasketUrl, basket)
       .subscribe({
@@ -83,13 +95,11 @@ export class BasketService {
    * @param item
    * @param quantity
    */
-  public addItemToBasket(item: ProductModel, quantity = 1): void {
+  public addItemToCurrentBasket(item: ProductModel, quantity = 1): void {
     const basketItemToAdd = this.mapProductItemToBasketItem(item);
 
     // Check the current basket
     let basket = this.getCurrentBasketValue() ?? this.createBasket();
-    console.table(this.getCurrentBasketValue());
-    console.table(this.getCurrentBasketValue());
 
     // Update the basket's items when add or update the item
     basket.items = this.addOrUpdateItem(
@@ -99,7 +109,8 @@ export class BasketService {
     );
 
     // Update the basket into the basket source
-    this.setBasket(basket);
+    // the basket source will get that value immediately when the addItemToBasket triggered
+    this.setCurrentBasket(basket);
   }
 
   /**
@@ -149,5 +160,15 @@ export class BasketService {
       quantity: 0,
       pictureUrl: product.imageUrl,
     };
+  }
+
+  // ================================ FOR A LIST OF BASKET ============================
+
+  /**
+   * Get a list of baskets within the redis
+   * @returns
+   */
+  public getBaskets() {
+    return this.httpClient.get<BasketModel[]>(this.baseBasketUrl);
   }
 }

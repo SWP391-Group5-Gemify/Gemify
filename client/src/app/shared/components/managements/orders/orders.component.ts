@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  Order,
+  OrderModel,
   OrderParams,
-  OrderType,
+  OrderTypeModel,
 } from "../../../../core/models/order.model";
 import { OrdersService } from "../../../../core/services/orders/orders.service";
 import { MatTableDataSource } from "@angular/material/table";
@@ -27,7 +27,10 @@ import { Router } from "@angular/router";
   styleUrl: "./orders.component.scss",
 })
 export class OrdersComponent implements OnInit {
-  types: OrderType[] = [];
+  // ====================
+  // == Fields
+  // ====================
+  types: OrderTypeModel[] = [];
   orderParams = new OrderParams();
 
   columnsToDisplay = [
@@ -42,7 +45,7 @@ export class OrdersComponent implements OnInit {
     "status",
   ];
 
-  dataSource = new MatTableDataSource<Order>([]);
+  dataSource = new MatTableDataSource<OrderModel>([]);
   typeDropdown!: DropdownModel[];
   totalOrders = 0;
 
@@ -86,7 +89,7 @@ export class OrdersComponent implements OnInit {
   loadOrderTypes() {
     this.ordersService.getOrderTypes().subscribe({
       next: (response) => {
-        this.typeDropdown = response.map((type: OrderType) => ({
+        this.typeDropdown = response.map((type: OrderTypeModel) => ({
           value: type.id,
           name: type.name,
         }));

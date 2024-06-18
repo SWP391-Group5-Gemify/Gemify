@@ -1,4 +1,4 @@
-import { createId } from "@paralleldrive/cuid2";
+import { createId } from '@paralleldrive/cuid2';
 
 // For the basket_id, using CUID2 for security awareness
 export interface BasketModel {
@@ -18,6 +18,11 @@ export interface BasketItemModel {
   productName: string;
   price: number;
   quantity: number;
+}
+
+export interface BasketsSearchingCriteriaModel {
+  id: string | undefined;
+  searchPhoneNumber: string | undefined;
 }
 
 // A default class for a basket

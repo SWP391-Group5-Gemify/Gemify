@@ -36,7 +36,7 @@ export class CardProductComponent {
    */
   addProductItemToCartFromChild() {
     console.log("Adding to cart");
-    this.product && this.basketService.addItemToBasket(this.product, 1);
+    this.product && this.basketService.addItemToCurrentBasket(this.product, 1);
   }
 
   /**
