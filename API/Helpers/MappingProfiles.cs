@@ -89,12 +89,17 @@ namespace API.Helpers
                 .ForMember(d => d.Unit, o => o.MapFrom(s => s.ItemOrdered.Unit))
                 .ForMember(d => d.Image_Url, o => o.MapFrom(s => s.ItemOrdered.Image_Url));
 
+            CreateMap<OrderItemDto, OrderItem>();
+
             CreateMap<Order, OrderToReturnDto>()
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.Customer.Name))
                 .ForMember(d => d.Phone, o => o.MapFrom(s => s.Customer.Phone))
                 .ForMember(d => d.MembershipId, o => o.MapFrom(s => s.Customer.MembershipId))
                 .ForMember(d => d.PromotionCode, o => o.MapFrom(s => s.Promotion.Code))
                 .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount));
+
+
+            CreateMap<OrderDto, Order>();
         }
     }
 }

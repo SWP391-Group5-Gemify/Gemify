@@ -33,22 +33,22 @@ namespace Infrastructure.Services
 
             // Get items from product repo to prevent client from tampering with price data
             var items = new List<OrderItem>();
-            foreach(var item in basket.Items)
+            foreach (var item in basket.Items)
             {
                 var spec = new ProductSpecification(item.Id);
                 var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(spec);
-                var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice, 
-                    productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit, 
+                var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice,
+                    productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit,
                     productItem.TotalWeight, productItem.ImageUrl);
 
                 // Calculate the total price of all of the gems on a product
                 var productGems = productItem.ProductGems;
                 var orderItemGems = new List<OrderItemGem>();
 
-                foreach(var productGem in productGems)
+                foreach (var productGem in productGems)
                 {
                     var gem = productGem.GemType;
-                    var gemItemOrdered = new ProductGemsItemOrdered(gem.Name, gem.Color, productGem.GemWeight, 
+                    var gemItemOrdered = new ProductGemsItemOrdered(gem.Name, gem.Color, productGem.GemWeight,
                         gem.LatestPrice, gem.Carat, gem.Clarity, productGem.CertificateCode);
                     var orderItemGem = new OrderItemGem(gemItemOrdered, gem.LatestPrice, productGem.Quantity);
                     orderItemGems.Add(orderItemGem);
@@ -99,7 +99,7 @@ namespace Infrastructure.Services
 
             // add items in basket
             List<OrderItem> orderItemList = new List<OrderItem>();
-            
+
             foreach (var item in basket.Items)
             {
                 // get orderItem based on orderItemId in item
@@ -118,8 +118,8 @@ namespace Infrastructure.Services
                         // create buy-back gem item ordered
                         var gemItemOrdered = pg.GemsItemOrdered;
                         var purchaseGemPrice = -gemItemOrdered.GemPrice * 0.7m;
-                        var buyBackGemsItemOrdered = new ProductGemsItemOrdered(gemItemOrdered.GemName, gemItemOrdered.GemColor, 
-                            gemItemOrdered.GemWeight, purchaseGemPrice, gemItemOrdered.GemCarat, gemItemOrdered.GemClarity, 
+                        var buyBackGemsItemOrdered = new ProductGemsItemOrdered(gemItemOrdered.GemName, gemItemOrdered.GemColor,
+                            gemItemOrdered.GemWeight, purchaseGemPrice, gemItemOrdered.GemCarat, gemItemOrdered.GemClarity,
                             gemItemOrdered.GemCertificateCode);
                         // calculate total price of a type of gem
                         var purchaseGemsPrice = purchaseGemPrice * pg.Quantity;
@@ -130,7 +130,7 @@ namespace Infrastructure.Services
                         buyBackOrderItemGemList.Add(buyBackOrderItemGem);
                     }
                 }
-                        
+
                 // get purchase gold price
                 var purchaseGoldPrice = (decimal)-product.CalculatePurchaseGoldPrice();
                 // create item ordered
@@ -140,8 +140,8 @@ namespace Infrastructure.Services
                 // calculate purchase product price
                 var purchaseProductPrice = buyBackOrderItemGemList.Aggregate(buyBackItemOrdered.GoldPrice, (acc, g) => acc + g.Price);
                 // create buy-back order item
-                var buyBackOrderItem = new OrderItem(buyBackItemOrdered,purchaseProductPrice,item.Quantity, buyBackOrderItemGemList);
-              
+                var buyBackOrderItem = new OrderItem(buyBackItemOrdered, purchaseProductPrice, item.Quantity, buyBackOrderItemGemList);
+
                 // add order item to order list
                 orderItemList.Add(buyBackOrderItem);
             }
@@ -151,7 +151,7 @@ namespace Infrastructure.Services
 
             // create purchase order
 
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, repurchaserId, null,null, orderItemList);
+            var order = new Order(basket.OrderTypeId, subtotal, customerId, repurchaserId, null, null, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db
@@ -168,21 +168,19 @@ namespace Infrastructure.Services
         {
             _unitOfWork.Repository<Order>().Update(order);
             return await _unitOfWork.Complete();
-        } 
-
-
+        }
 
         public async Task<Order> GetOrderByIdAsync(int? id)
         {
             var spec = new OrdersSpecification(id);
             var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
-            if(order == null) return null;
+            if (order == null) return null;
             return order;
         }
 
         public async Task<IReadOnlyList<Order>> GetOrdersAsync(OrdersSpecification ordersSpec)
         {
-            var orders = await _unitOfWork.Repository<Order>().ListAsync(ordersSpec);              
+            var orders = await _unitOfWork.Repository<Order>().ListAsync(ordersSpec);
             return orders;
         }
 
@@ -190,5 +188,6 @@ namespace Infrastructure.Services
         {
             return await _unitOfWork.Repository<Order>().CountAsync(spec);
         }
+
     }
 }
