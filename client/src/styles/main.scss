@@ -51,6 +51,7 @@ $client-theme: mat.define-light-theme((color: (primary: $client-primary,
 @import "components/button";
 @import "components/divider";
 @import "components/form";
+@import "components/filter-controls";
 
 // layout
 @import "layout/sidenav-content";

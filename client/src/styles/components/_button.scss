@@ -17,7 +17,7 @@
     letter-spacing: 1.3px;
     color: $color-white;
 
-    transition: all 0.15s ease-in-out;
+    transition: all 0.12s ease-out;
     cursor: pointer;
   }
 
@@ -25,7 +25,7 @@
   &:hover {
     transform: translateY(-9px);
     box-shadow: 0 1rem 2rem rgba($color-black, .2);
-    outline: 2px solid $color-primary-light;
+    outline: 2px solid $color-primary;
   }
 
   &:active {
@@ -43,7 +43,17 @@
     animation-fill-mode: backwards;
   }
 
-  &--primary {
+  &--primary-light {
+    background-color: $color-primary-light;
+    color: $color-white;
+
+    // &:focus,
+    &:hover {
+      outline: 2px solid $color-grey-dark-3;
+    }
+  }
+
+  &--primary-dark {
     background-color: $color-primary-dark;
     color: $color-white;
 
@@ -51,5 +61,24 @@
     &:hover {
       outline: 2px solid $color-grey-dark-3;
     }
+  }
+
+  &--primary {
+    background-color: $color-primary;
+    color: $color-white;
+
+    // &:focus,
+    &:hover {
+      outline: 2px solid $color-grey-dark-3;
+    }
+  }
+
+
+
+  &--word-wrap {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    line-height: 1.8rem;
   }
 }

@@ -13,7 +13,11 @@ import { PageEvent } from '@angular/material/paginator';
   standalone: true,
   templateUrl: './customers.component.html',
   styleUrl: './customers.component.scss',
-  imports: [CommonModule, GenericTableDataSourceComponent, StatsTotalRowsComponent],
+  imports: [
+    CommonModule,
+    GenericTableDataSourceComponent,
+    StatsTotalRowsComponent,
+  ],
 })
 export class CustomersComponent implements OnInit {
   // ==========================================

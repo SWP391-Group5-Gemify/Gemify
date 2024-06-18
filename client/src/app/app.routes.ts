@@ -1,47 +1,47 @@
-import { Routes } from '@angular/router';
-import { FormLoginComponent } from './shared/components/form-login/form-login.component';
-import { RoleEnum } from './core/models/role.model';
-import { authGuard, roleGuard } from './core/guards';
-import { PageErrorComponent } from './core/layout/page-error/page-error.component';
+import { Routes } from "@angular/router";
+import { LoginComponent } from "./shared/components/login/login.component";
+import { RoleEnum } from "./core/models/role.model";
+import { authGuard, roleGuard } from "./core/guards";
+import { PageErrorComponent } from "./core/layout/page-error/page-error.component";
 
 export const routes: Routes = [
-  { path: '', component: FormLoginComponent, pathMatch: 'full' },
-  { path: 'login', component: FormLoginComponent },
+  { path: "", component: LoginComponent, pathMatch: "full" },
+  { path: "login", component: LoginComponent },
 
   {
-    path: 'gold-chart',
+    path: "gold-chart",
     loadChildren: () =>
-      import('./shared/routes/gold-chart/gold-chart-routing.module').then(
+      import("./shared/routes/gold-chart/gold-chart-routing.module").then(
         (m) => m.GoldChartRoutingModule
       ),
   },
   // === Error Pages ========================================================
   {
-    path: 'not-found',
+    path: "not-found",
     component: PageErrorComponent,
-    data: { statusCode: 404, msg: 'No resource was found' },
+    data: { statusCode: 404, msg: "No resource was found" },
   },
   {
-    path: 'bad-request',
+    path: "bad-request",
     component: PageErrorComponent,
-    data: { statusCode: 400, msg: 'You have made a Bad Request' },
+    data: { statusCode: 400, msg: "You have made a Bad Request" },
   },
   {
-    path: 'server-error',
+    path: "server-error",
     component: PageErrorComponent,
-    data: { statusCode: 500, msg: 'Server is currently down' },
+    data: { statusCode: 500, msg: "Server is currently down" },
   },
   {
-    path: 'unauthorized',
+    path: "unauthorized",
     component: PageErrorComponent,
-    data: { statusCode: 401, msg: 'You are not authorized' },
+    data: { statusCode: 401, msg: "You are not authorized" },
   },
   // ===========================================================
 
   {
-    path: 'store-manager',
+    path: "store-manager",
     loadChildren: () =>
-      import('./shared/routes/dashboards/store-manager-routing.module').then(
+      import("./shared/routes/dashboards/store-manager-routing.module").then(
         (m) => m.StoreManagerRoutingModule
       ),
     canActivate: [authGuard, roleGuard],
@@ -50,9 +50,9 @@ export const routes: Routes = [
     },
   },
   {
-    path: 'store-owner',
+    path: "store-owner",
     loadChildren: () =>
-      import('./shared/routes/dashboards/store-owner-routing.module').then(
+      import("./shared/routes/dashboards/store-owner-routing.module").then(
         (m) => m.StoreOwnerRoutingModule
       ),
     canActivate: [authGuard, roleGuard],
@@ -61,9 +61,9 @@ export const routes: Routes = [
     },
   },
   {
-    path: 'cashier',
+    path: "cashier",
     loadChildren: () =>
-      import('./shared/routes/dashboards/cashier-routing.module').then(
+      import("./shared/routes/dashboards/cashier-routing.module").then(
         (m) => m.CashierRoutingModule
       ),
     canActivate: [authGuard, roleGuard],
@@ -73,9 +73,9 @@ export const routes: Routes = [
   },
 
   {
-    path: 'seller',
+    path: "seller",
     loadChildren: () =>
-      import('./shared/routes/dashboards/seller-routing.module').then(
+      import("./shared/routes/dashboards/seller-routing.module").then(
         (m) => m.SellerRoutingModule
       ),
     canActivate: [authGuard, roleGuard],
@@ -85,9 +85,9 @@ export const routes: Routes = [
   },
 
   {
-    path: 'appraiser',
+    path: "appraiser",
     loadChildren: () =>
-      import('./shared/routes/dashboards/appraiser-routing.module').then(
+      import("./shared/routes/dashboards/appraiser-routing.module").then(
         (m) => m.AppraiserRoutingModule
       ),
     canActivate: [authGuard, roleGuard],
@@ -96,9 +96,9 @@ export const routes: Routes = [
     },
   },
   {
-    path: 'repurchaser',
+    path: "repurchaser",
     loadChildren: () =>
-      import('./shared/routes/dashboards/repurchaser-routing.module').then(
+      import("./shared/routes/dashboards/repurchaser-routing.module").then(
         (m) => m.RepurchaserRoutingModule
       ),
     canActivate: [authGuard, roleGuard],
@@ -107,5 +107,5 @@ export const routes: Routes = [
     },
   },
 
-  { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
+  { path: "**", redirectTo: "not-found", pathMatch: "full" },
 ];

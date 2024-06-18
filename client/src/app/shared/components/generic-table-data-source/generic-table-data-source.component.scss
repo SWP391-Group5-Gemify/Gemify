@@ -6,7 +6,7 @@
 // }
 
 mat-form-field {
-  width: 100%;
+  display: block;
 }
 
 .table-data-source {
@@ -28,6 +28,11 @@ mat-form-field {
     text-align: center !important;
     vertical-align: middle !important;
     font-weight: 900;
+  }
+
+  tr:hover {
+    background: whitesmoke;
+    cursor: pointer;
   }
 
   &__action-groups {

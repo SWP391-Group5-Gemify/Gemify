@@ -1,28 +1,34 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatIcon } from '@angular/material/icon';
-import { catchError, map, mergeMap, Observable } from 'rxjs';
-import { PaginationModel } from '../../../../core/models/pagination.model';
-import { ProductService } from '../../../../core/services/product/product.service';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from "@angular/material/paginator";
+import { MatIcon } from "@angular/material/icon";
+import { catchError, map, mergeMap, Observable } from "rxjs";
+import { PaginationModel } from "../../../../core/models/pagination.model";
+import { ProductService } from "../../../../core/services/product/product.service";
 import {
   ProductModel,
-  ProductSearchingCriteria,
+  ProductsSearchingCriteriaModel,
+  SortProductsQuantityEnum,
   SubCategoryModel,
-} from '../../../../core/models/product.model';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
-import { DropdownModel } from '../../../../core/models/dropdown.model';
-import { GoldModel } from '../../../../core/models/gold.model';
-import { GoldService } from '../../../../core/services/gold/gold.service';
-import { GenericStackedChipsComponent } from '../../generic-stacked-chips/generic-stacked-chips.component';
-import { CardProductComponent } from './card-product/card-product.component';
+} from "../../../../core/models/product.model";
+import { MatInputModule } from "@angular/material/input";
+import { GenericDropdownComponent } from "../../generic-dropdown/generic-dropdown.component";
+import { DropdownModel } from "../../../../core/models/dropdown.model";
+import { GoldModel } from "../../../../core/models/gold.model";
+import { GoldService } from "../../../../core/services/gold/gold.service";
+import { CardProductComponent } from "./card-product/card-product.component";
+import { GenericSearchComponent } from "../../generic-search/generic-search.component";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BasketService } from "../../../../core/services/basket/basket.service";
 
 @Component({
-  selector: 'app-products',
+  selector: "app-products",
   standalone: true,
   imports: [
     CommonModule,
@@ -31,35 +37,49 @@ import { CardProductComponent } from './card-product/card-product.component';
     MatPaginatorModule,
     MatIcon,
     CardProductComponent,
-    MatFormFieldModule,
     MatInputModule,
     GenericDropdownComponent,
-    GenericStackedChipsComponent,
+    GenericSearchComponent,
+    NgxSpinnerModule,
   ],
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.scss',
+  templateUrl: "./products.component.html",
+  styleUrl: "./products.component.scss",
 })
 export class ProductsComponent implements OnInit {
   // ==========================================
   // == Fields
   // ==========================================
   products$!: Observable<ProductModel[]>;
-  productSearchCriteria: ProductSearchingCriteria = {
+  productSearchCriteria: ProductsSearchingCriteriaModel = {
     pageSize: 10,
     pageIndex: 0,
     search: undefined,
     goldTypeId: undefined,
     subCategoryId: undefined,
-    sort: undefined,
+    sortQuantity: undefined,
   };
   totalProducts: number = 0;
   pageEvent!: PageEvent;
   goldsDropdown!: DropdownModel[];
   subCategoriesDropdown!: DropdownModel[];
+  sortsCriteriaDropdown: DropdownModel[] = [
+    {
+      name: "↓ Số lượng: giảm dần",
+      value: SortProductsQuantityEnum.QuantityDesc,
+    },
+    {
+      name: "↑ Số lượng: tăng dần",
+      value: SortProductsQuantityEnum.QuantityAsc,
+    },
+  ];
 
-  @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
-  @ViewChild('subCategoriesDropdownRef')
+  @ViewChild("goldsDropdownRef") goldsDropdownRef!: GenericDropdownComponent;
+  @ViewChild("subCategoriesDropdownRef")
   subCategoriesDropdownRef!: GenericDropdownComponent;
+  @ViewChild("sortsCriteriaDropdownRef")
+  sortsCriteriaDropdownRef!: GenericDropdownComponent;
+  @ViewChild("nameSearchInputRef") nameSearchInputRef!: GenericSearchComponent;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // ====================
   // == Life Cycle
@@ -91,7 +111,7 @@ export class ProductsComponent implements OnInit {
 
   /**
    * Load products based on pagination
-   * TODO: Handle the errro exception
+   * TODO: Handle the error exception
    */
   loadProducts() {
     this.products$ = this.productService
@@ -107,7 +127,7 @@ export class ProductsComponent implements OnInit {
           return response.data;
         }),
         catchError((error) => {
-          console.error('Error loading products', error);
+          console.error("Error loading products", error);
           throw error;
         })
       );
@@ -123,8 +143,8 @@ export class ProductsComponent implements OnInit {
       .pipe(
         map((subCategories: SubCategoryModel[]) => {
           return subCategories.map((subCategory: SubCategoryModel) => ({
-            key: subCategory.id,
-            value: subCategory.name,
+            value: subCategory.id,
+            name: subCategory.name,
           }));
         })
       )
@@ -147,8 +167,8 @@ export class ProductsComponent implements OnInit {
     this.goldService.getAllGolds().subscribe({
       next: (response: PaginationModel<GoldModel>) => {
         this.goldsDropdown = response.data.map((gold) => ({
-          key: gold.id,
-          value: gold.name,
+          value: gold.id,
+          name: gold.name,
         }));
       },
 
@@ -162,9 +182,9 @@ export class ProductsComponent implements OnInit {
    * Select Gold Id from the dropdown
    * @param $event
    */
-  onSelectChangeGoldIdFromParent($event: any) {
-    const goldTypeId: string | number = $event;
-    this.productSearchCriteria.goldTypeId = goldTypeId;
+  onSelectChangeGoldIdFromParent(event: any) {
+    this.productSearchCriteria.goldTypeId = event?.value;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
@@ -172,9 +192,29 @@ export class ProductsComponent implements OnInit {
    * Select Category Id from the dropdown
    * @param $event
    */
-  onSelectChangeSubCategoryIdFromParent($event: any) {
-    const subCategoryId: string | number = $event;
-    this.productSearchCriteria.subCategoryId = subCategoryId;
+  onSelectChangeSubCategoryIdFromParent(event: any) {
+    this.productSearchCriteria.subCategoryId = event?.value;
+    this.onResetPaginatorToFirstPage();
+    this.loadProducts();
+  }
+
+  /**
+   * Select the Sort by Quantity type
+   * @param event
+   */
+  onSelectChangeSortQuantityFromParent(event: any) {
+    this.productSearchCriteria.sortQuantity = event?.value;
+    this.onResetPaginatorToFirstPage();
+    this.loadProducts();
+  }
+
+  /**
+   * Filter the product by names
+   * @param valueChanged
+   */
+  onValueChangesNameFromParent(valueChanged: any) {
+    this.productSearchCriteria.search = valueChanged;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
@@ -184,7 +224,21 @@ export class ProductsComponent implements OnInit {
   onResetFilters() {
     this.subCategoriesDropdownRef.onClearSelection();
     this.goldsDropdownRef.onClearSelection();
+    this.sortsCriteriaDropdownRef.onClearSelection();
+    this.nameSearchInputRef.onClearInputFilter();
     this.productSearchCriteria.goldTypeId = undefined;
     this.productSearchCriteria.subCategoryId = undefined;
+    this.productSearchCriteria.sortQuantity = undefined;
+    this.loadProducts();
+  }
+
+  /**
+   * Reset paginator to the first page after filtering
+   */
+  onResetPaginatorToFirstPage() {
+    this.productSearchCriteria.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
   }
 }

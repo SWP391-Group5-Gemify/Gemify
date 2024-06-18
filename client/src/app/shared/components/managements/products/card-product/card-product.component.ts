@@ -1,37 +1,46 @@
-import { Component, EventEmitter, Input, input, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { ProductModel } from '../../../../../core/models/product.model';
+import { Component, EventEmitter, Input, input, Output } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import {
+  ProductModel,
+  ProductStatusEnum,
+} from "../../../../../core/models/product.model";
+import { CommonModule } from "@angular/common";
+import { MatIconModule } from "@angular/material/icon";
+import { BasketService } from "../../../../../core/services/basket/basket.service";
 
 @Component({
-  selector: 'app-card-product',
+  selector: "app-card-product",
   standalone: true,
-  imports: [MatCardModule, MatButtonModule],
-  templateUrl: './card-product.component.html',
-  styleUrl: './card-product.component.scss',
+  imports: [MatCardModule, MatButtonModule, CommonModule, MatIconModule],
+  templateUrl: "./card-product.component.html",
+  styleUrl: "./card-product.component.scss",
 })
 export class CardProductComponent {
   // ======================================
   // == Fields
   // ======================================
-
+  public ProductStatusEnum = ProductStatusEnum;
   @Input() product!: ProductModel;
-  @Output() addToCart = new EventEmitter<ProductModel>();
-  @Output() viewDetail = new EventEmitter<ProductModel>();
+
+  // ======================================
+  // == Life Cycle
+  // ======================================
+  constructor(private basketService: BasketService) {}
+
   // ======================================
   // == Methods
   // ======================================
   /**
-   * Delegate add to cart to the parent component
+   * Add a product item to the cart
    */
-  addToCartFromChild() {
-    this.addToCart.emit(this.product);
+  addProductItemToCartFromChild() {
+    console.log("Adding to cart");
+    this.product && this.basketService.addItemToBasket(this.product, 1);
   }
 
   /**
-   * Delegate view product detail to the parent component
+   * Implement the modal showing the product details
    */
-  viewProductDetailFromChild() {
-    this.viewDetail.emit(this.product);
-  }
+  viewProductDetailFromChild() {}
 }

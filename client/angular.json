@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": ["cuid2"],
             "outputPath": "dist/client",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -26,7 +27,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles/main.scss",
-              "node_modules/font-awesome/css/font-awesome.min.css"
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate-pulse.css"
             ],
 
             "stylePreprocessorOptions": {
