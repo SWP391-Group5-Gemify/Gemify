@@ -57,11 +57,11 @@
                                 <img class="product-image" src="{{element['image_Url']}}">
                             }
                             @else if (column === "total") {
-                                {{calculateProductTotal(element) | currency:'VND'}}
+                                {{calculateProductTotal(element) * 1000 | currency:'VND'}}
                             }
                             @else {
                                 {{((column.toLowerCase().includes("price") || column.toLowerCase().includes("labour")))
-                                ? (element[column] | currency:'VND') : element[column]}} 
+                                ? (element[column] * 1000 | currency:'VND') : element[column]}} 
                             }
                         </td>
                     </ng-container>
@@ -79,11 +79,11 @@
                                         <th mat-header-cell *matHeaderCellDef> {{innerColumn}} </th>
                                         <td mat-cell *matCellDef="let element"> 
                                             @if (innerColumn === "total"){
-                                                {{calculateGemTotal(element) | currency:'VND'}}
+                                                {{calculateGemTotal(element) * 1000 | currency:'VND'}}
                                             }
                                             @else {
                                                 {{(innerColumn.toLowerCase().includes("price")) 
-                                                ? (element[innerColumn] | currency:'VND') : element[innerColumn]}} 
+                                                ? (element[innerColumn] * 1000 | currency:'VND') : element[innerColumn]}} 
                                             }
                                         </td>
                                     </ng-container>
@@ -111,7 +111,7 @@
                 <ul class="order-summary__list">
                     <li class="order-summary__item">
                         <strong>Order subtotal</strong>
-                        <strong>{{order.subTotal | currency:'VND'}}</strong>
+                        <strong>{{order.subTotal * 1000 | currency:'VND'}}</strong>
                     </li>
                     <li class="order-summary__item">
                         <strong>Promotion Code</strong>
@@ -129,7 +129,7 @@
                     </li>
                     <li class="order-summary__item">
                         <strong>Total</strong>
-                        <strong>{{order.total | currency:'VND'}}</strong>
+                        <strong>{{order.total * 1000 | currency:'VND'}}</strong>
                     </li>
                 </ul>
             </div>

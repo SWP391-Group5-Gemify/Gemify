@@ -38,11 +38,11 @@
             *matCellDef="let object"  (click)="getId(object.id)">
           @if(column !== "actions") {
           {{(column.toLowerCase().includes("price"))
-          ? (object[column] | currency:'VND')
+          ? (object[column] * 1000 | currency:'VND')
           : (column.toLowerCase().includes('discount'))
           ? (object[column]/100 | percent)
           : (column.toLowerCase().includes('total'))
-          ? (object[column] | currency:'VND')
+          ? (object[column] * 1000 | currency:'VND')
           : object[column] }}
           } @else {
           <div class="table-data-source__action-groups">
