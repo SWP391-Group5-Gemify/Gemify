@@ -1,51 +1,63 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { SellerComponent } from '../../components/dashboards/seller/seller.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { SellerComponent } from "../../components/dashboards/seller/seller.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: SellerComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'products',
-        pathMatch: 'prefix',
+        path: "",
+        redirectTo: "products",
+        pathMatch: "prefix",
       },
       {
-        path: 'products',
+        path: "products",
         loadChildren: () =>
-          import('../../routes/managements/products-routing.module').then(
+          import("../../routes/managements/products-routing.module").then(
             (m) => m.ProductsRoutingModule
           ),
       },
       {
-        path: 'orders',
+        path: "orders",
         loadChildren: () =>
-          import('../../routes/managements/orders-routing.module').then(
+          import("../../routes/managements/orders-routing.module").then(
             (m) => m.OrdersRoutingModule
           ),
       },
       {
-        path: 'exchange',
+        path: "baskets",
         loadChildren: () =>
-          import('../../routes/managements/exchange-routing.module').then(
+          import("../../routes/managements/basket-routing.module").then(
+            (m) => m.BasketRoutingModule
+          ),
+      },
+      {
+        path: "exchange",
+        loadChildren: () =>
+          import("../../routes/managements/exchange-routing.module").then(
             (m) => m.ExchangeRoutingModule
           ),
       },
       {
-        path: 'buyback',
+        path: "buyback",
         loadChildren: () =>
-          import('../../routes/managements/buyback-routing.module').then(
+          import("../../routes/managements/buyback-routing.module").then(
             (m) => m.BuybackRoutingModule
           ),
       },
       {
-        path: 'warranty',
+        path: "warranty",
         loadChildren: () =>
-          import('../../routes/managements/warranty-routing.module').then(
+          import("../../routes/managements/warranty-routing.module").then(
             (m) => m.WarrantyRoutingModule
           ),
+      },
+      {
+        path: "**",
+        redirectTo: "products",
+        pathMatch: "full",
       },
     ],
   },

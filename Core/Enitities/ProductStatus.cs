@@ -4,11 +4,8 @@ namespace Core.Enitities
 {
     public enum ProductStatus
     {
-        [EnumMember(Value = "Old")]
-        Old,
-
-        [EnumMember(Value = "New")]
-        New,
+        [EnumMember(Value = "Available")]
+        Available,
 
         [EnumMember(Value = "Unavailable")]
         Unavailable,

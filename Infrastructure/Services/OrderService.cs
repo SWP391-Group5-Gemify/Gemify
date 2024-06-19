@@ -57,8 +57,8 @@ namespace Infrastructure.Services
                 var gemPrice = orderItemGems.Aggregate(0m, (acc, g) => acc + (g.Price * g.Quantity));
 
                 // Calculate the total price of the product
-                // Product price = (gold weight * bid price) + labour + (gem price * quantity)
-                var itemPrice = (productItem.GoldWeight * productItem.GoldType.LatestBidPrice) + productItem.Labour + gemPrice;
+                // Product price = (gold weight * bid price) + labour + (list of (gem price * quantity))
+                var itemPrice = productItem.CalculateGoldBidPrice() + productItem.Labour + gemPrice;
 
                 var orderItem = new OrderItem(itemOrdered, itemPrice, item.Quantity, orderItemGems);
 
@@ -113,7 +113,17 @@ namespace Infrastructure.Services
                 var buyBackOrderItemGemList = new List<OrderItemGem>();
                 if (orderItem.OrderItemGems != null && orderItem.OrderItemGems.Any())
                 {
-                    foreach (var pg in orderItem.OrderItemGems)
+                    var orderItem = await _unitOfWork.Repository<OrderItem>().GetByIdAsync(item.Id);
+                    var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec
+                        (new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
+
+                    // calculate purchase gold price
+                    var purchaseGoldPrice = product.CalculateGoldAskPrice();
+                    orderItem.ItemOrdered.GoldPrice = purchaseGoldPrice;
+
+                    // calculate purchase gem price
+                    decimal totalPurchaseGemPrice = 0;
+                    if (!orderItem.OrderItemGems.IsNullOrEmpty())
                     {
                         // create buy-back gem item ordered
                         var gemItemOrdered = pg.GemsItemOrdered;
@@ -151,14 +161,14 @@ namespace Infrastructure.Services
 
             // create purchase order
 
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, repurchaserId, null,null, orderItemList);
+            var order = new Order(basket.OrderTypeId, totalPrice, customerId, repurchaserId, basket.PaymentIntentId, null, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db
             var result = await _unitOfWork.Complete();
             if (result <= 0) return null;
 
-            // return order
+            // Return the order
             var orderSpec = new OrdersSpecification(order.Id);
             order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
             return order;
@@ -172,7 +182,7 @@ namespace Infrastructure.Services
 
 
 
-        public async Task<Order> GetOrderByIdAsync(int? id)
+        public async Task<Order> GetOrderByIdAsync(int id)
         {
             var spec = new OrdersSpecification(id);
             var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
@@ -189,6 +199,11 @@ namespace Infrastructure.Services
         public async Task<int> CountOrdersWithSpecAsync(ISpecification<Order> spec)
         {
             return await _unitOfWork.Repository<Order>().CountAsync(spec);
+        }
+
+        public async Task<IReadOnlyList<OrderType>> GetOrderTypesAsync()
+        {
+            return await _unitOfWork.Repository<OrderType>().ListAllAsync();
         }
     }
 }

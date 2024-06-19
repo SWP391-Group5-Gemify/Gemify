@@ -29,6 +29,7 @@ export class CashierComponent {
   navItems: NavItemsModel[] = [
     { name: 'Products', icon: 'shopping_bag', route: '/cashier/products' },
     { name: 'Orders', icon: 'receipt', route: '/cashier/orders' },
+    { name: 'Baskets', icon: 'shopping_cart', route: '/cashier/baskets' },
     {
       name: 'Check Exchange Policy',
       icon: 'compare_arrows',

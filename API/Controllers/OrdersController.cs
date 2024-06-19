@@ -1,4 +1,4 @@
-using API.Errors;
+﻿using API.Errors;
 using API.Dtos;
 using AutoMapper;
 using Core.Enitities.OrderAggregate;
@@ -87,21 +87,29 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
-        [Authorize(Roles = "Repurchaser, Appraiser, Cashier")]
-        [HttpPost("update/{id}")]
-        public async Task<ActionResult> UpdateOrder(int id, OrderDto orderDto)
+        [HttpGet("types")]
+        [Authorize]
+        public async Task<ActionResult<IReadOnlyList<OrderType>>> GetAllOrderTypes()
         {
-            var existingOrder = await _orderService.GetOrderByIdAsync(id);
-            if (existingOrder == null)
-                return NotFound(new ApiResponse(404, "This order does not exist!"));
-
-            _mapper.Map(orderDto, existingOrder);
-
-            //return existingOrder;
-            if (await _orderService.UpdateOrder(existingOrder) > 0)
-                return Ok(new ApiResponse(200, "Order was successfully updated"));
-
-            return BadRequest(new ApiResponse(400, "Fail to update order information!"));
+            var orderTypes = await _orderService.GetOrderTypesAsync();
+            return Ok(orderTypes);
         }
+
+        // [Authorize(Roles = "Repurchaser, Appraiser, Cashier")]
+        // [HttpPost("update/{id}")]
+        // public async Task<ActionResult> UpdateOrder(int id, OrderDto orderDto)
+        // {
+        //     var existingOrder = await _orderService.GetOrderByIdAsync(id);
+        //     if (existingOrder == null)
+        //         return NotFound(new ApiResponse(404, "This order does not exist!"));
+
+        //     _mapper.Map(orderDto, existingOrder);
+
+        //     //return existingOrder;
+        //     if (await _orderService.UpdateOrder(existingOrder) > 0)
+        //         return Ok(new ApiResponse(200, "Order was successfully updated"));
+
+        //     return BadRequest(new ApiResponse(400, "Fail to update order information!"));
+        // }
     }
 }

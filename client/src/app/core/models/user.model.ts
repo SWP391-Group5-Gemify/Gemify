@@ -1,8 +1,7 @@
-import { GenderEnum } from './gender.model';
-import { RoleEnum } from './role.model';
+import { GenderEnum } from "./gender.model";
+import { RoleEnum } from "./role.model";
 
 export interface UserModel {
-  id: number;
   fullName: string;
   email: string;
   userName: string;
@@ -12,5 +11,11 @@ export interface UserModel {
   status: string;
   image_Url: string;
   address: string;
+  token: string;
   role: RoleEnum;
+}
+
+export interface UserLoginModel {
+  userName: string;
+  password: string;
 }

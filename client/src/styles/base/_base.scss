@@ -46,6 +46,7 @@ html,
 body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 html {
@@ -55,12 +56,13 @@ html {
 body {
   box-sizing: border-box;
   background-color: $color-white;
-  font-family: 'Roboto', sans-serif; // display: flex;
+  font-family: 'Roboto', sans-serif;
 }
 
 main {
-  height: calc(100% - 10rem - 6rem);
+  height: calc(100% - 10rem - 5.5rem);
   padding-bottom: $padding-layout;
+  overflow: auto;
 }
 
 ul {
