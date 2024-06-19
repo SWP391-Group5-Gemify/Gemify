@@ -73,7 +73,6 @@ namespace API.Controllers
             // get userId whose create order
 
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
-            if (user == null) return BadRequest(new ApiResponse(400, "Error while creating buy-back order"));
             var userId = user.Id;
 
             // create buy back order
