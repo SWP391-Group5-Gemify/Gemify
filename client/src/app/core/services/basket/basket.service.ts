@@ -102,7 +102,7 @@ export class BasketService {
     let basket = this.getCurrentBasketValue() ?? this.createBasket();
 
     // Update the basket's items when add or update the item
-    basket.items = this.addOrUpdateItem(
+    basket.items = this.addOrUpdateBasketItem(
       basket?.items,
       basketItemToAdd,
       quantity
@@ -111,6 +111,18 @@ export class BasketService {
     // Update the basket into the basket source
     // the basket source will get that value immediately when the addItemToBasket triggered
     this.setCurrentBasket(basket);
+  }
+
+  /**
+   * Create an empty basket with phoneNumber
+   * @param phoneNumber
+   */
+  public createEmptyBasket(phoneNumber: string): void {
+    const newBasket: BasketModel = new BasketModel();
+    newBasket.phoneNumber = phoneNumber;
+    localStorage.setItem('basket_id', newBasket.id);
+
+    this.setCurrentBasket(newBasket);
   }
 
   /**
@@ -123,7 +135,7 @@ export class BasketService {
    * @returns
    */
 
-  private addOrUpdateItem(
+  private addOrUpdateBasketItem(
     items: BasketItemModel[],
     basketItemToAdd: BasketItemModel,
     quantity: number

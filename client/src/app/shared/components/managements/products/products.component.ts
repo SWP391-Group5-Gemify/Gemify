@@ -30,6 +30,8 @@ import {
   BasketItemModel,
   BasketModel,
 } from '../../../../core/models/basket.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-create-new-basket.component';
 
 @Component({
   selector: 'app-products',
@@ -90,7 +92,8 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private goldService: GoldService,
-    public basketService: BasketService
+    public basketService: BasketService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -293,5 +296,22 @@ export class ProductsComponent implements OnInit {
     }, 0);
   }
 
-  public onOpenModalAndCreateBasketWithCustomerPhone() {}
+  /**
+   * Create new modal, adding customer phone and create new basket
+   */
+  public onOpenModalAndCreateBasketWithCustomerPhone() {
+    const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
+      width: '80%',
+      height: '50%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.basketService.createEmptyBasket(result.phoneNumber);
+      }
+    });
+
+    // TODO: Will set the current basket to the dropdown
+    // this.loadBasketIdAndPhoneDropdown();
+  }
 }
