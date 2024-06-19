@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  Order,
-  OrderItem,
-  OrderItemGem,
+  OrderModel,
+  OrderItemModel,
+  OrderItemGemModel,
 } from "../../../../../core/models/order.model";
 import { OrdersService } from "../../../../../core/services/orders/orders.service";
 import { ActivatedRoute } from "@angular/router";
@@ -36,9 +36,9 @@ import { MatIconModule } from "@angular/material/icon";
   styleUrl: "./order-detail.component.scss",
 })
 export class OrderDetailComponent implements OnInit {
-  order?: Order;
-  dataSource = new MatTableDataSource<OrderItem>([]);
-  expandedElement?: OrderItem | null;
+  order?: OrderModel;
+  dataSource = new MatTableDataSource<OrderItemModel>([]);
+  expandedElement?: OrderItemModel | null;
 
   columnsToDisplay = [
     "image_Url",
@@ -84,7 +84,7 @@ export class OrderDetailComponent implements OnInit {
       });
   }
 
-  toggleRow(element: OrderItem) {
+  toggleRow(element: OrderItemModel) {
     element.orderItemGems && element.orderItemGems.length > 0
       ? (this.expandedElement =
           this.expandedElement === element ? null : element)
@@ -93,7 +93,7 @@ export class OrderDetailComponent implements OnInit {
 
   // Calculate the total price of the product
   // Product price = (gold weight * bid price) + labour + (gem price * quantity)
-  calculateProductTotal(orderItem: OrderItem) {
+  calculateProductTotal(orderItem: OrderItemModel) {
     return (
       (orderItem.goldPrice * orderItem.goldWeight +
       orderItem.productLabour +
@@ -103,7 +103,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   // Calculate the total price of all of the gems on a product
-  calculateGemsTotal(orderItemGems: OrderItemGem[]) {
+  calculateGemsTotal(orderItemGems: OrderItemGemModel[]) {
     let total = 0;
     orderItemGems.forEach((gem) => {
       total = total + this.calculateGemTotal(gem);
@@ -112,7 +112,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   // Calculate the total price of gem
-  calculateGemTotal(orderItemGem: OrderItemGem) {
+  calculateGemTotal(orderItemGem: OrderItemGemModel) {
     return orderItemGem.price * orderItemGem.quantity;
   }
 }

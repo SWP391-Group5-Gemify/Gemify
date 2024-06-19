@@ -6,7 +6,7 @@
   <span class="divider"></span>
 
   <!-- A group of action buttons -->
-  <nav class="header__nav">
+  <nav class="header__actions">
     @if (!(authService.isLoggedIn$ | async)) {
     @for (link of navLinksNotLogin; track $index) {
     <a href="#"

@@ -1,19 +1,19 @@
-import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
-import { BehaviorSubject } from "rxjs";
-import { BasketItemModel, BasketModel } from "../../models/basket";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { ProductModel } from "../../models/product.model";
+import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { BasketItemModel, BasketModel } from '../../models/basket.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { ProductModel } from '../../models/product.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class BasketService {
   // ====================
   // == Fields
   // ====================
-  private baseBasketUrl: string = environment.baseApiUrl.concat("/basket");
-  private readonly LOCAL_STORAGE_BASKET_ID: string = "basket_id";
+  private baseBasketUrl: string = environment.baseApiUrl.concat('/basket');
+  private readonly LOCAL_STORAGE_BASKET_ID: string = 'basket_id';
 
   // Create a singleton for the basket source, which will be accessed
   // from everywhere, initial value is null
@@ -28,25 +28,35 @@ export class BasketService {
   // ====================
   // == Methods
   // ====================
+
+  // ================================ FOR A SINGLE BASKET ============================
+
   /**
-   * Get a specific basket based on id, and set to the singleton
+   * Load a basket by id into the basket source
    * @param id
    * @returns
    */
-  public getBasket(id: string) {
-    let params = new HttpParams();
-    params.set("id", id);
+  public loadCurrentBasket(id: string) {
     return this.httpClient
-      .get<BasketModel>(this.baseBasketUrl, { params })
+      .get<BasketModel>(`${this.baseBasketUrl}/${id}`)
       .subscribe({
         next: (basket) => this._basketSource.next(basket),
       });
   }
 
   /**
+   * Load a basket by id without setting to the basket source
+   * @param id
+   * @returns
+   */
+  public getBasketById(id: string): Observable<BasketModel> {
+    return this.httpClient.get<BasketModel>(`${this.baseBasketUrl}/${id}`);
+  }
+
+  /**
    * Getter of basketId
    */
-  public get basketId() {
+  public get currentBasketId() {
     return localStorage.getItem(this.LOCAL_STORAGE_BASKET_ID);
   }
 
@@ -55,7 +65,7 @@ export class BasketService {
    * @param basket
    * @returns
    */
-  public setBasket(basket: BasketModel) {
+  public setCurrentBasket(basket: BasketModel) {
     return this.httpClient
       .post<BasketModel>(this.baseBasketUrl, basket)
       .subscribe({
@@ -85,21 +95,34 @@ export class BasketService {
    * @param item
    * @param quantity
    */
-  public addItemToBasket(item: ProductModel, quantity = 1): void {
+  public addItemToCurrentBasket(item: ProductModel, quantity = 1): void {
     const basketItemToAdd = this.mapProductItemToBasketItem(item);
 
     // Check the current basket
-    const basket = this.getCurrentBasketValue() ?? this.createBasket();
+    let basket = this.getCurrentBasketValue() ?? this.createBasket();
 
     // Update the basket's items when add or update the item
-    basket.items = this.addOrUpdateItem(
+    basket.items = this.addOrUpdateBasketItem(
       basket?.items,
       basketItemToAdd,
       quantity
     );
 
     // Update the basket into the basket source
-    this.setBasket(basket);
+    // the basket source will get that value immediately when the addItemToBasket triggered
+    this.setCurrentBasket(basket);
+  }
+
+  /**
+   * Create an empty basket with phoneNumber
+   * @param phoneNumber
+   */
+  public createEmptyBasket(phoneNumber: string): void {
+    const newBasket: BasketModel = new BasketModel();
+    newBasket.phoneNumber = phoneNumber;
+    localStorage.setItem('basket_id', newBasket.id);
+
+    this.setCurrentBasket(newBasket);
   }
 
   /**
@@ -111,14 +134,13 @@ export class BasketService {
    * @param quantity
    * @returns
    */
-  private addOrUpdateItem(
+
+  private addOrUpdateBasketItem(
     items: BasketItemModel[],
     basketItemToAdd: BasketItemModel,
     quantity: number
   ): BasketItemModel[] {
-    const targetBasketItem = items.find(
-      (item) => item.id === basketItemToAdd.id
-    );
+    let targetBasketItem = items.find((item) => item.id === basketItemToAdd.id);
     if (targetBasketItem) {
       targetBasketItem.quantity += quantity;
     } else {
@@ -133,7 +155,7 @@ export class BasketService {
    */
   private createBasket(): BasketModel {
     const basket = new BasketModel();
-    localStorage.setItem("basket_id", basket.id);
+    localStorage.setItem('basket_id', basket.id);
     return basket;
   }
 
@@ -150,5 +172,36 @@ export class BasketService {
       quantity: 0,
       pictureUrl: product.imageUrl,
     };
+  }
+
+  // ================================ FOR A LIST OF BASKET ============================
+
+  /**
+   * Get a list of baskets within the redis
+   * @returns
+   */
+  public getBaskets() {
+    return this.httpClient.get<BasketModel[]>(this.baseBasketUrl);
+  }
+
+  /**
+   * Generate Temp ticket id For customer preference in store
+   * @param id
+   * @returns
+   */
+  public generateTempTicketId(id: string, phoneNumber?: string): string {
+    let tempTicketId: string = 'BAS'
+      .concat('-')
+      .concat(id.slice(0, 3))
+      .toUpperCase();
+
+    // If having phone number
+    if (phoneNumber) {
+      tempTicketId
+        .concat(phoneNumber[0])
+        .concat(phoneNumber[phoneNumber.length - 1]);
+    }
+
+    return tempTicketId;
   }
 }

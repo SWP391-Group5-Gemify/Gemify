@@ -18,16 +18,18 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { UserModel } from '../../../core/models/user.model';
-import { EmployeeService } from '../../../core/services/employee/employee.service';
-import { Observable, Subscription } from 'rxjs';
-import { GenderEnum, GenderModel } from '../../../core/models/gender.model';
-import { RoleModel } from '../../../core/models/role.model';
-import EnumUtils from '../../utils/EnumUtils';
-import { ModalConfigModel } from '../../../core/models/modal.model';
+import { Observable } from 'rxjs';
+import {
+  GenderModel,
+  GenderEnum,
+} from '../../../../../core/models/gender.model';
+import { ModalConfigModel } from '../../../../../core/models/modal.model';
+import { RoleModel } from '../../../../../core/models/role.model';
+import { EmployeeService } from '../../../../../core/services/employee/employee.service';
+import EnumUtils from '../../../../utils/EnumUtils';
 
 @Component({
-  selector: 'app-form-edit-create-modal',
+  selector: 'app-modal-edit-create-employee',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,11 +43,11 @@ import { ModalConfigModel } from '../../../core/models/modal.model';
     MatDatepickerModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './form-edit-create-modal.component.html',
-  styleUrl: './form-edit-create-modal.component.scss',
+  templateUrl: './modal-edit-create-employee.component.html',
+  styleUrl: './modal-edit-create-employee.component.scss',
   providers: [provideNativeDateAdapter(), DatePipe],
 })
-export class FormEditCreateModalComponent implements OnInit {
+export class ModalEditCreateEmployeeComponent implements OnInit {
   // =========================
   // == Fields
   // =========================
@@ -68,7 +70,7 @@ export class FormEditCreateModalComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dataFromParent: any,
-    private ref: MatDialogRef<FormEditCreateModalComponent>,
+    private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
     private employeeService: EmployeeService,
     private datePipe: DatePipe
   ) {

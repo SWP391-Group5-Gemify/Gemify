@@ -52,7 +52,7 @@ export interface SubCategoryModel {
 export interface ProductsSearchingCriteriaModel {
   pageSize: number;
   pageIndex: number;
-  search: string | undefined;
+  searchName: string | undefined;
   goldTypeId: number | string | undefined;
   subCategoryId: number | string | undefined;
   sortQuantity: string | undefined;

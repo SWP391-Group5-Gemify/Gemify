@@ -1,18 +1,18 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { CustomerModel } from '../../models/customer.model';
-import { PaginationModel } from '../../models/pagination.model';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { environment } from "../../../../environments/environment";
+import { CustomerModel } from "../../models/customer.model";
+import { PaginationModel } from "../../models/pagination.model";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CustomerService {
   // ====================
   // == Fields
   // ====================
-  baseCustomerUrl: string = environment.baseApiUrl.concat('/customers');
+  baseCustomerUrl: string = environment.baseApiUrl.concat("/customers");
 
   // ====================
   // == Life Cycle

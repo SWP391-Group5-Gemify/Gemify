@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormEditCreateModalComponent } from '../form-edit-create-modal/form-edit-create-modal.component';
+import { ModalEditCreateEmployeeComponent } from '../modal-edit-create-employee/modal-edit-create-employee.component';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { UserModel } from '../../../core/models/user.model';
+import { UserModel } from '../../../../../core/models/user.model';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { ModalConfigModel } from '../../../core/models/modal.model';
+import { ModalConfigModel } from '../../../../../core/models/modal.model';
 
 @Component({
   selector: 'app-form-view-modal',
@@ -46,7 +46,7 @@ export class FormViewModalComponent implements OnInit {
   // == Life cycle
   // =========================
   constructor(
-    private ref: MatDialogRef<FormEditCreateModalComponent>,
+    private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
     @Inject(MAT_DIALOG_DATA) public dataFromParent: any
   ) {}
   ngOnInit(): void {

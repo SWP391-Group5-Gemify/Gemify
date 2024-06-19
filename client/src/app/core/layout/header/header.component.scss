@@ -13,9 +13,9 @@
   flex-wrap: nowrap;
   gap: 4.5rem;
 
-  &__nav {
+  &__actions {
     display: flex;
-    gap: 1rem;
+    gap: $gutter-multiple-actions;
 
     a {
       flex: 0 1 auto;
