@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Core.Enitities;
 using System.Security.Claims;
 using Infrastructure.Services;
+using Core.Specifications.Customers;
+using Core.Enitities.Identity;
 
 namespace API.Controllers
 {
@@ -87,21 +89,35 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
-        [Authorize(Roles = "Repurchaser, Appraiser, Cashier")]
-        [HttpPost("update/{id}")]
+        [Authorize(Roles = "Repurchaser")]
+        [HttpPut("update/{id}")]
         public async Task<ActionResult> UpdateOrder(int id, OrderDto orderDto)
         {
             var existingOrder = await _orderService.GetOrderByIdAsync(id);
             if (existingOrder == null)
-                return NotFound(new ApiResponse(404, "This order does not exist!"));
+                return NotFound(new ApiResponse(404, "This order does not exist"));
 
-            _mapper.Map(orderDto, existingOrder);
+            existingOrder = _mapper.Map(orderDto, existingOrder);
 
-            //return existingOrder;
-            if (await _orderService.UpdateOrder(existingOrder) > 0)
-                return Ok(new ApiResponse(200, "Order was successfully updated"));
+            foreach(var item in existingOrder.OrderItems)
+            {
+                decimal gemPrice = 0;
+                foreach(var productGem in item.OrderItemGems)
+                {
+                    productGem.Price = productGem.Price * 0.7m;
 
-            return BadRequest(new ApiResponse(400, "Fail to update order information!"));
+                    gemPrice+= productGem.Price; 
+                }
+                item.ItemOrdered.GoldPrice = (decimal)item.ItemOrdered.GoldWeight * item.ItemOrdered.GoldPrice;
+
+                item.Price = item.ItemOrdered.GoldPrice + gemPrice + (decimal)item.ItemOrdered.ProductLabour;
+            }
+            var result = _orderService.UpdateOrder(existingOrder);
+
+            if (result.IsCompletedSuccessfully)
+                return Ok(new ApiResponse(200, "Successfully updated!"));
+                
+            return BadRequest(new ApiResponse(400, "Cannot update order!"));
         }
     }
 }
