@@ -158,9 +158,6 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
       };
 
       this.editOrCreateEmployee.emit(updatedData);
-
-      // TODO: Will create a message box showing save successfully
-      this.ref.close();
     }
   }
 }

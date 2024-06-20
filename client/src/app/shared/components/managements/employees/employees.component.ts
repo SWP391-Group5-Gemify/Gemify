@@ -21,6 +21,7 @@ import {
   ModalTitle,
 } from '../../../../core/models/modal.model';
 import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
+import { SnackbarService } from '../../../../core/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-employees',
@@ -69,7 +70,8 @@ export class EmployeesComponent implements OnInit {
   // ====================
   constructor(
     private employeeService: EmployeeService,
-    private createOrEditModal: MatDialog
+    private createOrEditModal: MatDialog,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -182,15 +184,16 @@ export class EmployeesComponent implements OnInit {
 
     // Subscribe to the EventEmitter for editing
     // - Calling the employee service for update
-    //TODO: Handle error case
     dialogRef.componentInstance.editOrCreateEmployee.subscribe({
       next: (employee: EmployeeModel) => {
         this.employeeService.updateEmployee(employee).subscribe({
           next: (value) => {
+            this.snackbarService.show('Employee updated successfully');
             this.loadEmployees();
           },
-          error(err) {
-            console.log(err);
+          error: (err) => {
+            console.error(err);
+            this.snackbarService.show('Error updating employee', 'Retry', 5000);
           },
         });
       },
