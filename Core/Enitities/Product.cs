@@ -35,7 +35,7 @@ namespace Core.Enitities
 
         public decimal? CalculatePurchaseGoldPrice()
         {
-            return (GoldWeight * GoldType.LatestAskPrice);
+            return GoldType.LatestAskPrice;
         }
     }
 }

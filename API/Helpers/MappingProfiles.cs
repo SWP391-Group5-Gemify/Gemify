@@ -22,6 +22,7 @@ namespace API.Helpers
 
             CreateMap<CustomerBasketDto, CustomerBasket>();
             CreateMap<BasketItemDto, BasketItem>();
+            CreateMap<BasketBuybackItemDto, BasketBuybackItem>();
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))

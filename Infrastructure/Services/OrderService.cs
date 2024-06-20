@@ -33,7 +33,7 @@ namespace Infrastructure.Services
 
             // Get items from product repo to prevent client from tampering with price data
             var items = new List<OrderItem>();
-            foreach (var item in basket.Items)
+            foreach (var item in basket.SaleItems)
             {
                 var spec = new ProductSpecification(item.Id);
                 var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(spec);
@@ -100,7 +100,7 @@ namespace Infrastructure.Services
             // add items in basket
             List<OrderItem> orderItemList = new List<OrderItem>();
 
-            foreach (var item in basket.Items)
+            foreach (var item in basket.BuybackItems)
             {
                 // get orderItem based on orderItemId in item
                 var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
