@@ -175,6 +175,7 @@ export class EmployeesComponent implements OnInit {
         height: '80%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
+        disableClose: true,
         data: modalDataFromParent,
       }
     );

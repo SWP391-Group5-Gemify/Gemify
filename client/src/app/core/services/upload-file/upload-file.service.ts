@@ -1,10 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from 'firebase/storage';
+import { Injectable } from '@angular/core';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { Storage } from '@angular/fire/storage';
 
 @Injectable({

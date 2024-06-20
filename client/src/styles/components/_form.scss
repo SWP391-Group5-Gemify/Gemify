@@ -20,17 +20,19 @@
 // material will override those class then we have to use !important
 
 .form--modal {
-  overflow: hidden;
+
 
   &__title {
     color: $color-primary !important;
     text-transform: uppercase !important;
     font-weight: bold !important;
+    background-color: $color-grey-light;
   }
 
   &__content {
     display: flex !important;
     flex-direction: column;
+    overflow: scroll;
     gap: 3rem;
   }
 
