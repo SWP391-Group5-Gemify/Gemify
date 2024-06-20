@@ -160,7 +160,7 @@ export class EmployeesComponent implements OnInit {
    * @param employee
    */
   openEditEmployeeModal(employee: EmployeeModel) {
-    const modalData: ModalConfigModel = {
+    const modalDataFromParent: ModalConfigModel = {
       title: ModalTitle.EditEmployeeTitle,
       mode: ModalModeEnum.Edit,
       initialData: {
@@ -172,17 +172,17 @@ export class EmployeesComponent implements OnInit {
       ModalEditCreateEmployeeComponent,
       {
         width: '80%',
-        height: '80vh',
+        height: '80%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
-        data: modalData,
+        data: modalDataFromParent,
       }
     );
 
     // Subscribe to the EventEmitter for editing
     // - Calling the employee service for update
     //TODO: Handle error case
-    dialogRef.componentInstance.editDataFromChild.subscribe({
+    dialogRef.componentInstance.editOrCreateEmployee.subscribe({
       next: (employee: EmployeeModel) => {
         this.employeeService.updateEmployee(employee).subscribe({
           next: (value) => {

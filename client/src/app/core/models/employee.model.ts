@@ -1,10 +1,10 @@
-import { UserModel } from "./user.model";
+import { UserModel } from './user.model';
 
 export interface EmployeeModel extends UserModel {
   id: number;
 }
 
 export enum EmployeeStatusEnum {
-  Active = "Active",
-  Closed = "Closed",
+  Active = 'Active',
+  Closed = 'Closed',
 }

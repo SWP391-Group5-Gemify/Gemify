@@ -23,10 +23,15 @@ import {
   GenderModel,
   GenderEnum,
 } from '../../../../../core/models/gender.model';
-import { ModalConfigModel } from '../../../../../core/models/modal.model';
+import {
+  ModalConfigModel,
+  ModalModeEnum,
+} from '../../../../../core/models/modal.model';
 import { RoleModel } from '../../../../../core/models/role.model';
 import { EmployeeService } from '../../../../../core/services/employee/employee.service';
 import EnumUtils from '../../../../utils/EnumUtils';
+import { EmployeeModel } from '../../../../../core/models/employee.model';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-modal-edit-create-employee',
@@ -42,6 +47,7 @@ import EnumUtils from '../../../../utils/EnumUtils';
     MatRadioModule,
     MatDatepickerModule,
     MatButtonToggleModule,
+    MatIcon,
   ],
   templateUrl: './modal-edit-create-employee.component.html',
   styleUrl: './modal-edit-create-employee.component.scss',
@@ -52,11 +58,11 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   // == Fields
   // =========================
 
-  @Output() editDataFromChild = new EventEmitter<any>();
+  @Output() editOrCreateEmployee = new EventEmitter<any>();
   public formEditOrCreate!: FormGroup;
-  public modalDataConfig!: ModalConfigModel;
-  public genderOptions: GenderModel[];
-  public roleOptions$!: Observable<RoleModel[]>;
+  public genderOptions!: GenderModel[];
+  public roleOptions!: RoleModel[];
+  public employee!: EmployeeModel;
 
   // =========================
   // == Life cycle
@@ -69,55 +75,61 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
    */
   constructor(
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public dataFromParent: any,
+    @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
     private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
     private employeeService: EmployeeService,
     private datePipe: DatePipe
-  ) {
-    this.genderOptions = EnumUtils.enumToObject(GenderEnum);
-    this.roleOptions$ = employeeService.getEmployeeRoles();
-  }
+  ) {}
 
   ngOnInit(): void {
-    // Load config data passed from the parent
-    this.modalDataConfig = this.dataFromParent;
+    this.employee = this.modalConfigFromParent.initialData;
 
-    this.formEditOrCreate = this.formBuilder.group({
-      fullName: [
-        this.modalDataConfig.initialData.fullName || '',
-        Validators.required,
-      ],
-      email: [
-        this.modalDataConfig.initialData.email || '',
-        [Validators.required, Validators.email],
-      ],
-
-      phoneNumber: [
-        this.modalDataConfig.initialData.phoneNumber || '',
-        Validators.required,
-      ],
-      dateOfBirth: [
-        this.modalDataConfig.initialData.dateOfBirth || '',
-        Validators.required,
-      ],
-      address: [
-        this.modalDataConfig.initialData.address || '',
-        Validators.required,
-      ],
-      gender: [
-        this.modalDataConfig.initialData.gender || GenderEnum.Male,
-        Validators.required,
-      ],
-
-      //TODO: Fix the bullshit bug coming from Backend
-      // password: [this.inputData.password || '', Validators.required],
-      // role: [this.inputData.role || RoleEnum.Seller || '', Validators.required],
-    });
+    switch (this.modalConfigFromParent.mode) {
+      case ModalModeEnum.Edit: {
+        this.loadFormIfEdit();
+        this.genderOptions = EnumUtils.enumToObject(GenderEnum);
+        break;
+      }
+      case ModalModeEnum.Create: {
+        this.loadRoles();
+        this.genderOptions = EnumUtils.enumToObject(GenderEnum);
+        break;
+      }
+    }
   }
 
   // =========================
   // == Methods
   // =========================
+
+  /**
+   * Load all roles within the database
+   */
+  loadRoles() {
+    this.employeeService.getEmployeeRoles().subscribe({
+      next: (response: RoleModel[]) => {
+        this.roleOptions = response;
+      },
+    });
+  }
+
+  /**
+   * Set initial values for forms if in EDIT mode
+   */
+  loadFormIfEdit() {
+    this.formEditOrCreate = this.formBuilder.group({
+      fullName: [this.employee.fullName || '', Validators.required],
+      email: [
+        this.employee.email || '',
+        [Validators.required, Validators.email],
+      ],
+      phoneNumber: [this.employee.phoneNumber || '', Validators.required],
+      dateOfBirth: [this.employee.dateOfBirth || '', Validators.required],
+      address: [this.employee.address || '', Validators.required],
+      gender: [this.employee.gender || GenderEnum.Male, Validators.required],
+    });
+  }
+
   /**
    * Close the modal
    * - Pass the edited data back to the parent
@@ -140,13 +152,14 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
       );
 
       const updatedData = {
-        ...this.modalDataConfig.initialData,
+        ...this.modalConfigFromParent.initialData,
         ...this.formEditOrCreate.value,
         dateOfBirth: dateFormatted,
       };
 
-      // Let the base class handle the event
-      this.editDataFromChild.emit(updatedData);
+      this.editOrCreateEmployee.emit(updatedData);
+
+      // TODO: Will create a message box showing save successfully
       this.ref.close();
     }
   }
