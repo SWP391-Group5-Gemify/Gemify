@@ -89,35 +89,21 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
-        [Authorize(Roles = "Repurchaser")]
+        [Authorize]
         [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateOrder(int id, OrderDto orderDto)
+        public async Task<ActionResult<Order>> UpdateOrder(int id,[FromQuery] string status)
         {
             var existingOrder = await _orderService.GetOrderByIdAsync(id);
             if (existingOrder == null)
                 return NotFound(new ApiResponse(404, "This order does not exist"));
 
-            existingOrder = _mapper.Map(orderDto, existingOrder);
-
-            foreach(var item in existingOrder.OrderItems)
-            {
-                decimal gemPrice = 0;
-                foreach(var productGem in item.OrderItemGems)
-                {
-                    productGem.Price = productGem.Price * 0.7m;
-
-                    gemPrice+= productGem.Price; 
-                }
-                item.ItemOrdered.GoldPrice = (decimal)item.ItemOrdered.GoldWeight * item.ItemOrdered.GoldPrice;
-
-                item.Price = item.ItemOrdered.GoldPrice + gemPrice + (decimal)item.ItemOrdered.ProductLabour;
-            }
-            var result = _orderService.UpdateOrder(existingOrder);
+            existingOrder.Status = status;
+            var result = _orderService.UpdateOrderAsync(existingOrder);
 
             if (result.IsCompletedSuccessfully)
-                return Ok(new ApiResponse(200, "Successfully updated!"));
+                return Ok(existingOrder);
                 
-            return BadRequest(new ApiResponse(400, "Cannot update order!"));
+            return BadRequest(existingOrder);
         }
     }
 }
