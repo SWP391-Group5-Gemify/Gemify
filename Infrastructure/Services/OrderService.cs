@@ -164,7 +164,7 @@ namespace Infrastructure.Services
             return order;
         }
 
-        public async Task<int> UpdateOrder(Order order)
+        public async Task<int> UpdateOrderAsync(Order order)
         {
             _unitOfWork.Repository<Order>().Update(order);
             return await _unitOfWork.Complete();
