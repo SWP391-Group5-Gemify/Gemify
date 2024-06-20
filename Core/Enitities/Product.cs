@@ -32,10 +32,5 @@ namespace Core.Enitities
         public SaleCounter SaleCounter { get; set; }
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
         public IReadOnlyList<GemType> Gems { get; set; }
-
-        public decimal? CalculatePurchaseGoldPrice()
-        {
-            return GoldType.LatestAskPrice;
-        }
     }
 }

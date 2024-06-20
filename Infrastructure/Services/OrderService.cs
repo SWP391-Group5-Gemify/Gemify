@@ -121,24 +121,23 @@ namespace Infrastructure.Services
                         var buyBackGemsItemOrdered = new ProductGemsItemOrdered(gemItemOrdered.GemName, gemItemOrdered.GemColor,
                             gemItemOrdered.GemWeight, purchaseGemPrice, gemItemOrdered.GemCarat, gemItemOrdered.GemClarity,
                             gemItemOrdered.GemCertificateCode);
-                        // calculate total price of a type of gem
-                        var purchaseGemsPrice = purchaseGemPrice * pg.Quantity;
 
                         // create buy-back order item gem
-                        var buyBackOrderItemGem = new OrderItemGem(buyBackGemsItemOrdered, purchaseGemsPrice, pg.Quantity);
+                        var buyBackOrderItemGem = new OrderItemGem(buyBackGemsItemOrdered, purchaseGemPrice, pg.Quantity);
 
                         buyBackOrderItemGemList.Add(buyBackOrderItemGem);
                     }
                 }
 
                 // get purchase gold price
-                var purchaseGoldPrice = (decimal)-product.CalculatePurchaseGoldPrice();
+                var purchaseGoldPrice = -product.GoldType.LatestAskPrice;
                 // create item ordered
                 var buyBackItemOrdered = new ProductItemOrdered(product.Id, product.Name, purchaseGoldPrice,
-                product.GoldType.Name, product.GoldWeight, 0, product.GoldType.Unit,
+                product.GoldType.Name, item.GoldWeight, 0, product.GoldType.Unit,
                 product.TotalWeight, product.ImageUrl);
                 // calculate purchase product price
-                var purchaseProductPrice = buyBackOrderItemGemList.Aggregate(buyBackItemOrdered.GoldPrice, (acc, g) => acc + g.Price);
+                var purchaseProductPrice = (decimal) buyBackOrderItemGemList
+                    .Aggregate(buyBackItemOrdered.GoldPrice*buyBackItemOrdered.GoldWeight, (acc, g) => acc + g.Price*g.Quantity);
                 // create buy-back order item
                 var buyBackOrderItem = new OrderItem(buyBackItemOrdered, purchaseProductPrice, item.Quantity, buyBackOrderItemGemList);
 

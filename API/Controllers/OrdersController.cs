@@ -68,7 +68,7 @@ namespace API.Controllers
                 (orderSpecParams.PageIndex,orderSpecParams.PageSize,totalOrders,data));
         }
 
-        [Authorize(Roles = "Repurchaser")]
+        [Authorize(Roles = "Cashier")]
         [HttpPost("buyback")]
         public async Task<ActionResult<OrderToReturnDto>> CreateBuyBackOrder(OrderDto orderDto)
         {
@@ -89,7 +89,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Cashier")]
         [HttpPut("update/{id}")]
         public async Task<ActionResult<Order>> UpdateOrder(int id,[FromQuery] string status)
         {
@@ -98,12 +98,12 @@ namespace API.Controllers
                 return NotFound(new ApiResponse(404, "This order does not exist"));
 
             existingOrder.Status = status;
-            var result = _orderService.UpdateOrderAsync(existingOrder);
+            var result = await _orderService.UpdateOrderAsync(existingOrder);
 
-            if (result.IsCompletedSuccessfully)
-                return Ok(existingOrder);
+            if (result > 0)
+                return Ok(new ApiResponse(200, "Successfully updated!"));
                 
-            return BadRequest(existingOrder);
+            return BadRequest(new ApiResponse(400, "Failed to update!"));
         }
     }
 }
