@@ -66,6 +66,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   public genderOptions!: GenderModel[];
   public roleOptions!: DropdownModel[];
   public employee!: EmployeeModel;
+  public modalModes!: ModalEmployeeModeEnum;
 
   // =========================
   // == Life cycle
@@ -107,6 +108,10 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   // =========================
   // == Methods
   // =========================
+
+  isCreateMode(): boolean {
+    return this.modalConfigFromParent.mode == ModalEmployeeModeEnum.Create;
+  }
 
   /**
    * Load all roles within the database

@@ -10,7 +10,7 @@ import {
   ModalEmployeeModeEnum,
   ModalEmployeeTitle,
 } from '../../../core/models/modal.model';
-import { FormViewModalComponent } from '../../../shared/components/managements/employees/modal-view-employee/form-view-modal.component';
+import { ModalViewEmployeeComponent } from '../../../shared/components/managements/employees/modal-view-employee/modal-view-employee.component';
 
 @Component({
   selector: 'app-header',
@@ -26,20 +26,15 @@ export class HeaderComponent {
   private currentUserProfile!: UserModel;
 
   // Components if not login
-  public navLinksNotLogin = [
-    { id: 1, name: 'Login to System', route: '/' },
-    { id: 2, name: 'Gold Chart', route: '/gold-chart' },
-  ];
-
-  public navLinksAlreadyLogin = [
-    {
-      id: 3,
+  public navLinks = {
+    login: { name: 'Login to System', route: '/' },
+    goldChart: { name: 'Gold Chart', route: '/gold-chart' },
+    showProfile: {
       name: 'Show My Profile',
       action: () => this.openCurrentUserModal(),
     },
-    { id: 4, name: 'Logout', action: () => this.logout() },
-  ];
-
+    logout: { name: 'Logout', action: () => this.logout() },
+  };
   // ================================
   // == Life Cycle
   // ================================
@@ -91,7 +86,7 @@ export class HeaderComponent {
       },
     };
 
-    const dialogRef = this.viewModal.open(FormViewModalComponent, {
+    const dialogRef = this.viewModal.open(ModalViewEmployeeComponent, {
       width: '40%',
       height: '40vh',
       enterAnimationDuration: '300ms',

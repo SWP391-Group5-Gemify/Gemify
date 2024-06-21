@@ -8,31 +8,36 @@
 
   <mat-dialog-content class="form--modal__content u-padding-top-medium">
 
-    <!-- Roles -->
-    <app-generic-dropdown label="Select Roles"
-                          [options]="roleOptions"
-                          (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
-    </app-generic-dropdown>
+    <ng-container *ngIf="isCreateMode()">
 
-    <!-- TODO: IMAGE UPLOAD HERE -->
+      <!-- Roles -->
+      <app-generic-dropdown label="
+                  Select
+                  Roles"
+                            [options]="roleOptions"
+                            (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
+      </app-generic-dropdown>
 
-    <!-- Username -->
-    <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
-      <input matInput
-             type="text"
-             formControlName="userName"
-             name="userName">
-    </mat-form-field>
+      <!-- TODO: IMAGE UPLOAD HERE -->
 
-    <!-- Password -->
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput
-             type="text"
-             formControlName="password"
-             name="password">
-    </mat-form-field>
+      <!-- Username -->
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput
+               type="text"
+               formControlName="userName"
+               name="userName">
+      </mat-form-field>
+
+      <!-- Password -->
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput
+               type="text"
+               formControlName="password"
+               name="password">
+      </mat-form-field>
+    </ng-container>
 
     <!-- Gender -->
     <mat-radio-group aria-label="Select your gender"
