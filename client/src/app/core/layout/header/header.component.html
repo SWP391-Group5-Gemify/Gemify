@@ -8,18 +8,15 @@
   <!-- A group of action buttons -->
   <nav class="header__actions">
     @if (!(authService.isLoggedIn$ | async)) {
-    @for (link of navLinksNotLogin; track $index) {
-    <a href="#"
-       class="btn btn--grad"
-       routerLink="{{link.route}}">{{link.name}}</a>
-    }
+    <a class="btn btn--grad"
+       routerLink="{{navLinks.login.route}}">{{navLinks.login.name}}</a>
+    <a class="btn btn--grad"
+       routerLink="{{navLinks.goldChart.route}}">{{navLinks.goldChart.name}}</a>
     } @else {
-    @for (link of navLinksAlreadyLogin; track $index) {
-    <a (click)="link.action()"
-       class="btn btn--grad">{{link.name}}</a>
-    }
-
-    <!-- A shopping cart -->
+    <a class="btn btn--grad"
+       (click)="navLinks.logout.action()">{{navLinks.logout.name}}</a>
+    <a class="btn btn--grad"
+       (click)="navLinks.showProfile.action()">{{navLinks.showProfile.name}}</a>
     }
   </nav>
 

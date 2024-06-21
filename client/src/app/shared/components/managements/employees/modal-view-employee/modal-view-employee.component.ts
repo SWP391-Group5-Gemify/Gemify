@@ -16,9 +16,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { ModalConfigModel } from '../../../../../core/models/modal.model';
+import { MatIcon } from '@angular/material/icon';
+import { AuthService } from '../../../../../core/services/auth/auth.service';
 
 @Component({
-  selector: 'app-form-view-modal',
+  selector: 'app-modal-view-employee',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,26 +32,49 @@ import { ModalConfigModel } from '../../../../../core/models/modal.model';
     ReactiveFormsModule,
     MatRadioModule,
     MatDatepickerModule,
+    MatIcon,
     MatButtonToggleModule,
   ],
-  templateUrl: './form-view-modal.component.html',
-  styleUrl: './form-view-modal.component.scss',
+  templateUrl: './modal-view-employee.component.html',
+  styleUrl: './modal-view-employee.component.scss',
   providers: [provideNativeDateAdapter()],
 })
-export class FormViewModalComponent implements OnInit {
+export class ModalViewCurrentUserComponent implements OnInit {
   // =========================
   // == Fields
   // =========================
-  public modalDataConfig!: ModalConfigModel;
+  public currentUserInfo!: UserModel;
 
   // =========================
   // == Life cycle
   // =========================
   constructor(
-    private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataFromParent: any
+    @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
+    private modalRef: MatDialogRef<ModalViewCurrentUserComponent>,
+    private authService: AuthService
   ) {}
+
   ngOnInit(): void {
-    this.modalDataConfig = this.dataFromParent;
+    this.loadCurrentUser();
+  }
+
+  // =========================
+  // == Methods
+  // =========================
+
+  /**
+   * Load the current user
+   */
+  loadCurrentUser() {
+    this.authService.getCurrentUserProfile().subscribe((user: UserModel) => {
+      this.currentUserInfo = user;
+    });
+  }
+
+  /**
+   * Closing the modal
+   */
+  onCloseModal() {
+    this.modalRef.close();
   }
 }

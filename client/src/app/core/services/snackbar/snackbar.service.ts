@@ -8,7 +8,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class SnackbarService {
+export class NotificationService {
   // =============================
   // == Fields
   // =============================

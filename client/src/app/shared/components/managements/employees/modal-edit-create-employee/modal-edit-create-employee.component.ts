@@ -18,21 +18,20 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { Observable } from 'rxjs';
 import {
   GenderModel,
   GenderEnum,
 } from '../../../../../core/models/gender.model';
 import {
   ModalConfigModel,
-  ModalEmployeeModeEnum,
+  ModalModeEnum,
 } from '../../../../../core/models/modal.model';
 import { RoleEnum, RoleModel } from '../../../../../core/models/role.model';
 import { EmployeeService } from '../../../../../core/services/employee/employee.service';
 import EnumUtils from '../../../../utils/EnumUtils';
 import { EmployeeModel } from '../../../../../core/models/employee.model';
 import { MatIcon } from '@angular/material/icon';
-import { SnackbarService } from '../../../../../core/services/snackbar/snackbar.service';
+import { NotificationService } from '../../../../../core/services/snackbar/snackbar.service';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../../core/models/dropdown.model';
 
@@ -66,6 +65,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   public genderOptions!: GenderModel[];
   public roleOptions!: DropdownModel[];
   public employee!: EmployeeModel;
+  public modalModes!: ModalModeEnum;
 
   // =========================
   // == Life cycle
@@ -82,20 +82,22 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
     private modalRef: MatDialogRef<ModalEditCreateEmployeeComponent>,
     private employeeService: EmployeeService,
     private datePipe: DatePipe,
-    private snackbarService: SnackbarService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.employee =
       this.modalConfigFromParent.initialData ?? new EmployeeModel();
 
+    console.table(this.employee);
+
     switch (this.modalConfigFromParent.mode) {
-      case ModalEmployeeModeEnum.Edit: {
+      case ModalModeEnum.Edit: {
         this.loadFormIfEdit();
         this.loadGenderRadioButtons();
         break;
       }
-      case ModalEmployeeModeEnum.Create: {
+      case ModalModeEnum.Create: {
         this.loadRoles();
         this.loadGenderRadioButtons();
         this.loadFormIfCreate();
@@ -107,6 +109,10 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   // =========================
   // == Methods
   // =========================
+
+  isCreateMode(): boolean {
+    return this.modalConfigFromParent.mode == ModalModeEnum.Create;
+  }
 
   /**
    * Load all roles within the database
@@ -205,7 +211,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
       };
 
       // Based on the mode to handle the related action
-      if (ModalEmployeeModeEnum.Edit) {
+      if (this.modalConfigFromParent.mode == ModalModeEnum.Edit) {
         this.editEmployee(dataFromForm);
       } else {
         this.createEmployee(dataFromForm);
@@ -216,14 +222,14 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   editEmployee(updatedEmployee: EmployeeModel) {
     this.employeeService.updateEmployee(updatedEmployee).subscribe({
       next: (response: any) => {
-        this.snackbarService.show(
+        this.notificationService.show(
           `Employee with ID = ${this.employee?.id} updated successfully`
         );
       },
 
       error: (err) => {
         console.error(err);
-        this.snackbarService.show('Error updating employee', 'Retry', 5000);
+        this.notificationService.show('Error updating employee', 'Retry', 5000);
       },
     });
   }
@@ -233,7 +239,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
 
     this.employeeService.registerNewEmployee(newEmployee).subscribe({
       next: (response: any) => {
-        this.snackbarService.show(`Create new account for `);
+        this.notificationService.show(`Create new account for `);
       },
     });
   }

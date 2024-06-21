@@ -5,7 +5,7 @@ import { Storage } from '@angular/fire/storage';
 @Injectable({
   providedIn: 'root',
 })
-export class UploadFileService {
+export class FileService {
   // Base path for storing policy documents
   private basePath = '/documents/policy';
   /*
