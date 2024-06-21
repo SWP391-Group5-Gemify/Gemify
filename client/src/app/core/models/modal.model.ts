@@ -1,18 +1,18 @@
-export enum ModalTitle {
+export enum ModalEmployeeTitle {
   EditEmployeeTitle = 'Edit Employee',
   CreateEmployeeTitle = 'Create Employee',
   ViewCurrentUserProfileTitle = 'My Profile',
 }
 
-export enum ModalModeEnum {
+export enum ModalEmployeeModeEnum {
   Edit,
   View,
   Create,
 }
 
 export interface ModalConfigModel {
-  title: ModalTitle;
-  mode: ModalModeEnum;
+  title: ModalEmployeeTitle;
+  mode: ModalEmployeeModeEnum;
   initialData?: any; // Additional data for the modal
   closeButtonLabel?: string; // Optional label for the close button
   saveButtonLabel?: string;
