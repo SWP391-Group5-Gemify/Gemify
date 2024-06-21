@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Core.Enitities;
 using System.Security.Claims;
 using Infrastructure.Services;
+using Core.Specifications.Customers;
+using Core.Enitities.Identity;
 
 namespace API.Controllers
 {
@@ -66,13 +68,14 @@ namespace API.Controllers
                 (orderSpecParams.PageIndex,orderSpecParams.PageSize,totalOrders,data));
         }
 
-        [Authorize(Roles = "Repurchaser")]
+        [Authorize(Roles = "Cashier")]
         [HttpPost("buyback")]
         public async Task<ActionResult<OrderToReturnDto>> CreateBuyBackOrder(OrderDto orderDto)
         {
             // get userId whose create order
 
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            if (user == null) return BadRequest(new ApiResponse(400, "Error while creating buy-back order"));
             var userId = user.Id;
 
             // create buy back order
@@ -86,6 +89,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
+
         [HttpGet("types")]
         [Authorize]
         public async Task<ActionResult<IReadOnlyList<OrderType>>> GetAllOrderTypes()
@@ -94,21 +98,21 @@ namespace API.Controllers
             return Ok(orderTypes);
         }
 
-        // [Authorize(Roles = "Repurchaser, Appraiser, Cashier")]
-        // [HttpPost("update/{id}")]
-        // public async Task<ActionResult> UpdateOrder(int id, OrderDto orderDto)
-        // {
-        //     var existingOrder = await _orderService.GetOrderByIdAsync(id);
-        //     if (existingOrder == null)
-        //         return NotFound(new ApiResponse(404, "This order does not exist!"));
+        [Authorize(Roles = "Cashier")]
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult<Order>> UpdateOrder(int id,[FromQuery] string status)
+        {
+            var existingOrder = await _orderService.GetOrderByIdAsync(id);
+            if (existingOrder == null)
+                return NotFound(new ApiResponse(404, "This order does not exist"));
 
-        //     _mapper.Map(orderDto, existingOrder);
+            existingOrder.Status = status;
+            var result = await _orderService.UpdateOrderAsync(existingOrder);
 
-        //     //return existingOrder;
-        //     if (await _orderService.UpdateOrder(existingOrder) > 0)
-        //         return Ok(new ApiResponse(200, "Order was successfully updated"));
-
-        //     return BadRequest(new ApiResponse(400, "Fail to update order information!"));
-        // }
+            if (result > 0)
+                return Ok(new ApiResponse(200, "Successfully updated!"));
+                
+            return BadRequest(new ApiResponse(400, "Failed to update!"));
+        }
     }
 }

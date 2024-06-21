@@ -2,7 +2,7 @@
 
 namespace API.Dtos
 {
-    public class BasketItemDto 
+    public class BasketBuybackItemDto
     {
         [Required]
         public int Id { get; set; }
@@ -15,6 +15,7 @@ namespace API.Dtos
         [Range(1, double.MaxValue, ErrorMessage = "Quantity must be at least 1")]
         public int Quantity { get; set; }
         [Required]
-        public string PictureUrl { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Gold Weight must be at least 0")]
+        public decimal GoldWeight { get; set; }
     }
 }

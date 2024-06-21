@@ -42,5 +42,6 @@ namespace Core.Enitities
         {
             return GoldWeight * GoldType.LatestAskPrice;
         }
+
     }
 }

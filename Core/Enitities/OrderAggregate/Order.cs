@@ -46,7 +46,7 @@ namespace Core.Enitities.OrderAggregate
         public Promotion Promotion { get; set; }
 
         // Later changed due to Promotion and Membership benefits
-        public decimal GetTotal()
+        public decimal? GetTotal()
         {
             if (PromotionId == null) return SubTotal;   
             return SubTotal - (SubTotal * (Promotion.Discount/100));

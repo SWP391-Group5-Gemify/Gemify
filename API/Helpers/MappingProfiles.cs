@@ -22,6 +22,7 @@ namespace API.Helpers
 
             CreateMap<CustomerBasketDto, CustomerBasket>();
             CreateMap<BasketItemDto, BasketItem>();
+            CreateMap<BasketBuybackItemDto, BasketBuybackItem>();
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))
@@ -89,6 +90,8 @@ namespace API.Helpers
                 .ForMember(d => d.Unit, o => o.MapFrom(s => s.ItemOrdered.Unit))
                 .ForMember(d => d.Image_Url, o => o.MapFrom(s => s.ItemOrdered.Image_Url));
 
+            CreateMap<OrderItemDto, OrderItem>();
+
             CreateMap<Order, OrderToReturnDto>()
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.Customer.Name))
                 .ForMember(d => d.Phone, o => o.MapFrom(s => s.Customer.Phone))
@@ -96,6 +99,8 @@ namespace API.Helpers
                 .ForMember(d => d.PromotionCode, o => o.MapFrom(s => s.Promotion.Code))
                 .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount))
                 .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.Name));
+
+            CreateMap<OrderDto, Order>();
         }
     }
 }
