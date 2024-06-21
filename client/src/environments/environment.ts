@@ -2,6 +2,6 @@ export const environment = {
   production: false,
   baseApiUrl: 'https://localhost:5001/api',
   firebaseConfig: {
-    // API KEY
+    // YOUR API
   },
 };
