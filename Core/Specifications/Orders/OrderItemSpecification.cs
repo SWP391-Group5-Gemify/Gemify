@@ -1,4 +1,4 @@
-﻿
+
 using Core.Enitities.OrderAggregate;
 
 namespace Core.Specifications.Orders
