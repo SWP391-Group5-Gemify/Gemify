@@ -1,24 +1,24 @@
-import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable, tap } from "rxjs";
-import { UserModel } from "../../models/user.model";
-import { RoleEnum } from "../../models/role.model";
+import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { UserModel } from '../../models/user.model';
+import { RoleEnum } from '../../models/role.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   // ====================
   // == Fields
   // ====================
-  private baseAccountUrl = environment.baseApiUrl.concat("/account");
+  private baseAccountUrl = environment.baseApiUrl.concat('/account');
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
 
   // external access to change component's layout
   public isLoggedIn$ = this._isLoggedIn$.asObservable();
   public currentUser?: UserModel;
-  private readonly TOKEN_NAME = "jwt_token";
+  private readonly TOKEN_NAME = 'jwt_token';
 
   // ====================
   // == Lifecycle
@@ -80,7 +80,7 @@ export class AuthService {
    */
   public getCurrentUserFromToken(token: string | null): UserModel | undefined {
     return token
-      ? (JSON.parse(atob(token?.split(".")[1])) as UserModel)
+      ? (JSON.parse(atob(token?.split('.')[1])) as UserModel)
       : undefined;
   }
 

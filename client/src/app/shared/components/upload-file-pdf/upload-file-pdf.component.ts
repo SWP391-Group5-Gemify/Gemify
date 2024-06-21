@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { UploadFileService } from '../../../core/services/upload-file/upload-file.service';
+import { FileService } from '../../../core/services/file/file.service';
 
 @Component({
   selector: 'app-upload-file-pdf',
@@ -14,7 +14,7 @@ export class UploadFilePdfComponent {
   downloadURLs: string[] = [];
   selectedFiles?: FileList;
 
-  constructor(private uploadFileService: UploadFileService) {}
+  constructor(private uploadFileService: FileService) {}
 
   onFileSelected(event: any): void {
     this.selectedFiles = event.target.files;

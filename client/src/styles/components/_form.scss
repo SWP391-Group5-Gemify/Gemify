@@ -20,7 +20,6 @@
 // material will override those class then we have to use !important
 
 .form--modal {
-
   &__title {
     color: $color-primary !important;
     text-transform: uppercase !important;

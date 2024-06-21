@@ -7,15 +7,16 @@ import { UserModel } from '../../../core/models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import {
   ModalConfigModel,
-  ModalEmployeeModeEnum,
-  ModalEmployeeTitle,
+  ModalModeEnum,
+  ModalTitle,
 } from '../../../core/models/modal.model';
-import { ModalViewEmployeeComponent } from '../../../shared/components/managements/employees/modal-view-employee/modal-view-employee.component';
+import { ModalViewCurrentUserComponent } from '../../../shared/components/managements/employees/modal-view-employee/modal-view-employee.component';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, LogoComponent, CommonModule],
+  imports: [RouterLink, LogoComponent, CommonModule, MatIcon],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -23,7 +24,6 @@ export class HeaderComponent {
   // ================================
   // == Fields
   // ================================
-  private currentUserProfile!: UserModel;
 
   // Components if not login
   public navLinks = {
@@ -57,41 +57,22 @@ export class HeaderComponent {
   }
 
   /**
-   * Load the current user profile
-   */
-  loadCurrentUserProfile() {
-    this.authService.getCurrentUserProfile().subscribe({
-      next: (data: UserModel) => {
-        this.currentUserProfile = data;
-      },
-
-      error: (err) => {
-        // Handle Error later
-        console.error(err);
-      },
-    });
-  }
-
-  /**
    * Open the modal for viewing
    */
   openCurrentUserModal() {
-    this.loadCurrentUserProfile();
-
     const modalData: ModalConfigModel = {
-      title: ModalEmployeeTitle.ViewCurrentUserProfileTitle,
-      mode: ModalEmployeeModeEnum.View,
-      initialData: {
-        ...this.currentUserProfile,
-      },
+      title: ModalTitle.ViewCurrentUserProfileTitle,
+      mode: ModalModeEnum.View,
+      closeButtonLabel: 'Close Profile',
     };
 
-    const dialogRef = this.viewModal.open(ModalViewEmployeeComponent, {
+    const dialogRef = this.viewModal.open(ModalViewCurrentUserComponent, {
       width: '40%',
-      height: '40vh',
+      height: '74%',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
       data: modalData,
+      disableClose: true,
     });
   }
 }
