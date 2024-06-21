@@ -83,18 +83,6 @@ export const routes: Routes = [
       role: [RoleEnum.Seller],
     },
   },
-
-  {
-    path: 'appraiser',
-    loadChildren: () =>
-      import('./shared/routes/dashboards/appraiser-routing.module').then(
-        (m) => m.AppraiserRoutingModule
-      ),
-    canActivate: [authGuard, roleGuard],
-    data: {
-      role: [RoleEnum.Appraiser],
-    },
-  },
   {
     path: 'repurchaser',
     loadChildren: () =>

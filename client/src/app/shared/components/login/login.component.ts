@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { MatInputModule } from "@angular/material/input";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { Component, OnInit } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormGroup,
   FormsModule,
@@ -10,15 +10,15 @@ import {
   FormControl,
   FormBuilder,
   Validators,
-} from "@angular/forms";
-import { CommonModule } from "@angular/common";
-import { AuthService } from "../../../core/services/auth/auth.service";
-import { Router } from "@angular/router";
-import { RoleEnum } from "../../../core/models/role.model";
-import { UserModel } from "../../../core/models/user.model";
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { Router } from '@angular/router';
+import { RoleEnum } from '../../../core/models/role.model';
+import { UserModel } from '../../../core/models/user.model';
 
 @Component({
-  selector: "app-login",
+  selector: 'app-login',
   standalone: true,
   imports: [
     MatInputModule,
@@ -29,8 +29,8 @@ import { UserModel } from "../../../core/models/user.model";
     ReactiveFormsModule,
     CommonModule,
   ],
-  templateUrl: "./login.component.html",
-  styleUrl: "./login.component.scss",
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   // ============================
@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
 
   signInForm!: FormGroup;
   contact = {
-    text: "If you forgot your password. Please contact admin",
-    number: "0909 312 423",
+    text: 'If you forgot your password. Please contact admin',
+    number: '0909 312 423',
   };
 
   // ============================
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.signInForm = this.formBuilder.group({
       // required, min length is 6, max is 32, receive a to z, case insensitive
       userName: new FormControl(
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
         ])
       ),
 
-      password: new FormControl("", Validators.compose([Validators.required])),
+      password: new FormControl('', Validators.compose([Validators.required])),
     });
   }
 
@@ -85,19 +85,19 @@ export class LoginComponent implements OnInit {
   // Checking if the input is valid or not for mat-errors
   updateErrorMessage(controlName: string): string {
     const control = this.signInForm.get(controlName);
-    let errorMessage: string = "";
+    let errorMessage: string = '';
 
     switch (true) {
-      case control?.hasError("required"):
-        errorMessage = "This field is required";
+      case control?.hasError('required'):
+        errorMessage = 'This field is required';
         break;
-      case control?.hasError("minlength") || control?.hasError("maxLength"):
-        errorMessage = "Must be between 6 and 32 characters long";
+      case control?.hasError('minlength') || control?.hasError('maxLength'):
+        errorMessage = 'Must be between 6 and 32 characters long';
         break;
-      case control?.hasError("pattern"):
-        if (controlName === "userName") {
+      case control?.hasError('pattern'):
+        if (controlName === 'userName') {
           errorMessage =
-            "Username must contain only letters and between 6 and 32 characters long";
+            'Username must contain only letters and between 6 and 32 characters long';
         }
         break;
     }
@@ -134,34 +134,30 @@ export class LoginComponent implements OnInit {
    * @param role
    */
   redirectToDashboardPath(role: RoleEnum | undefined) {
-    let pathToDashboard: string = "";
+    let pathToDashboard: string = '';
     switch (role) {
       case RoleEnum.StoreOwner: {
-        pathToDashboard = "/store-owner";
+        pathToDashboard = '/store-owner';
         break;
       }
       case RoleEnum.StoreManager: {
-        pathToDashboard = "/store-manager";
-        break;
-      }
-      case RoleEnum.Appraiser: {
-        pathToDashboard = "/appraiser";
+        pathToDashboard = '/store-manager';
         break;
       }
       case RoleEnum.Cashier: {
-        pathToDashboard = "/cashier";
+        pathToDashboard = '/cashier';
         break;
       }
       case RoleEnum.Repurchaser: {
-        pathToDashboard = "/repurchaser";
+        pathToDashboard = '/repurchaser';
         break;
       }
       case RoleEnum.Seller: {
-        pathToDashboard = "/seller";
+        pathToDashboard = '/seller';
         break;
       }
       default: {
-        pathToDashboard = "/";
+        pathToDashboard = '/';
         break;
       }
     }
