@@ -17,11 +17,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { RoleModel } from '../../../../core/models/role.model';
 import {
   ModalConfigModel,
-  ModalModeEnum,
-  ModalTitle,
+  ModalEmployeeModeEnum,
+  ModalEmployeeTitle,
 } from '../../../../core/models/modal.model';
 import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
-import { SnackbarService } from '../../../../core/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-employees',
@@ -70,8 +69,7 @@ export class EmployeesComponent implements OnInit {
   // ====================
   constructor(
     private employeeService: EmployeeService,
-    private createOrEditModal: MatDialog,
-    private snackbarService: SnackbarService
+    private createOrEditModal: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -147,7 +145,7 @@ export class EmployeesComponent implements OnInit {
    * Disable Employee's status
    * @param employee
    */
-  disableEmployee(employee: EmployeeModel) {
+  onDisableEmployee(employee: EmployeeModel) {
     this.employeeService.disableEmployee(employee.id).subscribe({
       next: (response) => {
         this.loadEmployees();
@@ -161,42 +159,49 @@ export class EmployeesComponent implements OnInit {
    * - When open, pass data from parent to child
    * @param employee
    */
-  openEditEmployeeModal(employee: EmployeeModel) {
+  onOpenEditEmployeeModal(employee: EmployeeModel) {
     const modalDataFromParent: ModalConfigModel = {
-      title: ModalTitle.EditEmployeeTitle,
-      mode: ModalModeEnum.Edit,
+      title: ModalEmployeeTitle.EditEmployeeTitle,
+      mode: ModalEmployeeModeEnum.Edit,
       initialData: {
         ...employee,
       },
     };
 
-    const dialogRef = this.createOrEditModal.open(
-      ModalEditCreateEmployeeComponent,
-      {
+    this.createOrEditModal
+      .open(ModalEditCreateEmployeeComponent, {
         width: '80%',
         height: '80%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
         disableClose: true,
         data: modalDataFromParent,
-      }
-    );
+      })
+      .beforeClosed()
+      .subscribe(() => {
+        this.loadEmployees();
+      });
+  }
 
-    // Subscribe to the EventEmitter for editing
-    // - Calling the employee service for update
-    dialogRef.componentInstance.editOrCreateEmployee.subscribe({
-      next: (employee: EmployeeModel) => {
-        this.employeeService.updateEmployee(employee).subscribe({
-          next: (value) => {
-            this.snackbarService.show('Employee updated successfully');
-            this.loadEmployees();
-          },
-          error: (err) => {
-            console.error(err);
-            this.snackbarService.show('Error updating employee', 'Retry', 5000);
-          },
-        });
-      },
-    });
+  onCreateNewEmployee() {
+    const modalDataFromParent: ModalConfigModel = {
+      title: ModalEmployeeTitle.CreateEmployeeTitle,
+      mode: ModalEmployeeModeEnum.Create,
+      initialData: null,
+    };
+
+    this.createOrEditModal
+      .open(ModalEditCreateEmployeeComponent, {
+        width: '80%',
+        height: '80%',
+        enterAnimationDuration: '300ms',
+        exitAnimationDuration: '300ms',
+        disableClose: true,
+        data: modalDataFromParent,
+      })
+      .beforeClosed()
+      .subscribe(() => {
+        this.loadEmployees();
+      });
   }
 }

@@ -7,8 +7,8 @@ import { UserModel } from '../../../core/models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import {
   ModalConfigModel,
-  ModalModeEnum,
-  ModalTitle,
+  ModalEmployeeModeEnum,
+  ModalEmployeeTitle,
 } from '../../../core/models/modal.model';
 import { FormViewModalComponent } from '../../../shared/components/managements/employees/modal-view-employee/form-view-modal.component';
 
@@ -84,8 +84,8 @@ export class HeaderComponent {
     this.loadCurrentUserProfile();
 
     const modalData: ModalConfigModel = {
-      title: ModalTitle.ViewCurrentUserProfileTitle,
-      mode: ModalModeEnum.View,
+      title: ModalEmployeeTitle.ViewCurrentUserProfileTitle,
+      mode: ModalEmployeeModeEnum.View,
       initialData: {
         ...this.currentUserProfile,
       },

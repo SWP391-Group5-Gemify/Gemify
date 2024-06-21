@@ -25,13 +25,16 @@ import {
 } from '../../../../../core/models/gender.model';
 import {
   ModalConfigModel,
-  ModalModeEnum,
+  ModalEmployeeModeEnum,
 } from '../../../../../core/models/modal.model';
-import { RoleModel } from '../../../../../core/models/role.model';
+import { RoleEnum, RoleModel } from '../../../../../core/models/role.model';
 import { EmployeeService } from '../../../../../core/services/employee/employee.service';
 import EnumUtils from '../../../../utils/EnumUtils';
 import { EmployeeModel } from '../../../../../core/models/employee.model';
 import { MatIcon } from '@angular/material/icon';
+import { SnackbarService } from '../../../../../core/services/snackbar/snackbar.service';
+import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
+import { DropdownModel } from '../../../../../core/models/dropdown.model';
 
 @Component({
   selector: 'app-modal-edit-create-employee',
@@ -48,6 +51,7 @@ import { MatIcon } from '@angular/material/icon';
     MatDatepickerModule,
     MatButtonToggleModule,
     MatIcon,
+    GenericDropdownComponent,
   ],
   templateUrl: './modal-edit-create-employee.component.html',
   styleUrl: './modal-edit-create-employee.component.scss',
@@ -58,10 +62,9 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   // == Fields
   // =========================
 
-  @Output() editOrCreateEmployee = new EventEmitter<any>();
   public formEditOrCreate!: FormGroup;
   public genderOptions!: GenderModel[];
-  public roleOptions!: RoleModel[];
+  public roleOptions!: DropdownModel[];
   public employee!: EmployeeModel;
 
   // =========================
@@ -71,28 +74,31 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
    * Constructor
    * @param formBuilder
    * @param dataFromParent
-   * @param ref
+   * @param modalRef
    */
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
-    private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
+    private modalRef: MatDialogRef<ModalEditCreateEmployeeComponent>,
     private employeeService: EmployeeService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
-    this.employee = this.modalConfigFromParent.initialData;
+    this.employee =
+      this.modalConfigFromParent.initialData ?? new EmployeeModel();
 
     switch (this.modalConfigFromParent.mode) {
-      case ModalModeEnum.Edit: {
+      case ModalEmployeeModeEnum.Edit: {
         this.loadFormIfEdit();
-        this.genderOptions = EnumUtils.enumToObject(GenderEnum);
+        this.loadGenderRadioButtons();
         break;
       }
-      case ModalModeEnum.Create: {
+      case ModalEmployeeModeEnum.Create: {
         this.loadRoles();
-        this.genderOptions = EnumUtils.enumToObject(GenderEnum);
+        this.loadGenderRadioButtons();
+        this.loadFormIfCreate();
         break;
       }
     }
@@ -104,12 +110,14 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
 
   /**
    * Load all roles within the database
+   * - Due to the inconsistency on API, I have to key must be a name to update the employee
    */
   loadRoles() {
-    this.employeeService.getEmployeeRoles().subscribe({
-      next: (response: RoleModel[]) => {
-        this.roleOptions = response;
-      },
+    this.employeeService.getEmployeeRoles().subscribe((roles: RoleModel[]) => {
+      this.roleOptions = roles.map((role) => ({
+        value: role.name,
+        name: role.name,
+      }));
     });
   }
 
@@ -118,24 +126,63 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
    */
   loadFormIfEdit() {
     this.formEditOrCreate = this.formBuilder.group({
-      fullName: [this.employee.fullName || '', Validators.required],
+      fullName: [this.employee?.fullName ?? '', Validators.required],
       email: [
-        this.employee.email || '',
+        this.employee?.email ?? '',
         [Validators.required, Validators.email],
       ],
-      phoneNumber: [this.employee.phoneNumber || '', Validators.required],
-      dateOfBirth: [this.employee.dateOfBirth || '', Validators.required],
-      address: [this.employee.address || '', Validators.required],
-      gender: [this.employee.gender || GenderEnum.Male, Validators.required],
+      phoneNumber: [this.employee?.phoneNumber ?? '', Validators.required],
+      dateOfBirth: [this.employee?.dateOfBirth ?? '', Validators.required],
+      address: [this.employee?.address ?? '', Validators.required],
+      gender: [this.employee?.gender ?? GenderEnum.Male, Validators.required],
     });
+  }
+
+  /**
+   * Set initial values for forms if in EDIT mode
+   */
+  loadFormIfCreate() {
+    this.formEditOrCreate = this.formBuilder.group({
+      fullName: [this.employee?.fullName ?? '', Validators.required],
+      email: [
+        this.employee?.email ?? '',
+        [Validators.required, Validators.email],
+      ],
+      phoneNumber: [this.employee?.phoneNumber ?? '', Validators.required],
+      dateOfBirth: [this.employee?.dateOfBirth ?? '', Validators.required],
+      address: [this.employee?.address ?? '', Validators.required],
+      gender: [this.employee?.gender ?? GenderEnum.Male, Validators.required],
+      userName: [this.employee?.userName ?? '', Validators.required],
+      password: [this.employee?.password ?? '', Validators.required],
+      role: [this.employee?.role ?? RoleEnum.Seller, Validators.required],
+      image_url: [
+        this.employee?.image_Url ?? 'wwwroot/my.png',
+        Validators.required,
+      ],
+    });
+  }
+
+  /**
+   * Load the genders for radio button
+   */
+  loadGenderRadioButtons() {
+    this.genderOptions = EnumUtils.enumToObject(GenderEnum);
+  }
+
+  /**
+   * Choosing employee role on dropdown
+   * @param event
+   */
+  onSelectionChangeRoleNameFromParent(event: any) {
+    this.employee.role = event.value;
   }
 
   /**
    * Close the modal
    * - Pass the edited data back to the parent
    */
-  closeModal() {
-    this.ref.close();
+  onCloseModal() {
+    this.modalRef.close();
   }
 
   /**
@@ -144,20 +191,50 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
    * - Handle both edit and create
    * - Handle date serialization
    */
-  saveModal() {
+  onSaveModal() {
     if (this.formEditOrCreate.valid) {
       const dateFormatted = this.datePipe.transform(
         this.formEditOrCreate.get('dateOfBirth')?.value,
         'yyyy-MM-dd'
       );
 
-      const updatedData = {
-        ...this.modalConfigFromParent.initialData,
+      const dataFromForm: EmployeeModel = {
+        ...this.employee,
         ...this.formEditOrCreate.value,
         dateOfBirth: dateFormatted,
       };
 
-      this.editOrCreateEmployee.emit(updatedData);
+      // Based on the mode to handle the related action
+      if (ModalEmployeeModeEnum.Edit) {
+        this.editEmployee(dataFromForm);
+      } else {
+        this.createEmployee(dataFromForm);
+      }
     }
+  }
+
+  editEmployee(updatedEmployee: EmployeeModel) {
+    this.employeeService.updateEmployee(updatedEmployee).subscribe({
+      next: (response: any) => {
+        this.snackbarService.show(
+          `Employee with ID = ${this.employee?.id} updated successfully`
+        );
+      },
+
+      error: (err) => {
+        console.error(err);
+        this.snackbarService.show('Error updating employee', 'Retry', 5000);
+      },
+    });
+  }
+
+  createEmployee(newEmployee: EmployeeModel) {
+    console.log(newEmployee);
+
+    this.employeeService.registerNewEmployee(newEmployee).subscribe({
+      next: (response: any) => {
+        this.snackbarService.show(`Create new account for `);
+      },
+    });
   }
 }

@@ -1,21 +1,21 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import {
   OrderModel,
   OrderParams,
   OrderTypeModel,
-} from "../../../../core/models/order.model";
-import { OrdersService } from "../../../../core/services/orders/orders.service";
-import { MatTableDataSource } from "@angular/material/table";
-import { PageEvent } from "@angular/material/paginator";
-import { DropdownModel } from "../../../../core/models/dropdown.model";
-import { StatsTotalRowsComponent } from "../../stats-total-rows/stats-total-rows.component";
-import { GenericTableDataSourceComponent } from "../../generic-table-data-source/generic-table-data-source.component";
-import { CommonModule } from "@angular/common";
-import { GenericDropdownComponent } from "../../generic-dropdown/generic-dropdown.component";
-import { Router } from "@angular/router";
+} from '../../../../core/models/order.model';
+import { OrdersService } from '../../../../core/services/orders/orders.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent } from '@angular/material/paginator';
+import { DropdownModel } from '../../../../core/models/dropdown.model';
+import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
+import { GenericTableDataSourceComponent } from '../../generic-table-data-source/generic-table-data-source.component';
+import { CommonModule } from '@angular/common';
+import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "app-orders",
+  selector: 'app-orders',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,8 +23,8 @@ import { Router } from "@angular/router";
     StatsTotalRowsComponent,
     GenericDropdownComponent,
   ],
-  templateUrl: "./orders.component.html",
-  styleUrl: "./orders.component.scss",
+  templateUrl: './orders.component.html',
+  styleUrl: './orders.component.scss',
 })
 export class OrdersComponent implements OnInit {
   // ====================
@@ -34,15 +34,15 @@ export class OrdersComponent implements OnInit {
   orderParams = new OrderParams();
 
   columnsToDisplay = [
-    "id",
-    "orderDate",
-    "name",
-    "phone",
-    "promotionCode",
-    "promotionDiscount",
-    "total",
-    "orderType",
-    "status",
+    'id',
+    'orderDate',
+    'name',
+    'phone',
+    'promotionCode',
+    'promotionDiscount',
+    'total',
+    'orderType',
+    'status',
   ];
 
   dataSource = new MatTableDataSource<OrderModel>([]);
@@ -162,7 +162,7 @@ export class OrdersComponent implements OnInit {
 
   /**
    * Get id from table row and navigate to detail page
-   * @param $event 
+   * @param $event
    */
   onGetId($event: any) {
     const orderId = $event;
