@@ -18,7 +18,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ModalConfigModel } from '../../../../../core/models/modal.model';
 
 @Component({
-  selector: 'app-form-view-modal',
+  selector: 'app-modal-view-employee',
   standalone: true,
   imports: [
     CommonModule,
@@ -32,11 +32,11 @@ import { ModalConfigModel } from '../../../../../core/models/modal.model';
     MatDatepickerModule,
     MatButtonToggleModule,
   ],
-  templateUrl: './form-view-modal.component.html',
-  styleUrl: './form-view-modal.component.scss',
+  templateUrl: './modal-view-employee.component.html',
+  styleUrl: './modal-view-employee.component.scss',
   providers: [provideNativeDateAdapter()],
 })
-export class FormViewModalComponent implements OnInit {
+export class ModalViewEmployeeComponent implements OnInit {
   // =========================
   // == Fields
   // =========================
@@ -49,6 +49,7 @@ export class FormViewModalComponent implements OnInit {
     private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
     @Inject(MAT_DIALOG_DATA) public dataFromParent: any
   ) {}
+
   ngOnInit(): void {
     this.modalDataConfig = this.dataFromParent;
   }
