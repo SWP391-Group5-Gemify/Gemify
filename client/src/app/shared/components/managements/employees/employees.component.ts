@@ -17,8 +17,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RoleModel } from '../../../../core/models/role.model';
 import {
   ModalConfigModel,
-  ModalModeEnum,
-  ModalTitle,
+  ModalEmployeeModeEnum,
+  ModalEmployeeTitle,
 } from '../../../../core/models/modal.model';
 import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
 
@@ -145,7 +145,7 @@ export class EmployeesComponent implements OnInit {
    * Disable Employee's status
    * @param employee
    */
-  disableEmployee(employee: EmployeeModel) {
+  onDisableEmployee(employee: EmployeeModel) {
     this.employeeService.disableEmployee(employee.id).subscribe({
       next: (response) => {
         this.loadEmployees();
@@ -159,40 +159,49 @@ export class EmployeesComponent implements OnInit {
    * - When open, pass data from parent to child
    * @param employee
    */
-  openEditEmployeeModal(employee: EmployeeModel) {
-    const modalData: ModalConfigModel = {
-      title: ModalTitle.EditEmployeeTitle,
-      mode: ModalModeEnum.Edit,
+  onOpenEditEmployeeModal(employee: EmployeeModel) {
+    const modalDataFromParent: ModalConfigModel = {
+      title: ModalEmployeeTitle.EditEmployeeTitle,
+      mode: ModalEmployeeModeEnum.Edit,
       initialData: {
         ...employee,
       },
     };
 
-    const dialogRef = this.createOrEditModal.open(
-      ModalEditCreateEmployeeComponent,
-      {
+    this.createOrEditModal
+      .open(ModalEditCreateEmployeeComponent, {
         width: '80%',
-        height: '80vh',
+        height: '80%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
-        data: modalData,
-      }
-    );
+        disableClose: true,
+        data: modalDataFromParent,
+      })
+      .beforeClosed()
+      .subscribe(() => {
+        this.loadEmployees();
+      });
+  }
 
-    // Subscribe to the EventEmitter for editing
-    // - Calling the employee service for update
-    //TODO: Handle error case
-    dialogRef.componentInstance.editDataFromChild.subscribe({
-      next: (employee: EmployeeModel) => {
-        this.employeeService.updateEmployee(employee).subscribe({
-          next: (value) => {
-            this.loadEmployees();
-          },
-          error(err) {
-            console.log(err);
-          },
-        });
-      },
-    });
+  onCreateNewEmployee() {
+    const modalDataFromParent: ModalConfigModel = {
+      title: ModalEmployeeTitle.CreateEmployeeTitle,
+      mode: ModalEmployeeModeEnum.Create,
+      initialData: null,
+    };
+
+    this.createOrEditModal
+      .open(ModalEditCreateEmployeeComponent, {
+        width: '80%',
+        height: '80%',
+        enterAnimationDuration: '300ms',
+        exitAnimationDuration: '300ms',
+        disableClose: true,
+        data: modalDataFromParent,
+      })
+      .beforeClosed()
+      .subscribe(() => {
+        this.loadEmployees();
+      });
   }
 }
