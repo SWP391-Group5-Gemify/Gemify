@@ -17,8 +17,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RoleModel } from '../../../../core/models/role.model';
 import {
   ModalConfigModel,
-  ModalEmployeeModeEnum,
-  ModalEmployeeTitle,
+  ModalModeEnum,
+  ModalTitle,
 } from '../../../../core/models/modal.model';
 import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
 
@@ -161,11 +161,13 @@ export class EmployeesComponent implements OnInit {
    */
   onOpenEditEmployeeModal(employee: EmployeeModel) {
     const modalDataFromParent: ModalConfigModel = {
-      title: ModalEmployeeTitle.EditEmployeeTitle,
-      mode: ModalEmployeeModeEnum.Edit,
+      title: ModalTitle.EditEmployeeTitle,
+      mode: ModalModeEnum.Edit,
       initialData: {
         ...employee,
       },
+      closeButtonLabel: 'Close',
+      saveButtonLabel: 'Update an Employee',
     };
 
     this.createOrEditModal
@@ -185,9 +187,11 @@ export class EmployeesComponent implements OnInit {
 
   onCreateNewEmployee() {
     const modalDataFromParent: ModalConfigModel = {
-      title: ModalEmployeeTitle.CreateEmployeeTitle,
-      mode: ModalEmployeeModeEnum.Create,
+      title: ModalTitle.CreateEmployeeTitle,
+      mode: ModalModeEnum.Create,
       initialData: null,
+      closeButtonLabel: 'Close',
+      saveButtonLabel: 'Create new Employee',
     };
 
     this.createOrEditModal
