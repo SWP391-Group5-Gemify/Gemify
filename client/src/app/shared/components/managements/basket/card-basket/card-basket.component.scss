@@ -1,0 +1,54 @@
+@import "abstracts/variables";
+
+.card-basket {
+  background-color: $color-grey-light;
+
+  &__header {
+
+    padding: $gutter-layout;
+
+    mat-panel-title {
+      padding: 0px 0.8rem;
+      height: 5rem;
+      background-color: $color-primary-light;
+      color: $color-white;
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 1.4px;
+      border-radius: 4px;
+      border: 1px solid $color-black;
+      max-width: 10rem;
+      justify-content: center;
+    }
+
+    mat-icon {
+      color: $color-primary-light;
+    }
+
+    mat-panel-description {
+      font-size: 1.8rem;
+      font-weight: 900;
+
+      p {
+        span {
+          margin-left: 0.8rem;
+          display: inline-block;
+          color: $color-primary-light;
+          letter-spacing: 1.2px;
+        }
+      }
+
+    }
+
+
+    // Push the icon to the right-most
+    & .mat-expansion-panel-header-description {
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &__actions {
+    gap: $gutter-multiple-actions;
+  }
+}
