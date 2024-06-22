@@ -9,7 +9,8 @@ export interface BasketModel {
   promotionId?: number;
   clientSecret: string;
   paymentIntentId: string;
-  items: BasketItemModel[];
+  saleItems: BasketItemModel[];
+  buybackItems: BasketItemModel[];
 }
 
 // Represents for the product id as a DTO
@@ -29,5 +30,6 @@ export interface BasketsSearchingCriteriaModel {
 // A default class for a basket
 export class BasketModel implements BasketModel {
   id: string = createId();
-  items: BasketItemModel[] = [];
+  saleItems: BasketItemModel[] = [];
+  buybackItems: BasketItemModel[] = [];
 }
