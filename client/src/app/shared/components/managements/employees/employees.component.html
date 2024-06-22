@@ -1,38 +1,18 @@
 <section class="employees">
 
-  <!-- Dropdown Button -->
-  <!-- <mat-form-field>
-    <mat-label>Choose roles</mat-label>
-    <mat-select>
-      @for (role of employeeRoles$ | async; track role.name) {
-      <mat-option [value]="role.id">{{role.name}}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field> -->
 
-  <!-- <app-stats-total-rows [label]="'Total Employees'"
-                        [count]="tableConfig.totalEmployees"
-                        [icon]="'person'"></app-stats-total-rows>
-
-  <app-stats-total-rows [label]="'Total Employees'"
-                        [count]="tableConfig.totalEmployees"
-                        [icon]="'person'"></app-stats-total-rows>
-
-  <app-stats-total-rows [label]="'Total Employees'"
-                        [count]="tableConfig.totalEmployees"
-                        [icon]="'person'"></app-stats-total-rows> -->
-
-  <button class="btn btn--primary u-margin-bottom-small">Add New Employee</button>
+  <button class="btn btn--primary u-margin-bottom-small"
+          (click)="onCreateNewEmployee()">Add New Employee</button>
 
   <!-- Table Data Source -->
-  <app-table-data-source [columnsToDisplay]="tableConfig.columnsToDisplay"
-                         [dataSource]="tableConfig.dataSource"
-                         [pageSize]="tableConfig.pageSize"
-                         [pageIndex]="tableConfig.pageIndex"
-                         [count]="tableConfig.totalEmployees"
-                         (onPageChangeFromChild)="onPageEvent($event)"
-                         (onFilterFromChild)="onApplyFilter($event)"
-                         (onDisableFromChild)="disableEmployee($event)"
-                         (onEditFromChild)="openEditEmployeeModal($event)">
-  </app-table-data-source>
+  <app-generic-table-data-source [columnsToDisplay]="tableConfig.columnsToDisplay"
+                                 [dataSource]="tableConfig.dataSource"
+                                 [pageSize]="tableConfig.pageSize"
+                                 [pageIndex]="tableConfig.pageIndex"
+                                 [count]="tableConfig.totalEmployees"
+                                 (onPageChangeFromChild)="onPageEvent($event)"
+                                 (onFilterFromChild)="onApplyFilter($event)"
+                                 (onDisableFromChild)="onDisableEmployee($event)"
+                                 (onEditFromChild)="onOpenEditEmployeeModal($event)">
+  </app-generic-table-data-source>
 </section>

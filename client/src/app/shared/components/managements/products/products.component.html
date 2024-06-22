@@ -1,2 +1,75 @@
 <!-- Search Product, Filter Product Name,  Categories, Subcategory -->
+<section class="filter-controls u-margin-bottom-small mat-elevation-z2">
+
+  <div class="filter-controls__dropdowns">
+    <!-- Filter on Sub Categories -->
+    <app-generic-dropdown #subCategoriesDropdownRef
+                          label="Chọn loại trang sức"
+                          [options]="subCategoriesDropdown"
+                          (onSelectionChange)="onSelectChangeSubCategoryIdFromParent($event)">
+    </app-generic-dropdown>
+
+    <!-- Filter on Golds -->
+    <app-generic-dropdown #goldsDropdownRef
+                          label="Chọn loại vàng"
+                          [options]="goldsDropdown"
+                          (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
+    </app-generic-dropdown>
+
+    <!-- Filter on Sort Criteria -->
+    <app-generic-dropdown #sortsCriteriaDropdownRef
+                          label="Sắp xếp số lượng"
+                          [options]="sortsCriteriaDropdown"
+                          (onSelectionChange)="onSelectChangeSortQuantityFromParent($event)">
+    </app-generic-dropdown>
+  </div>
+
+  <div class="filter-controls__filter-and-reset">
+    <!-- Filter on Names -->
+    <app-generic-search #nameSearchInputRef
+                        label="Tìm kiếm theo tên"
+                        (onValueChanges)="onValueChangesNameFromParent($event)">
+    </app-generic-search>
+
+    <!-- Reset all input element -->
+    <button class="btn btn--primary-dark btn--with-icon"
+            (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
+  </div>
+</section>
+
+<!-- Create New Basket or Update existed Basket -->
+<section>
+  <div *ngIf="basketService.basketSource$ | async as basket">Giỏ hàng hiện tại
+    {{getCountTotalItemsAddedInToBasketSource(basket.items)}}</div>
+
+  <button class="btn btn--grad btn--with-icon"
+          (click)="onOpenModalAndCreateBasketWithCustomerPhone()">
+    <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng mới
+  </button>
+
+  <app-generic-dropdown #chooseExistingBasket
+                        label="Chọn giỏ hàng"
+                        [options]="basketIdAndPhoneDropdown"
+                        (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
+  </app-generic-dropdown>
+</section>
+
+<!-- Paginator -->
+<mat-paginator [length]="totalProducts"
+               [pageSize]="productSearchCriteria.pageSize"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               (page)="onPageChange($event)"
+               style="background-color: #FAFAFA"
+               aria-label="Select page">
+</mat-paginator>
+
 <!-- List of Product -->
+<section class="grid grid--responsive u-margin-top-small">
+  <div *ngIf="(products$ | async) === null">
+    <p>No data fits your search</p>
+  </div>
+
+  @for (product of products$ | async; track $index) {
+  <app-card-product [product]="product"></app-card-product>
+  }
+</section>

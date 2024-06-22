@@ -22,6 +22,7 @@ namespace API.Helpers
 
             CreateMap<CustomerBasketDto, CustomerBasket>();
             CreateMap<BasketItemDto, BasketItem>();
+            CreateMap<BasketBuybackItemDto, BasketBuybackItem>();
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.GoldType, o => o.MapFrom(s => s.GoldType.Name))
@@ -75,7 +76,6 @@ namespace API.Helpers
                 .ForMember(d => d.GemName, o => o.MapFrom(s => s.GemsItemOrdered.GemName))
                 .ForMember(d => d.GemColor, o => o.MapFrom(s => s.GemsItemOrdered.GemColor))
                 .ForMember(d => d.GemWeight, o => o.MapFrom(s => s.GemsItemOrdered.GemWeight))
-                .ForMember(d => d.GemPrice, o => o.MapFrom(s => s.GemsItemOrdered.GemPrice))
                 .ForMember(d => d.GemCarat, o => o.MapFrom(s => s.GemsItemOrdered.GemCarat))
                 .ForMember(d => d.GemClarity, o => o.MapFrom(s => s.GemsItemOrdered.GemClarity))
                 .ForMember(d => d.GemCertificateCode, o => o.MapFrom(s => s.GemsItemOrdered.GemCertificateCode));
@@ -90,12 +90,17 @@ namespace API.Helpers
                 .ForMember(d => d.Unit, o => o.MapFrom(s => s.ItemOrdered.Unit))
                 .ForMember(d => d.Image_Url, o => o.MapFrom(s => s.ItemOrdered.Image_Url));
 
+            CreateMap<OrderItemDto, OrderItem>();
+
             CreateMap<Order, OrderToReturnDto>()
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.Customer.Name))
                 .ForMember(d => d.Phone, o => o.MapFrom(s => s.Customer.Phone))
-                .ForMember(d => d.MembershipId, o => o.MapFrom(s => s.Customer.MembershipId))
+                .ForMember(d => d.Membership, o => o.MapFrom(s => s.Customer.Membership.Name))
                 .ForMember(d => d.PromotionCode, o => o.MapFrom(s => s.Promotion.Code))
-                .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount));
+                .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount))
+                .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.Name));
+
+            CreateMap<OrderDto, Order>();
         }
     }
 }

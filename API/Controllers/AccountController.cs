@@ -11,26 +11,26 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly IUserService _userRepo;
+        private readonly IUserService _userService;
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
         public AccountController(IUserService userRepo, 
             SignInManager<User> signInManager, ITokenService tokenService) 
         {
-            _userRepo = userRepo;
+            _userService = userRepo;
             _signInManager = signInManager;
             _tokenService = tokenService;
         }
 
         // Get the currently logged in user
-        [Authorize]
+        [Authorize(Roles = "StoreOwner")]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var user = await _userRepo.GetUserByClaimsEmailAsync(HttpContext.User);
+            var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
 
-            var userRole = await _userRepo.GetUserRoleAsync(user);
+            var userRole = await _userService.GetUserRoleAsync(user);
 
             return new UserDto
             {
@@ -52,21 +52,21 @@ namespace API.Controllers
         [HttpGet("email_exists")]
         public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
         {
-            return await _userRepo.GetUserByEmailAsync(email) != null;
+            return await _userService.GetUserByEmailAsync(email) != null;
         }
 
         // Check if the Username existed
         [HttpGet("username_exists")]
         public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string userName)
         {
-            return await _userRepo.GetUserByUserNameAsync(userName) != null;
+            return await _userService.GetUserByUserNameAsync(userName) != null;
         }
 
         // Login and return User object
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _userRepo.GetUserByUserNameAsync(loginDto.UserName);
+            var user = await _userService.GetUserByUserNameAsync(loginDto.UserName);
 
             if (user == null) return Unauthorized(new ApiResponse(401));
 
@@ -74,7 +74,7 @@ namespace API.Controllers
 
             if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
 
-            var userRole = await _userRepo.GetUserRoleAsync(user);
+            var userRole = await _userService.GetUserRoleAsync(user);
 
             return new UserDto
             {
@@ -110,8 +110,8 @@ namespace API.Controllers
                 Image_Url = registerDto.Image_Url,
             };
 
-            var result = await _userRepo.CreateUserAsync(user, registerDto.Password);
-            var roleResult = await _userRepo.AddUserToRoleAsync(user, registerDto.Role);
+            var result = await _userService.CreateUserAsync(user, registerDto.Password);
+            var roleResult = await _userService.AddUserToRoleAsync(user, registerDto.Role);
 
             if (!result.Succeeded && !roleResult.Succeeded) return BadRequest(new ApiResponse(400));
 

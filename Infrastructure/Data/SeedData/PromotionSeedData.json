@@ -1,0 +1,29 @@
+﻿[
+  {
+    "name": "Summer Sale",
+    "expDate": "2024-07-31",
+    "effDate": "2024-06-01",
+    "discount": 15,
+    "code": "SUMMER10",
+    "minValue": 50,
+    "status": true
+  },
+  {
+    "name": "Free Shipping",
+    "expDate": "2024-06-30",
+    "effDate": "2024-06-10",
+    "discount": 8,
+    "code": "FREESHIP",
+    "minValue": 100,
+    "status": true
+  },
+  {
+    "name": "Weekend Flash Sale",
+    "expDate": "2024-06-16",
+    "effDate": "2024-06-14",
+    "discount": 20,
+    "code": "WEEKEND20",
+    "minValue": 25,
+    "status": false
+  }
+]

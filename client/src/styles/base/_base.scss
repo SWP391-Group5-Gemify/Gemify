@@ -46,6 +46,7 @@ html,
 body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 html {
@@ -54,16 +55,14 @@ html {
 
 body {
   box-sizing: border-box;
-  padding: 2rem 2rem 0 2rem;
-  // min-height: 100vh;
   background-color: $color-white;
-  font-family: 'Roboto', sans-serif; // display: flex;
-  // flex-direction: column;
-  // min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
 }
 
 main {
-  height: 100%;
+  height: calc(100% - 10rem - 5.5rem);
+  padding-bottom: $padding-layout;
+  overflow: auto;
 }
 
 ul {

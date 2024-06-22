@@ -10,7 +10,7 @@
 
 // Margin Bottom
 .u-margin-bottom-small {
-  margin-bottom: 2rem !important;
+  margin-bottom: 2.4rem !important;
 }
 
 .u-margin-bottom-medium {
@@ -31,7 +31,7 @@
 
 // Margin Top
 .u-margin-top-small {
-  margin-top: 1.5rem !important;
+  margin-top: 2.4rem !important;
 }
 
 .u-margin-top-medium {
@@ -42,9 +42,35 @@
   margin-top: 8rem !important;
 }
 
+// Margin Left
+.u-margin-left-small {
+  margin-left: 2.4rem !important;
+}
+
+.u-margin-left-medium {
+  margin-left: 4rem !important;
+}
+
+.u-margin-left-big {
+  margin-left: 8rem !important;
+}
+
+// Margin Right
+.u-margin-right-small {
+  margin-right: 2.4rem !important;
+}
+
+.u-margin-right-medium {
+  margin-right: 4rem !important;
+}
+
+.u-margin-right-big {
+  margin-right: 8rem !important;
+}
+
 // Padding Top
 .u-padding-top-small {
-  padding-top: 1.5rem !important;
+  padding-top: 2.4rem !important;
 }
 
 .u-padding-top-medium {
@@ -53,4 +79,33 @@
 
 .u-padding-top-big {
   padding-top: 8rem !important;
+}
+
+// Padding Bottom
+.u-padding-bottom-small {
+  padding-bottom: 2.4rem !important;
+}
+
+.u-padding-bottom-medium {
+  padding-bottom: 4rem !important;
+}
+
+.u-padding-bottom-big {
+  padding-bottom: 8rem !important;
+}
+
+// Padding Horizon
+.u-padding-horizon-small {
+  padding-left: 2.4rem !important;
+  padding-right: 2.4rem !important;
+}
+
+.u-padding-horizon-medium {
+  padding-left: 4rem !important;
+  padding-right: 4rem !important;
+}
+
+.u-padding-horizon-big {
+  padding-left: 8rem !important;
+  padding-right: 8rem !important;
 }

@@ -17,7 +17,7 @@
             get => _search;
             set => _search = value.ToLower();
         }
-        public int OrderTypeId { get; set; }
+        public int? OrderTypeId { get; set; }
 
 
     }

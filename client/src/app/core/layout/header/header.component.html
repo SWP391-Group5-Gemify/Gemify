@@ -1,0 +1,23 @@
+<header class="header
+                u-padding-bottom-small
+                u-padding-top-small">
+  <app-logo [classLogoSize]="'logo--big'"></app-logo>
+
+  <span class="divider"></span>
+
+  <!-- A group of action buttons -->
+  <nav class="header__actions">
+    @if (!(authService.isLoggedIn$ | async)) {
+    <a class="btn btn--grad"
+       routerLink="{{navLinks.login.route}}">{{navLinks.login.name}}</a>
+    <a class="btn btn--grad"
+       routerLink="{{navLinks.goldChart.route}}">{{navLinks.goldChart.name}}</a>
+    } @else {
+    <a class="btn btn--grad"
+       (click)="navLinks.logout.action()">{{navLinks.logout.name}}</a>
+    <a class="btn btn--grad"
+       (click)="navLinks.showProfile.action()">{{navLinks.showProfile.name}}</a>
+    }
+  </nav>
+
+</header>

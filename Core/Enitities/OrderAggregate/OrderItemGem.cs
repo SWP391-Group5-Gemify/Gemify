@@ -7,9 +7,11 @@ namespace Core.Enitities.OrderAggregate
     {
         public OrderItemGem() { }
 
-        public OrderItemGem(ProductGemsItemOrdered gemsItemOrdered)
+        public OrderItemGem(ProductGemsItemOrdered gemsItemOrdered, decimal price, int quantity)
         {
             GemsItemOrdered = gemsItemOrdered;
+            Price = price;
+            Quantity = quantity;
         }
 
         public ProductGemsItemOrdered GemsItemOrdered { get; set; }

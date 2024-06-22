@@ -1,0 +1,107 @@
+<!-- Content -->
+<form class="form--modal"
+      [formGroup]="formEditOrCreate">
+
+  <!-- Title -->
+  <h2 class="form--modal__title mat-elevation-z1"
+      mat-dialog-title>{{modalConfigFromParent.title}}</h2>
+
+  <mat-dialog-content class="form--modal__content u-padding-top-medium">
+
+    <ng-container *ngIf="isCreateMode()">
+
+      <!-- Roles -->
+      <app-generic-dropdown label="Select Roles"
+                            [options]="roleOptions"
+                            (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
+      </app-generic-dropdown>
+
+      <!-- TODO: IMAGE UPLOAD HERE -->
+
+
+
+      <!-- Username -->
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput
+               type="text"
+               formControlName="userName"
+               name="userName">
+      </mat-form-field>
+
+      <!-- Password -->
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput
+               type="text"
+               formControlName="password"
+               name="password">
+      </mat-form-field>
+    </ng-container>
+
+
+
+    <!-- Gender -->
+    <mat-radio-group aria-label="Select your gender"
+                     formControlName="gender"
+                     name="gender">
+      @for (gender of genderOptions; track $index) {
+      <mat-radio-button value="{{gender.id}}">{{gender.name}}</mat-radio-button>
+      }
+    </mat-radio-group>
+
+    <!-- Full Name -->
+    <mat-form-field appearance="outline">
+      <mat-label>Full Name</mat-label>
+      <input matInput
+             formControlName="fullName"
+             name="fullName">
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput
+             formControlName="email"
+             name="email">
+    </mat-form-field>
+
+    <!-- Phone Number -->
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput
+             type="tel"
+             formControlName="phoneNumber"
+             name="phoneNumber">
+    </mat-form-field>
+
+    <!-- Date Of Birth -->
+    <mat-form-field appearance="outline">
+      <mat-label>Date of Birth</mat-label>
+      <input matInput
+             [matDatepicker]="picker"
+             formControlName="dateOfBirth"
+             name="dateOfBirth">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix
+                             [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <textarea matInput
+                formControlName="address"
+                name="address"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <!-- Action to Close or Save -->
+  <mat-dialog-actions class="form--modal__controls">
+    <button class="btn btn--grad btn--with-icon"
+            (click)="onCloseModal()"><mat-icon>cancel</mat-icon>{{modalConfigFromParent.closeButtonLabel}}</button>
+    <button class="btn btn--primary btn--with-icon"
+            (click)="onSaveModal()"><mat-icon>save</mat-icon>{{modalConfigFromParent.saveButtonLabel}}</button>
+  </mat-dialog-actions>
+</form>
