@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import {
   CategoryModel,
   ProductModel,
-  ProductSearchingCriteria,
+  ProductsSearchingCriteriaModel,
   SubCategoryModel,
 } from '../../models/product.model';
 import { environment } from '../../../../environments/environment';
@@ -24,15 +24,15 @@ export class ProductService {
    * @returns
    */
   getProducts(
-    productSearchCriteria: ProductSearchingCriteria
+    productSearchCriteria: ProductsSearchingCriteriaModel
   ): Observable<PaginationModel<ProductModel>> {
     let params = new HttpParams()
       .set('pageIndex', productSearchCriteria.pageIndex.toString())
       .set('pageSize', productSearchCriteria.pageSize.toString());
 
     // Assign params if existences
-    if (productSearchCriteria.search) {
-      params = params.set('search', productSearchCriteria.search);
+    if (productSearchCriteria.searchName) {
+      params = params.set('search', productSearchCriteria.searchName);
     }
     if (productSearchCriteria.goldTypeId) {
       params = params.set(
@@ -46,8 +46,8 @@ export class ProductService {
         productSearchCriteria.subCategoryId.toString()
       );
     }
-    if (productSearchCriteria.sort) {
-      params = params.set('sort', productSearchCriteria.sort);
+    if (productSearchCriteria.sortQuantity) {
+      params = params.set('sort', productSearchCriteria.sortQuantity);
     }
 
     return this.httpClient.get<PaginationModel<ProductModel>>(

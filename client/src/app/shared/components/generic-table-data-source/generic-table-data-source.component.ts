@@ -41,6 +41,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './generic-table-data-source.component.scss',
 })
 export class GenericTableDataSourceComponent implements AfterViewInit {
+  // ===================================
+  // == Fields
+  // ===================================
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -54,7 +58,11 @@ export class GenericTableDataSourceComponent implements AfterViewInit {
   @Output() onFilterFromChild: EventEmitter<Event> = new EventEmitter();
   @Output() onEditFromChild: EventEmitter<any> = new EventEmitter();
   @Output() onDisableFromChild: EventEmitter<any> = new EventEmitter();
+  @Output() onIdGetFromChild: EventEmitter<any> = new EventEmitter();
 
+  // ===================================
+  // == Lifecycle
+  // ===================================
   /**
    * Render @ViewChild element after paginator and sort
    * have been initialized
@@ -64,6 +72,9 @@ export class GenericTableDataSourceComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  // ===================================
+  // == Methods
+  // ===================================
   /**
    * Emit the event for parent to handle the searching filter logic
    * @param event
@@ -94,5 +105,13 @@ export class GenericTableDataSourceComponent implements AfterViewInit {
    */
   deleteObject(object: any): void {
     this.onDisableFromChild.emit(object);
+  }
+
+  /**
+   * Get object id from the current data source
+   * @param object
+   */
+  getId(object: any): void {
+    this.onIdGetFromChild.emit(object);
   }
 }

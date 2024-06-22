@@ -8,7 +8,11 @@ import {
 @Injectable({
   providedIn: 'root',
 })
+<<<<<<< HEAD
 export class SnackbarService {
+=======
+export class NotificationService {
+>>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
   // =============================
   // == Fields
   // =============================

@@ -2,24 +2,36 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatIcon } from '@angular/material/icon';
-import { CardProductComponent } from '../../card-product/card-product.component';
 import { catchError, map, mergeMap, Observable } from 'rxjs';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
 import {
   ProductModel,
-  ProductSearchingCriteria,
+  ProductsSearchingCriteriaModel,
+  SortProductsQuantityEnum,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { GoldModel } from '../../../../core/models/gold.model';
 import { GoldService } from '../../../../core/services/gold/gold.service';
-import { GenericStackedChipsComponent } from '../../generic-stacked-chips/generic-stacked-chips.component';
+import { CardProductComponent } from './card-product/card-product.component';
+import { GenericSearchComponent } from '../../generic-search/generic-search.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BasketService } from '../../../../core/services/basket/basket.service';
+import {
+  BasketItemModel,
+  BasketModel,
+} from '../../../../core/models/basket.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-create-new-basket.component';
 
 @Component({
   selector: 'app-products',
@@ -31,10 +43,8 @@ import { GenericStackedChipsComponent } from '../../generic-stacked-chips/generi
     MatPaginatorModule,
     MatIcon,
     CardProductComponent,
-    MatFormFieldModule,
-    MatInputModule,
     GenericDropdownComponent,
-    GenericStackedChipsComponent,
+    GenericSearchComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
@@ -43,47 +53,67 @@ export class ProductsComponent implements OnInit {
   // ==========================================
   // == Fields
   // ==========================================
-  products$!: Observable<ProductModel[]>;
-  productSearchCriteria: ProductSearchingCriteria = {
+  public products$!: Observable<ProductModel[]>;
+  public productSearchCriteria: ProductsSearchingCriteriaModel = {
     pageSize: 10,
     pageIndex: 0,
-    search: undefined,
+    searchName: undefined,
     goldTypeId: undefined,
     subCategoryId: undefined,
-    sort: undefined,
+    sortQuantity: undefined,
   };
-  totalProducts: number = 0;
-  pageEvent!: PageEvent;
-  goldsDropdown!: DropdownModel[];
-  subCategoriesDropdown!: DropdownModel[];
+  public totalProducts: number = 0;
+  public pageEvent!: PageEvent;
+  public goldsDropdown!: DropdownModel[];
+  public subCategoriesDropdown!: DropdownModel[];
+  public sortsCriteriaDropdown: DropdownModel[] = [
+    {
+      name: '↓ Số lượng: giảm dần',
+      value: SortProductsQuantityEnum.QuantityDesc,
+    },
+    {
+      name: '↑ Số lượng: tăng dần',
+      value: SortProductsQuantityEnum.QuantityAsc,
+    },
+  ];
+  public basketIdAndPhoneDropdown!: DropdownModel[];
 
   @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
   @ViewChild('subCategoriesDropdownRef')
   subCategoriesDropdownRef!: GenericDropdownComponent;
+  @ViewChild('sortsCriteriaDropdownRef')
+  sortsCriteriaDropdownRef!: GenericDropdownComponent;
+  @ViewChild('nameSearchInputRef') nameSearchInputRef!: GenericSearchComponent;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // ====================
   // == Life Cycle
   // ====================
   constructor(
     private productService: ProductService,
-    private goldService: GoldService
+    private goldService: GoldService,
+    public basketService: BasketService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
-    this.loadSubCategories();
-    this.loadGolds();
+    this.loadSubCategoriesDropdown();
+    this.loadGoldsDropdown();
+    this.loadBasketIdAndPhoneDropdown();
   }
 
   // ====================
   // == Methods
   // ====================
 
+  // ========================================== Filters, Pagination, Reset =============================
+
   /**
    * Apply paginator on changing a page
    * @param e
    */
-  onPageChange(e: PageEvent) {
+  public onPageChange(e: PageEvent) {
     this.productSearchCriteria.pageIndex = e.pageIndex;
     this.productSearchCriteria.pageSize = e.pageSize;
     this.loadProducts();
@@ -91,9 +121,9 @@ export class ProductsComponent implements OnInit {
 
   /**
    * Load products based on pagination
-   * TODO: Handle the errro exception
+   * TODO: Handle the error exception
    */
-  loadProducts() {
+  public loadProducts() {
     this.products$ = this.productService
       .getProducts({
         ...this.productSearchCriteria,
@@ -117,14 +147,14 @@ export class ProductsComponent implements OnInit {
    * Load all SubCategories, and map to the the key - value pair of * the dropdown component
    * TODO: Handle error when load failed
    */
-  loadSubCategories() {
+  public loadSubCategoriesDropdown() {
     this.productService
       .getSubCategories()
       .pipe(
         map((subCategories: SubCategoryModel[]) => {
           return subCategories.map((subCategory: SubCategoryModel) => ({
-            key: subCategory.id,
-            value: subCategory.name,
+            value: subCategory.id,
+            name: subCategory.name,
           }));
         })
       )
@@ -141,14 +171,15 @@ export class ProductsComponent implements OnInit {
 
   /**
    * Load all gold types and map to the dropdown component
+   *
    * TODO: Handle error when load failed
    */
-  loadGolds() {
+  public loadGoldsDropdown() {
     this.goldService.getAllGolds().subscribe({
       next: (response: PaginationModel<GoldModel>) => {
         this.goldsDropdown = response.data.map((gold) => ({
-          key: gold.id,
-          value: gold.name,
+          value: gold.id,
+          name: gold.name,
         }));
       },
 
@@ -162,9 +193,9 @@ export class ProductsComponent implements OnInit {
    * Select Gold Id from the dropdown
    * @param $event
    */
-  onSelectChangeGoldIdFromParent($event: any) {
-    const goldTypeId: string | number = $event;
-    this.productSearchCriteria.goldTypeId = goldTypeId;
+  public onSelectChangeGoldIdFromParent(event: any) {
+    this.productSearchCriteria.goldTypeId = event?.value;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
@@ -172,19 +203,115 @@ export class ProductsComponent implements OnInit {
    * Select Category Id from the dropdown
    * @param $event
    */
-  onSelectChangeSubCategoryIdFromParent($event: any) {
-    const subCategoryId: string | number = $event;
-    this.productSearchCriteria.subCategoryId = subCategoryId;
+  public onSelectChangeSubCategoryIdFromParent(event: any) {
+    this.productSearchCriteria.subCategoryId = event?.value;
+    this.onResetPaginatorToFirstPage();
+    this.loadProducts();
+  }
+
+  /**
+   * Select the Sort by Quantity type
+   * @param event
+   */
+  public onSelectChangeSortQuantityFromParent(event: any) {
+    this.productSearchCriteria.sortQuantity = event?.value;
+    this.onResetPaginatorToFirstPage();
+    this.loadProducts();
+  }
+
+  /**
+   * Filter the product by names
+   * @param valueChanged
+   */
+  public onValueChangesNameFromParent(valueChanged: any) {
+    this.productSearchCriteria.searchName = valueChanged;
+    this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
 
   /**
    * Reset all filters and load the default products
    */
-  onResetFilters() {
+  public onResetFilters() {
     this.subCategoriesDropdownRef.onClearSelection();
     this.goldsDropdownRef.onClearSelection();
+    this.sortsCriteriaDropdownRef.onClearSelection();
+    this.nameSearchInputRef.onClearInputFilter();
     this.productSearchCriteria.goldTypeId = undefined;
     this.productSearchCriteria.subCategoryId = undefined;
+    this.productSearchCriteria.sortQuantity = undefined;
+    this.loadProducts();
+  }
+
+  /**
+   * Reset paginator to the first page after filtering
+   */
+  public onResetPaginatorToFirstPage() {
+    this.productSearchCriteria.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+  }
+
+  // ========================================== BASKET SOURCE =============================
+
+  /**
+   * Loads the dropdown options for basket ID and phone number.
+   * Maps baskets to dropdown model.
+   * TODO: Handle error when load failed
+   */
+  public loadBasketIdAndPhoneDropdown() {
+    this.basketService.getBaskets().subscribe((baskets: BasketModel[]) => {
+      this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
+        value: basket.id,
+        name: this.basketService.generateTempTicketId(
+          basket.id,
+          basket.phoneNumber
+        ),
+      }));
+    });
+  }
+
+  /**
+   * Handles selection change in basket ID and phone number dropdown.
+   * Update the current basket source for adding new item into it.
+   * @param event$ Event containing selected value.
+   */
+  public onSelectChangeBasketIdAndPhoneFromParent(event: any) {
+    const selectedBasketId = event?.value;
+
+    if (selectedBasketId) {
+      this.basketService.loadCurrentBasket(selectedBasketId);
+    }
+  }
+
+  /**
+   * Reduce the unique items into total of items in 1 basket
+   * @param items
+   * @returns
+   */
+  public getCountTotalItemsAddedInToBasketSource(items: BasketItemModel[]) {
+    return items.reduce((acc, curr) => {
+      return acc + curr.quantity;
+    }, 0);
+  }
+
+  /**
+   * Create new modal, adding customer phone and create new basket
+   */
+  public onOpenModalAndCreateBasketWithCustomerPhone() {
+    const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
+      width: '80%',
+      height: '50%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.basketService.createEmptyBasket(result.phoneNumber);
+      }
+    });
+
+    // TODO: Will set the current basket to the dropdown
+    // this.loadBasketIdAndPhoneDropdown();
   }
 }

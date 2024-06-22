@@ -7,15 +7,27 @@ import { UserModel } from '../../../core/models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import {
   ModalConfigModel,
+<<<<<<< HEAD
   ModalEmployeeModeEnum,
   ModalEmployeeTitle,
 } from '../../../core/models/modal.model';
 import { ModalViewEmployeeComponent } from '../../../shared/components/managements/employees/modal-view-employee/modal-view-employee.component';
+=======
+  ModalModeEnum,
+  ModalTitle,
+} from '../../../core/models/modal.model';
+import { ModalViewCurrentUserComponent } from '../../../shared/components/managements/employees/modal-view-employee/modal-view-employee.component';
+import { MatIcon } from '@angular/material/icon';
+>>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 
 @Component({
   selector: 'app-header',
   standalone: true,
+<<<<<<< HEAD
   imports: [RouterLink, LogoComponent, CommonModule],
+=======
+  imports: [RouterLink, LogoComponent, CommonModule, MatIcon],
+>>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -23,7 +35,10 @@ export class HeaderComponent {
   // ================================
   // == Fields
   // ================================
+<<<<<<< HEAD
   private currentUserProfile!: UserModel;
+=======
+>>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 
   // Components if not login
   public navLinks = {
@@ -57,6 +72,7 @@ export class HeaderComponent {
   }
 
   /**
+<<<<<<< HEAD
    * Load the current user profile
    */
   loadCurrentUserProfile() {
@@ -92,6 +108,24 @@ export class HeaderComponent {
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
       data: modalData,
+=======
+   * Open the modal for viewing
+   */
+  openCurrentUserModal() {
+    const modalData: ModalConfigModel = {
+      title: ModalTitle.ViewCurrentUserProfileTitle,
+      mode: ModalModeEnum.View,
+      closeButtonLabel: 'Close Profile',
+    };
+
+    const dialogRef = this.viewModal.open(ModalViewCurrentUserComponent, {
+      width: '40%',
+      height: '74%',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '300ms',
+      data: modalData,
+      disableClose: true,
+>>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
     });
   }
 }

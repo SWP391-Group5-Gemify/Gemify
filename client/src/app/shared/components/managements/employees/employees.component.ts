@@ -13,13 +13,14 @@ import { EmployeeService } from '../../../../core/services/employee/employee.ser
 import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { FormEditCreateModalComponent } from '../../form-edit-create-modal/form-edit-create-modal.component';
+
 import { RoleModel } from '../../../../core/models/role.model';
 import {
   ModalConfigModel,
   ModalModeEnum,
   ModalTitle,
 } from '../../../../core/models/modal.model';
+import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
 
 @Component({
   selector: 'app-employees',
@@ -144,7 +145,7 @@ export class EmployeesComponent implements OnInit {
    * Disable Employee's status
    * @param employee
    */
-  disableEmployee(employee: EmployeeModel) {
+  onDisableEmployee(employee: EmployeeModel) {
     this.employeeService.disableEmployee(employee.id).subscribe({
       next: (response) => {
         this.loadEmployees();
@@ -158,40 +159,53 @@ export class EmployeesComponent implements OnInit {
    * - When open, pass data from parent to child
    * @param employee
    */
-  openEditEmployeeModal(employee: EmployeeModel) {
-    const modalData: ModalConfigModel = {
+  onOpenEditEmployeeModal(employee: EmployeeModel) {
+    const modalDataFromParent: ModalConfigModel = {
       title: ModalTitle.EditEmployeeTitle,
       mode: ModalModeEnum.Edit,
       initialData: {
         ...employee,
       },
+      closeButtonLabel: 'Close',
+      saveButtonLabel: 'Update an Employee',
     };
 
-    const dialogRef = this.createOrEditModal.open(
-      FormEditCreateModalComponent,
-      {
+    this.createOrEditModal
+      .open(ModalEditCreateEmployeeComponent, {
         width: '80%',
-        height: '80vh',
+        height: '80%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
-        data: modalData,
-      }
-    );
+        disableClose: true,
+        data: modalDataFromParent,
+      })
+      .beforeClosed()
+      .subscribe(() => {
+        this.loadEmployees();
+      });
+  }
 
-    // Subscribe to the EventEmitter for editing
-    // - Calling the employee service for update
-    //TODO: Handle error case
-    dialogRef.componentInstance.editDataFromChild.subscribe({
-      next: (employee: EmployeeModel) => {
-        this.employeeService.updateEmployee(employee).subscribe({
-          next: (value) => {
-            this.loadEmployees();
-          },
-          error(err) {
-            console.log(err);
-          },
-        });
-      },
-    });
+  onCreateNewEmployee() {
+    const modalDataFromParent: ModalConfigModel = {
+      title: ModalTitle.CreateEmployeeTitle,
+      mode: ModalModeEnum.Create,
+      initialData: null,
+      closeButtonLabel: 'Close',
+      saveButtonLabel: 'Create new Employee',
+    };
+
+    this.createOrEditModal
+      .open(ModalEditCreateEmployeeComponent, {
+        width: '80%',
+        height: '80%',
+        enterAnimationDuration: '300ms',
+        exitAnimationDuration: '300ms',
+        disableClose: true,
+        data: modalDataFromParent,
+      })
+      .beforeClosed()
+      .subscribe(() => {
+        this.loadEmployees();
+      });
   }
 }

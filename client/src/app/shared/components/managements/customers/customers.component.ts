@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { catchError, firstValueFrom, map, of } from 'rxjs';
-import { CustomerModel } from '../../../../core/models/customer.model';
-import { CustomerService } from '../../../../core/services/customer/customer.service';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource } from '@angular/material/table';
-import { GenericTableDataSourceComponent } from '../../generic-table-data-source/generic-table-data-source.component';
-import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, OnInit } from "@angular/core";
+import { catchError, firstValueFrom, map, of } from "rxjs";
+import { CustomerModel } from "../../../../core/models/customer.model";
+import { CustomerService } from "../../../../core/services/customer/customer.service";
+import { CommonModule } from "@angular/common";
+import { MatTableDataSource } from "@angular/material/table";
+import { GenericTableDataSourceComponent } from "../../generic-table-data-source/generic-table-data-source.component";
+import { StatsTotalRowsComponent } from "../../stats-total-rows/stats-total-rows.component";
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
-  selector: 'app-customers',
+  selector: "app-customers",
   standalone: true,
-  templateUrl: './customers.component.html',
-  styleUrl: './customers.component.scss',
-  imports: [CommonModule, GenericTableDataSourceComponent, StatsTotalRowsComponent],
+  templateUrl: "./customers.component.html",
+  styleUrl: "./customers.component.scss",
+  imports: [
+    CommonModule,
+    GenericTableDataSourceComponent,
+    StatsTotalRowsComponent,
+  ],
 })
 export class CustomersComponent implements OnInit {
   // ==========================================
@@ -22,13 +26,13 @@ export class CustomersComponent implements OnInit {
 
   tableConfig = {
     columnsToDisplay: [
-      'id',
-      'name',
-      'gender',
-      'phone',
-      'address',
-      'point',
-      'membershipRate',
+      "id",
+      "name",
+      "gender",
+      "phone",
+      "address",
+      "point",
+      "membershipRate",
     ],
 
     dataSource: new MatTableDataSource<CustomerModel>([]),
@@ -91,7 +95,7 @@ export class CustomersComponent implements OnInit {
         }),
 
         catchError((error) => {
-          console.error('Error comes from: ', error);
+          console.error("Error comes from: ", error);
           return of([]);
         })
       )

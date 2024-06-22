@@ -78,7 +78,7 @@ export class AuthService {
    * Decrypt the token payload, get the user information
    * @param token
    */
-  private getCurrentUserFromToken(token: string | null): UserModel | undefined {
+  public getCurrentUserFromToken(token: string | null): UserModel | undefined {
     return token
       ? (JSON.parse(atob(token?.split('.')[1])) as UserModel)
       : undefined;

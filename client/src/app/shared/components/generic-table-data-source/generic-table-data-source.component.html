@@ -35,9 +35,15 @@
 
         <!-- Cell -->
         <td mat-cell
-            *matCellDef="let object">
+            *matCellDef="let object"  (click)="getId(object.id)">
           @if(column !== "actions") {
-          {{object[column]}}
+          {{(column.toLowerCase().includes("price"))
+          ? (object[column] * 1000 | currency:'VND')
+          : (column.toLowerCase().includes('discount'))
+          ? (object[column]/100 | percent)
+          : (column.toLowerCase().includes('total'))
+          ? (object[column] * 1000 | currency:'VND')
+          : object[column] }}
           } @else {
           <div class="table-data-source__action-groups">
             <button mat-icon-button

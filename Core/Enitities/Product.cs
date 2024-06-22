@@ -33,9 +33,15 @@ namespace Core.Enitities
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
         public IReadOnlyList<GemType> Gems { get; set; }
 
-        public decimal? CalculatePurchaseGoldPrice()
+        public decimal CalculateGoldBidPrice()
         {
-            return (GoldWeight * GoldType.LatestAskPrice);
+            return GoldWeight * GoldType.LatestBidPrice;
         }
+
+        public decimal CalculateGoldAskPrice()
+        {
+            return GoldWeight * GoldType.LatestAskPrice;
+        }
+
     }
 }
