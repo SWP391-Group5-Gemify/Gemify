@@ -49,7 +49,7 @@ namespace Core.Enitities.OrderAggregate
         public decimal GetTotal()
         {
             if (PromotionId == null) return SubTotal;   
-            return SubTotal - (SubTotal * (Promotion.Discount/100));
+            return SubTotal - (SubTotal * Promotion.Discount);
         }
     }
 }

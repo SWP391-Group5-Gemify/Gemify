@@ -1,122 +1,122 @@
 [
   {
     "gemTypeId": 1,
-    "price": 1000,
+    "price": 1000000,
     "dateTime": "2024-06-01T08:00:00Z"
   },
   {
     "gemTypeId": 2,
-    "price": 800,
+    "price": 800000,
     "dateTime": "2024-06-01T08:15:00Z"
   },
   {
     "gemTypeId": 3,
-    "price": 1500,
+    "price": 1500000,
     "dateTime": "2024-06-01T08:30:00Z"
   },
   {
     "gemTypeId": 4,
-    "price": 1200,
+    "price": 1200000,
     "dateTime": "2024-06-01T08:45:00Z"
   },
   {
     "gemTypeId": 5,
-    "price": 900,
+    "price": 900000,
     "dateTime": "2024-06-01T09:00:00Z"
   },
   {
     "gemTypeId": 6,
-    "price": 1100,
+    "price": 1100000,
     "dateTime": "2024-06-01T09:15:00Z"
   },
   {
     "gemTypeId": 7,
-    "price": 1300,
+    "price": 1300000,
     "dateTime": "2024-06-01T09:30:00Z"
   },
   {
     "gemTypeId": 8,
-    "price": 950,
+    "price": 950000,
     "dateTime": "2024-06-01T09:45:00Z"
   },
   {
     "gemTypeId": 9,
-    "price": 1400,
+    "price": 1400000,
     "dateTime": "2024-06-01T10:00:00Z"
   },
   {
     "gemTypeId": 10,
-    "price": 1050,
+    "price": 1050000,
     "dateTime": "2024-06-01T10:15:00Z"
   },
   {
     "gemTypeId": 1,
-    "price": 975,
+    "price": 975000,
     "dateTime": "2024-05-15T10:30:00Z"
   },
   {
     "gemTypeId": 2,
-    "price": 1180,
+    "price": 1180000,
     "dateTime": "2024-05-16T09:45:00Z"
   },
   {
     "gemTypeId": 3,
-    "price": 1325,
+    "price": 1325000,
     "dateTime": "2024-05-17T11:00:00Z"
   },
   {
     "gemTypeId": 4,
-    "price": 990,
+    "price": 990000,
     "dateTime": "2024-05-18T12:15:00Z"
   },
   {
     "gemTypeId": 5,
-    "price": 1095,
+    "price": 1095000,
     "dateTime": "2024-05-19T13:30:00Z"
   },
   {
     "gemTypeId": 6,
-    "price": 1285,
+    "price": 1285000,
     "dateTime": "2024-05-20T14:45:00Z"
   },
   {
     "gemTypeId": 7,
-    "price": 920,
+    "price": 920000,
     "dateTime": "2024-05-21T16:00:00Z"
   },
   {
     "gemTypeId": 8,
-    "price": 1435,
+    "price": 1435000,
     "dateTime": "2024-05-22T17:15:00Z"
   },
   {
     "gemTypeId": 9,
-    "price": 1245,
+    "price": 1245000,
     "dateTime": "2024-05-23T18:30:00Z"
   },
   {
     "gemTypeId": 10,
-    "price": 1165,
+    "price": 1165000,
     "dateTime": "2024-05-24T19:45:00Z"
   },
   {
     "gemTypeId": 1,
-    "price": 640,
+    "price": 640000,
     "dateTime": "2024-05-15T10:30:00Z"
   },
   {
     "gemTypeId": 1,
-    "price": 802,
+    "price": 802000,
     "dateTime": "2024-05-15T10:30:00Z"
   },
   {
     "gemTypeId": 1,
-    "price": 503,
+    "price": 503000,
     "dateTime": "2024-05-15T10:30:00Z"
   },
   {
     "gemTypeId": 1,
-    "price": 975,
+    "price": 975000,
     "dateTime": "2024-05-16T10:30:00Z"
   }
 ]
