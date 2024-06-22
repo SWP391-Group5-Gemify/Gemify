@@ -1,0 +1,45 @@
+<form class="form--modal modal-profile">
+
+  <!-- Title -->
+  <h2 class="form--modal__title"
+      mat-dialog-title>{{modalConfigFromParent.title}}</h2>
+
+  <!-- Content -->
+  <mat-dialog-content class="form--modal__content u-padding-top-small u-padding-bottom-small">
+
+    <!-- Avatar -->
+    <img [src]="currentUserInfo.image_Url"
+         class="modal-profile__img" />
+
+    <p class="modal-profile__fullName">{{currentUserInfo.fullName}}</p>
+    <p class="modal-profile__userName">{{currentUserInfo.userName}}</p>
+    <p class="modal-profile__status mat-elevation-z2">Status: {{currentUserInfo.status}}</p>
+
+    <ul class="grid grid--responsive modal-profile__infors">
+      <li>
+        <p>{{currentUserInfo.email}}</p>
+      </li>
+      <li>
+        <p>{{currentUserInfo.address}}</p>
+      </li>
+      <li>
+        <p>{{currentUserInfo.dateOfBirth}}</p>
+      </li>
+      <li>
+        <p>{{currentUserInfo.gender}}</p>
+      </li>
+      <li>
+        <p>{{currentUserInfo.phoneNumber}}</p>
+      </li>
+      <li>
+        <p>{{currentUserInfo.role}}</p>
+      </li>
+    </ul>
+  </mat-dialog-content>
+
+  <!-- Action to Close -->
+  <mat-dialog-actions class="form--modal__controls">
+    <button class="btn btn--grad btn--with-icon"
+            (click)="onCloseModal()"><mat-icon>cancel</mat-icon>{{modalConfigFromParent.closeButtonLabel}}</button>
+  </mat-dialog-actions>
+</form>

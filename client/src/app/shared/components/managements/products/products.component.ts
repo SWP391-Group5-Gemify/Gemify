@@ -61,12 +61,14 @@ export class ProductsComponent implements OnInit {
     goldTypeId: undefined,
     subCategoryId: undefined,
     sortQuantity: undefined,
+    categoryId: undefined,
+    status: undefined,
   };
   public totalProducts: number = 0;
   public pageEvent!: PageEvent;
   public goldsDropdown!: DropdownModel[];
   public subCategoriesDropdown!: DropdownModel[];
-  public sortsCriteriaDropdown: DropdownModel[] = [
+  public sortsQuantityDropdown: DropdownModel[] = [
     {
       name: '↓ Số lượng: giảm dần',
       value: SortProductsQuantityEnum.QuantityDesc,
@@ -81,8 +83,8 @@ export class ProductsComponent implements OnInit {
   @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
   @ViewChild('subCategoriesDropdownRef')
   subCategoriesDropdownRef!: GenericDropdownComponent;
-  @ViewChild('sortsCriteriaDropdownRef')
-  sortsCriteriaDropdownRef!: GenericDropdownComponent;
+  @ViewChild('sortsQuantityDropdownRef')
+  sortsQuantityDropdownRef!: GenericDropdownComponent;
   @ViewChild('nameSearchInputRef') nameSearchInputRef!: GenericSearchComponent;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -121,7 +123,6 @@ export class ProductsComponent implements OnInit {
 
   /**
    * Load products based on pagination
-   * TODO: Handle the error exception
    */
   public loadProducts() {
     this.products$ = this.productService
@@ -235,7 +236,7 @@ export class ProductsComponent implements OnInit {
   public onResetFilters() {
     this.subCategoriesDropdownRef.onClearSelection();
     this.goldsDropdownRef.onClearSelection();
-    this.sortsCriteriaDropdownRef.onClearSelection();
+    this.sortsQuantityDropdownRef.onClearSelection();
     this.nameSearchInputRef.onClearInputFilter();
     this.productSearchCriteria.goldTypeId = undefined;
     this.productSearchCriteria.subCategoryId = undefined;
@@ -310,8 +311,5 @@ export class ProductsComponent implements OnInit {
         this.basketService.createEmptyBasket(result.phoneNumber);
       }
     });
-
-    // TODO: Will set the current basket to the dropdown
-    // this.loadBasketIdAndPhoneDropdown();
   }
 }

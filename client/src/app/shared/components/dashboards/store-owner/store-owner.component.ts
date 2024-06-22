@@ -43,7 +43,11 @@ export class StoreOwnerComponent {
       icon: 'card_giftcard',
       route: '/store-owner/promotions',
     },
-    { name: 'Products', icon: 'shopping_bag', route: '/store-owner/products' },
+    {
+      name: 'Products',
+      icon: 'shopping_bag',
+      route: '/store-owner/products-management',
+    },
     { name: 'Orders', icon: 'receipt', route: '/store-owner/orders' },
     {
       name: 'Customer Loyalty Program',

@@ -1,0 +1,54 @@
+<!-- Search Product, Filter Product Name,  Categories, Subcategory -->
+<section class="filter-controls u-margin-bottom-small mat-elevation-z2">
+
+  <div class="filter-controls__dropdowns">
+    <!-- Filter on Sub Categories -->
+    <app-generic-dropdown #subCategoriesDropdownRef
+                          label="Chọn danh mục con"
+                          [options]="subCategoriesDropdown"
+                          (onSelectionChange)="onSelectChangeSubCategoryIdFromParent($event)">
+    </app-generic-dropdown>
+
+    <!-- Filter on Categories -->
+    <app-generic-dropdown #categoriesDropdownRef
+                          label="Chọn danh mục"
+                          [options]="categoriesDropdown"
+                          (onSelectionChange)="onSelectChangeCategoryIdFromParent($event)">
+    </app-generic-dropdown>
+
+    <!-- Filter on Status -->
+    <app-generic-dropdown #statusDropdownRef
+                          label="Chọn hiện trạng"
+                          [options]="statusDropdown"
+                          (onSelectionChange)="onSelectChangeStatusFromParent($event)">
+    </app-generic-dropdown>
+
+    <!-- Filter on Sort Criteria -->
+    <app-generic-dropdown #sortsQuantityDropdownRef
+                          label="Sắp xếp số lượng"
+                          [options]="sortsQuantityDropdown"
+                          (onSelectionChange)="onSelectChangeSortQuantityFromParent($event)">
+    </app-generic-dropdown>
+
+    <!--TODO: Will change later -->
+    <div class="filter-controls__filter-and-reset">
+      <!-- Reset all input element -->
+      <button class="btn btn--primary-dark btn--with-icon"
+              (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
+    </div>
+  </div>
+
+
+
+</section>
+
+<!-- Table -->
+<app-generic-table-data-source [columnsToDisplay]="columnsToDisplay"
+                               [dataSource]="dataSource"
+                               [pageSize]="productSearchCriteria.pageSize"
+                               [pageIndex]="productSearchCriteria.pageIndex"
+                               [count]="totalProducts"
+                               (onPageChangeFromChild)="onPageChange($event)"
+                               (onFilterFromChild)="onValueChangesNameFromParent($event)"
+                               (onIdGetFromChild)="onProductByIdFromParent($event)">
+</app-generic-table-data-source>

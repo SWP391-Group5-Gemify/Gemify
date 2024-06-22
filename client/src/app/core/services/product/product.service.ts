@@ -46,6 +46,15 @@ export class ProductService {
         productSearchCriteria.subCategoryId.toString()
       );
     }
+    if (productSearchCriteria.categoryId) {
+      params = params.set(
+        'categoryId',
+        productSearchCriteria.categoryId.toString()
+      );
+    }
+    if (productSearchCriteria.status) {
+      params = params.set('status', productSearchCriteria.status);
+    }
     if (productSearchCriteria.sortQuantity) {
       params = params.set('sort', productSearchCriteria.sortQuantity);
     }
