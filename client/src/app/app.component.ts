@@ -14,8 +14,14 @@ import { RoleEnum } from './core/models/role.model';
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
 })
 export class AppComponent implements OnInit {
+  // ==========================================
+  // == Fields
+  // ==========================================
   title = 'client';
 
+  // ==========================================
+  // == Lifecycle
+  // ==========================================
   constructor(
     private basketService: BasketService,
     private authService: AuthService
@@ -25,6 +31,9 @@ export class AppComponent implements OnInit {
     this.loadBasketOnBasketIdLocalStorage();
   }
 
+  // ==========================================
+  // == Methods
+  // ==========================================
   /**
    * Loading the Basket on basket_id on Local Storage
    * - Must have JWT, or else does not load the basket from redis
