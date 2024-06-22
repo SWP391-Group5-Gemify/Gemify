@@ -30,7 +30,7 @@ export class ProductService {
       .set('pageIndex', productSearchCriteria.pageIndex.toString())
       .set('pageSize', productSearchCriteria.pageSize.toString());
 
-    // Assign params if existences
+    // Assign params if exists
     if (productSearchCriteria.searchName) {
       params = params.set('search', productSearchCriteria.searchName);
     }

@@ -14,3 +14,17 @@ export interface GoldModel {
   status: boolean;
   content: number;
 }
+
+export interface GoldPricesModel {
+  goldTypeId: number;
+  bidPrice: number;
+  askPrice: number;
+  dateTime: Date | string;
+}
+
+export interface GoldsSearchingCriteriaModel {
+  pageIndex: number;
+  pageSize: number;
+  goldTypeId: number | string;
+  dateTime: Date | string;
+}
