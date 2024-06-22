@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+<<<<<<< HEAD:client/src/app/shared/components/managements/employees/modal-view-employee/modal-view-employee.component.spec.ts
 <<<<<<< HEAD
 import { ModalViewEmployeeComponent } from './modal-view-employee.component';
 
@@ -16,6 +17,9 @@ describe('ModalViewEmployeeComponent', () => {
     fixture = TestBed.createComponent(ModalViewEmployeeComponent);
 =======
 import { ModalViewCurrentUserComponent } from './modal-view-employee.component';
+=======
+import { ModalViewCurrentUserComponent } from './modal-view-current-user.component';
+>>>>>>> ba6fea92d29293969f8a61064be98865c10d61bf:client/src/app/shared/components/managements/employees/modal-view-current-user/modal-view-current-user.component.spec.ts
 
 describe('ModalViewEmployeeComponent', () => {
   let component: ModalViewCurrentUserComponent;

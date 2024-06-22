@@ -48,11 +48,11 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'products',
+        path: 'products-management',
         loadChildren: () =>
-          import('../../routes/managements/products-routing.module').then(
-            (m) => m.ProductsRoutingModule
-          ),
+          import(
+            '../../routes/managements/products-management-routing.module'
+          ).then((m) => m.ProductsManagementRoutingModule),
       },
       {
         path: 'orders',

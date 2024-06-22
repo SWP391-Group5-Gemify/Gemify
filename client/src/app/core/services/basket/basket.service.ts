@@ -102,8 +102,8 @@ export class BasketService {
     let basket = this.getCurrentBasketValue() ?? this.createBasket();
 
     // Update the basket's items when add or update the item
-    basket.items = this.addOrUpdateBasketItem(
-      basket?.items,
+    basket.saleItems = this.addOrUpdateBasketItem(
+      basket?.saleItems,
       basketItemToAdd,
       quantity
     );

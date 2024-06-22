@@ -16,9 +16,13 @@ import { ModalViewEmployeeComponent } from '../../../shared/components/managemen
   ModalModeEnum,
   ModalTitle,
 } from '../../../core/models/modal.model';
-import { ModalViewCurrentUserComponent } from '../../../shared/components/managements/employees/modal-view-employee/modal-view-employee.component';
+
 import { MatIcon } from '@angular/material/icon';
+<<<<<<< HEAD
 >>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
+=======
+import { ModalViewCurrentUserComponent } from '../../../shared/components/managements/employees/modal-view-current-user/modal-view-current-user.component';
+>>>>>>> ba6fea92d29293969f8a61064be98865c10d61bf
 
 @Component({
   selector: 'app-header',
@@ -63,7 +67,9 @@ export class HeaderComponent {
   // == Methods
   // ================================
 
-  //TODO: Prevent user going back to the previous state
+  /**
+   * Logout user from the screen
+   */
   logout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/', { replaceUrl: true }).then(() => {
@@ -110,6 +116,7 @@ export class HeaderComponent {
       data: modalData,
 =======
    * Open the modal for viewing
+   * TODO: Bug on reloading page when closing the dialog
    */
   openCurrentUserModal() {
     const modalData: ModalConfigModel = {
@@ -119,13 +126,17 @@ export class HeaderComponent {
     };
 
     const dialogRef = this.viewModal.open(ModalViewCurrentUserComponent, {
+      disableClose: true,
       width: '40%',
-      height: '74%',
+      height: '80%',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '300ms',
       data: modalData,
+<<<<<<< HEAD
       disableClose: true,
 >>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
+=======
+>>>>>>> ba6fea92d29293969f8a61064be98865c10d61bf
     });
   }
 }

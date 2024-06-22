@@ -75,6 +75,7 @@ export class BasketComponent implements OnInit {
     // Since the GET don't have any params, I have to call GET all and GET by ID api to achive the dropdown and filter
     this.baskets$ = this.basketService.getBaskets().pipe(
       map((baskets: BasketModel[]) => {
+        console.table(baskets);
         let filteredBaskets = baskets;
 
         // filter on id

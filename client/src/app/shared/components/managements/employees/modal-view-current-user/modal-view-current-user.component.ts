@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ModalEditCreateEmployeeComponent } from '../modal-edit-create-employee/modal-edit-create-employee.component';
 import {
-  MAT_DIALOG_DATA,
   MatDialogModule,
   MatDialogRef,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { UserModel } from '../../../../../core/models/user.model';
@@ -23,7 +22,7 @@ import { AuthService } from '../../../../../core/services/auth/auth.service';
 >>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 
 @Component({
-  selector: 'app-modal-view-employee',
+  selector: 'app-modal-view-current-user',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,8 +40,8 @@ import { AuthService } from '../../../../../core/services/auth/auth.service';
 >>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
     MatButtonToggleModule,
   ],
-  templateUrl: './modal-view-employee.component.html',
-  styleUrl: './modal-view-employee.component.scss',
+  templateUrl: './modal-view-current-user.component.html',
+  styleUrl: './modal-view-current-user.component.scss',
   providers: [provideNativeDateAdapter()],
 })
 <<<<<<< HEAD
@@ -63,6 +62,7 @@ export class ModalViewCurrentUserComponent implements OnInit {
   // == Life cycle
   // =========================
   constructor(
+<<<<<<< HEAD:client/src/app/shared/components/managements/employees/modal-view-employee/modal-view-employee.component.ts
 <<<<<<< HEAD
     private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
     @Inject(MAT_DIALOG_DATA) public dataFromParent: any
@@ -72,7 +72,10 @@ export class ModalViewCurrentUserComponent implements OnInit {
     this.modalDataConfig = this.dataFromParent;
 =======
     @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
+=======
+>>>>>>> ba6fea92d29293969f8a61064be98865c10d61bf:client/src/app/shared/components/managements/employees/modal-view-current-user/modal-view-current-user.component.ts
     private modalRef: MatDialogRef<ModalViewCurrentUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
     private authService: AuthService
   ) {}
 
