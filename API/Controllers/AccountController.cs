@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         // Get the currently logged in user
-        [Authorize(Roles = "StoreOwner")]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
