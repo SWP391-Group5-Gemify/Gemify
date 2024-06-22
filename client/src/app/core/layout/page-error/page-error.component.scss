@@ -1,0 +1,24 @@
+@import "abstracts/mixins.scss";
+@import "abstracts/variables.scss";
+
+
+.page-error {
+  @include absCenter(40%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+  &__status-code {
+    font-size: 14rem;
+    font-family: 'CG Times Roman Bold';
+    line-height: 14rem;
+  }
+
+  &__message {
+    // margin-top: 20px;
+    font-size: 2.4rem;
+    color: $color-black;
+  }
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "Counter 1",
+    "ProductQuantity": 1,
+    "status": true
+  },
+  {
+    "Name": "Counter 2",
+    "ProductQuantity": 2,
+    "status": false
+  },
+  {
+    "Name": "Counter 3",
+    "ProductQuantity": 5,
+    "status": true
+  },
+  {
+    "Name": "Counter 4",
+    "ProductQuantity": 7,
+    "status": false
+  },
+  {
+    "Name": "Counter 5",
+    "ProductQuantity": 5,
+    "status": true
+  }
+]

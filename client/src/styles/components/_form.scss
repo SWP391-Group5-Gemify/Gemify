@@ -1,0 +1,44 @@
+.form {
+  display: inline-block;
+  @include absCenter(35%);
+
+  &__heading {
+    font-size: 4.8rem;
+    text-align: center;
+    text-align: center;
+  }
+
+  &__input-control {
+    mat-form-field {
+      width: 100%;
+      min-width: 20rem;
+    }
+  }
+}
+
+// Override those by using !important, since we are using material angular
+// material will override those class then we have to use !important
+
+.form--modal {
+  &__title {
+    color: $color-primary !important;
+    text-transform: uppercase !important;
+    font-weight: bold !important;
+    background-color: $color-grey-light;
+  }
+
+  &__content {
+    display: flex !important;
+    flex-direction: column;
+    overflow: scroll;
+    gap: 3rem;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: row;
+    gap: $gutter-layout;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}

@@ -1,0 +1,37 @@
+<mat-card class="card-product"
+          appearance="outlined">
+
+  <!-- Image -->
+  <img mat-card-image
+       class="card-product__img"
+       [alt]="product.name"
+       [src]="product.imageUrl" />
+
+  <!-- Name and SubCategory -->
+  <mat-card-header class="card-product__name">
+    <mat-card-title>{{product.name}}</mat-card-title>
+    <mat-card-subtitle>{{product.subCategoryName}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <!-- Content -->
+  <mat-card-content class="card-product__content">
+    <p class="card-product__price">{{product.productPrice | currency:"VND"}}</p>
+    <p class="card-product__quantity"><span class="card-product__quantity--text">Số lượng:</span><span
+            class="card-product__quantity--number">{{product.quantity}}</span></p>
+
+    <p class="card-product__status"
+       [ngClass]="{
+        'card-product__status--available': product.status == ProductStatusEnum.Available,
+        'card-product__status--unavailable': product.status == ProductStatusEnum.Unavailable}">{{product.status}}</p>
+  </mat-card-content>
+
+  <!-- Actions -->
+  <mat-card-actions class="
+       card-product__actions">
+    <button class="btn btn--grad btn--with-icon"
+            (click)="addProductItemToCartFromChild()"><mat-icon>add</mat-icon>Giỏ hàng</button>
+
+    <button class="btn btn--primary btn--with-icon"
+            (click)="viewProductDetailFromChild()"><mat-icon>info</mat-icon>Chi tiết</button>
+  </mat-card-actions>
+</mat-card>

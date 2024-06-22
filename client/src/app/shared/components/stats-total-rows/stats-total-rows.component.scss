@@ -1,0 +1,33 @@
+@import "abstracts/variables";
+
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  max-width: 30rem;
+  height: max-content;
+  // border: 2px solid $color-primary-dark;
+
+  border-width: 1px;
+  border-style: solid;
+  border-image:
+    linear-gradient(to bottom,
+      $color-primary-dark,
+      $color-grey-dark-2) 1 100%;
+
+  &__text {
+    // flex: 1;
+    font-size: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+mat-icon {
+  font-size: 6.4rem;
+  height: 64px;
+  width: 64px;
+  color: $color-black;
+}

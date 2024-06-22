@@ -1,0 +1,47 @@
+[
+  {
+    "CategoryId": 1,
+    "Name": "Nhẫn",
+    "Unit": "Món"
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Dây chuyền",
+    "Unit": "Món"
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Vòng tay",
+    "Unit": "Món"
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Bông tai",
+    "Unit": "Đôi"
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Vòng chân",
+    "Unit": "Món"
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Vàng nhẫn",
+    "Unit": "Chỉ"
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Vàng miếng",
+    "Unit": "Chỉ"
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Đá quý",
+    "Unit": "Carat"
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Mặt dây chuyền",
+    "Unit": "Món"
+  }
+]

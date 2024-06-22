@@ -1,0 +1,83 @@
+/*
+--- 01 TYPOGRAPHY SYSTEM
+
+- Font sizes (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+- Font weights
+Default: 400
+Medium: 500
+Semi-bold: 600
+Bold: 700
+
+- Line heights
+Default: 1
+Small: 1.05
+Medium: 1.2
+Paragraph default: 1.6
+Large: 1.8
+
+- Letter spacing
+- 0.5px
+- 0.75px
+
+--- 02 WHITESPACE SYSTEM
+
+- Spacing system (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+--- 03 CUSTOMIZED FONT SIZE
+
+small
+medium
+big
+huge
+*/
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+html {
+  font-size: 62.5%
+}
+
+body {
+  box-sizing: border-box;
+  background-color: $color-white;
+  font-family: 'Roboto', sans-serif;
+}
+
+main {
+  height: calc(100% - 10rem - 5.5rem);
+  padding-bottom: $padding-layout;
+  overflow: auto;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a:link,
+a:visited,
+a:focus,
+a:hover,
+a:active {
+  text-decoration: none;
+}
+
+button {
+  outline: none;
+  border: none;
+}
