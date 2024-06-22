@@ -2,6 +2,7 @@ namespace API.Dtos
 {
     public class OrderItemDto
     {
+        public int Id { get; set;}
         public int ProductItemId { get; set; }
         public string ProductName { get; set; }
         public decimal GoldPrice { get; set; }
