@@ -30,11 +30,15 @@
   &__content {
     display: flex !important;
     flex-direction: column;
-    overflow: scroll;
+    overflow: auto;
     gap: 3rem;
   }
 
   &__controls {
+    position: sticky;
+    left: 0;
+    bottom: 0;
+    background-color: red;
     display: flex;
     flex-direction: row;
     gap: $gutter-layout;
