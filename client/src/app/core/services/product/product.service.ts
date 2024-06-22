@@ -30,7 +30,7 @@ export class ProductService {
       .set('pageIndex', productSearchCriteria.pageIndex.toString())
       .set('pageSize', productSearchCriteria.pageSize.toString());
 
-    // Assign params if existences
+    // Assign params if exists
     if (productSearchCriteria.searchName) {
       params = params.set('search', productSearchCriteria.searchName);
     }
@@ -45,6 +45,15 @@ export class ProductService {
         'subcategoryId',
         productSearchCriteria.subCategoryId.toString()
       );
+    }
+    if (productSearchCriteria.categoryId) {
+      params = params.set(
+        'categoryId',
+        productSearchCriteria.categoryId.toString()
+      );
+    }
+    if (productSearchCriteria.status) {
+      params = params.set('status', productSearchCriteria.status);
     }
     if (productSearchCriteria.sortQuantity) {
       params = params.set('sort', productSearchCriteria.sortQuantity);

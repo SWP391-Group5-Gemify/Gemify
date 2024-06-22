@@ -50,7 +50,7 @@ export class StoreManagerComponent {
     {
       name: 'Products',
       icon: 'shopping_bag',
-      route: '/store-manager/products',
+      route: '/store-manager/products-management',
     },
     { name: 'Orders', icon: 'receipt', route: '/store-manager/orders' },
   ];

@@ -49,15 +49,6 @@ export interface SubCategoryModel {
   unit: string;
 }
 
-export interface ProductsSearchingCriteriaModel {
-  pageSize: number;
-  pageIndex: number;
-  searchName: string | undefined;
-  goldTypeId: number | string | undefined;
-  subCategoryId: number | string | undefined;
-  sortQuantity: string | undefined;
-}
-
 export enum ProductStatusEnum {
   Unavailable = 'Unavailable',
   Available = 'Available',
@@ -66,4 +57,15 @@ export enum ProductStatusEnum {
 export enum SortProductsQuantityEnum {
   QuantityDesc = 'quantityDesc',
   QuantityAsc = 'quantityAsc',
+}
+
+export interface ProductsSearchingCriteriaModel {
+  pageSize: number;
+  pageIndex: number;
+  searchName: string | undefined;
+  goldTypeId: number | string | undefined;
+  subCategoryId: number | string | undefined;
+  categoryId: number | string | undefined;
+  sortQuantity: string | undefined;
+  status: string | undefined;
 }

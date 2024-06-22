@@ -1,7 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { GoldModel, LatestGoldPricesModel } from '../../models/gold.model';
+import {
+  GoldModel,
+  GoldPricesModel,
+  GoldsSearchingCriteriaModel,
+  LatestGoldPricesModel,
+} from '../../models/gold.model';
 import { map, Observable } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
 
@@ -11,14 +16,14 @@ import { PaginationModel } from '../../models/pagination.model';
 export class GoldService {
   baseGoldChartUrl: string = environment.baseApiUrl.concat('/golds');
 
-  constructor(private http: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   /**
    * Calling the api and get the latest gold price
    * @returns
    */
   getLatestGoldPrices(): Observable<LatestGoldPricesModel[]> {
-    return this.http
+    return this.httpClient
       .get<LatestGoldPricesModel[]>(this.baseGoldChartUrl + '/latest')
       .pipe(
         map((response) => {
@@ -32,6 +37,45 @@ export class GoldService {
    * @returns
    */
   getAllGolds(): Observable<PaginationModel<GoldModel>> {
-    return this.http.get<PaginationModel<GoldModel>>(this.baseGoldChartUrl);
+    return this.httpClient.get<PaginationModel<GoldModel>>(
+      this.baseGoldChartUrl
+    );
+  }
+
+  /**
+   * Get Gold Types by Id
+   * @param id
+   * @returns
+   */
+  getGoldById(id: number | string) {
+    return this.httpClient.get<GoldModel>(`${this.baseGoldChartUrl}/${id}`);
+  }
+
+  /**
+   * Get Gold Prices based on Gold Id
+   * @param goldTypeId
+   * @param goldsSearchingCriteria
+   * @returns
+   */
+  getGoldPricesOnGoldTypeId(
+    goldTypeId: number | string,
+    goldsSearchingCriteria: GoldsSearchingCriteriaModel
+  ): Observable<PaginationModel<GoldPricesModel>> {
+    let params = new HttpParams()
+      .set('pageIndex', goldsSearchingCriteria.pageIndex)
+      .set('pageSize', goldsSearchingCriteria.pageSize);
+
+    // Assign params if exists
+    if (goldsSearchingCriteria.dateTime) {
+      params = params.set(
+        'dateTime',
+        goldsSearchingCriteria.dateTime.toString()
+      );
+    }
+
+    return this.httpClient.get<PaginationModel<GoldPricesModel>>(
+      `${this.baseGoldChartUrl}/prices?goldTypeId=${goldTypeId}`,
+      { params: params }
+    );
   }
 }

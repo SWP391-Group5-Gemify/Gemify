@@ -16,10 +16,10 @@
                           (onSelectionChange)="onSelectChangeGoldIdFromParent($event)">
     </app-generic-dropdown>
 
-    <!-- Filter on Sort Criteria -->
-    <app-generic-dropdown #sortsCriteriaDropdownRef
+    <!-- Filter on Sort Quantity -->
+    <app-generic-dropdown #sortsQuantityDropdownRef
                           label="Sắp xếp số lượng"
-                          [options]="sortsCriteriaDropdown"
+                          [options]="sortsQuantityDropdown"
                           (onSelectionChange)="onSelectChangeSortQuantityFromParent($event)">
     </app-generic-dropdown>
   </div>
@@ -40,7 +40,7 @@
 <!-- Create New Basket or Update existed Basket -->
 <section>
   <div *ngIf="basketService.basketSource$ | async as basket">Giỏ hàng hiện tại
-    {{getCountTotalItemsAddedInToBasketSource(basket.items)}}</div>
+    {{getCountTotalItemsAddedInToBasketSource(basket.saleItems)}}</div>
 
   <button class="btn btn--grad btn--with-icon"
           (click)="onOpenModalAndCreateBasketWithCustomerPhone()">

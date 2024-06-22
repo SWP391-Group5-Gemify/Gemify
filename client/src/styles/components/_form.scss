@@ -20,6 +20,8 @@
 // material will override those class then we have to use !important
 
 .form--modal {
+  position: relative;
+
   &__title {
     color: $color-primary !important;
     text-transform: uppercase !important;
@@ -38,7 +40,6 @@
     position: sticky;
     left: 0;
     bottom: 0;
-    background-color: red;
     display: flex;
     flex-direction: row;
     gap: $gutter-layout;
