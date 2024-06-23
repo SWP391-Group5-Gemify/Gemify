@@ -480,3 +480,4 @@ $RECYCLE.BIN/
 *.yml
 
 /publish
+API/appsettings.json

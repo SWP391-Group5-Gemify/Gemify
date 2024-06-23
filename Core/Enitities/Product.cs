@@ -14,11 +14,11 @@ namespace Core.Enitities
         public string Description { get; set; }
         public int? GoldTypeId { get; set; }
         public GoldType GoldType { get; set;}
-        [Column(TypeName = "decimal(18,6)")]
+        [Column(TypeName = "decimal(18,4)")]
         public decimal GoldWeight {  get; set; }
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,4)")]
         public decimal TotalWeight { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal Labour {  get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]
         [Column(TypeName = "varchar(50)"), Required]
@@ -28,7 +28,7 @@ namespace Core.Enitities
         public string ImageUrl { get; set; }
         public int? SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
-        public int? SaleCounterId { get; set; }
+        public int SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
         public IReadOnlyList<GemType> Gems { get; set; }

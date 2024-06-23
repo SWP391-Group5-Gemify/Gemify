@@ -30,7 +30,7 @@ namespace Core.Enitities.OrderAggregate
         [Required]
         public int OrderTypeId { get; set; }
         public OrderType OrderType { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 0)")]
         public decimal SubTotal {  get; set; }
         [Required]
         public int CustomerId { get; set; }
@@ -49,7 +49,7 @@ namespace Core.Enitities.OrderAggregate
         public decimal GetTotal()
         {
             if (PromotionId == null) return SubTotal;   
-            return SubTotal - (SubTotal * (Promotion.Discount/100));
+            return SubTotal - (SubTotal * Promotion.Discount);
         }
     }
 }
