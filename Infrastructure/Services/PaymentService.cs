@@ -29,6 +29,12 @@ namespace Infrastructure.Services
             StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
 
             var basket = await _basketRepository.GetBasketAsync(basketId);
+
+            if (basket == null)
+            {
+                return null;
+            }
+
             var promotionDiscount = 0m;
             
             // Retrieve Promotion Discount from the server for security
@@ -128,35 +134,32 @@ namespace Infrastructure.Services
         // Update buyback prices of items in basket with prices from server
         public async Task UpdateBasketBuybackItemPrice(CustomerBasket basket)
         {
-            // Check for Buyback Items in the basket
-            if (!basket.BuybackItems.IsNullOrEmpty())
+            // Calculate Price for buyback items
+            var buybackPriceTotal = 0m;
+
+            foreach (var item in basket.BuybackItems)
             {
-                var buybackPriceTotal = 0m;
+                var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
+                new OrderItemSpecification(item.Id));
+                if (orderItem == null) return;
+                var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(
+                    new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
 
-                foreach (var item in basket.BuybackItems)
+                // Initialize product price with gold ask price * gold weight
+                var buybackProductPrice = product.GoldType.LatestAskPrice * item.GoldWeight;
+
+                // Calculate total product price for each gem
+                buybackProductPrice = orderItem.OrderItemGems.Aggregate(
+                    buybackProductPrice, 
+                    (acc, g) => acc + g.Price * 0.7m * g.Quantity
+                );
+
+                // Add product price to total Buyback price
+                buybackPriceTotal += buybackProductPrice * item.Quantity;
+
+                if (item.Price != buybackPriceTotal)
                 {
-                    var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
-                    new OrderItemSpecification(item.Id));
-                    if (orderItem == null) return;
-                    var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(
-                        new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
-
-                    // Initialize product price with gold ask price * gold weight
-                    var buybackProductPrice = product.GoldType.LatestAskPrice * item.GoldWeight;
-
-                    // Calculate total product price for each gem
-                    buybackProductPrice = orderItem.OrderItemGems.Aggregate(
-                        buybackProductPrice, 
-                        (acc, g) => acc + g.Price * 0.7m * g.Quantity
-                    );
-
-                    // Add product price to total Buyback price
-                    buybackPriceTotal += buybackProductPrice * item.Quantity;
-
-                    if (item.Price != buybackPriceTotal)
-                    {
-                        item.Price = buybackPriceTotal;
-                    }
+                    item.Price = buybackPriceTotal;
                 }
             }
         }
