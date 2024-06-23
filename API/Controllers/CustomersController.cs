@@ -48,7 +48,7 @@ namespace API.Controllers
 
         // Update customer information
         [HttpPut]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Cashier")]
         public async Task<ActionResult> UpdateCustomer (CustomerDto customerDto)
         {
             var spec = new CustomerSpecification(customerDto.Id);
@@ -63,6 +63,16 @@ namespace API.Controllers
             return BadRequest(new ApiResponse(400, "Failed to update customer information"));
         }
 
-
+        // add new customer
+        [HttpPost]
+        [Authorize(Roles = "StoreOwner,StoreManager,Cashier")]
+        public async Task<ActionResult> CreateCustomer(CustomerToAddDto customerDto)
+        {
+            var customer = _mapper.Map<Customer>(customerDto);
+            _customerRepo.Add(customer);
+            if (await _customerRepo.SaveAllAsync())
+                return Ok(new ApiResponse(200, "Successfully added!"));
+            return BadRequest(new ApiResponse(400, "Failed to add customer information"));
+        }
     }
 }

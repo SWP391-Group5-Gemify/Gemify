@@ -22,7 +22,7 @@ namespace Core.Enitities
         [Required]
         public int Point { get; set; } = 0;
 
-        public int MembershipId { get; set; }
+        public int MembershipId { get; set; } = 1;
         
         public Membership Membership { get; set; }
     }
