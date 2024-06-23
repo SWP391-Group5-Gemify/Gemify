@@ -11,6 +11,16 @@ namespace Core.Enitities
 {
     public class Promotion : BaseEntity
     {
+        public Promotion(string Code, string Name, decimal Discount, DateOnly ExpDate) 
+        {
+            this.Code = Code.ToUpper();
+            this.Name = Name;
+            this.Discount = Discount;
+            this.ExpDate = ExpDate;
+            this.EffDate = DateOnly.FromDateTime(DateTime.UtcNow);
+            this.Status = true;
+        }
+        
         [Column(TypeName = "varchar(200)"), Required]
         public string Name { get; set; }
 

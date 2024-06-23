@@ -31,7 +31,7 @@ import { EmployeeService } from '../../../../../core/services/employee/employee.
 import EnumUtils from '../../../../utils/EnumUtils';
 import { EmployeeModel } from '../../../../../core/models/employee.model';
 import { MatIcon } from '@angular/material/icon';
-import { NotificationService } from '../../../../../core/services/snackbar/snackbar.service';
+import { NotificationService } from '../../../../../core/services/notification/notification.service';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../../core/models/dropdown.model';
 
