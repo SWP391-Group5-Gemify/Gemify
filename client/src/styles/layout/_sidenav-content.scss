@@ -42,7 +42,7 @@
     padding-top: $padding-layout;
     padding-bottom: $padding-layout;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: visible;
     overflow-x: auto;
     @include paddingHorizon($padding-layout);
   }

@@ -22,6 +22,12 @@ export interface GoldPricesModel {
   dateTime: Date | string;
 }
 
+export interface UpdateGoldPricesModel {
+  goldTypeId: number;
+  bidPrice: number;
+  askPrice: number;
+}
+
 export interface GoldsSearchingCriteriaModel {
   pageIndex: number;
   pageSize: number;

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ProductService } from '../../../../../core/services/product/product.service';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ProductModel } from '../../../../../core/models/product.model';
 import { Observable } from 'rxjs';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-product-details-management',
   standalone: true,
-  imports: [MatIcon],
+  imports: [MatIcon, CommonModule, MatExpansionModule],
   templateUrl: './product-details-management.component.html',
   styleUrl: './product-details-management.component.scss',
 })
@@ -30,6 +31,7 @@ export class ProductDetailsManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProductOnId();
+    this.product$;
   }
 
   // ===========================
