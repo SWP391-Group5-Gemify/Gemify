@@ -96,7 +96,7 @@ namespace API.Controllers
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
             var userId = user.Id;
 
-            // create buy back order
+            // create exchange order
             var exchangeOrder = await _orderService.CreateExchangeOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
 
             if (exchangeOrder == null)

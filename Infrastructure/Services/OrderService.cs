@@ -192,6 +192,11 @@ namespace Infrastructure.Services
             return await _unitOfWork.Repository<OrderType>().ListAllAsync();
         }
 
+        /**
+         * =================================
+         *         CREATE EXCHANGE ORDER
+         * =================================
+        **/
         public async Task<Order> CreateExchangeOrderAsync(string basketId, int customerId, int userId)
         {
             // get basket
@@ -288,13 +293,13 @@ namespace Infrastructure.Services
                 orderItemList.Add(orderItem);
             }
 
-            // calculate buyback total order price
-            var SaleSubtotal = saleItemList.Sum(oi => oi.Price * oi.Quantity);
+            // calculate total sales order price
+            var saleSubtotal = saleItemList.Sum(oi => oi.Price * oi.Quantity);
 
-            var subtotal = SaleSubtotal + buybackSubtotal;
+            var subtotal = saleSubtotal + buybackSubtotal;
 
             // create purchase order
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, null, null, orderItemList);
+            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db
