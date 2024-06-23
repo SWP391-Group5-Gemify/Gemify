@@ -51,7 +51,9 @@ namespace Core.Enitities.OrderAggregate
         // Later changed due to Promotion and Membership benefits
         public decimal GetTotal()
         {
-            var totalDiscount = Customer.Membership.Discount;
+            var totalDiscount = 0m;
+            if (MembershipId != null)
+                totalDiscount += Membership.Discount;
             if (PromotionId != null)
                 totalDiscount += Promotion.Discount; 
             return SubTotal - (SubTotal * totalDiscount);

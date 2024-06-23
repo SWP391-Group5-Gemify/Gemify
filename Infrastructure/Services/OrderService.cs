@@ -84,6 +84,7 @@ namespace Infrastructure.Services
                 order.CustomerId = customerId;
                 order.UserId = userId;
                 order.PromotionId = basket.PromotionId;
+                order.MembershipId = basket.MembershipId;
                 order.OrderTypeId = basket.OrderTypeId;
                 order.SubTotal = subtotal;
                 _unitOfWork.Repository<Order>().Update(order);
