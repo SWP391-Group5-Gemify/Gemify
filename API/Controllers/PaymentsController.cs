@@ -68,12 +68,5 @@ namespace API.Controllers
 
             return new EmptyResult();
         }
-
-        [Authorize(Roles = "Cashier")]
-        [HttpPut("{paymentIntentId}")]
-        public async Task<ActionResult<Order>> UpdateOrder(string paymentIntentId)
-        {
-            return Ok(await _paymentService.UpdateOrderPaymentSucceeded(paymentIntentId));
-        }
     }
 }
