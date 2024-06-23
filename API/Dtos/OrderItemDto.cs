@@ -11,6 +11,7 @@ namespace API.Dtos
         public decimal ProductLabour {  get; set; }
         public string Unit {  get; set; }
         public string Image_Url { get; set; }
+        public string SaleCounterName { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public IReadOnlyList<OrderItemGemDto> OrderItemGems {get; set;}

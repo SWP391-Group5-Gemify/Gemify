@@ -30,7 +30,7 @@ namespace Core.Enitities.OrderAggregate
         [Required]
         public int OrderTypeId { get; set; }
         public OrderType OrderType { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 0)")]
         public decimal SubTotal {  get; set; }
         [Required]
         public int CustomerId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Core.Enitities.OrderAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specifications.Orders
 {
@@ -7,6 +8,7 @@ namespace Core.Specifications.Orders
         public OrderByPaymentIntentIdSpecification(string paymentIntentId) 
             : base(o => o.PaymentIntentId == paymentIntentId)
         {
+            AddInclude(o => o.OrderItems);
         }
     }
 }

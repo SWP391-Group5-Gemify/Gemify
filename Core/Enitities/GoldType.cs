@@ -7,9 +7,9 @@ namespace Core.Enitities
     {
         [Column(TypeName = "nvarchar(100)"), Required]
         public string Name { get; set; }
-        [Column(TypeName = "decimal(18,2)"), Required]
+        [Column(TypeName = "decimal(18,0)"), Required]
         public decimal LatestBidPrice { get; set; }
-        [Column(TypeName = "decimal(18,2)"), Required]
+        [Column(TypeName = "decimal(18,0)"), Required]
         public decimal LatestAskPrice { get; set; }
         [Column(TypeName = "nvarchar(10)"), Required]
         public string Unit { get; set; }

@@ -3,11 +3,8 @@ using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Orders;
-using Infrastructure.Data;
-using Microsoft.IdentityModel.Tokens;
 using Core.Specifications.Products;
 using Microsoft.EntityFrameworkCore;
-using Core.Specifications.Customers;
 
 namespace Infrastructure.Services
 {
@@ -38,9 +35,17 @@ namespace Infrastructure.Services
             {
                 var productSpec = new ProductSpecification(item.Id);
                 var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
+
+                var remainingProductQuantity = productItem.Quantity - item.Quantity;
+                var remainingCounterQuantity = productItem.SaleCounter.ProductQuantity - item.Quantity;
+                if (remainingProductQuantity < 0 || remainingCounterQuantity < 0) 
+                {
+                    return null;
+                }
+
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice,
                     productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit,
-                    productItem.TotalWeight, productItem.ImageUrl);
+                    productItem.TotalWeight, productItem.ImageUrl, productItem.SaleCounterId ,productItem.SaleCounter.Name);
 
                 // Calculate the total price of all of the gems on a product
                 var productGems = productItem.ProductGems;
@@ -151,7 +156,7 @@ namespace Infrastructure.Services
                 // create item ordered
                 var buyBackItemOrdered = new ProductItemOrdered(product.Id, product.Name, purchaseGoldPrice,
                 product.GoldType.Name, item.GoldWeight, 0, product.GoldType.Unit,
-                product.TotalWeight, product.ImageUrl);
+                product.TotalWeight, product.ImageUrl, product.SaleCounterId, product.SaleCounter.Name);
                 // calculate purchase product price
                 var purchaseProductPrice = (decimal) buyBackOrderItemGemList
                     .Aggregate(buyBackItemOrdered.GoldPrice*buyBackItemOrdered.GoldWeight, (acc, g) => acc + g.Price*g.Quantity);

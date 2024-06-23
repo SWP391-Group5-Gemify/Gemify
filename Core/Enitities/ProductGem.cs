@@ -13,7 +13,7 @@ namespace Core.Enitities
         public Product Product { get; set; }
         public int GemTypeId { get; set; }
         public GemType GemType { get; set; }
-        [Column(TypeName = "decimal(18,6)"), Required]
+        [Column(TypeName = "decimal(18,4)"), Required]
         public decimal GemWeight { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string CertificateCode { get; set; }
