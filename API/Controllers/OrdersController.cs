@@ -33,7 +33,7 @@ namespace API.Controllers
         public async Task<ActionResult<OrderToReturnDto>> CreateSalesOrder(OrderDto orderDto)
         {
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
-            if (user == null) return BadRequest(new ApiResponse(400, "Error while creating order"));
+            if (user == null) return Unauthorized(new ApiResponse(401));
             var userId = user.Id;
 
             var order = await _orderService.CreateSalesOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);

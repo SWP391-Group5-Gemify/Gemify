@@ -95,7 +95,8 @@ namespace API.Helpers
             CreateMap<Order, OrderToReturnDto>()
                 .ForMember(d => d.Name, o => o.MapFrom(s => s.Customer.Name))
                 .ForMember(d => d.Phone, o => o.MapFrom(s => s.Customer.Phone))
-                .ForMember(d => d.Membership, o => o.MapFrom(s => s.Customer.Membership.Name))
+                .ForMember(d => d.MembershipName, o => o.MapFrom(s => s.Membership.Name))
+                .ForMember(d => d.MembershipDiscount, o => o.MapFrom(s => s.Membership.Discount))
                 .ForMember(d => d.PromotionCode, o => o.MapFrom(s => s.Promotion.Code))
                 .ForMember(d => d.PromotionDiscount, o => o.MapFrom(s => s.Promotion.Discount))
                 .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.Name));

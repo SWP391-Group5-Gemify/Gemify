@@ -3,16 +3,13 @@ using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Orders;
-using Infrastructure.Data;
-using Microsoft.IdentityModel.Tokens;
 using Core.Specifications.Products;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IBasketRepository _basketRepo;
+        private readonly IBasketRepository _basketRepo; 
         private readonly IUnitOfWork _unitOfWork;
 
         public OrderService(IBasketRepository basketRepo, IUnitOfWork unitOfWork)
@@ -35,11 +32,20 @@ namespace Infrastructure.Services
             var items = new List<OrderItem>();
             foreach (var item in basket.SaleItems)
             {
-                var spec = new ProductSpecification(item.Id);
-                var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(spec);
+                var productSpec = new ProductSpecification(item.Id);
+                var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
+
+                // Check if quantity is below 0 after selling products
+                var remainingProductQuantity = productItem.Quantity - item.Quantity;
+                var remainingCounterQuantity = productItem.SaleCounter.ProductQuantity - item.Quantity;
+                if (remainingProductQuantity < 0 || remainingCounterQuantity < 0) 
+                {
+                    return null;
+                }
+
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice,
                     productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit,
-                    productItem.TotalWeight, productItem.ImageUrl);
+                    productItem.TotalWeight, productItem.ImageUrl, productItem.SaleCounterId ,productItem.SaleCounter.Name);
 
                 // Calculate the total price of all of the gems on a product
                 var productGems = productItem.ProductGems;
@@ -68,9 +74,26 @@ namespace Infrastructure.Services
             // Calculate subtotal
             var subtotal = items.Sum(item => item.Price * item.Quantity);
 
-            // Create Order
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, items);
-            _unitOfWork.Repository<Order>().Add(order);
+            // Check if the order exists with a payment intent id
+            var orderSpec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+
+            if(order != null)
+            {
+                order.CustomerId = customerId;
+                order.UserId = userId;
+                order.PromotionId = basket.PromotionId;
+                order.OrderTypeId = basket.OrderTypeId;
+                order.SubTotal = subtotal;
+                _unitOfWork.Repository<Order>().Update(order);
+            }
+            else
+            {
+                // Create Order
+                order = new Order(basket.OrderTypeId, subtotal, customerId, userId, 
+                    basket.PaymentIntentId, basket.PromotionId, basket.MembershipId, items);
+                _unitOfWork.Repository<Order>().Add(order);
+            }
 
             // Save Changes to the database
             var result = await _unitOfWork.Complete();
@@ -78,8 +101,8 @@ namespace Infrastructure.Services
             if (result <= 0) return null;
 
             // Return the order
-            var orderSpec = new OrdersSpecification(order.Id);
-            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+            var orderToReturnSpec = new OrdersSpecification(order.Id);
+            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderToReturnSpec);
             return order;
         }
 
@@ -134,7 +157,7 @@ namespace Infrastructure.Services
                 // create item ordered
                 var buyBackItemOrdered = new ProductItemOrdered(product.Id, product.Name, purchaseGoldPrice,
                 product.GoldType.Name, item.GoldWeight, 0, product.GoldType.Unit,
-                product.TotalWeight, product.ImageUrl);
+                product.TotalWeight, product.ImageUrl, product.SaleCounterId, product.SaleCounter.Name);
                 // calculate purchase product price
                 var purchaseProductPrice = (decimal) buyBackOrderItemGemList
                     .Aggregate(buyBackItemOrdered.GoldPrice*buyBackItemOrdered.GoldWeight, (acc, g) => acc + g.Price*g.Quantity);
@@ -149,7 +172,8 @@ namespace Infrastructure.Services
             var subtotal = orderItemList.Sum(oi => oi.Price * oi.Quantity);
 
             // create purchase order
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, repurchaserId, null, null, orderItemList);
+
+            var order = new Order(basket.OrderTypeId, subtotal, customerId, repurchaserId, null, null, null, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db
@@ -245,7 +269,7 @@ namespace Infrastructure.Services
                 // create item ordered
                 var buyBackItemOrdered = new ProductItemOrdered(product.Id, product.Name, purchaseGoldPrice,
                 product.GoldType.Name, item.GoldWeight, 0, product.GoldType.Unit,
-                product.TotalWeight, product.ImageUrl);
+                product.TotalWeight, product.ImageUrl, product.SaleCounterId, product.SaleCounter.Name);
                 // calculate purchase product price
                 var purchaseProductPrice = (decimal)buyBackOrderItemGemList
                     .Aggregate(buyBackItemOrdered.GoldPrice * buyBackItemOrdered.GoldWeight, (acc, g) => acc + g.Price * g.Quantity);
@@ -266,7 +290,7 @@ namespace Infrastructure.Services
                 var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(spec);
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice,
                     productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit,
-                    productItem.TotalWeight, productItem.ImageUrl);
+                    productItem.TotalWeight, productItem.ImageUrl, productItem.SaleCounterId, productItem.SaleCounter.Name);
 
                 // Calculate the total price of all of the gems on a product
                 var productGems = productItem.ProductGems;
@@ -299,7 +323,8 @@ namespace Infrastructure.Services
             var subtotal = saleSubtotal + buybackSubtotal;
 
             // create purchase order
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, orderItemList);
+            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, 
+                basket.PaymentIntentId, basket.PromotionId, basket.MembershipId, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db

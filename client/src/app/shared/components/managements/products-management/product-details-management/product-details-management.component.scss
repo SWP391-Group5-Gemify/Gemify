@@ -1,0 +1,78 @@
+@import "abstracts/variables";
+
+.flex {
+  display: flex;
+  gap: $gutter-layout-big;
+}
+
+// Product
+.product-details {
+  display: flex;
+  align-items: flex-start;
+  gap: $gutter-layout;
+
+  &__info {}
+
+  &__image {
+    max-width: 35rem;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__title {
+    font-size: 4.2rem;
+  }
+}
+
+// Specs
+.specs {
+  flex-grow: 1;
+
+  &__label {
+    display: inline-block;
+    font-size: 2.0rem;
+    font-weight: 900;
+    width: 23rem;
+  }
+
+  &__item {
+    font-size: 1.8rem;
+    line-height: 3.6rem;
+    white-space: nowrap;
+
+    &--description {
+      margin-bottom: $gutter-layout;
+      white-space: wrap;
+
+      // header
+      span {
+        display: block;
+      }
+    }
+  }
+}
+
+// Gem
+.gems-details {
+  flex-grow: 3;
+
+  &__title {
+    font-size: 2.2rem;
+    padding: $padding-layout;
+    background-color: $color-primary-light;
+    color: $color-white;
+  }
+
+  &__header {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+
+    mat-panel-title {
+      height: 5rem;
+      color: $color-primary-light;
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 1.4px;
+    }
+  }
+}

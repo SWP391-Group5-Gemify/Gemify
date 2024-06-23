@@ -20,11 +20,11 @@ namespace Core.Enitities.OrderAggregate
         public string GemName { get; set; }
         [Column(TypeName = "varchar(10)")]
         public string GemColor { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 4)")]
         public decimal GemWeight { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 0)")]
         public decimal GemPrice { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 4)")]
         public decimal GemCarat {  get; set; }
         [Column(TypeName = "varchar(10)")]
         public string GemClarity { get; set; }
