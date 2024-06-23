@@ -252,9 +252,9 @@ namespace Infrastructure.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", nullable: true),
                     GoldTypeId = table.Column<int>(type: "int", nullable: true),
-                    GoldWeight = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
-                    TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Labour = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GoldWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    TotalWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Labour = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     Status = table.Column<string>(type: "varchar(50)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
@@ -295,7 +295,8 @@ namespace Infrastructure.Data.Migrations
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     PaymentIntentId = table.Column<string>(type: "varchar(200)", nullable: true),
-                    PromotionId = table.Column<int>(type: "int", nullable: true)
+                    PromotionId = table.Column<int>(type: "int", nullable: true),
+                    MembershipId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -306,6 +307,11 @@ namespace Infrastructure.Data.Migrations
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Memberships_MembershipId",
+                        column: x => x.MembershipId,
+                        principalTable: "Memberships",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_OrderTypes_OrderTypeId",
                         column: x => x.OrderTypeId,
@@ -362,12 +368,12 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemOrdered_ProductItemId = table.Column<int>(type: "int", nullable: true),
                     ItemOrdered_ProductName = table.Column<string>(type: "nvarchar(200)", nullable: true),
-                    ItemOrdered_GoldPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ItemOrdered_GoldPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
                     ItemOrdered_GoldType = table.Column<string>(type: "nvarchar(100)", nullable: true),
-                    ItemOrdered_GoldWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    ItemOrdered_ProductLabour = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ItemOrdered_GoldWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    ItemOrdered_ProductLabour = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
                     ItemOrdered_Unit = table.Column<string>(type: "nvarchar(20)", nullable: true),
-                    ItemOrdered_TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ItemOrdered_TotalWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
                     ItemOrdered_Image_Url = table.Column<string>(type: "varchar(200)", nullable: true),
                     ItemOrdered_SaleCounterId = table.Column<int>(type: "int", nullable: true),
                     ItemOrdered_SaleCounterName = table.Column<string>(type: "varchar(50)", nullable: true),
@@ -441,6 +447,11 @@ namespace Infrastructure.Data.Migrations
                 name: "IX_Orders_CustomerId",
                 table: "Orders",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_MembershipId",
+                table: "Orders",
+                column: "MembershipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_OrderTypeId",
