@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class FinalEntities : Migration
+    public partial class FinalMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,16 +32,16 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", nullable: true),
-                    Proportion = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Proportion = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
                     Polish = table.Column<string>(type: "varchar(10)", nullable: true),
                     Symmetry = table.Column<string>(type: "varchar(10)", nullable: true),
                     Fluorescence = table.Column<string>(type: "varchar(10)", nullable: true),
-                    Carat = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Carat = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Cut = table.Column<string>(type: "varchar(10)", nullable: true),
                     Clarity = table.Column<string>(type: "varchar(10)", nullable: true),
                     Color = table.Column<string>(type: "varchar(10)", nullable: true),
                     Shape = table.Column<string>(type: "varchar(10)", nullable: true),
-                    LatestPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    LatestPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     IsProcurable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -56,8 +56,8 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    LatestBidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LatestAskPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    LatestBidPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    LatestAskPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     Unit = table.Column<string>(type: "nvarchar(10)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     Content = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -106,7 +106,6 @@ namespace Infrastructure.Data.Migrations
                     EffDate = table.Column<DateOnly>(type: "Date", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     Code = table.Column<string>(type: "varchar(100)", nullable: false),
-                    MinValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -163,7 +162,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GemTypeId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -184,8 +183,8 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GoldTypeId = table.Column<int>(type: "int", nullable: false),
-                    BidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AskPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BidPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    AskPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -224,6 +223,27 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SaleCounterRevenue",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Revenue = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    SaleCounterId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleCounterRevenue", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleCounterRevenue_SaleCounters_SaleCounterId",
+                        column: x => x.SaleCounterId,
+                        principalTable: "SaleCounters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -239,7 +259,7 @@ namespace Infrastructure.Data.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
                     SubCategoryId = table.Column<int>(type: "int", nullable: true),
-                    SaleCounterId = table.Column<int>(type: "int", nullable: true)
+                    SaleCounterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,7 +273,8 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Products_SaleCounters_SaleCounterId",
                         column: x => x.SaleCounterId,
                         principalTable: "SaleCounters",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Products_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
@@ -270,7 +291,7 @@ namespace Infrastructure.Data.Migrations
                     OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Status = table.Column<string>(type: "varchar(50)", nullable: true),
                     OrderTypeId = table.Column<int>(type: "int", nullable: false),
-                    SubTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SubTotal = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     PaymentIntentId = table.Column<string>(type: "varchar(200)", nullable: true),
@@ -295,8 +316,7 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Orders_Promotions_PromotionId",
                         column: x => x.PromotionId,
                         principalTable: "Promotions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_User_UserId",
                         column: x => x.UserId,
@@ -313,7 +333,7 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     GemTypeId = table.Column<int>(type: "int", nullable: false),
-                    GemWeight = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    GemWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     CertificateCode = table.Column<string>(type: "varchar(50)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
@@ -349,7 +369,9 @@ namespace Infrastructure.Data.Migrations
                     ItemOrdered_Unit = table.Column<string>(type: "nvarchar(20)", nullable: true),
                     ItemOrdered_TotalWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ItemOrdered_Image_Url = table.Column<string>(type: "varchar(200)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ItemOrdered_SaleCounterId = table.Column<int>(type: "int", nullable: true),
+                    ItemOrdered_SaleCounterName = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -371,12 +393,12 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GemsItemOrdered_GemName = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     GemsItemOrdered_GemColor = table.Column<string>(type: "varchar(10)", nullable: true),
-                    GemsItemOrdered_GemWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    GemsItemOrdered_GemPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    GemsItemOrdered_GemCarat = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    GemsItemOrdered_GemWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    GemsItemOrdered_GemPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
+                    GemsItemOrdered_GemCarat = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
                     GemsItemOrdered_GemClarity = table.Column<string>(type: "varchar(10)", nullable: true),
                     GemsItemOrdered_GemCertificateCode = table.Column<string>(type: "varchar(50)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderItemId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -461,6 +483,11 @@ namespace Infrastructure.Data.Migrations
                 column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SaleCounterRevenue_SaleCounterId",
+                table: "SaleCounterRevenue",
+                column: "SaleCounterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SaleCounters_UserId",
                 table: "SaleCounters",
                 column: "UserId");
@@ -485,6 +512,9 @@ namespace Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductGems");
+
+            migrationBuilder.DropTable(
+                name: "SaleCounterRevenue");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
