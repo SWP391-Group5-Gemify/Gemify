@@ -13,6 +13,6 @@ namespace Core.Interfaces
         Task<Order> GetOrderByIdAsync(int id);
         Task<int> CountOrdersWithSpecAsync(ISpecification<Order> spec);
         Task<IReadOnlyList<OrderType>> GetOrderTypesAsync();
-        Task<int> UpdateOrderAsync(Order order);
+        Task<Order> UpdateOrderAsync(Order order);
     }
 }

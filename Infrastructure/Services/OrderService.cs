@@ -180,13 +180,13 @@ namespace Infrastructure.Services
             return order;
         }
 
-        public async Task<int> UpdateOrderAsync(Order order)
+        public async Task<Order> UpdateOrderAsync(Order order)
         {
             // Add point to customer with successful sales/exchange order
             if (order.Status == "Payment Received" && 
                 (order.OrderType.Name == "Sales" || order.OrderType.Name == "Exchange"))
             {               
-                var point = (int) order.GetTotal() / 100;
+                var point = (int) order.GetTotal() / 100000;
                 Customer customer = await _unitOfWork.Repository<Customer>().GetByIdAsync(order.CustomerId);
                 customer.Point += point;
                 var memberships = await _unitOfWork.Repository<Membership>().ListAllAsync();
@@ -201,7 +201,9 @@ namespace Infrastructure.Services
                 _unitOfWork.Repository<Customer>().Update(customer);
             }
             _unitOfWork.Repository<Order>().Update(order);
-            return await _unitOfWork.Complete();
+            if (await _unitOfWork.Complete() <= 0) return null;
+
+            return await _unitOfWork.Repository<Order>().GetEntityWithSpec(new OrdersSpecification(order.Id));
         }
 
         public async Task<Order> GetOrderByIdAsync(int id)

@@ -106,10 +106,10 @@ namespace API.Controllers
                 return NotFound(new ApiResponse(404, "This order does not exist"));
 
             existingOrder.Status = orderDto.Status;
-            var result = await _orderService.UpdateOrderAsync(existingOrder);
+            var updatedOrder = await _orderService.UpdateOrderAsync(existingOrder);
 
-            if (result > 0)
-                return Ok(new ApiResponse(200, "Successfully updated!"));
+            if (updatedOrder != null)
+                return Ok(_mapper.Map<OrderToReturnDto>(updatedOrder));
                 
             return BadRequest(new ApiResponse(400, "Failed to update!"));
         }
