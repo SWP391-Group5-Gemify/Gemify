@@ -11,24 +11,15 @@
     <ng-container *ngIf="isCreateMode()">
 
       <!-- Roles -->
-<<<<<<< HEAD
-      <app-generic-dropdown label="
-                  Select
-                  Roles"
-=======
       <app-generic-dropdown label="Select Roles"
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
                             [options]="roleOptions"
                             (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
       </app-generic-dropdown>
 
       <!-- TODO: IMAGE UPLOAD HERE -->
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
       <!-- Username -->
       <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
@@ -48,11 +39,6 @@
       </mat-form-field>
     </ng-container>
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
     <!-- Gender -->
     <mat-radio-group aria-label="Select your gender"
                      formControlName="gender"
@@ -112,14 +98,8 @@
   <!-- Action to Close or Save -->
   <mat-dialog-actions class="form--modal__controls">
     <button class="btn btn--grad btn--with-icon"
-<<<<<<< HEAD
-            (click)="onCloseModal()"><mat-icon>cancel</mat-icon>Close</button>
-    <button class="btn btn--primary btn--with-icon"
-            (click)="onSaveModal()"><mat-icon>save</mat-icon>Save</button>
-=======
             (click)="onCloseModal()"><mat-icon>cancel</mat-icon>{{modalConfigFromParent.closeButtonLabel}}</button>
     <button class="btn btn--primary btn--with-icon"
             (click)="onSaveModal()"><mat-icon>save</mat-icon>{{modalConfigFromParent.saveButtonLabel}}</button>
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
   </mat-dialog-actions>
 </form>

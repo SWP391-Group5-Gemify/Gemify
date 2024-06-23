@@ -18,32 +18,20 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-<<<<<<< HEAD
-import { Observable } from 'rxjs';
-=======
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 import {
   GenderModel,
   GenderEnum,
 } from '../../../../../core/models/gender.model';
 import {
   ModalConfigModel,
-<<<<<<< HEAD
-  ModalEmployeeModeEnum,
-=======
   ModalModeEnum,
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 } from '../../../../../core/models/modal.model';
 import { RoleEnum, RoleModel } from '../../../../../core/models/role.model';
 import { EmployeeService } from '../../../../../core/services/employee/employee.service';
 import EnumUtils from '../../../../utils/EnumUtils';
 import { EmployeeModel } from '../../../../../core/models/employee.model';
 import { MatIcon } from '@angular/material/icon';
-<<<<<<< HEAD
-import { SnackbarService } from '../../../../../core/services/snackbar/snackbar.service';
-=======
-import { NotificationService } from '../../../../../core/services/snackbar/snackbar.service';
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
+import { NotificationService } from '../../../../../core/services/notification/notification.service';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../../core/models/dropdown.model';
 
@@ -77,11 +65,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   public genderOptions!: GenderModel[];
   public roleOptions!: DropdownModel[];
   public employee!: EmployeeModel;
-<<<<<<< HEAD
-  public modalModes!: ModalEmployeeModeEnum;
-=======
   public modalModes!: ModalModeEnum;
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 
   // =========================
   // == Life cycle
@@ -98,35 +82,22 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
     private modalRef: MatDialogRef<ModalEditCreateEmployeeComponent>,
     private employeeService: EmployeeService,
     private datePipe: DatePipe,
-<<<<<<< HEAD
-    private snackbarService: SnackbarService
-=======
     private notificationService: NotificationService
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
   ) {}
 
   ngOnInit(): void {
     this.employee =
       this.modalConfigFromParent.initialData ?? new EmployeeModel();
 
-<<<<<<< HEAD
-    switch (this.modalConfigFromParent.mode) {
-      case ModalEmployeeModeEnum.Edit: {
-=======
     console.table(this.employee);
 
     switch (this.modalConfigFromParent.mode) {
       case ModalModeEnum.Edit: {
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
         this.loadFormIfEdit();
         this.loadGenderRadioButtons();
         break;
       }
-<<<<<<< HEAD
-      case ModalEmployeeModeEnum.Create: {
-=======
       case ModalModeEnum.Create: {
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
         this.loadRoles();
         this.loadGenderRadioButtons();
         this.loadFormIfCreate();
@@ -140,11 +111,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   // =========================
 
   isCreateMode(): boolean {
-<<<<<<< HEAD
-    return this.modalConfigFromParent.mode == ModalEmployeeModeEnum.Create;
-=======
     return this.modalConfigFromParent.mode == ModalModeEnum.Create;
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
   }
 
   /**
@@ -244,11 +211,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
       };
 
       // Based on the mode to handle the related action
-<<<<<<< HEAD
-      if (ModalEmployeeModeEnum.Edit) {
-=======
       if (this.modalConfigFromParent.mode == ModalModeEnum.Edit) {
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
         this.editEmployee(dataFromForm);
       } else {
         this.createEmployee(dataFromForm);
@@ -259,22 +222,14 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
   editEmployee(updatedEmployee: EmployeeModel) {
     this.employeeService.updateEmployee(updatedEmployee).subscribe({
       next: (response: any) => {
-<<<<<<< HEAD
-        this.snackbarService.show(
-=======
         this.notificationService.show(
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
           `Employee with ID = ${this.employee?.id} updated successfully`
         );
       },
 
       error: (err) => {
         console.error(err);
-<<<<<<< HEAD
-        this.snackbarService.show('Error updating employee', 'Retry', 5000);
-=======
         this.notificationService.show('Error updating employee', 'Retry', 5000);
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
       },
     });
   }
@@ -284,11 +239,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
 
     this.employeeService.registerNewEmployee(newEmployee).subscribe({
       next: (response: any) => {
-<<<<<<< HEAD
-        this.snackbarService.show(`Create new account for `);
-=======
         this.notificationService.show(`Create new account for `);
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
       },
     });
   }

@@ -20,51 +20,50 @@
     <div class="flex">
       <div class="specs">
 
-        <!-- Description -->
         <p class="specs__item specs__item--description">
-          <span class="specs__label">Description:</span>
+          <span class="specs__label">Mô tả:</span>
           {{product.description }}
         </p>
 
         <p class="specs__item">
-          <span class="specs__label">Gold Type:</span> {{ product.goldType }}
+          <span class="specs__label">Loại vàng:</span> {{ product.goldType }}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Gold Weight:</span> {{ product.goldWeight }} grams
+          <span class="specs__label">Trọng lượng vàng:</span> {{ product.goldWeight }} chỉ
         </p>
         <p class="specs__item">
-          <span class="specs__label">Latest Bid Price:</span> ${{ product.latestBidPrice | currency: "vnd"}}
+          <span class="specs__label">Giá mua mới nhất:</span> {{ product.latestBidPrice | currency: 'vnd': 'VND '}}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Total Weight:</span> {{ product.totalWeight }} grams
+          <span class="specs__label">Tổng trọng lượng:</span> {{ product.totalWeight }} chỉ
         </p>
         <p class="specs__item">
-          <span class="specs__label">Labour:</span> ${{ product.labour | currency: "vnd"}}
+          <span class="specs__label">Tiền công:</span> {{ product.labour | currency: 'vnd': 'VND '}}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Quantity:</span> {{ product.quantity }}
+          <span class="specs__label">Số lượng:</span> {{ product.quantity }}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Sub-Category Name:</span> {{ product.subCategoryName }}
+          <span class="specs__label">Tên danh mục phụ:</span> {{ product.subCategoryName }}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Category Name:</span> {{ product.categoryName }}
+          <span class="specs__label">Tên danh mục:</span> {{ product.categoryName }}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Sale Counter Name:</span> {{ product.saleCounterName }}
+          <span class="specs__label">Tên quầy bán:</span> {{ product.saleCounterName }}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Product Price:</span> ${{ product.productPrice | currency: "vnd"}}
+          <span class="specs__label">Giá sản phẩm:</span> {{ product.productPrice | currency: 'vnd': 'VND '}}
         </p>
         <p class="specs__item specs__item--status">
-          <span class="specs__label">Status:</span> {{ product.status }}
+          <span class="specs__label">Trạng thái:</span> {{ product.status }}
         </p>
       </div>
 
       <!-- Gem Details -->
       <div class="gems-details"
            *ngIf="product.gems && product.gems.length">
-        <h3 class="gems-details__title mat-elevation-z3">Gems</h3>
+        <h3 class="gems-details__title mat-elevation-z3">Đá quý</h3>
         <mat-accordion>
 
           <!-- A panel -->
@@ -73,32 +72,34 @@
             <!-- Header -->
             <mat-expansion-panel-header class="gems-details__header">
               <mat-panel-title>
-                {{ gem.name }} - {{gem.carat}}
+                {{ gem.name }} - {{gem.carat}} chỉ
               </mat-panel-title>
             </mat-expansion-panel-header>
 
             <div matExpansionPanelContent
                  class="specs">
-              <p class="specs__item specs__item--description"><span class="specs__label">Description:</span> ${{
+              <p class="specs__item specs__item--description"><span class="specs__label">Mô tả:</span> {{
                 gem.description }}</p>
-              <p class="specs__item"><span class="specs__label">Type:</span> {{ gem.gemTypeId }}</p>
-              <p class="specs__item"><span class="specs__label">Proportion:</span> {{ gem.proportion }}</p>
-              <p class="specs__item"><span class="specs__label">Polish:</span> {{ gem.polish }}</p>
-              <p class="specs__item"><span class="specs__label">Fluorescence:</span> {{ gem.fluorescence }}</p>
-              <p class="specs__item"><span class="specs__label">Symmetry:</span> {{ gem.symmetry }}</p>
-              <p class="specs__item"><span class="specs__label">Carat:</span> {{ gem.carat }}</p>
-              <p class="specs__item"><span class="specs__label">Cut:</span> {{ gem.cut }}</p>
-              <p class="specs__item"><span class="specs__label">Clarity:</span> {{ gem.clarity }}</p>
-              <p class="specs__item"><span class="specs__label">Color:</span> {{ gem.color }}</p>
-              <p class="specs__item"><span class="specs__label">Shape:</span> {{ gem.shape }}</p>
-              <p class="specs__item"><span class="specs__label">Latest Price:</span> ${{ gem.latestPrice | currency:
-                "vnd"}}</p>
-              <p class="specs__item"><span class="specs__label">Weight:</span> {{ gem.gemWeight }} grams</p>
+              <p class="specs__item"><span class="specs__label">Tên đá:</span> {{ gem.name }}</p>
+              <p class="specs__item"><span class="specs__label">Tỷ lệ:</span> {{ gem.proportion }}</p>
+              <p class="specs__item"><span class="specs__label">Đánh bóng:</span> {{ gem.polish }}</p>
+              <p class="specs__item"><span class="specs__label">Huỳnh quang:</span> {{ gem.fluorescence }}</p>
+              <p class="specs__item"><span class="specs__label">Đối xứng:</span> {{ gem.symmetry }}</p>
+              <p class="specs__item"><span class="specs__label">Trọng lượng:</span> {{ gem.carat }} chỉ</p>
+              <p class="specs__item"><span class="specs__label">Kiểu cắt:</span> {{ gem.cut }}</p>
+              <p class="specs__item"><span class="specs__label">Độ tinh khiết:</span> {{ gem.clarity }}</p>
+              <p class="specs__item"><span class="specs__label">Màu sắc:</span> {{ gem.color }}</p>
+              <p class="specs__item"><span class="specs__label">Hình dạng:</span> {{ gem.shape }}</p>
+              <p class="specs__item"><span class="specs__label">Giá mới nhất:</span> {{ gem.latestPrice | currency:
+                'vnd': 'VND '}}</p>
+              <p class="specs__item"><span class="specs__label">Trọng lượng đá:</span> {{ gem.gemWeight }} chỉ</p>
               <p class="specs__item"
-                 *ngIf="gem.certificateCode"><span class="specs__label">Certificate Code:</span> {{ gem.certificateCode
+                 *ngIf="gem.certificateCode"><span class="specs__label">Mã chứng nhận:</span> {{ gem.certificateCode
                 }}</p>
-              <p class="specs__item"><span class="specs__label">Quantity:</span> {{ gem.quantity }}</p>
-              <p class="specs__item"><span class="specs__label">Price:</span> ${{ gem.gemsPrice | currency: "vnd"}}</p>
+              <p class="specs__item"><span class="specs__label">Số lượng:</span> {{ gem.quantity }}</p>
+              <p class="specs__item"><span class="specs__label">Giá đá:</span> {{ gem.gemsPrice | currency:
+                'vnd':'VND '}}
+              </p>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
