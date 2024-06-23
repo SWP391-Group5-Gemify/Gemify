@@ -88,6 +88,25 @@ namespace API.Controllers
             return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
         }
 
+        [Authorize(Roles = "Cashier")]
+        [HttpPost("exchange")]
+        public async Task<ActionResult<OrderToReturnDto>> CreateExchangeOrder(OrderDto orderDto)
+        {
+            // get userId whose create order
+            var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            var userId = user.Id;
+
+            // create buy back order
+            var exchangeOrder = await _orderService.CreateExchangeOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
+
+            if (exchangeOrder == null)
+            {
+                return BadRequest(new ApiResponse(400, "Problem creating exchange order"));
+            }
+
+            return Ok(_mapper.Map<Order, OrderToReturnDto>(exchangeOrder));
+        }
+
 
         [HttpGet("types")]
         [Authorize]
