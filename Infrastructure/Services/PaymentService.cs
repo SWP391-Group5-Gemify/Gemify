@@ -163,5 +163,50 @@ namespace Infrastructure.Services
                 }
             }
         }
+
+        // Update Succeed Payment Status Received from Stripe
+        public async Task<Order> UpdateOrderPaymentSucceeded(string paymentIntentId)
+        {
+            var spec = new OrderByPaymentIntentIdSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null) return null;
+
+            // Update Product Quantity and Counter Quantity
+            foreach ( var orderItem in order.OrderItems)
+            {
+                if(orderItem.Price < 0) continue;
+                var productSpec = new ProductSpecification(orderItem.ItemOrdered.ProductItemId);
+                var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
+
+                product.Quantity = product.Quantity - orderItem.Quantity;
+                product.SaleCounter.ProductQuantity = product.SaleCounter.ProductQuantity - orderItem.Quantity;
+
+                if(product.Quantity == 0)
+                {
+                    product.Status = ProductStatus.Unavailable.ToString();
+                }
+            }
+
+            // Update OrderStatus
+            order.Status = OrderStatus.PaymentReceived.ToString();
+            await _unitOfWork.Complete();
+
+            return order;
+        }
+
+        // Update Failed Payment Status Received from Stripe
+        public async Task<Order> UpdateOrderPaymentFailed(string paymentIntentId)
+        {
+            var spec = new OrderByPaymentIntentIdSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null) return null;
+
+            order.Status = OrderStatus.PaymentFailed.ToString();
+            await _unitOfWork.Complete();
+
+            return order;
+        }
     }
 }

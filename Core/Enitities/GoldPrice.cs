@@ -16,9 +16,9 @@ namespace Core.Enitities
         [Required]
         public int GoldTypeId { get; set; }
         public GoldType GoldType { get; set; }
-        [Column(TypeName = "decimal(18,2)"), Required]
+        [Column(TypeName = "decimal(18,0)"), Required]
         public decimal BidPrice { get; set; }
-        [Column(TypeName = "decimal(18,2)"), Required]
+        [Column(TypeName = "decimal(18,0)"), Required]
         public decimal AskPrice { get; set; }
         [Required]
         public DateTime DateTime { get; set; } = DateTime.UtcNow;
