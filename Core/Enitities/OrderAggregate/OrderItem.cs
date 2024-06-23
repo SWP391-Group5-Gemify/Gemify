@@ -14,7 +14,7 @@ namespace Core.Enitities.OrderAggregate
         }
 
         public ProductItemOrdered ItemOrdered { get; set; }
-        [Column(TypeName = "decimal(18, 2)")]
+        [Column(TypeName = "decimal(18, 0)")]
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public IReadOnlyList<OrderItemGem> OrderItemGems { get; set; }

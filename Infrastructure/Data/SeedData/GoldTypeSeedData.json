@@ -2,40 +2,40 @@
   {
     "Name": "610",
     "Content": 61,
-    "LatestAskPrice": 4590,
-    "LatestBidPrice": 4410,
+    "LatestAskPrice": 4590000,
+    "LatestBidPrice": 4410000,
     "Unit": "Chỉ",
     "Status": true
   },
   {
     "Name": "24K",
     "Content": 99.99,
-    "LatestAskPrice": 7730,
-    "LatestBidPrice": 7550,
+    "LatestAskPrice": 7730000,
+    "LatestBidPrice": 7550000,
     "Unit": "Chỉ",
     "Status": true
   },
   {
     "Name": "18K",
     "Content": 75,
-    "LatestAskPrice": 7230,
-    "LatestBidPrice": 7400,
+    "LatestAskPrice": 7230000,
+    "LatestBidPrice": 7400000,
     "Unit": "Chỉ",
     "Status": true
   },
   {
     "Name": "14K",
     "Content": 58.5,
-    "LatestAskPrice": 5040,
-    "LatestBidPrice": 5220,
+    "LatestAskPrice": 5040000,
+    "LatestBidPrice": 5220000,
     "Unit": "Chỉ",
     "Status": true
   },
   {
     "Name": "SJC",
     "Content": 99.99,
-    "LatestAskPrice": 8840,
-    "LatestBidPrice": 9040,
+    "LatestAskPrice": 8840000,
+    "LatestBidPrice": 9040000,
     "Unit": "Chỉ",
     "Status": true
   }

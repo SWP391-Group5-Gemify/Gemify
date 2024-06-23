@@ -36,9 +36,6 @@ namespace Core.Enitities
         [Column(TypeName = "varchar(100)"), Required]
         public string Code { get; set; }
 
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal MinValue { get; set; }
-
         public bool Status { get; set; } = true;
     }
 

@@ -1,4 +1,108 @@
-<section class="product-details">
-  <button class="btn btn--grad btn--with-icon"
-          (click)="onGoBackToProductsManagement()"><mat-icon>arrow_back</mat-icon>Back to Products</button>
+<button class="btn btn--grad btn--with-icon"
+        (click)="onGoBackToProductsManagement()"><mat-icon>arrow_back</mat-icon>Back to Products</button>
+
+<!-- Product Details Section -->
+<section class="product-details u-margin-bottom-medium u-margin-top-medium"
+         *ngIf="product$ | async as product">
+
+  <!-- Image -->
+  <img class="product-details__image"
+       [src]="product.imageUrl"
+       alt="{{ product.name }}">
+
+  <!-- Info -->
+  <div class="product-details__info">
+
+    <!-- Header -->
+    <h2 class="product-details__title u-margin-bottom-medium">{{ product.name }}</h2>
+
+    <!-- Specs and Gems -->
+    <div class="flex">
+      <div class="specs">
+
+        <!-- Description -->
+        <p class="specs__item specs__item--description">
+          <span class="specs__label">Description:</span>
+          {{product.description }}
+        </p>
+
+        <p class="specs__item">
+          <span class="specs__label">Gold Type:</span> {{ product.goldType }}
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Gold Weight:</span> {{ product.goldWeight }} grams
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Latest Bid Price:</span> ${{ product.latestBidPrice | currency: "vnd"}}
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Total Weight:</span> {{ product.totalWeight }} grams
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Labour:</span> ${{ product.labour | currency: "vnd"}}
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Quantity:</span> {{ product.quantity }}
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Sub-Category Name:</span> {{ product.subCategoryName }}
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Category Name:</span> {{ product.categoryName }}
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Sale Counter Name:</span> {{ product.saleCounterName }}
+        </p>
+        <p class="specs__item">
+          <span class="specs__label">Product Price:</span> ${{ product.productPrice | currency: "vnd"}}
+        </p>
+        <p class="specs__item specs__item--status">
+          <span class="specs__label">Status:</span> {{ product.status }}
+        </p>
+      </div>
+
+      <!-- Gem Details -->
+      <div class="gems-details"
+           *ngIf="product.gems && product.gems.length">
+        <h3 class="gems-details__title mat-elevation-z3">Gems</h3>
+        <mat-accordion>
+
+          <!-- A panel -->
+          <mat-expansion-panel *ngFor="let gem of product.gems">
+
+            <!-- Header -->
+            <mat-expansion-panel-header class="gems-details__header">
+              <mat-panel-title>
+                {{ gem.name }} - {{gem.carat}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div matExpansionPanelContent
+                 class="specs">
+              <p class="specs__item specs__item--description"><span class="specs__label">Description:</span> ${{
+                gem.description }}</p>
+              <p class="specs__item"><span class="specs__label">Type:</span> {{ gem.gemTypeId }}</p>
+              <p class="specs__item"><span class="specs__label">Proportion:</span> {{ gem.proportion }}</p>
+              <p class="specs__item"><span class="specs__label">Polish:</span> {{ gem.polish }}</p>
+              <p class="specs__item"><span class="specs__label">Fluorescence:</span> {{ gem.fluorescence }}</p>
+              <p class="specs__item"><span class="specs__label">Symmetry:</span> {{ gem.symmetry }}</p>
+              <p class="specs__item"><span class="specs__label">Carat:</span> {{ gem.carat }}</p>
+              <p class="specs__item"><span class="specs__label">Cut:</span> {{ gem.cut }}</p>
+              <p class="specs__item"><span class="specs__label">Clarity:</span> {{ gem.clarity }}</p>
+              <p class="specs__item"><span class="specs__label">Color:</span> {{ gem.color }}</p>
+              <p class="specs__item"><span class="specs__label">Shape:</span> {{ gem.shape }}</p>
+              <p class="specs__item"><span class="specs__label">Latest Price:</span> ${{ gem.latestPrice | currency:
+                "vnd"}}</p>
+              <p class="specs__item"><span class="specs__label">Weight:</span> {{ gem.gemWeight }} grams</p>
+              <p class="specs__item"
+                 *ngIf="gem.certificateCode"><span class="specs__label">Certificate Code:</span> {{ gem.certificateCode
+                }}</p>
+              <p class="specs__item"><span class="specs__label">Quantity:</span> {{ gem.quantity }}</p>
+              <p class="specs__item"><span class="specs__label">Price:</span> ${{ gem.gemsPrice | currency: "vnd"}}</p>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </div>
 </section>

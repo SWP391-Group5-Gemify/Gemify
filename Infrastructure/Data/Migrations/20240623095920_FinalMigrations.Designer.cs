@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240614031133_FinalEntities")]
-    partial class FinalEntities
+    [Migration("20240623095920_FinalMigrations")]
+    partial class FinalMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,7 +92,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.HasKey("Id");
 
@@ -110,7 +110,7 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Carat")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("Clarity")
                         .HasColumnType("varchar(10)");
@@ -131,7 +131,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("LatestPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -141,7 +141,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("varchar(10)");
 
                     b.Property<decimal?>("Proportion")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("Shape")
                         .HasColumnType("varchar(10)");
@@ -163,10 +163,10 @@ namespace Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("AskPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<decimal>("BidPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
@@ -193,10 +193,10 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("LatestAskPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<decimal>("LatestBidPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -328,6 +328,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MembershipId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime");
 
@@ -337,14 +340,14 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("PaymentIntentId")
                         .HasColumnType("varchar(200)");
 
-                    b.Property<int>("PromotionId")
+                    b.Property<int?>("PromotionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .HasColumnType("varchar(50)");
 
                     b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18, 0)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -352,6 +355,8 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("MembershipId");
 
                     b.HasIndex("OrderTypeId");
 
@@ -374,7 +379,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18, 0)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -398,7 +403,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
+                        .HasColumnType("decimal(18, 0)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -441,13 +446,13 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("GoldWeight")
-                        .HasColumnType("decimal(18,6)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("varchar(200)");
 
                     b.Property<decimal>("Labour")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -456,7 +461,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SaleCounterId")
+                    b.Property<int>("SaleCounterId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -467,7 +472,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalWeight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.HasKey("Id");
 
@@ -495,7 +500,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("GemWeight")
-                        .HasColumnType("decimal(18,6)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -532,9 +537,6 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<DateOnly>("ExpDate")
                         .HasColumnType("Date");
-
-                    b.Property<decimal>("MinValue")
-                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -574,6 +576,30 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SaleCounters");
+                });
+
+            modelBuilder.Entity("Core.Enitities.SaleCounterRevenue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Revenue")
+                        .HasColumnType("decimal(18,0)");
+
+                    b.Property<int>("SaleCounterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SaleCounterId");
+
+                    b.ToTable("SaleCounterRevenue");
                 });
 
             modelBuilder.Entity("Core.Enitities.SubCategory", b =>
@@ -643,6 +669,10 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Enitities.Membership", "Membership")
+                        .WithMany()
+                        .HasForeignKey("MembershipId");
+
                     b.HasOne("Core.Enitities.OrderAggregate.OrderType", "OrderType")
                         .WithMany()
                         .HasForeignKey("OrderTypeId")
@@ -651,9 +681,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Enitities.Promotion", "Promotion")
                         .WithMany()
-                        .HasForeignKey("PromotionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PromotionId");
 
                     b.HasOne("Core.Enitities.Identity.User", "User")
                         .WithMany()
@@ -662,6 +690,8 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Membership");
 
                     b.Navigation("OrderType");
 
@@ -682,13 +712,13 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<decimal>("GoldPrice")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 0)");
 
                             b1.Property<string>("GoldType")
                                 .HasColumnType("nvarchar(100)");
 
                             b1.Property<decimal?>("GoldWeight")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 4)");
 
                             b1.Property<string>("Image_Url")
                                 .HasColumnType("varchar(200)");
@@ -697,14 +727,20 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<decimal?>("ProductLabour")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 0)");
 
                             b1.Property<string>("ProductName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(200)");
 
+                            b1.Property<int>("SaleCounterId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("SaleCounterName")
+                                .HasColumnType("varchar(50)");
+
                             b1.Property<decimal?>("TotalWeight")
-                                .HasColumnType("decimal(18,2)");
+                                .HasColumnType("decimal(18,4)");
 
                             b1.Property<string>("Unit")
                                 .HasColumnType("nvarchar(20)");
@@ -732,7 +768,7 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<decimal>("GemCarat")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 4)");
 
                             b1.Property<string>("GemCertificateCode")
                                 .HasColumnType("varchar(50)");
@@ -747,10 +783,10 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("nvarchar(100)");
 
                             b1.Property<decimal>("GemPrice")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 0)");
 
                             b1.Property<decimal>("GemWeight")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 4)");
 
                             b1.HasKey("OrderItemGemId");
 
@@ -771,7 +807,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasOne("Core.Enitities.SaleCounter", "SaleCounter")
                         .WithMany()
-                        .HasForeignKey("SaleCounterId");
+                        .HasForeignKey("SaleCounterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Core.Enitities.SubCategory", "SubCategory")
                         .WithMany()
@@ -812,6 +850,15 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Core.Enitities.SaleCounterRevenue", b =>
+                {
+                    b.HasOne("Core.Enitities.SaleCounter", null)
+                        .WithMany("SaleCounterRevenue")
+                        .HasForeignKey("SaleCounterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Core.Enitities.SubCategory", b =>
                 {
                     b.HasOne("Core.Enitities.Category", "Category")
@@ -841,6 +888,11 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Enitities.Product", b =>
                 {
                     b.Navigation("ProductGems");
+                });
+
+            modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
+                {
+                    b.Navigation("SaleCounterRevenue");
                 });
 #pragma warning restore 612, 618
         }

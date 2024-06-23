@@ -17,6 +17,7 @@ namespace Core.Specifications.Orders
         {
             AddInclude(o => o.User);
             AddInclude(o => o.Promotion);
+            AddInclude(o => o.Membership);
             AddInclude(o => o.OrderType);
             AddCustomInclude(q => q.Include(o => o.Customer).ThenInclude(oi => oi.Membership));
             AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
@@ -30,6 +31,7 @@ namespace Core.Specifications.Orders
         {
             AddInclude(o => o.User);
             AddInclude(o => o.Promotion);
+            AddInclude(o => o.Membership);
             AddInclude(o => o.OrderType);
             AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
             AddCustomInclude(q => q.Include(o => o.Customer).ThenInclude(oi => oi.Membership));
