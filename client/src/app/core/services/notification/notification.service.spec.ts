@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { NotificationService } from './snackbar.service';
+import { NotificationService } from './notification.service';
 
 describe('SnackbarService', () => {
   let service: NotificationService;
