@@ -48,8 +48,10 @@ namespace Core.Enitities.OrderAggregate
         // Later changed due to Promotion and Membership benefits
         public decimal GetTotal()
         {
-            if (PromotionId == null) return SubTotal;   
-            return SubTotal - (SubTotal * (Promotion.Discount/100));
+            var totalDiscount = Customer.Membership.Discount;
+            if (PromotionId != null)
+                totalDiscount += Promotion.Discount; 
+            return SubTotal - (SubTotal * totalDiscount);
         }
     }
 }

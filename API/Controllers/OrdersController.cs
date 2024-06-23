@@ -99,13 +99,13 @@ namespace API.Controllers
 
         [Authorize(Roles = "Cashier")]
         [HttpPut("update/{id}")]
-        public async Task<ActionResult<Order>> UpdateOrder(int id,[FromQuery] string status)
+        public async Task<ActionResult<Order>> UpdateOrder(int id, OrderToReturnDto orderDto)
         {
             var existingOrder = await _orderService.GetOrderByIdAsync(id);
             if (existingOrder == null)
                 return NotFound(new ApiResponse(404, "This order does not exist"));
 
-            existingOrder.Status = status;
+            existingOrder.Status = orderDto.Status;
             var result = await _orderService.UpdateOrderAsync(existingOrder);
 
             if (result > 0)
