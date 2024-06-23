@@ -11,7 +11,7 @@
     "Clarity": "VS1",
     "Color": "J",
     "Shape": "Heart",
-    "LatestPrice": 350000,
+    "LatestPrice": 4800000,
     "IsProcurable": true
   },
   {
@@ -26,7 +26,7 @@
     "Clarity": "IF",
     "Color": "I",
     "Shape": "Radiant",
-    "LatestPrice": 200,
+    "LatestPrice": 200000,
     "IsProcurable": false
   },
   {
@@ -41,7 +41,7 @@
     "Clarity": "VVS2",
     "Color": "E",
     "Shape": "Princess",
-    "LatestPrice": 4000,
+    "LatestPrice": 4000000,
     "IsProcurable": false
   },
   {
@@ -56,7 +56,7 @@
     "Clarity": "VVS2",
     "Color": "G",
     "Shape": "Oval",
-    "LatestPrice": 3000,
+    "LatestPrice": 3000000,
     "IsProcurable": false
   },
   {
@@ -71,7 +71,7 @@
     "Clarity": "IF",
     "Color": "G",
     "Shape": "Radiant",
-    "LatestPrice": 7000,
+    "LatestPrice": 7000000,
     "IsProcurable": false
   },
   {
@@ -86,7 +86,7 @@
     "Clarity": "FL",
     "Color": "F",
     "Shape": "Princess",
-    "LatestPrice": 690000,
+    "LatestPrice": 6800000,
     "IsProcurable": true
   },
   {
@@ -101,7 +101,7 @@
     "Clarity": "SI1",
     "Color": "D",
     "Shape": "Emerald",
-    "LatestPrice": 350,
+    "LatestPrice": 350000,
     "IsProcurable": false
   },
   {
@@ -116,7 +116,7 @@
     "Clarity": "SI2",
     "Color": "I",
     "Shape": "Cushion",
-    "LatestPrice": 300,
+    "LatestPrice": 300000,
     "IsProcurable": false
   },
   {
@@ -131,7 +131,7 @@
     "Clarity": "VVS1",
     "Color": "F",
     "Shape": "Radiant",
-    "LatestPrice": 5000,
+    "LatestPrice": 5000000,
     "IsProcurable": false
   },
   {
@@ -146,7 +146,7 @@
     "Clarity": "VS2",
     "Color": "D",
     "Shape": "Oval",
-    "LatestPrice": 480000,
+    "LatestPrice": 4800000,
     "IsProcurable": true
   }
 ]

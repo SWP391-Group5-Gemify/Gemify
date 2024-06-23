@@ -36,8 +36,8 @@ namespace Infrastructure.Services
             var items = new List<OrderItem>();
             foreach (var item in basket.SaleItems)
             {
-                var spec = new ProductSpecification(item.Id);
-                var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(spec);
+                var productSpec = new ProductSpecification(item.Id);
+                var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice,
                     productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit,
                     productItem.TotalWeight, productItem.ImageUrl);
@@ -69,9 +69,25 @@ namespace Infrastructure.Services
             // Calculate subtotal
             var subtotal = items.Sum(item => item.Price * item.Quantity);
 
-            // Create Order
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, items);
-            _unitOfWork.Repository<Order>().Add(order);
+            // Check if the order exists with a payment intent id
+            var orderSpec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+
+            if(order != null)
+            {
+                order.CustomerId = customerId;
+                order.UserId = userId;
+                order.PromotionId = basket.PromotionId;
+                order.OrderTypeId = basket.OrderTypeId;
+                order.SubTotal = subtotal;
+                _unitOfWork.Repository<Order>().Update(order);
+            }
+            else
+            {
+                // Create Order
+                order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, items);
+                _unitOfWork.Repository<Order>().Add(order);
+            }
 
             // Save Changes to the database
             var result = await _unitOfWork.Complete();
@@ -79,8 +95,8 @@ namespace Infrastructure.Services
             if (result <= 0) return null;
 
             // Return the order
-            var orderSpec = new OrdersSpecification(order.Id);
-            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
+            var orderToReturnSpec = new OrdersSpecification(order.Id);
+            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderToReturnSpec);
             return order;
         }
 
