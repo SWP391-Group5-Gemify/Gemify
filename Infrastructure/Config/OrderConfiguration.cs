@@ -13,7 +13,7 @@ namespace Infrastructure.Config
             builder.HasOne(o => o.User).WithMany().HasForeignKey(o => o.UserId);
             builder.HasOne(o => o.OrderType).WithMany().HasForeignKey(o =>o.OrderTypeId);
             builder.HasOne(o => o.Promotion).WithMany().HasForeignKey(o => o.PromotionId);
-
+            builder.HasOne(o => o.Membership).WithMany().HasForeignKey(o => o.MembershipId);
         }
     }
 }

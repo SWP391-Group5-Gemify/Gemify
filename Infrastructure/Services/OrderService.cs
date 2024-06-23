@@ -35,6 +35,7 @@ namespace Infrastructure.Services
                 var productSpec = new ProductSpecification(item.Id);
                 var productItem = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
 
+                // Check if quantity is below 0 after selling products
                 var remainingProductQuantity = productItem.Quantity - item.Quantity;
                 var remainingCounterQuantity = productItem.SaleCounter.ProductQuantity - item.Quantity;
                 if (remainingProductQuantity < 0 || remainingCounterQuantity < 0) 
@@ -89,7 +90,8 @@ namespace Infrastructure.Services
             else
             {
                 // Create Order
-                order = new Order(basket.OrderTypeId, subtotal, customerId, userId, basket.PaymentIntentId, basket.PromotionId, items);
+                order = new Order(basket.OrderTypeId, subtotal, customerId, userId, 
+                    basket.PaymentIntentId, basket.PromotionId, basket.MembershipId, items);
                 _unitOfWork.Repository<Order>().Add(order);
             }
 
@@ -171,7 +173,7 @@ namespace Infrastructure.Services
 
             // create purchase order
 
-            var order = new Order(basket.OrderTypeId, subtotal, customerId, repurchaserId, null, null, orderItemList);
+            var order = new Order(basket.OrderTypeId, subtotal, customerId, repurchaserId, null, null, null, orderItemList);
             _unitOfWork.Repository<Order>().Add(order);
 
             // save to db

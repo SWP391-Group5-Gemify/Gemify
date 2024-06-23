@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240623084523_FinalMigrations")]
+    [Migration("20240623095920_FinalMigrations")]
     partial class FinalMigrations
     {
         /// <inheritdoc />
@@ -328,6 +328,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("MembershipId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime");
 
@@ -352,6 +355,8 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("MembershipId");
 
                     b.HasIndex("OrderTypeId");
 
@@ -441,13 +446,13 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("GoldWeight")
-                        .HasColumnType("decimal(18,6)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("varchar(200)");
 
                     b.Property<decimal>("Labour")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -467,7 +472,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalWeight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.HasKey("Id");
 
@@ -664,6 +669,10 @@ namespace Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Enitities.Membership", "Membership")
+                        .WithMany()
+                        .HasForeignKey("MembershipId");
+
                     b.HasOne("Core.Enitities.OrderAggregate.OrderType", "OrderType")
                         .WithMany()
                         .HasForeignKey("OrderTypeId")
@@ -681,6 +690,8 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Membership");
 
                     b.Navigation("OrderType");
 
@@ -701,13 +712,13 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<decimal>("GoldPrice")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 0)");
 
                             b1.Property<string>("GoldType")
                                 .HasColumnType("nvarchar(100)");
 
                             b1.Property<decimal?>("GoldWeight")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 4)");
 
                             b1.Property<string>("Image_Url")
                                 .HasColumnType("varchar(200)");
@@ -716,7 +727,7 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("int");
 
                             b1.Property<decimal?>("ProductLabour")
-                                .HasColumnType("decimal(18, 2)");
+                                .HasColumnType("decimal(18, 0)");
 
                             b1.Property<string>("ProductName")
                                 .IsRequired()
@@ -729,7 +740,7 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("varchar(50)");
 
                             b1.Property<decimal?>("TotalWeight")
-                                .HasColumnType("decimal(18,2)");
+                                .HasColumnType("decimal(18,4)");
 
                             b1.Property<string>("Unit")
                                 .HasColumnType("nvarchar(20)");
