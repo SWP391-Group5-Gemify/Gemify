@@ -4,7 +4,7 @@
     "Gender": "Female",
     "Phone": "+89 (825) 590-3771",
     "Address": "S201 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
-    "Point": 120000,
+    "Point": 1200,
     "MembershipId": 4
   },
   {
@@ -12,7 +12,7 @@
     "Gender": "Female",
     "Phone": "+89 (863) 448-3131",
     "Address": "S102 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
-    "Point": 62000,
+    "Point": 410,
     "MembershipId": 3
   },
   {
@@ -20,7 +20,7 @@
     "Gender": "Male",
     "Phone": "+89 (926) 579-3337",
     "Address": "S106 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
-    "Point": 1000,
+    "Point": 10,
     "MembershipId": 1
   },
   {
@@ -28,7 +28,7 @@
     "Gender": "Male",
     "Phone": "+89 (921) 413-2251",
     "Address": "S601 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
-    "Point": 23000,
+    "Point": 115,
     "MembershipId": 2
   },
   {
@@ -36,7 +36,7 @@
     "Gender": "Male",
     "Phone": "+89 (886) 540-3033",
     "Address": "497 Lorimer Street, Whitewater, Louisiana, Mayotte",
-    "Point": 1000,
+    "Point": 20,
     "MembershipId": 1
   }
 ]

@@ -2,21 +2,21 @@
   {
     "Name": "Bronze",
     "MinPoint": 0,
-    "Discount": 0.01
+    "Discount": 0
   },
   {
     "Name": "Silver",
-    "MinPoint": 20000,
+    "MinPoint": 100,
     "Discount": 0.05
   },
   {
     "Name": "Gold",
-    "MinPoint": 50000,
-    "Discount": 0.1
+    "MinPoint": 400,
+    "Discount": 0.08
   },
   {
     "Name": "Diamond",
-    "MinPoint": 100000,
-    "Discount": 0.2
+    "MinPoint": 1000,
+    "Discount": 0.1
   }
 ]
