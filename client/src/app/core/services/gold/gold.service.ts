@@ -6,6 +6,7 @@ import {
   GoldPricesModel,
   GoldsSearchingCriteriaModel,
   LatestGoldPricesModel,
+  UpdateGoldPricesModel,
 } from '../../models/gold.model';
 import { map, Observable } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
@@ -76,6 +77,18 @@ export class GoldService {
     return this.httpClient.get<PaginationModel<GoldPricesModel>>(
       `${this.baseGoldChartUrl}/prices?goldTypeId=${goldTypeId}`,
       { params: params }
+    );
+  }
+
+  /**
+   * Update Gold price of the specific Gold Type Id
+   * @param bidAskGoldPriceModel
+   * @returns
+   */
+  updateBidAskGoldPrice(bidAskGoldPriceModel: UpdateGoldPricesModel) {
+    return this.httpClient.put<UpdateGoldPricesModel>(
+      this.baseGoldChartUrl,
+      bidAskGoldPriceModel
     );
   }
 }
