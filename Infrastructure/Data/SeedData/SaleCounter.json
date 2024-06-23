@@ -1,27 +1,27 @@
 [
   {
     "Name": "Counter 1",
-    "ProductQuantity": 1,
+    "ProductQuantity": 15,
     "status": true
   },
   {
     "Name": "Counter 2",
-    "ProductQuantity": 2,
-    "status": false
+    "ProductQuantity": 22,
+    "status": true
   },
   {
     "Name": "Counter 3",
-    "ProductQuantity": 5,
+    "ProductQuantity": 22,
     "status": true
   },
   {
     "Name": "Counter 4",
-    "ProductQuantity": 7,
-    "status": false
+    "ProductQuantity": 41,
+    "status": true
   },
   {
     "Name": "Counter 5",
-    "ProductQuantity": 5,
+    "ProductQuantity": 13,
     "status": true
   }
 ]

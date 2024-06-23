@@ -29,6 +29,12 @@ namespace Infrastructure.Services
             StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
 
             var basket = await _basketRepository.GetBasketAsync(basketId);
+
+            if (basket == null)
+            {
+                return null;
+            }
+
             var promotionDiscount = 0m;
             
             // Retrieve Promotion Discount from the server for security
@@ -128,37 +134,79 @@ namespace Infrastructure.Services
         // Update buyback prices of items in basket with prices from server
         public async Task UpdateBasketBuybackItemPrice(CustomerBasket basket)
         {
-            // Check for Buyback Items in the basket
-            if (!basket.BuybackItems.IsNullOrEmpty())
+            // Calculate Price for buyback items
+            var buybackPriceTotal = 0m;
+
+            foreach (var item in basket.BuybackItems)
             {
-                var buybackPriceTotal = 0m;
+                var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
+                new OrderItemSpecification(item.Id));
+                if (orderItem == null) return;
+                var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(
+                    new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
 
-                foreach (var item in basket.BuybackItems)
+                // Initialize product price with gold ask price * gold weight
+                var buybackProductPrice = product.GoldType.LatestAskPrice * item.GoldWeight;
+
+                // Calculate total product price for each gem
+                buybackProductPrice = orderItem.OrderItemGems.Aggregate(
+                    buybackProductPrice, 
+                    (acc, g) => acc + g.Price * 0.7m * g.Quantity
+                );
+
+                // Add product price to total Buyback price
+                buybackPriceTotal += buybackProductPrice * item.Quantity;
+
+                if (item.Price != buybackPriceTotal)
                 {
-                    var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
-                    new OrderItemSpecification(item.Id));
-                    if (orderItem == null) return;
-                    var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(
-                        new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
-
-                    // Initialize product price with gold ask price * gold weight
-                    var buybackProductPrice = product.GoldType.LatestAskPrice * item.GoldWeight;
-
-                    // Calculate total product price for each gem
-                    buybackProductPrice = orderItem.OrderItemGems.Aggregate(
-                        buybackProductPrice, 
-                        (acc, g) => acc + g.Price * 0.7m * g.Quantity
-                    );
-
-                    // Add product price to total Buyback price
-                    buybackPriceTotal += buybackProductPrice * item.Quantity;
-
-                    if (item.Price != buybackPriceTotal)
-                    {
-                        item.Price = buybackPriceTotal;
-                    }
+                    item.Price = buybackPriceTotal;
                 }
             }
+        }
+
+        // Update Succeed Payment Status Received from Stripe
+        public async Task<Order> UpdateOrderPaymentSucceeded(string paymentIntentId)
+        {
+            var spec = new OrderByPaymentIntentIdSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null) return null;
+
+            // Update Product Quantity and Counter Quantity
+            foreach ( var orderItem in order.OrderItems)
+            {
+                if(orderItem.Price < 0) continue;
+                var productSpec = new ProductSpecification(orderItem.ItemOrdered.ProductItemId);
+                var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
+
+                product.Quantity = product.Quantity - orderItem.Quantity;
+                product.SaleCounter.ProductQuantity = product.SaleCounter.ProductQuantity - orderItem.Quantity;
+
+                if(product.Quantity == 0)
+                {
+                    product.Status = ProductStatus.Unavailable.ToString();
+                }
+            }
+
+            // Update OrderStatus
+            order.Status = OrderStatus.PaymentReceived.ToString();
+            await _unitOfWork.Complete();
+
+            return order;
+        }
+
+        // Update Failed Payment Status Received from Stripe
+        public async Task<Order> UpdateOrderPaymentFailed(string paymentIntentId)
+        {
+            var spec = new OrderByPaymentIntentIdSpecification(paymentIntentId);
+            var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            if (order == null) return null;
+
+            order.Status = OrderStatus.PaymentFailed.ToString();
+            await _unitOfWork.Complete();
+
+            return order;
         }
     }
 }
