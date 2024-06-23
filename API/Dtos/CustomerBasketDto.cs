@@ -10,6 +10,7 @@ namespace API.Dtos
         public int OrderTypeId { get; set; }
         public string PhoneNumber { get; set; }
         public int? PromotionId { get; set; }
+        public int? MembershipId { get; set; }
         public string ClientSecret { get; set; }
         public string PaymentIntentId { get; set; }
         public List<BasketItem> SaleItems { get; set; }
