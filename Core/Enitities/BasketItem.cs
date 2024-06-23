@@ -13,7 +13,5 @@ namespace Core.Enitities
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string PictureUrl { get; set; } 
-        /*Test buy-back*/
-        //public int OrderItemId { get; set; }
     }
 }
