@@ -1,4 +1,5 @@
-﻿using API.Errors;
+﻿using API.Dtos;
+using API.Errors;
 using Core.Enitities;
 using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
@@ -66,6 +67,13 @@ namespace API.Controllers
             }
 
             return new EmptyResult();
+        }
+
+        [Authorize(Roles = "Cashier")]
+        [HttpPut("{paymentIntentId}")]
+        public async Task<ActionResult<Order>> UpdateOrder(string paymentIntentId)
+        {
+            return Ok(await _paymentService.UpdateOrderPaymentSucceeded(paymentIntentId));
         }
     }
 }

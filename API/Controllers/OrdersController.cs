@@ -96,22 +96,5 @@ namespace API.Controllers
             var orderTypes = await _orderService.GetOrderTypesAsync();
             return Ok(orderTypes);
         }
-
-        [Authorize(Roles = "Cashier")]
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult<Order>> UpdateOrder(int id, OrderToReturnDto orderDto)
-        {
-            var existingOrder = await _orderService.GetOrderByIdAsync(id);
-            if (existingOrder == null)
-                return NotFound(new ApiResponse(404, "This order does not exist"));
-
-            existingOrder.Status = orderDto.Status;
-            var updatedOrder = await _orderService.UpdateOrderAsync(existingOrder);
-
-            if (updatedOrder != null)
-                return Ok(_mapper.Map<OrderToReturnDto>(updatedOrder));
-                
-            return BadRequest(new ApiResponse(400, "Failed to update!"));
-        }
     }
 }
