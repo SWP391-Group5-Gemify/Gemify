@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StoreManagerComponent } from './store-manager-dashboard.component';
+import { StoreManagerComponent } from './store-manager.component';
 
 describe('StoreManagerComponent', () => {
   let component: StoreManagerComponent;
@@ -8,10 +7,9 @@ describe('StoreManagerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StoreManagerComponent]
-    })
-    .compileComponents();
-    
+      imports: [StoreManagerComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(StoreManagerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

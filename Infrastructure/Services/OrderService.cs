@@ -4,6 +4,7 @@ using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Orders;
 using Core.Specifications.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -83,6 +84,7 @@ namespace Infrastructure.Services
                 order.CustomerId = customerId;
                 order.UserId = userId;
                 order.PromotionId = basket.PromotionId;
+                order.MembershipId = basket.MembershipId;
                 order.OrderTypeId = basket.OrderTypeId;
                 order.SubTotal = subtotal;
                 _unitOfWork.Repository<Order>().Update(order);
@@ -184,12 +186,6 @@ namespace Infrastructure.Services
             var orderSpec = new OrdersSpecification(order.Id);
             order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
             return order;
-        }
-
-        public async Task<int> UpdateOrderAsync(Order order)
-        {
-            _unitOfWork.Repository<Order>().Update(order);
-            return await _unitOfWork.Complete();
         }
 
         public async Task<Order> GetOrderByIdAsync(int id)

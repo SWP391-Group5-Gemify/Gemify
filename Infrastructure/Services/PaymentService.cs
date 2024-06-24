@@ -6,6 +6,7 @@ using Core.Specifications.Products;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Stripe;
+using Customer = Core.Enitities.Customer;
 using Product = Core.Enitities.Product;
 
 namespace Infrastructure.Services
@@ -172,21 +173,8 @@ namespace Infrastructure.Services
 
             if (order == null) return null;
 
-            // Update Product Quantity and Counter Quantity
-            foreach ( var orderItem in order.OrderItems)
-            {
-                if(orderItem.Price < 0) continue;
-                var productSpec = new ProductSpecification(orderItem.ItemOrdered.ProductItemId);
-                var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
-
-                product.Quantity = product.Quantity - orderItem.Quantity;
-                product.SaleCounter.ProductQuantity = product.SaleCounter.ProductQuantity - orderItem.Quantity;
-
-                if(product.Quantity == 0)
-                {
-                    product.Status = ProductStatus.Unavailable.ToString();
-                }
-            }
+            // Perform business logic updates
+            await OrderSuccessBusinessLogicUpdate(order);
 
             // Update OrderStatus
             order.Status = OrderStatus.PaymentReceived.ToString();
@@ -207,6 +195,41 @@ namespace Infrastructure.Services
             await _unitOfWork.Complete();
 
             return order;
+        }
+
+        // Perform business logics update on customer, products, and sale counters when order status is succeeded
+        public async Task OrderSuccessBusinessLogicUpdate(Order order) {
+            // Update Customer Membership status
+            var point = (int) order.GetTotal() / 100000;
+            var customer = await _unitOfWork.Repository<Customer>().GetByIdAsync(order.CustomerId);
+            customer.Point += point;
+            var memberships = await _unitOfWork.Repository<Membership>().ListAllAsync();
+            var sortedMemberships = memberships.OrderBy(m => m.MinPoint);
+
+            foreach (var membership in sortedMemberships)
+            {
+                if (customer.Point >= membership.MinPoint)
+                {
+                    customer.MembershipId = membership.Id;
+                }
+                else break;
+            }
+
+            // Update Product's Quantity and Counter's Quantity
+            foreach (var orderItem in order.OrderItems)
+            {
+                if (orderItem.Price < 0) continue;
+                var productSpec = new ProductSpecification(orderItem.ItemOrdered.ProductItemId);
+                var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(productSpec);
+
+                product.Quantity = product.Quantity - orderItem.Quantity;
+                product.SaleCounter.ProductQuantity = product.SaleCounter.ProductQuantity - orderItem.Quantity;
+
+                if (product.Quantity == 0)
+                {
+                    product.Status = ProductStatus.Unavailable.ToString();
+                }
+            }
         }
     }
 }

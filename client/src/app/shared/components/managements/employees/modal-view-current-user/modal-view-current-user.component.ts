@@ -15,11 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { ModalConfigModel } from '../../../../../core/models/modal.model';
-<<<<<<< HEAD
-=======
 import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../../../../core/services/auth/auth.service';
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 
 @Component({
   selector: 'app-modal-view-current-user',
@@ -34,46 +31,23 @@ import { AuthService } from '../../../../../core/services/auth/auth.service';
     ReactiveFormsModule,
     MatRadioModule,
     MatDatepickerModule,
-<<<<<<< HEAD
-=======
     MatIcon,
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
     MatButtonToggleModule,
   ],
   templateUrl: './modal-view-current-user.component.html',
   styleUrl: './modal-view-current-user.component.scss',
   providers: [provideNativeDateAdapter()],
 })
-<<<<<<< HEAD
-export class ModalViewEmployeeComponent implements OnInit {
-  // =========================
-  // == Fields
-  // =========================
-  public modalDataConfig!: ModalConfigModel;
-=======
 export class ModalViewCurrentUserComponent implements OnInit {
   // =========================
   // == Fields
   // =========================
   public currentUserInfo!: UserModel;
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
 
   // =========================
   // == Life cycle
   // =========================
   constructor(
-<<<<<<< HEAD:client/src/app/shared/components/managements/employees/modal-view-employee/modal-view-employee.component.ts
-<<<<<<< HEAD
-    private ref: MatDialogRef<ModalEditCreateEmployeeComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataFromParent: any
-  ) {}
-
-  ngOnInit(): void {
-    this.modalDataConfig = this.dataFromParent;
-=======
-    @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
-=======
->>>>>>> ba6fea92d29293969f8a61064be98865c10d61bf:client/src/app/shared/components/managements/employees/modal-view-current-user/modal-view-current-user.component.ts
     private modalRef: MatDialogRef<ModalViewCurrentUserComponent>,
     @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
     private authService: AuthService
@@ -101,6 +75,5 @@ export class ModalViewCurrentUserComponent implements OnInit {
    */
   onCloseModal() {
     this.modalRef.close();
->>>>>>> de5ea53bd976468ff3e217a71a03350fb049420d
   }
 }
