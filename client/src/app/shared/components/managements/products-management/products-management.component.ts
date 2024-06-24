@@ -261,6 +261,9 @@ export class ProductsManagementComponent implements OnInit {
   public onDisableProduct(product: ProductModel) {
     this.productService.disableProduct(product.id).subscribe({
       next: (response: any) => {
+        this.notificationService.show(
+          `Disable Product ${product.name} successfully`
+        );
         this.loadProducts();
       },
     });
