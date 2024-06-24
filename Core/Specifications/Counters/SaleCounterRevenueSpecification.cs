@@ -6,14 +6,18 @@ namespace Core.Specifications.Counters
 {
     public class SaleCounterRevenueSpecification : BaseSpecification<SaleCounterRevenue>
     {
-        public SaleCounterRevenueSpecification()
+        public SaleCounterRevenueSpecification(SaleCounterRevenueParams saleCounterRevenueParams)
+            : base(x => x.SaleCounterId == saleCounterRevenueParams.saleCounterId)
         {
-            
+            AddOrderByDescending(x => x.Date);
+            ApplyPaging(saleCounterRevenueParams.PageSize * (saleCounterRevenueParams.PageIndex - 1),
+                saleCounterRevenueParams.PageSize);
         }
 
-        public SaleCounterRevenueSpecification(int saleCounterId) : base(x => x.SaleCounterId == saleCounterId)
+        public SaleCounterRevenueSpecification(DateOnly date)
+            : base (x => x.Date.CompareTo(date) == 0)
         {
-            
+
         }
     }
 }
