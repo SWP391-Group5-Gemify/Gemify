@@ -75,7 +75,4 @@ export class StoreOwnerComponent {
       route: '/store-owner/warranty',
     },
   ];
-  // ===========================
-  // == Methods
-  // ===========================
 }

@@ -79,7 +79,7 @@ export class ProductService {
    * @param product
    * @returns
    */
-  updateProduct(product: ProductModel): any {
+  updateProduct(product: ProductModel): Observable<any> {
     return this.httpClient.put<ProductModel>(
       `${this.baseProductUrl}/${product.id}`,
       product
@@ -91,7 +91,7 @@ export class ProductService {
    * @param id
    * @returns
    */
-  disableProduct(id: number): any {
+  disableProduct(id: number): Observable<any> {
     return this.httpClient.delete(`${this.baseProductUrl}/${id}`);
   }
 

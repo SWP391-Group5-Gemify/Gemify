@@ -41,7 +41,7 @@
               class="table-gold__item--bid-cell-header">Mua Vào</th>
           <td mat-cell
               class="table-gold__item--bid-cell"
-              *matCellDef="let gold"> {{gold.latestBidPrice}} </td>
+              *matCellDef="let gold"> {{gold.latestBidPrice | currency: 'VND'}} </td>
         </ng-container>
 
         <!-- Latest Ask Price Column -->
@@ -52,7 +52,7 @@
               class="table-gold__item--ask-cell-header">Bán Ra</th>
           <td mat-cell
               *matCellDef="let gold"
-              class="table-gold__item--ask-cell"> {{gold.latestAskPrice}} </td>
+              class="table-gold__item--ask-cell"> {{gold.latestAskPrice | currency: "VND"}} </td>
         </ng-container>
 
         <!-- Gold Content Column -->

@@ -95,7 +95,8 @@ export class GenericTableDataSourceComponent implements AfterViewInit {
    * Edit the current data source based on updated data
    * @param object
    */
-  editObject(object: any): void {
+  editObject(event: Event, object: any): void {
+    event.stopPropagation();
     this.onEditFromChild.emit(object);
   }
 
@@ -103,7 +104,8 @@ export class GenericTableDataSourceComponent implements AfterViewInit {
    * Disable object from the current data source
    * @param object
    */
-  deleteObject(object: any): void {
+  deleteObject(event: Event, object: any): void {
+    event.stopPropagation();
     this.onDisableFromChild.emit(object);
   }
 
