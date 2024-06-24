@@ -10,7 +10,7 @@ export interface BasketModel {
   clientSecret: string;
   paymentIntentId: string;
   saleItems: BasketItemModel[];
-  buybackItems: BasketItemModel[];
+  buybackItems: BasketBuybackItemModel[];
 }
 
 // Represents for the product id as a DTO
@@ -22,6 +22,16 @@ export interface BasketItemModel {
   quantity: number;
 }
 
+// Buyback item in basket
+export interface BasketBuybackItemModel {
+  id: number;
+  pictureUrl: string;
+  productName: string;
+  price: number;
+  quantity: number;
+  goldWeight: number;
+}
+
 export interface BasketsSearchingCriteriaModel {
   id: string | undefined;
   searchPhoneNumber: string | undefined;
@@ -31,5 +41,5 @@ export interface BasketsSearchingCriteriaModel {
 export class BasketModel implements BasketModel {
   id: string = createId();
   saleItems: BasketItemModel[] = [];
-  buybackItems: BasketItemModel[] = [];
+  buybackItems: BasketBuybackItemModel[] = [];
 }

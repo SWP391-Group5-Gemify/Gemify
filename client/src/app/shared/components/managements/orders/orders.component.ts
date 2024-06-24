@@ -13,6 +13,11 @@ import { GenericTableDataSourceComponent } from '../../generic-table-data-source
 import { CommonModule } from '@angular/common';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { Router } from '@angular/router';
+import { BasketService } from '../../../../core/services/basket/basket.service';
+import { BasketModel } from '../../../../core/models/basket.model';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalCreateNewBasketComponent } from '../products/modal-create-new-basket/modal-create-new-basket.component';
 
 @Component({
   selector: 'app-orders',
@@ -22,6 +27,7 @@ import { Router } from '@angular/router';
     GenericTableDataSourceComponent,
     StatsTotalRowsComponent,
     GenericDropdownComponent,
+    MatIconModule
   ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
@@ -38,8 +44,6 @@ export class OrdersComponent implements OnInit {
     'orderDate',
     'name',
     'phone',
-    'promotionCode',
-    'promotionDiscount',
     'total',
     'orderType',
     'status',

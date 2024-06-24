@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Update Gold Weight</h1>
+
+<!-- Form -->
+<form [formGroup]="goldForm"
+      (ngSubmit)="onSubmit()">
+
+  <!-- Content -->
+  <div mat-dialog-content>
+
+    <!-- Customer Name -->
+    <mat-form-field>
+      <mat-label>Gold Weight</mat-label>
+      <input matInput
+             formControlName="goldWeight">
+      <mat-error *ngIf="goldForm.controls['goldWeight'].invalid">{{getErrorMessage('goldWeight')}}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- Actions -->
+  <div mat-dialog-actions>
+    <button class="btn btn--grad"
+            (click)="onNoClick()">Cancel</button>
+    <button class="btn btn--primary"
+            type="submit"
+            [disabled]="goldForm.invalid"
+            cdkFocusInitial>Add To Cart</button>
+  </div>
+</form>
