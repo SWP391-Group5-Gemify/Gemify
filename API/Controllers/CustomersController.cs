@@ -24,7 +24,7 @@ namespace API.Controllers
 
         // Get all customers with specification
         [HttpGet]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier,Repurchaser")]
         public async Task<ActionResult<Pagination<CustomerDto>>> GetCustomers([FromQuery] CustomerParams customerParams)
         {
             var spec = new CustomerSpecification(customerParams);
@@ -37,7 +37,7 @@ namespace API.Controllers
 
         // Get customer by ID
         [HttpGet("{id}")]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier,Repurchaser")]
         public async Task<ActionResult<CustomerDto>> GetCustomer (int id)
         {
             var spec = new CustomerSpecification(id);
@@ -73,6 +73,19 @@ namespace API.Controllers
             if (await _customerRepo.SaveAllAsync())
                 return Ok(new ApiResponse(200, "Successfully added!"));
             return BadRequest(new ApiResponse(400, "Failed to add customer information"));
+        }
+
+        //  check exist phone
+        [HttpGet("phone/{phone}")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Cashier,Seller,Repurchaser")]
+        public async Task<ActionResult<CustomerDto>> GetCustomerByPhone(string phone)
+        {
+            var spec = new CustomerSpecification(phone);
+            var customer = await _customerRepo.GetEntityWithSpec(spec);
+            if (customer == null) 
+                return NotFound(new ApiResponse(404, "This phone number does not exist!"));
+            return Ok(_mapper.Map<CustomerDto>(customer));
+
         }
     }
 }

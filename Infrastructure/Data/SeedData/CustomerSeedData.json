@@ -2,7 +2,7 @@
   {
     "Name": "Lâm Tiểu My",
     "Gender": "Female",
-    "Phone": "+89 (825) 590-3771",
+    "Phone": "0123456789",
     "Address": "S201 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
     "Point": 1200,
     "MembershipId": 4
@@ -10,7 +10,7 @@
   {
     "Name": "Cao Ngô Phương Khánh",
     "Gender": "Female",
-    "Phone": "+89 (863) 448-3131",
+    "Phone": "0987654321",
     "Address": "S102 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
     "Point": 410,
     "MembershipId": 3
@@ -18,7 +18,7 @@
   {
     "Name": "Phan Quang Anh",
     "Gender": "Male",
-    "Phone": "+89 (926) 579-3337",
+    "Phone": "09025475835",
     "Address": "S106 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
     "Point": 10,
     "MembershipId": 1
@@ -26,7 +26,7 @@
   {
     "Name": "Lê Quang Khánh",
     "Gender": "Male",
-    "Phone": "+89 (921) 413-2251",
+    "Phone": "0857355835",
     "Address": "S601 Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh",
     "Point": 115,
     "MembershipId": 2
@@ -34,7 +34,7 @@
   {
     "Name": "Vũ Kim Duy",
     "Gender": "Male",
-    "Phone": "+89 (886) 540-3033",
+    "Phone": "0703756986",
     "Address": "497 Lorimer Street, Whitewater, Louisiana, Mayotte",
     "Point": 20,
     "MembershipId": 1
