@@ -16,6 +16,7 @@ import { GenericTableDataSourceComponent } from '../../generic-table-data-source
 import { Router } from '@angular/router';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { MatIcon } from '@angular/material/icon';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-products-management',
@@ -38,6 +39,7 @@ export class ProductsManagementComponent implements OnInit {
     'quantity',
     'productPrice',
     'status',
+    'actions',
   ];
 
   public productSearchCriteria: ProductsSearchingCriteriaModel = {
@@ -70,7 +72,11 @@ export class ProductsManagementComponent implements OnInit {
   // ====================
   // == Lifecycle
   // ====================
-  constructor(private productService: ProductService, private route: Router) {}
+  constructor(
+    private productService: ProductService,
+    private route: Router,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -87,7 +93,7 @@ export class ProductsManagementComponent implements OnInit {
   /**
    * Load products based on pagination
    */
-  loadProducts(): void {
+  public loadProducts(): void {
     this.productService
       .getProducts({
         ...this.productSearchCriteria,
@@ -105,7 +111,7 @@ export class ProductsManagementComponent implements OnInit {
   /**
    * Load Sort quantity dropdown
    */
-  loadSortQuantityDropdown() {
+  public loadSortQuantityDropdown() {
     this.sortsQuantityDropdown = [
       {
         name: '↓ Số lượng: giảm dần',
@@ -246,6 +252,18 @@ export class ProductsManagementComponent implements OnInit {
   public onProductByIdFromParent($event: any) {
     const productId = $event;
     this.route.navigate([this.route.url + '/' + productId]);
+  }
+
+  /**
+   * Disable the product status
+   * @param product
+   */
+  public onDisableProduct(product: ProductModel) {
+    this.productService.disableProduct(product.id).subscribe({
+      next: (response: any) => {
+        this.loadProducts();
+      },
+    });
   }
 
   /**

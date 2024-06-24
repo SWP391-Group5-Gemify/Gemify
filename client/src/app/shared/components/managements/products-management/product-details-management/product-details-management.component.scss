@@ -57,10 +57,9 @@
   flex-grow: 3;
 
   &__title {
-    font-size: 2.2rem;
-    padding: $padding-layout;
-    background-color: $color-primary-light;
-    color: $color-white;
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
   }
 
   &__header {
@@ -71,7 +70,7 @@
       height: 5rem;
       color: $color-primary-light;
       font-weight: 900;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       letter-spacing: 1.4px;
     }
   }
