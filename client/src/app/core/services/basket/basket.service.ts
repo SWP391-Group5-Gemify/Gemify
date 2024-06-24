@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { BasketItemModel, BasketModel } from '../../models/basket.model';
+import { BasketBuybackItemModel, BasketItemModel, BasketModel } from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
+import { OrderItemModel } from '../../models/order.model';
 
 @Injectable({
   providedIn: 'root',
@@ -114,6 +115,39 @@ export class BasketService {
   }
 
   /**
+   * Check the current basket
+   * - If having basket, then add item to it
+   * - if don't have basket, then create new basket with random id = cuid2
+   *
+   * Add or Update Buyback Item to Basket
+   * - Scenario 1: item is existed, then update the quantity
+   * - Scenario 2: item is not existed, then add to the list of basket, and set to basket
+   *
+   * Default quantity is 1
+   * @param item
+   * @param price
+   * @param goldWeight
+   * @param quantity
+   */
+  public addBuybackItemToCurrentBasket(item: OrderItemModel, price: number, goldWeight: number, quantity = 1): void {
+    const buybackBasketItemToAdd = this.mapOrderItemToBasketBuybackItem(item, price, goldWeight); 
+
+    // Check the current basket
+    let basket = this.getCurrentBasketValue() ?? this.createBasket();
+
+    // Update the basket's buyback items when add or update the item
+    basket.buybackItems = this.addOrUpdateBuybackBasketItem(
+      basket?.buybackItems,
+      buybackBasketItemToAdd,
+      quantity
+    );
+
+    // Update the basket into the basket source
+    // the basket source will get that value immediately when the addBuybackItemToBasket triggered
+    this.setCurrentBasket(basket);
+  }
+
+  /**
    * Create an empty basket with phoneNumber
    * @param phoneNumber
    */
@@ -134,7 +168,6 @@ export class BasketService {
    * @param quantity
    * @returns
    */
-
   private addOrUpdateBasketItem(
     items: BasketItemModel[],
     basketItemToAdd: BasketItemModel,
@@ -143,6 +176,30 @@ export class BasketService {
     let targetBasketItem = items.find((item) => item.id === basketItemToAdd.id);
     if (targetBasketItem) {
       targetBasketItem.quantity += quantity;
+    } else {
+      basketItemToAdd.quantity = quantity;
+      items.push(basketItemToAdd);
+    }
+    return items;
+  }
+
+  /**
+   * Add or Update Buyback Item to Basket
+   * - Scenario 1: item is existed, then update the quantity
+   * - Scenario 2: item is not existed, then add to the list of basket, and set
+   * @param items
+   * @param basketItemToAdd
+   * @param quantity
+   * @returns
+   */
+  private addOrUpdateBuybackBasketItem(
+    items: BasketBuybackItemModel[],
+    basketItemToAdd: BasketBuybackItemModel,
+    quantity: number
+  ): BasketBuybackItemModel[] {
+    let targetBuybackBasketItem = items.find((item) => item.id === basketItemToAdd.id);
+    if (targetBuybackBasketItem) {
+      targetBuybackBasketItem.quantity += quantity;
     } else {
       basketItemToAdd.quantity = quantity;
       items.push(basketItemToAdd);
@@ -171,6 +228,24 @@ export class BasketService {
       productName: product.name,
       quantity: 0,
       pictureUrl: product.imageUrl,
+    };
+  }
+
+  /**
+   * Map the product item properties into the buyback asket item properties
+   * @param orderItem
+   * @param buybackPrice
+   * @param goldWeight
+   * @returns BasketBuybackItemModel
+   */
+  private mapOrderItemToBasketBuybackItem(orderItem: OrderItemModel, buybackPrice: number, goldWeight: number): BasketBuybackItemModel {
+    return {
+      id: orderItem.id,
+      price: buybackPrice,
+      productName: orderItem.productName,
+      quantity: 0,
+      pictureUrl: orderItem.image_Url,
+      goldWeight: goldWeight
     };
   }
 

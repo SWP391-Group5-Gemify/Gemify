@@ -13,6 +13,7 @@ namespace API.Dtos
         public string GoldType { get; set; }
         public decimal GoldWeight { get; set; }
         public decimal LatestBidPrice { get; set; }
+        public decimal LatestAskPrice { get; set; }
         public decimal TotalWeight { get; set; }
         public decimal Labour { get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]

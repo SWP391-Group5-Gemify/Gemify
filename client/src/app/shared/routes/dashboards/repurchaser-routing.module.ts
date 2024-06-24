@@ -20,6 +20,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: "orders",
+        loadChildren: () =>
+          import("../../routes/managements/orders-routing.module").then(
+            (m) => m.OrdersRoutingModule
+          ),
+      },
+      {
         path: 'products',
         loadChildren: () =>
           import('../../routes/managements/products-routing.module').then(
