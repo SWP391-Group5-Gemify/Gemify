@@ -53,7 +53,7 @@ namespace Infrastructure.Services
 
                     foreach (var orderItem in order.OrderItems)
                     {
-                        var orderItemTotalPrice = orderItem.Price * orderItem.Quantity * totalDiscount;
+                        var orderItemTotalPrice = orderItem.Price * orderItem.Quantity * (1 - totalDiscount);
                         var saleCounterId = orderItem.ItemOrdered.SaleCounterId;
 
                         // Add total to sale counter revenue
