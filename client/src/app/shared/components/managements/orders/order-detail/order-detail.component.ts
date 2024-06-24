@@ -1,49 +1,55 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import {
   OrderModel,
   OrderItemModel,
   OrderItemGemModel,
-} from "../../../../../core/models/order.model";
-import { OrdersService } from "../../../../../core/services/orders/orders.service";
-import { ActivatedRoute } from "@angular/router";
-import { CommonModule } from "@angular/common";
+} from '../../../../../core/models/order.model';
+import { OrdersService } from '../../../../../core/services/orders/orders.service';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import {
   animate,
   state,
   style,
   transition,
   trigger,
-} from "@angular/animations";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { BasketService } from "../../../../../core/services/basket/basket.service";
-import { MatDialog } from "@angular/material/dialog";
-import { BasketModel } from "../../../../../core/models/basket.model";
-import { ModalCreateNewBasketComponent } from "../../products/modal-create-new-basket/modal-create-new-basket.component";
-import { DropdownModel } from "../../../../../core/models/dropdown.model";
-import { GenericDropdownComponent } from "../../../generic-dropdown/generic-dropdown.component";
-import { ModalChangeGoldWeightComponent } from "./modal-change-gold-weight/modal-change-gold-weight.component";
-import { ProductService } from "../../../../../core/services/product/product.service";
+} from '@angular/animations';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { BasketService } from '../../../../../core/services/basket/basket.service';
+import { MatDialog } from '@angular/material/dialog';
+import { BasketModel } from '../../../../../core/models/basket.model';
+import { ModalCreateNewBasketComponent } from '../../products/modal-create-new-basket/modal-create-new-basket.component';
+import { DropdownModel } from '../../../../../core/models/dropdown.model';
+import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
+import { ModalChangeGoldWeightComponent } from './modal-change-gold-weight/modal-change-gold-weight.component';
+import { ProductService } from '../../../../../core/services/product/product.service';
 import { ProductModel } from './../../../../../core/models/product.model';
-import { lastValueFrom, map } from "rxjs";
+import { lastValueFrom, map } from 'rxjs';
 
 @Component({
-  selector: "app-order-detail",
+  selector: 'app-order-detail',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, GenericDropdownComponent],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    GenericDropdownComponent,
+  ],
   animations: [
-    trigger("detailExpand", [
-      state("collapsed,void", style({ height: "0px", minHeight: "0" })),
-      state("expanded", style({ height: "*" })),
+    trigger('detailExpand', [
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition(
-        "expanded <=> collapsed",
-        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
   ],
-  templateUrl: "./order-detail.component.html",
-  styleUrl: "./order-detail.component.scss",
+  templateUrl: './order-detail.component.html',
+  styleUrl: './order-detail.component.scss',
 })
 export class OrderDetailComponent implements OnInit {
   order?: OrderModel;
@@ -52,42 +58,42 @@ export class OrderDetailComponent implements OnInit {
   public basketIdAndPhoneDropdown!: DropdownModel[];
 
   columnsToDisplay = [
-    "image_Url",
-    "productName",
-    "goldPrice",
-    "goldType",
-    "goldWeight",
-    "productLabour",
-    "unit",
-    "price",
-    "quantity",
-    "total",
-    "add",
-    "expand",
+    'image_Url',
+    'productName',
+    'goldPrice',
+    'goldType',
+    'goldWeight',
+    'productLabour',
+    'unit',
+    'price',
+    'quantity',
+    'total',
+    'add',
+    'expand',
   ];
 
   columnsToDisplayWithExpand = [
-    "gemName",
-    "gemColor",
-    "gemWeight",
-    "gemCarat",
-    "gemClarity",
-    "gemCertificateCode",
-    "price",
-    "quantity",
-    "total",
+    'gemName',
+    'gemColor',
+    'gemWeight',
+    'gemCarat',
+    'gemClarity',
+    'gemCertificateCode',
+    'price',
+    'quantity',
+    'total',
   ];
 
   constructor(
     private ordersService: OrdersService,
     private route: ActivatedRoute,
-    private basketService: BasketService, 
+    private basketService: BasketService,
     private dialog: MatDialog,
     private productService: ProductService
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get("id");
+    const id = this.route.snapshot.paramMap.get('id');
     id &&
       this.ordersService.getOrderById(+id).subscribe({
         next: (order) => {
@@ -112,8 +118,8 @@ export class OrderDetailComponent implements OnInit {
   public calculateProductTotal(orderItem: OrderItemModel) {
     return (
       (orderItem.goldPrice * orderItem.goldWeight +
-      orderItem.productLabour +
-      this.calculateGemsTotal(orderItem.orderItemGems)) *
+        orderItem.productLabour +
+        this.calculateGemsTotal(orderItem.orderItemGems)) *
       orderItem.quantity
     );
   }
@@ -121,7 +127,7 @@ export class OrderDetailComponent implements OnInit {
   // Calculate the total price of all of the gems on a product
   private calculateGemsTotal(orderItemGems: OrderItemGemModel[]) {
     return orderItemGems.reduce((acc, curr) => {
-      return acc + this.calculateGemTotal(curr)
+      return acc + this.calculateGemTotal(curr);
     }, 0);
   }
 
@@ -193,27 +199,41 @@ export class OrderDetailComponent implements OnInit {
   }
 
   // Add order item to cart as buyback item
-  private async addOrderItemToCartFromChild(orderItem: OrderItemModel, newGoldWeight: number) {
-    const price = await lastValueFrom(this.calculateBuybackProductsPrice(orderItem, newGoldWeight));
-    this.basketService.addBuybackItemToCurrentBasket(orderItem, price, newGoldWeight);
+  private async addOrderItemToCartFromChild(
+    orderItem: OrderItemModel,
+    newGoldWeight: number
+  ) {
+    const price = await lastValueFrom(
+      this.calculateBuybackProductsPrice(orderItem, newGoldWeight)
+    );
+    this.basketService.addBuybackItemToCurrentBasket(
+      orderItem,
+      price,
+      newGoldWeight
+    );
   }
 
   // Calculate buyback item price
-  private calculateBuybackProductsPrice(orderItem: OrderItemModel, newGoldWeight: number) {
-    return this.productService.getProductById(orderItem.productItemId)
-    .pipe(
-      map(product => {
-        const price = - (
+  private calculateBuybackProductsPrice(
+    orderItem: OrderItemModel,
+    newGoldWeight: number
+  ) {
+    return this.productService.getProductById(orderItem.productItemId).pipe(
+      map((product) => {
+        const price = -(
           product.latestAskPrice * newGoldWeight +
           this.calculateBuybackGemsPrice(orderItem.orderItemGems)
         );
         return price;
       })
     );
-  }  
+  }
 
   // Calculate gem prices of the buyback item
   private calculateBuybackGemsPrice(orderItemGems: OrderItemGemModel[]) {
-    return orderItemGems.reduce(((acc, curr) => acc + curr.price * 0.7 * curr.quantity), 0);
+    return orderItemGems.reduce(
+      (acc, curr) => acc + curr.price * 0.7 * curr.quantity,
+      0
+    );
   }
 }

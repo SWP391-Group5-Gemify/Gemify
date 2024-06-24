@@ -20,9 +20,9 @@ const routes: Routes = [
           ),
       },
       {
-        path: "orders",
+        path: 'orders',
         loadChildren: () =>
-          import("../../routes/managements/orders-routing.module").then(
+          import('../../routes/managements/orders-routing.module').then(
             (m) => m.OrdersRoutingModule
           ),
       },
