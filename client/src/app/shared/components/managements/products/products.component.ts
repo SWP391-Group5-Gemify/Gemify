@@ -78,7 +78,7 @@ export class ProductsComponent implements OnInit {
       value: SortProductsQuantityEnum.QuantityAsc,
     },
   ];
-  public basketIdAndPhoneDropdown!: DropdownModel[];
+  public basketIdAndPhoneDropdown$!: Observable<DropdownModel[] | []>;
 
   @ViewChild('goldsDropdownRef') goldsDropdownRef!: GenericDropdownComponent;
   @ViewChild('subCategoriesDropdownRef')
@@ -262,15 +262,17 @@ export class ProductsComponent implements OnInit {
    * TODO: Handle error when load failed
    */
   public loadBasketIdAndPhoneDropdown() {
-    this.basketService.getBaskets().subscribe((baskets: BasketModel[]) => {
-      this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
-        value: basket.id,
-        name: this.basketService.generateTempTicketId(
-          basket.id,
-          basket.phoneNumber
-        ),
-      }));
-    });
+    this.basketIdAndPhoneDropdown$ = this.basketService.getBaskets().pipe(
+      map((baskets: BasketModel[]) => {
+        return baskets.map((basket: BasketModel) => ({
+          value: basket.id,
+          name: this.basketService.generateTempTicketId(
+            basket.id,
+            basket.phoneNumber
+          ),
+        }));
+      })
+    );
   }
 
   /**
@@ -310,6 +312,9 @@ export class ProductsComponent implements OnInit {
       if (result) {
         this.basketService.createEmptyBasket(result.phoneNumber);
       }
+
+      // Reload the basket dropdown for new added basket
+      this.loadBasketIdAndPhoneDropdown();
     });
   }
 }

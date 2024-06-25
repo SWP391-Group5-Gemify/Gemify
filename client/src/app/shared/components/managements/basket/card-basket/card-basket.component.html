@@ -15,7 +15,8 @@
   <mat-action-row class="card-basket__actions">
 
     <!-- Button to delete a basket -->
-    <button class="btn btn--grad btn--with-icon"> <mat-icon>delete_forever</mat-icon>Xóa giỏ
+    <button class="btn btn--grad btn--with-icon"
+            (click)="onDeleteBasket()"> <mat-icon>delete_forever</mat-icon>Xóa giỏ
       hàng</button>
 
     <!-- Button to send to the payment page -->

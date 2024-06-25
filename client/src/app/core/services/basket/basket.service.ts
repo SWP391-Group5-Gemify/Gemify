@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { BasketBuybackItemModel, BasketItemModel, BasketModel } from '../../models/basket.model';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import {
+  BasketBuybackItemModel,
+  BasketItemModel,
+  BasketModel,
+} from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
 import { OrderItemModel } from '../../models/order.model';
@@ -77,6 +81,30 @@ export class BasketService {
   }
 
   /**
+   * Remove a basket
+   * - If it's a current basket in the basket source, then set the current basket source to null
+   * @param id
+   * @returns
+   */
+  public deleteBasket(id: number | string): Observable<boolean> {
+    let params = new HttpParams();
+    params = params.set('id', id.toString());
+
+    return this.httpClient
+      .delete<boolean>(this.baseBasketUrl, {
+        params: params,
+      })
+      .pipe(
+        tap(() => {
+          // Perform remove the current basket source if delete it
+          if (this.getCurrentBasketValue()?.id === id) {
+            this._basketSource.next(null);
+          }
+        })
+      );
+  }
+
+  /**
    * Get the current basket value
    */
   public getCurrentBasketValue(): BasketModel | null {
@@ -129,8 +157,17 @@ export class BasketService {
    * @param goldWeight
    * @param quantity
    */
-  public addBuybackItemToCurrentBasket(item: OrderItemModel, price: number, goldWeight: number, quantity = 1): void {
-    const buybackBasketItemToAdd = this.mapOrderItemToBasketBuybackItem(item, price, goldWeight); 
+  public addBuybackItemToCurrentBasket(
+    item: OrderItemModel,
+    price: number,
+    goldWeight: number,
+    quantity = 1
+  ): void {
+    const buybackBasketItemToAdd = this.mapOrderItemToBasketBuybackItem(
+      item,
+      price,
+      goldWeight
+    );
 
     // Check the current basket
     let basket = this.getCurrentBasketValue() ?? this.createBasket();
@@ -197,7 +234,9 @@ export class BasketService {
     basketItemToAdd: BasketBuybackItemModel,
     quantity: number
   ): BasketBuybackItemModel[] {
-    let targetBuybackBasketItem = items.find((item) => item.id === basketItemToAdd.id);
+    let targetBuybackBasketItem = items.find(
+      (item) => item.id === basketItemToAdd.id
+    );
     if (targetBuybackBasketItem) {
       targetBuybackBasketItem.quantity += quantity;
     } else {
@@ -238,14 +277,18 @@ export class BasketService {
    * @param goldWeight
    * @returns BasketBuybackItemModel
    */
-  private mapOrderItemToBasketBuybackItem(orderItem: OrderItemModel, buybackPrice: number, goldWeight: number): BasketBuybackItemModel {
+  private mapOrderItemToBasketBuybackItem(
+    orderItem: OrderItemModel,
+    buybackPrice: number,
+    goldWeight: number
+  ): BasketBuybackItemModel {
     return {
       id: orderItem.id,
       price: buybackPrice,
       productName: orderItem.productName,
       quantity: 0,
       pictureUrl: orderItem.image_Url,
-      goldWeight: goldWeight
+      goldWeight: goldWeight,
     };
   }
 

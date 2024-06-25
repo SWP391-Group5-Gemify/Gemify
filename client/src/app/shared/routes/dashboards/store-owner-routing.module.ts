@@ -10,7 +10,7 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'statistic-dashboard',
-        pathMatch: 'prefix',
+        pathMatch: 'full',
       },
       {
         path: 'statistic-dashboard',
