@@ -6,13 +6,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-card-basket-item',
+  selector: 'app-table-basket-items',
   standalone: true,
   imports: [MatTableModule, CommonModule, MatIconModule, MatButtonModule],
-  templateUrl: './card-basket-item.component.html',
-  styleUrl: './card-basket-item.component.scss',
+  templateUrl: './table-basket-items.component.html',
+  styleUrl: './table-basket-items.component.scss',
 })
-export class CardBasketItemComponent {
+export class TableBasketItemsComponent {
+  // ======================
+  // == Fields
+  // ======================
+
   @Input() basketItems: any;
   public displayedColumns: string[] = [
     'pictureUrl',
