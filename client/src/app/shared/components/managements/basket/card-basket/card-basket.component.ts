@@ -8,6 +8,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CardBasketItemComponent } from '../card-basket-item/card-basket-item.component';
 import { NotificationService } from '../../../../../core/services/notification/notification.service';
+import { AuthService } from '../../../../../core/services/auth/auth.service';
+import { RoleEnum } from '../../../../../core/models/role.model';
 
 @Component({
   selector: 'app-card-basket',
@@ -35,7 +37,10 @@ export class CardBasketComponent implements OnInit {
   // ======================
   // == Lifecycle
   // ======================
-  constructor(public basketService: BasketService) {}
+  constructor(
+    public basketService: BasketService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
   // ======================
@@ -60,8 +65,18 @@ export class CardBasketComponent implements OnInit {
     });
   }
 
-  //
-  public onGoToPayment() {
+  /**
+   * Check if the current user is the Cashier or not
+   * @returns
+   */
+  isUserCashier() {
+    return this.authService.currentUser?.role === RoleEnum.Cashier;
+  }
+
+  /**
+   * Go to checkout
+   */
+  public onGoToCheckOutPage() {
     console.log('Will go to payment');
   }
 }

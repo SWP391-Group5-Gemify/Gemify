@@ -20,8 +20,10 @@
       hàng</button>
 
     <!-- Button to send to the payment page -->
+    @if(isUserCashier()){
     <button class="btn btn--primary btn--with-icon"> <mat-icon>paid</mat-icon>Thanh
       toán</button>
+    }
   </mat-action-row>
 
   <!-- Basket Items  -->
