@@ -30,5 +30,6 @@
   </div>
 
   @for (basket of baskets$ | async; track $index) {
-  <app-card-basket [basket]="basket"></app-card-basket> }
+  <app-card-basket [basket]="basket"
+                   (onDeleteBasketFromChild)="onBasketDeletedFromParent($event)"></app-card-basket> }
 </section>
