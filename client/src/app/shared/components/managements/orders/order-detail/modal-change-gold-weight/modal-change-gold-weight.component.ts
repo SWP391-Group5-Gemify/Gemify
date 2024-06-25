@@ -1,21 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import {
-  MatFormFieldControl,
-  MatFormFieldModule,
-} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-modal-create-new-basket',
+  selector: 'app-modal-change-gold-weight',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -23,27 +14,26 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatInputModule,
   ],
-  templateUrl: './modal-create-new-basket.component.html',
-  styleUrl: './modal-create-new-basket.component.scss',
+  templateUrl: './modal-change-gold-weight.component.html',
+  styleUrl: './modal-change-gold-weight.component.scss'
 })
-export class ModalCreateNewBasketComponent implements OnInit {
+export class ModalChangeGoldWeightComponent {
   // ==========================================
   // == Fields
   // ==========================================
-  basketForm!: FormGroup;
+  goldForm!: FormGroup;
 
   // ==========================================
   // == Constructors
   // ==========================================
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<ModalCreateNewBasketComponent>
+    public dialogRef: MatDialogRef<ModalChangeGoldWeightComponent>
   ) {}
 
   ngOnInit(): void {
-    this.basketForm = this.fb.group({
-      // customerName: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
+    this.goldForm = this.fb.group({
+      goldWeight: ['', Validators.required]
     });
   }
 
@@ -51,11 +41,11 @@ export class ModalCreateNewBasketComponent implements OnInit {
   // == Methods
   // ==========================================
   getErrorMessage(controlName: string): string {
-    const control = this.basketForm.get(controlName);
+    const control = this.goldForm.get(controlName);
     if (control?.hasError('required')) {
       return 'You must enter a value';
     } else if (control?.hasError('pattern')) {
-      return 'Not a valid phone number';
+      return 'Invalid gold weight';
     }
     return '';
   }
@@ -65,8 +55,8 @@ export class ModalCreateNewBasketComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.basketForm.valid) {
-      this.dialogRef.close(this.basketForm.value);
+    if (this.goldForm.valid) {
+      this.dialogRef.close(this.goldForm.value);
     }
   }
 }

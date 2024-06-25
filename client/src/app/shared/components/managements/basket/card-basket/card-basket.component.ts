@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChangeDetectionStrategy, signal } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BasketService } from '../../../../../core/services/basket/basket.service';
@@ -7,6 +7,10 @@ import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CardBasketItemComponent } from '../card-basket-item/card-basket-item.component';
+import { NotificationService } from '../../../../../core/services/notification/notification.service';
+import { AuthService } from '../../../../../core/services/auth/auth.service';
+import { RoleEnum } from '../../../../../core/models/role.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-basket',
@@ -22,25 +26,60 @@ import { CardBasketItemComponent } from '../card-basket-item/card-basket-item.co
     CardBasketItemComponent,
   ],
 })
-export class CardBasketComponent implements OnInit {
+export class CardBasketComponent {
   // ======================
   // == Fields
   // ======================
   public readonly panelOpenState = signal(false);
   @Input() public basket!: BasketModel;
+  @Output() onDeleteBasketFromChild: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
 
   // ======================
   // == Lifecycle
   // ======================
-  constructor(public basketService: BasketService) {}
+  constructor(
+    public basketService: BasketService,
+    public authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
   // ======================
   // == Methods
   // ======================
 
-  //
-  public onGoToPayment() {
-    console.log('Will go to payment');
+  /**
+   * Delete a basket based on id
+   */
+  onDeleteBasket() {
+    this.basketService.deleteBasket(this.basket.id).subscribe({
+      next: (response) => {
+        if (response) {
+          this.onDeleteBasketFromChild.emit(true);
+        }
+      },
+
+      error: (err) => {
+        this.onDeleteBasketFromChild.emit(false);
+        console.error(err);
+      },
+    });
+  }
+
+  /**
+   * Check if the current user is the Cashier or not
+   * @returns
+   */
+  isUserCashier() {
+    return this.authService.currentUser?.role === RoleEnum.Cashier;
+  }
+
+  /**
+   * Set the current basket for checkout
+   * Go to checkout page
+   */
+  public onGoToCheckOutPage() {
+    this.basketService.setCurrentBasket(this.basket);
+    this.router.navigate(['/cashier/checkout']);
   }
 }

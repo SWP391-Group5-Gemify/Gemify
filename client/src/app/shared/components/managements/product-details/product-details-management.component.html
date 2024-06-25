@@ -2,7 +2,7 @@
         (click)="onGoBackToProductsManagement()"><mat-icon>arrow_back</mat-icon>Back to Products</button>
 
 <!-- Product Details Section -->
-<section class="product-details u-margin-bottom-medium u-margin-top-medium"
+<section class="product-details u-margin-top-small"
          *ngIf="product$ | async as product">
 
   <!-- Image -->
@@ -32,13 +32,13 @@
           <span class="specs__label">Trọng lượng vàng:</span> {{ product.goldWeight }} chỉ
         </p>
         <p class="specs__item">
-          <span class="specs__label">Giá mua mới nhất:</span> {{ product.latestBidPrice | currency: 'vnd': 'VND '}}
+          <span class="specs__label">Giá mua mới nhất:</span> {{ product.latestBidPrice | currency: "VND"}}
         </p>
         <p class="specs__item">
           <span class="specs__label">Tổng trọng lượng:</span> {{ product.totalWeight }} chỉ
         </p>
         <p class="specs__item">
-          <span class="specs__label">Tiền công:</span> {{ product.labour | currency: 'vnd': 'VND '}}
+          <span class="specs__label">Tiền công:</span> {{ product.labour | currency: "VND"}}
         </p>
         <p class="specs__item">
           <span class="specs__label">Số lượng:</span> {{ product.quantity }}
@@ -53,7 +53,7 @@
           <span class="specs__label">Tên quầy bán:</span> {{ product.saleCounterName }}
         </p>
         <p class="specs__item">
-          <span class="specs__label">Giá sản phẩm:</span> {{ product.productPrice | currency: 'vnd': 'VND '}}
+          <span class="specs__label">Giá sản phẩm:</span> {{ product.productPrice | currency: "VND"}}
         </p>
         <p class="specs__item specs__item--status">
           <span class="specs__label">Trạng thái:</span> {{ product.status }}
@@ -63,7 +63,7 @@
       <!-- Gem Details -->
       <div class="gems-details"
            *ngIf="product.gems && product.gems.length">
-        <h3 class="gems-details__title mat-elevation-z3">Đá quý</h3>
+        <h3 class="gems-details__title">Bao Gồm Đá quý</h3>
         <mat-accordion>
 
           <!-- A panel -->
@@ -91,14 +91,14 @@
               <p class="specs__item"><span class="specs__label">Màu sắc:</span> {{ gem.color }}</p>
               <p class="specs__item"><span class="specs__label">Hình dạng:</span> {{ gem.shape }}</p>
               <p class="specs__item"><span class="specs__label">Giá mới nhất:</span> {{ gem.latestPrice | currency:
-                'vnd': 'VND '}}</p>
+                "VND"}}</p>
               <p class="specs__item"><span class="specs__label">Trọng lượng đá:</span> {{ gem.gemWeight }} chỉ</p>
               <p class="specs__item"
                  *ngIf="gem.certificateCode"><span class="specs__label">Mã chứng nhận:</span> {{ gem.certificateCode
                 }}</p>
               <p class="specs__item"><span class="specs__label">Số lượng:</span> {{ gem.quantity }}</p>
               <p class="specs__item"><span class="specs__label">Giá đá:</span> {{ gem.gemsPrice | currency:
-                'vnd':'VND '}}
+                "VND"}}
               </p>
             </div>
           </mat-expansion-panel>

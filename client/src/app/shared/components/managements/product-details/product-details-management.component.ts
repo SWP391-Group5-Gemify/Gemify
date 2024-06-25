@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { ProductService } from '../../../../../core/services/product/product.service';
+
 import { CommonModule, Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { ProductModel } from '../../../../../core/models/product.model';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+
 import { Observable } from 'rxjs';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ProductModel } from '../../../../core/models/product.model';
+import { ProductService } from '../../../../core/services/product/product.service';
 
 @Component({
   selector: 'app-product-details-management',
@@ -26,12 +28,12 @@ export class ProductDetailsManagementComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private location: Location,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadProductOnId();
-    this.product$;
   }
 
   // ===========================
@@ -40,6 +42,7 @@ export class ProductDetailsManagementComponent implements OnInit {
 
   /**
    * Go back to the products management page
+   * TODO: Error on going back
    */
   onGoBackToProductsManagement() {
     this.location.back();

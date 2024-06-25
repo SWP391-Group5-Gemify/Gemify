@@ -13,6 +13,7 @@ import {
 
 import { MatIcon } from '@angular/material/icon';
 import { ModalViewCurrentUserComponent } from '../../../shared/components/managements/employees/modal-view-current-user/modal-view-current-user.component';
+import { NavItemsModel } from '../../models/nav-items.model';
 
 @Component({
   selector: 'app-header',
@@ -28,13 +29,14 @@ export class HeaderComponent {
 
   // Components if not login
   public navLinks = {
-    login: { name: 'Login to System', route: '/' },
-    goldChart: { name: 'Gold Chart', route: '/gold-chart' },
+    login: { name: 'Đăng nhập', route: '/', icon: 'login' },
+    goldChart: { name: 'Biểu đồ vàng', route: '/gold-chart', icon: 'paid' },
     showProfile: {
-      name: 'Show My Profile',
+      name: 'Hồ sơ cá nhân',
       action: () => this.openCurrentUserModal(),
+      icon: 'account_circle',
     },
-    logout: { name: 'Logout', action: () => this.logout() },
+    logout: { name: 'Đăng xuất', action: () => this.logout(), icon: 'logout' },
   };
   // ================================
   // == Life Cycle
@@ -70,7 +72,7 @@ export class HeaderComponent {
       closeButtonLabel: 'Close Profile',
     };
 
-    const dialogRef = this.viewModal.open(ModalViewCurrentUserComponent, {
+    this.viewModal.open(ModalViewCurrentUserComponent, {
       disableClose: true,
       width: '40%',
       height: '80%',

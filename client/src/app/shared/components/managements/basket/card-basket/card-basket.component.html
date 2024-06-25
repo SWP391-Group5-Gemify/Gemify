@@ -15,12 +15,16 @@
   <mat-action-row class="card-basket__actions">
 
     <!-- Button to delete a basket -->
-    <button class="btn btn--grad btn--with-icon"> <mat-icon>delete_forever</mat-icon>Xóa giỏ
+    <button class="btn btn--grad btn--with-icon"
+            (click)="onDeleteBasket()"> <mat-icon>delete_forever</mat-icon>Xóa giỏ
       hàng</button>
 
     <!-- Button to send to the payment page -->
-    <button class="btn btn--primary btn--with-icon"> <mat-icon>paid</mat-icon>Thanh
+    @if(isUserCashier()){
+    <button class="btn btn--primary btn--with-icon"
+            (click)="onGoToCheckOutPage()"> <mat-icon>paid</mat-icon>Thanh
       toán</button>
+    }
   </mat-action-row>
 
   <!-- Basket Items  -->
@@ -29,6 +33,11 @@
     <div class="card-basket__items">
       <app-card-basket-item [basketItems]="basket.saleItems"></app-card-basket-item>
     </div>
+
+    <!-- Buyback Items -->
+    <!-- <div class="card-basket__items">
+      <app-card-basket-item [basketItems]="basket.buybackItems"></app-card-basket-item>
+    </div> -->
 
     <!-- Coupon -->
     <div>Apply Coupon: {{basket.promotionId}}</div>

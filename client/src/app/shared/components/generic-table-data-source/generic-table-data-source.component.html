@@ -38,24 +38,22 @@
             (click)="getId(object.id)">
           @if(column !== "actions") {
           {{(column.toLowerCase().includes("price"))
-          ? (object[column] * 1000 | currency:'VND')
-          : (column.toLowerCase().includes('discount'))
-          ? (object[column]/100 | percent)
+          ? (object[column] | currency:'VND')
           : (column.toLowerCase().includes('total'))
-          ? (object[column] * 1000 | currency:'VND')
+          ? (object[column] | currency:'VND')
           : object[column] }}
           } @else {
           <div class="table-data-source__action-groups">
             <button mat-icon-button
                     matTooltip="Edit"
                     aria-label="Edit Icon"
-                    (click)="editObject(object)">
+                    (click)="editObject($event, object)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button
                     matTooltip="Disable"
                     aria-label="Disable Icon"
-                    (click)="deleteObject(object)">
+                    (click)="deleteObject($event, object)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

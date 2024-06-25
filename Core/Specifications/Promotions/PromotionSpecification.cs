@@ -5,7 +5,7 @@ namespace Core.Specifications.Promotions
     public class PromotionSpecification : BaseSpecification<Promotion>
     {
         public PromotionSpecification(string code) 
-            : base(x => x.Code.ToLower().Equals(code.ToLower()) && x.Status == true)
+            : base(x => x.Code.ToLower().Equals(code.ToLower()))
         {
 
         }

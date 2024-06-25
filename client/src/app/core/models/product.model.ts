@@ -5,6 +5,7 @@ export interface ProductModel {
   goldType: string;
   goldWeight: number;
   latestBidPrice: number;
+  latestAskPrice: number;
   totalWeight: number;
   labour: number;
   status: string;

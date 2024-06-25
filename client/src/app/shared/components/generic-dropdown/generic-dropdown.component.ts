@@ -16,7 +16,7 @@ export class GenericDropdownComponent {
   // ===========================================
 
   @Input() label: string | undefined;
-  @Input() options!: DropdownModel[];
+  @Input() options!: DropdownModel[] | null;
   @Output() onSelectionChange = new EventEmitter<string | number>();
 
   // 2-way binding on the current selected value
