@@ -8,11 +8,18 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { BasketService } from '../../../../../core/services/basket/basket.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card-product',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, CommonModule, MatIconModule],
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    CommonModule,
+    MatIconModule,
+    RouterLink,
+  ],
   templateUrl: './card-product.component.html',
   styleUrl: './card-product.component.scss',
 })
@@ -26,7 +33,7 @@ export class CardProductComponent {
   // ======================================
   // == Life Cycle
   // ======================================
-  constructor(private basketService: BasketService) {}
+  constructor(private basketService: BasketService, private router: Router) {}
 
   // ======================================
   // == Methods
@@ -34,12 +41,14 @@ export class CardProductComponent {
   /**
    * Add a product item to the cart
    */
-  addProductItemToCartFromChild() {
+  addProductItemToBasket() {
     this.product && this.basketService.addItemToCurrentBasket(this.product, 1);
   }
 
   /**
    * Implement the modal showing the product details
    */
-  viewProductDetailFromChild() {}
+  onGoToProductDetail() {
+    this.router.navigate([this.router.url + '/' + this.product.id]);
+  }
 }

@@ -49,7 +49,7 @@
 
   <app-generic-dropdown #chooseExistingBasket
                         label="Chọn giỏ hàng"
-                        [options]="basketIdAndPhoneDropdown"
+                        [options]="basketIdAndPhoneDropdown$ | async"
                         (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
   </app-generic-dropdown>
 </section>

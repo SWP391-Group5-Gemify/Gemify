@@ -75,7 +75,6 @@ export class BasketComponent implements OnInit {
     // Since the GET don't have any params, I have to call GET all and GET by ID api to achive the dropdown and filter
     this.baskets$ = this.basketService.getBaskets().pipe(
       map((baskets: BasketModel[]) => {
-        console.table(baskets);
         let filteredBaskets = baskets;
 
         // filter on id
@@ -147,5 +146,16 @@ export class BasketComponent implements OnInit {
     this.basketSearchCriteria.id = undefined;
     this.basketSearchCriteria.searchPhoneNumber = undefined;
     this.loadBaskets();
+  }
+
+  /**
+   * if the delete basket event from children success, then reload the baskets list
+   * @param success
+   */
+  public onBasketDeletedFromParent(success: boolean) {
+    if (success) {
+      this.loadBaskets();
+      this.loadBasketIdAndPhoneDropdown();
+    }
   }
 }

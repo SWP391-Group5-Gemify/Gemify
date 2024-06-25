@@ -6,7 +6,7 @@ namespace Core.Specifications.Orders
     public class OrderByPaymentIntentIdSpecification : BaseSpecification<Order>
     {
         public OrderByPaymentIntentIdSpecification(string paymentIntentId) 
-            : base(o => paymentIntentId != null && o.PaymentIntentId == paymentIntentId)
+            : base(o => !string.IsNullOrEmpty(paymentIntentId) && o.PaymentIntentId == paymentIntentId)
         {
             AddInclude(o => o.Membership);
             AddInclude(o => o.Promotion);
