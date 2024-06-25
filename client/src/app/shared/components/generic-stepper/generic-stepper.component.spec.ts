@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardBasketItemComponent } from './card-basket-item.component';
+import { GenericStepperComponent } from './generic-stepper.component';
 
-describe('CardBasketItemComponent', () => {
-  let component: CardBasketItemComponent;
-  let fixture: ComponentFixture<CardBasketItemComponent>;
+describe('GenericStepperComponent', () => {
+  let component: GenericStepperComponent;
+  let fixture: ComponentFixture<GenericStepperComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CardBasketItemComponent]
+      imports: [GenericStepperComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CardBasketItemComponent);
+    fixture = TestBed.createComponent(GenericStepperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

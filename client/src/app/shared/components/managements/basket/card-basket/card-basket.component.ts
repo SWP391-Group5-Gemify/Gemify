@@ -6,7 +6,7 @@ import { BasketModel } from '../../../../../core/models/basket.model';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { CardBasketItemComponent } from '../card-basket-item/card-basket-item.component';
+import { TableBasketItemsComponent } from '../table-basket-items/table-basket-items.component';
 import { NotificationService } from '../../../../../core/services/notification/notification.service';
 import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../../core/models/role.model';
@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
     CommonModule,
     MatIcon,
     MatButtonModule,
-    CardBasketItemComponent,
+    TableBasketItemsComponent,
   ],
 })
 export class CardBasketComponent {
