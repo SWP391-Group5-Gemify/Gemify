@@ -177,7 +177,7 @@ export class OrderDetailComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.basketService.createEmptyBasket(result.phoneNumber);
+        this.basketService.createEmptyBasketWithPhoneNumber(result.phoneNumber);
       }
     });
   }

@@ -20,8 +20,11 @@
       hàng</button>
 
     <!-- Button to send to the payment page -->
-    <button class="btn btn--primary btn--with-icon"> <mat-icon>paid</mat-icon>Thanh
+    @if(isUserCashier()){
+    <button class="btn btn--primary btn--with-icon"
+            (click)="onGoToCheckOutPage()"> <mat-icon>paid</mat-icon>Thanh
       toán</button>
+    }
   </mat-action-row>
 
   <!-- Basket Items  -->
@@ -32,9 +35,9 @@
     </div>
 
     <!-- Buyback Items -->
-    <div class="card-basket__items">
+    <!-- <div class="card-basket__items">
       <app-card-basket-item [basketItems]="basket.buybackItems"></app-card-basket-item>
-    </div>
+    </div> -->
 
     <!-- Coupon -->
     <div>Apply Coupon: {{basket.promotionId}}</div>

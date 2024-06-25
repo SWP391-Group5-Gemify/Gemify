@@ -66,15 +66,17 @@ export class BasketService {
   }
 
   /**
-   * Set or Update the current existing basket
+   * Set into the basket source
+   * Update that basket info and set to that basket source
    * @param basket
    * @returns
    */
-  public setCurrentBasket(basket: BasketModel) {
+  public setCurrentBasket(updatedBasket: BasketModel) {
     return this.httpClient
-      .post<BasketModel>(this.baseBasketUrl, basket)
+      .post<BasketModel>(this.baseBasketUrl, updatedBasket)
       .subscribe({
         next: (basket) => {
+          localStorage.setItem('basket_id', basket.id);
           this._basketSource.next(basket);
         },
       });
@@ -99,16 +101,10 @@ export class BasketService {
           // Perform remove the current basket source if delete it
           if (this.getCurrentBasketValue()?.id === id) {
             this._basketSource.next(null);
+            localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
           }
         })
       );
-  }
-
-  /**
-   * Get the current basket value
-   */
-  public getCurrentBasketValue(): BasketModel | null {
-    return this._basketSource.value;
   }
 
   /**
@@ -188,11 +184,10 @@ export class BasketService {
    * Create an empty basket with phoneNumber
    * @param phoneNumber
    */
-  public createEmptyBasket(phoneNumber: string): void {
+  public createEmptyBasketWithPhoneNumber(phoneNumber: string): void {
     const newBasket: BasketModel = new BasketModel();
     newBasket.phoneNumber = phoneNumber;
     localStorage.setItem('basket_id', newBasket.id);
-
     this.setCurrentBasket(newBasket);
   }
 
@@ -218,6 +213,13 @@ export class BasketService {
       items.push(basketItemToAdd);
     }
     return items;
+  }
+
+  /**
+   * Get the current basket value
+   */
+  private getCurrentBasketValue(): BasketModel | null {
+    return this._basketSource.value;
   }
 
   /**
@@ -248,6 +250,7 @@ export class BasketService {
 
   /**
    * Create a new basket with default basket_id = cuid2
+   * Set it into the basket_id
    */
   private createBasket(): BasketModel {
     const basket = new BasketModel();
@@ -304,18 +307,16 @@ export class BasketService {
 
   /**
    * Generate Temp ticket id For customer preference in store
-   * @param id
+   * @param customerName
    * @returns
    */
-  public generateTempTicketId(id: string, phoneNumber?: string): string {
-    let tempTicketId: string = 'BAS'
-      .concat('-')
-      .concat(id.slice(0, 3))
-      .toUpperCase();
+  public generateTempTicketId(basketId: string, phoneNumber?: string): string {
+    let tempTicketId: string = ''.concat(basketId.slice(0, 3)).toUpperCase();
 
     // If having phone number
     if (phoneNumber) {
-      tempTicketId
+      tempTicketId = tempTicketId
+        .concat('-')
         .concat(phoneNumber[0])
         .concat(phoneNumber[phoneNumber.length - 1]);
     }

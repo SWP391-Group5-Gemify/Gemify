@@ -7,14 +7,14 @@
     <mat-cell *matCellDef="let basketItem"><img class="table-item__product-img"
            [src]="basketItem.pictureUrl"
            [alt]="basketItem.productName" /></mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
+    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
   </ng-container>
 
   <!-- Name -->
   <ng-container matColumnDef="productName">
     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
     <mat-cell *matCellDef="let basketItem"> {{ basketItem.productName }} </mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
+    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
   </ng-container>
 
   <!-- Quantity -->
@@ -28,14 +28,14 @@
       <button mat-icon-button>
         <mat-icon class="table-item__icon-quantity">remove</mat-icon>
       </button></mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
+    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
   </ng-container>
 
   <!-- Price -->
   <ng-container matColumnDef="price">
     <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
     <mat-cell *matCellDef="let basketItem"> {{ basketItem.price | currency:"VND" }} </mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
+    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
   </ng-container>
 
   <!-- Remove -->
@@ -46,10 +46,10 @@
         <mat-icon class="table-item__icon-delete">delete</mat-icon>
       </button>
     </mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
+    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
   </ng-container>
 
-  <!-- Headers -->
+  <!-- Headers & Footers -->
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>

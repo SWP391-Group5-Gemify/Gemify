@@ -8,6 +8,9 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CardBasketItemComponent } from '../card-basket-item/card-basket-item.component';
 import { NotificationService } from '../../../../../core/services/notification/notification.service';
+import { AuthService } from '../../../../../core/services/auth/auth.service';
+import { RoleEnum } from '../../../../../core/models/role.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-basket',
@@ -23,7 +26,7 @@ import { NotificationService } from '../../../../../core/services/notification/n
     CardBasketItemComponent,
   ],
 })
-export class CardBasketComponent implements OnInit {
+export class CardBasketComponent {
   // ======================
   // == Fields
   // ======================
@@ -35,9 +38,12 @@ export class CardBasketComponent implements OnInit {
   // ======================
   // == Lifecycle
   // ======================
-  constructor(public basketService: BasketService) {}
+  constructor(
+    public basketService: BasketService,
+    public authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
   // ======================
   // == Methods
   // ======================
@@ -60,8 +66,20 @@ export class CardBasketComponent implements OnInit {
     });
   }
 
-  //
-  public onGoToPayment() {
-    console.log('Will go to payment');
+  /**
+   * Check if the current user is the Cashier or not
+   * @returns
+   */
+  isUserCashier() {
+    return this.authService.currentUser?.role === RoleEnum.Cashier;
+  }
+
+  /**
+   * Set the current basket for checkout
+   * Go to checkout page
+   */
+  public onGoToCheckOutPage() {
+    this.basketService.setCurrentBasket(this.basket);
+    this.router.navigate(['/cashier/checkout']);
   }
 }
