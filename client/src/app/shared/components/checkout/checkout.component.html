@@ -1,48 +1,77 @@
-<h1>Hello World</h1>
+<button class="btn btn--grad btn--with-icon"
+        (click)="onGoBackToBasketsPage()"><mat-icon>arrow_back</mat-icon>Back to Baskets</button>
 
-<section class="checkout-page">
+<section class="checkout u-margin-top-medium">
 
-  <!-- Stepper -->
-
+  <!-- Heading -->
+  <h3 class="checkout__heading u-margin-bottom-small">Tổng kết giỏ hàng</h3>
 
   <!-- Basket Summary -->
-  <!-- @if () {}
-  <div class="basket-summary">
-    <div class="basket-summary__title">basket summary</div>
-    <div class="basket-summary__content">
-      <ul class="basket-summary__list">
-        <li class="basket-summary__item">
-          <strong>Order subtotal</strong>
-          <strong>{{basket.subTotal | currency:'VND'}}</strong>
-        </li>
-        <li class="basket-summary__item">
-          <strong>Membership</strong>
-          <strong>{{basket.membershipName}}</strong>
-        </li>
-        <li class="basket-summary__item">
-          <strong>Promotion Code</strong>
-          @if (basket.promotionCode) {
-          <strong>{{basket.promotionCode}}</strong>
-          }
-          @else {
-          <strong>NONE</strong>
+  <ng-container *ngIf="basketService.basketSource$ | async as basket">
+    <div class="checkout__basket-summary">
+      <!-- If the basket having buyback items or sal items -->
+      <ng-container *ngIf="basket.saleItems.length !== 0">
+        <app-table-basket-items-summary [basketItems]="basket.saleItems"></app-table-basket-items-summary>
+      </ng-container>
+
+      <!-- TODO: BUYBACK -->
+      <!-- <ng-container *ngIf="basket.buybackItems.length !== 0">
+        <app-table-basket-items-summary [basketItems]="basket.buybackItems"></app-table-basket-items-summary>
+      </ng-container> -->
+    </div>
+
+    <!-- Divider -->
+    <span class="divider u-margin-top-small"></span>
+
+    <!-- Basket Stepper for Checkout -->
+    <div class="flex u-margin-top-small">
+
+      <!-- Total Summary -->
+      <div class="total-summary">
+        <h4 class="total-summary__heading">Tổng hóa đơn</h4>
+        <ul class="total-summary__list">
+
+          <!-- Total of selling or buyback items -->
+          @if (basket.saleItems.length !== 0) {
+          <li class="total-summary__item"><span>Tổng số tiền trước
+              thuế</span><span>{{calculateBasketTotalPrice(basket.saleItems) |
+              currency:"VND"}}</span>
+          </li>
           }
 
-        </li>
-        <li class="basket-summary__item">
-          <strong>Membership Discount</strong>
-          <strong>{{basket.membershipDiscount | percent}}</strong>
-        </li>
-        <li class="basket-summary__item">
-          <strong>Promotion Discount</strong>
-          <strong>{{basket.promotionDiscount | percent}}</strong>
-        </li>
-        <li class="basket-summary__item">
-          <strong>Total</strong>
-          <strong>{{basket.total | currency:'VND'}}</strong>
-        </li>
-      </ul>
+          <!-- TODO: BUYBACK -->
+          <!-- @else {
+            <li><span>Tổng số tiền sau thuế</span><span>{{calculateBasketTotalPrice(basket.buybackItems) | currency:
+                "VND"}}</span>
+            </li>
+            } -->
+
+          <li class="total-summary__item"><span>VAT</span><span>{{ 0 | currency: "VND"}}</span></li>
+          <li class="total-summary__item"><span>Tổng số tiền sau
+              thuế</span><span>{{calculateBasketTotalPrice(basket.saleItems) | currency:
+              "VND"}}</span></li>
+        </ul>
+      </div>
+
+      <!-- Stepper -->
+      <div class="stepper">
+        <app-generic-stepper [linearModeSelected]="false"
+                             #appStepper>
+          <cdk-step [label]="'Khách hàng'">
+            Step 1
+          </cdk-step>
+          <cdk-step [label]="'Tóm Tắt'">
+            Step 2
+          </cdk-step>
+          <cdk-step [label]="'Thanh toán'">
+            Step 3
+          </cdk-step>
+        </app-generic-stepper>
+      </div>
+
     </div>
-  </div> -->
+  </ng-container>
+
+
 
 </section>

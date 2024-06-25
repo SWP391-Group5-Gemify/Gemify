@@ -1,0 +1,19 @@
+<div class="stepper">
+  <ul class="stepper__nav">
+    <li class="nav__item"
+        *ngFor="let step of steps; let i = index">
+      <div>
+        <button (click)="onClick(i)"
+                [class.btn-square--active]="selectedIndex === i"
+                class="btn-square btn-square--primary-light">{{step.label}}</button>
+      </div>
+    </li>
+  </ul>
+
+  <!-- When selected, inject the content from cdk -->
+  <div *ngIf="selected">
+    <ng-container [ngTemplateOutlet]="selected.content">
+
+    </ng-container>
+  </div>
+</div>
