@@ -10,6 +10,7 @@ import { CardBasketItemComponent } from '../card-basket-item/card-basket-item.co
 import { NotificationService } from '../../../../../core/services/notification/notification.service';
 import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../../core/models/role.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-basket',
@@ -25,7 +26,7 @@ import { RoleEnum } from '../../../../../core/models/role.model';
     CardBasketItemComponent,
   ],
 })
-export class CardBasketComponent implements OnInit {
+export class CardBasketComponent {
   // ======================
   // == Fields
   // ======================
@@ -39,10 +40,10 @@ export class CardBasketComponent implements OnInit {
   // ======================
   constructor(
     public basketService: BasketService,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {}
   // ======================
   // == Methods
   // ======================
@@ -74,9 +75,11 @@ export class CardBasketComponent implements OnInit {
   }
 
   /**
-   * Go to checkout
+   * Set the current basket for checkout
+   * Go to checkout page
    */
   public onGoToCheckOutPage() {
-    console.log('Will go to payment');
+    this.basketService.setCurrentBasket(this.basket);
+    this.router.navigate(['/cashier/checkout']);
   }
 }

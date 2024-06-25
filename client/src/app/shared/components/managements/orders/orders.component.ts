@@ -27,7 +27,7 @@ import { ModalCreateNewBasketComponent } from '../products/modal-create-new-bask
     GenericTableDataSourceComponent,
     StatsTotalRowsComponent,
     GenericDropdownComponent,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',

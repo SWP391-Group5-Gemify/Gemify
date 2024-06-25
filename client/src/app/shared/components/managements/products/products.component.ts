@@ -311,7 +311,7 @@ export class ProductsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.basketService.createEmptyBasket(result.phoneNumber);
+        this.basketService.createEmptyBasketWithPhoneNumber(result.phoneNumber);
       }
 
       // Reload the basket dropdown for new added basket
