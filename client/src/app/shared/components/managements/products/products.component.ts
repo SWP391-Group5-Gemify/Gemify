@@ -278,6 +278,7 @@ export class ProductsComponent implements OnInit {
   /**
    * Handles selection change in basket ID and phone number dropdown.
    * Update the current basket source for adding new item into it.
+   * TODO: Current cannot assign the current dropdown value when selecting a basket, just reloading a list
    * @param event$ Event containing selected value.
    */
   public onSelectChangeBasketIdAndPhoneFromParent(event: any) {
@@ -304,7 +305,7 @@ export class ProductsComponent implements OnInit {
    */
   public onOpenModalAndCreateBasketWithCustomerPhone() {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
-      width: '80%',
+      width: '50%',
       height: '50%',
     });
 

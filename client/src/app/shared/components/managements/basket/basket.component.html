@@ -25,7 +25,7 @@
 <section class="grid grid--2-cols u-margin-top-small">
 
   <!-- If not found then show this message -->
-  <div *ngIf="(baskets$ | async) === null">
+  <div *ngIf="(baskets$ | async)?.length === 0">
     <p>There are no items in your basket</p>
   </div>
 

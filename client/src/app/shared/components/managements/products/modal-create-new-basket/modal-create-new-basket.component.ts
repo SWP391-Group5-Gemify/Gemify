@@ -42,7 +42,7 @@ export class ModalCreateNewBasketComponent implements OnInit {
 
   ngOnInit(): void {
     this.basketForm = this.fb.group({
-      customerName: ['', Validators.required],
+      // customerName: ['', Validators.required],
       phoneNumber: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
     });
   }

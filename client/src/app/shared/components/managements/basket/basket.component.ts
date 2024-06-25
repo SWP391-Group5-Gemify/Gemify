@@ -155,6 +155,7 @@ export class BasketComponent implements OnInit {
   public onBasketDeletedFromParent(success: boolean) {
     if (success) {
       this.loadBaskets();
+      this.loadBasketIdAndPhoneDropdown();
     }
   }
 }

@@ -99,6 +99,7 @@ export class BasketService {
           // Perform remove the current basket source if delete it
           if (this.getCurrentBasketValue()?.id === id) {
             this._basketSource.next(null);
+            localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
           }
         })
       );
@@ -304,18 +305,16 @@ export class BasketService {
 
   /**
    * Generate Temp ticket id For customer preference in store
-   * @param id
+   * @param customerName
    * @returns
    */
-  public generateTempTicketId(id: string, phoneNumber?: string): string {
-    let tempTicketId: string = 'BAS'
-      .concat('-')
-      .concat(id.slice(0, 3))
-      .toUpperCase();
+  public generateTempTicketId(basketId: string, phoneNumber?: string): string {
+    let tempTicketId: string = ''.concat(basketId.slice(0, 3)).toUpperCase();
 
     // If having phone number
     if (phoneNumber) {
-      tempTicketId
+      tempTicketId = tempTicketId
+        .concat('-')
         .concat(phoneNumber[0])
         .concat(phoneNumber[phoneNumber.length - 1]);
     }
