@@ -15,10 +15,10 @@ namespace API.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(IUserService userRepo, 
+        public AccountController(IUserService userService, 
             SignInManager<User> signInManager, ITokenService tokenService) 
         {
-            _userService = userRepo;
+            _userService = userService;
             _signInManager = signInManager;
             _tokenService = tokenService;
         }

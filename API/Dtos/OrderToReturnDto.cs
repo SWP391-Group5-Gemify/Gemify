@@ -12,7 +12,7 @@
         public string Name {get; set;}
         public string Phone {get; set;}
         public string MembershipName {get; set;}
-        public string MembershipDiscount { get; set;}
+        public decimal MembershipDiscount { get; set;}
         public int UserId { get; set; }
         public string PaymentIntentId { get; set; }
         public string PromotionCode { get; set; }
