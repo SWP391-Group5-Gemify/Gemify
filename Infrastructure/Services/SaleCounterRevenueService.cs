@@ -79,5 +79,13 @@ namespace Infrastructure.Services
             return await _unitOfWork.Repository<SaleCounterRevenue>().CountAsync(spec);
         }
 
+        public async Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date)
+        {
+            var spec = new SaleCounterRevenueSpecification(date);
+            var revenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+
+            return revenues.Sum(r => r.Revenue);
+        }
+
     }
 }
