@@ -1,0 +1,46 @@
+<div *ngIf="checkoutForm"
+     [formGroup]="checkoutForm"
+     class="customer-form">
+
+  <h3 class="customer-form__heading u-margin-top-small u-margin-bottom-small">Customer Information</h3>
+
+  <div class="customer-form__controls"
+       formGroupName="customerForm">
+
+    <!-- Gender -->
+    <mat-radio-group aria-label="Select your gender"
+                     formControlName="gender"
+                     name="gender">
+      @for (gender of genderOptions; track $index) {
+      <mat-radio-button value="{{gender.id}}">{{gender.name}}</mat-radio-button>
+      }
+    </mat-radio-group>
+
+    <!-- Name -->
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput
+             type="text"
+             formControlName="name"
+             name="name">
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput
+             type="text"
+             formControlName="phone"
+             name="phone">
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <textarea matInput
+                formControlName="address"
+                name="address"></textarea>
+    </mat-form-field>
+  </div>
+
+</div>

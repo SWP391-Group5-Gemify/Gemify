@@ -305,8 +305,8 @@ export class ProductsComponent implements OnInit {
    */
   public onOpenModalAndCreateBasketWithCustomerPhone() {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
-      width: '50%',
-      height: '50%',
+      width: '30rem',
+      height: '30rem',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -19,7 +19,7 @@ import {
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { filter, map, Observable, tap } from 'rxjs';
 import { CardBasketComponent } from './card-basket/card-basket.component';
-import { CardBasketItemComponent } from './card-basket-item/card-basket-item.component';
+import { TableBasketItemsComponent } from './table-basket-items/table-basket-items.component';
 
 @Component({
   selector: 'app-basket',
@@ -36,7 +36,7 @@ import { CardBasketItemComponent } from './card-basket-item/card-basket-item.com
     MatButtonModule,
     MatTableModule,
     CardBasketComponent,
-    CardBasketItemComponent,
+    TableBasketItemsComponent,
   ],
 })
 export class BasketComponent implements OnInit {
