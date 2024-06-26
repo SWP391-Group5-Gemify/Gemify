@@ -78,9 +78,9 @@ namespace Infrastructure.Services
         }
 
         // Update latest gold prices
-        public async Task<bool> UpdateGoldPriceAsync(GoldPrice goldPrice)
+        public async Task<bool> UpdateGoldPriceAsync(int goldTypeId, GoldPrice goldPrice)
         {            
-            var exist_goldType = await _unitOfWork.Repository<GoldType>().GetByIdAsync(goldPrice.GoldTypeId);
+            var exist_goldType = await _unitOfWork.Repository<GoldType>().GetByIdAsync(goldTypeId);
             if(exist_goldType == null) return false;
 
             // Add new prices to gold price history

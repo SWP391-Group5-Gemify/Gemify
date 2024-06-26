@@ -30,13 +30,25 @@ namespace API.Controllers
         }
 
         // Get indate promotion by code
-        [HttpGet]
+        // For cashier/seller to enter into basket or order
+        [HttpGet("{code}")]
         [Authorize(Roles = "StoreOwner,StoreManager,Cashier,Seller")]
         public async Task<ActionResult<Promotion>> GetPromotionByCode(string code)
         {
             var exist_promotion = await _promotionService.GetPromotionByCodeAsync(code);
             if(exist_promotion == null) 
                 return NotFound(new ApiResponse(404, "Promotion is expired or does not exist!"));
+            return Ok(exist_promotion);
+        }
+
+        // Get promotion by id
+        [HttpGet("discounts/{id}")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Cashier,Seller")]
+        public async Task<ActionResult<Promotion>> GetPromotionById(int id)
+        {
+            var exist_promotion = await _promotionService.GetPromotionByIdAsync(id);
+            if(exist_promotion == null) 
+                return NotFound(new ApiResponse(404, "Promotion does not exist!"));
             return Ok(exist_promotion);
         }
 
@@ -51,7 +63,7 @@ namespace API.Controllers
         }
 
         // Disable promotion manually
-        [HttpDelete("{id}")]
+        [HttpPatch("{id}")]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult> DisablePromotionById(int id)
         {

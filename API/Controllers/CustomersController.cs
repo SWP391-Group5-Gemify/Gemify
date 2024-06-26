@@ -47,11 +47,11 @@ namespace API.Controllers
         }
 
         // Update customer information
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager,Cashier")]
-        public async Task<ActionResult> UpdateCustomer (CustomerDto customerDto)
+        public async Task<ActionResult> UpdateCustomer (int id, CustomerDto customerDto)
         {
-            var spec = new CustomerSpecification(customerDto.Id);
+            var spec = new CustomerSpecification(id);
             var existingCustomer = await _customerRepo.GetEntityWithSpec(spec);
             if (existingCustomer == null)
                 return NotFound(new ApiResponse(404, "This customer does not exist"));

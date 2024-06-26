@@ -59,9 +59,9 @@ namespace API.Controllers
         }
 
         // Disable Employee Account
-        [HttpDelete]
+        [HttpPatch("{id}")]
         [Authorize(Roles = "StoreOwner")]
-        public async Task<ActionResult<EmployeeDto>> DeleteEmployee([FromQuery] int id)
+        public async Task<ActionResult<EmployeeDto>> DeleteEmployee(int id)
         {
             var spec = new EmployeeSpecification(id);
 
@@ -78,11 +78,11 @@ namespace API.Controllers
         }
 
         // Update Employee Information
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = "StoreOwner")]
-        public async Task<ActionResult<EmployeeDto>> UpdateEmployee(EmployeeDto employee)
+        public async Task<ActionResult<EmployeeDto>> UpdateEmployee(int id, EmployeeDto employee)
         {
-            var spec = new EmployeeSpecification(employee.Id);
+            var spec = new EmployeeSpecification(id);
 
             var exist_emp = await _userService.GetUserWithSpec(spec);
 
