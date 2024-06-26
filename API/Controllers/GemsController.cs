@@ -54,10 +54,12 @@ namespace API.Controllers
             return Ok(_mapper.Map<GemType, GemTypeDto>(gem));
         }
 
-        [HttpGet("prices")]
+        [HttpGet("prices/{gemId}")]
         [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
-        public async Task<ActionResult<IReadOnlyList<GemPriceDto>>> GetGemPriceHistory([FromQuery] GemPriceSpecParams gemPriceSpecParams)
+        public async Task<ActionResult<IReadOnlyList<GemPriceDto>>> GetGemPriceHistory(int gemId, [FromQuery] GemPriceSpecParams gemPriceSpecParams)
         {
+            gemPriceSpecParams.GemId = gemId;
+
             var spec = new GemPriceSpecification(gemPriceSpecParams);
 
             var gemPrices = await _gemService.GetGemPrices(spec);
@@ -82,20 +84,20 @@ namespace API.Controllers
             return Ok(new ApiResponse(200, "Add Gem Successfully"));
         }
 
-        [HttpDelete]
+        [HttpPatch("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult> DeleteGem([FromQuery] int id)
+        public async Task<ActionResult> DeleteGem(int id)
         {
             if (!(await _gemService.DeleteGem(id))) return BadRequest(new ApiResponse(400, "Failed to delete Gem"));
 
             return Ok(new ApiResponse(200, "Delete Gem Successfully"));
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult> UpdateGemPrice(GemPrice gemPrice)
+        public async Task<ActionResult> UpdateGemPrice(int id, GemPrice gemPrice)
         {
-            if (!(await _gemService.UpdateGemPrice(gemPrice))) return BadRequest(new ApiResponse(400, "Failed to update Gem Price"));
+            if (!(await _gemService.UpdateGemPrice(id, gemPrice))) return BadRequest(new ApiResponse(400, "Failed to update Gem Price"));
 
             return Ok(new ApiResponse(200, "Update Gem Price Successfully"));
         }

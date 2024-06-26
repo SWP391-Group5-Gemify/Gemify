@@ -16,7 +16,7 @@ namespace Core.Interfaces
 
         Task<IReadOnlyList<GemPrice>> GetGemPrices(ISpecification<GemPrice> spec);
 
-        Task<bool> UpdateGemPrice(GemPrice gemPrice);
+        Task<bool> UpdateGemPrice(int id, GemPrice gemPrice);
         Task<bool> DeleteGem(int id);
         Task<bool> AddGem(GemType gemType);
     }

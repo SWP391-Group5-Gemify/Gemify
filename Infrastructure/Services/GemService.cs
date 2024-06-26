@@ -50,9 +50,9 @@ namespace Infrastructure.Services
             return await _unitOfWork.Repository<GemType>().GetEntityWithSpec(spec);
         }
 
-        public async Task<bool> UpdateGemPrice(GemPrice gemPrice)
+        public async Task<bool> UpdateGemPrice(int id, GemPrice gemPrice)
         {
-            var gemType =  await _unitOfWork.Repository<GemType>().GetByIdAsync(gemPrice.GemTypeId);
+            var gemType =  await _unitOfWork.Repository<GemType>().GetByIdAsync(id);
 
             if (gemType == null) return false;
 

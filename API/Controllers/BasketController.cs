@@ -1,4 +1,5 @@
 ﻿using API.Dtos;
+using API.Errors;
 using AutoMapper;
 using Core.Enitities;
 using Core.Interfaces;
@@ -35,18 +36,24 @@ namespace API.Controllers
             return Ok(basket ?? new CustomerBasket(id));
         }
 
-        [HttpPost]
+        [HttpPost("{id}")]
         [Authorize(Roles = "Cashier,Repurchaser,Seller")]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
-        {
-            var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
+        public async Task<ActionResult<CustomerBasket>> UpdateBasket(string id, CustomerBasketDto basket)
+        {            
+            var customerBasket = await _basketRepository.GetBasketAsync(id);
 
-            var updatedBasket = await _basketRepository.UpdateBasketAsync(customerBasket);
+            if(customerBasket!=null) 
+            {               
+                _mapper.Map(basket, customerBasket);
 
-            return Ok(updatedBasket);
+                var updatedBasket = await _basketRepository.UpdateBasketAsync(customerBasket);
+
+                return Ok(updatedBasket);
+            }
+            else return NotFound(new ApiResponse(404, "Basket not found."));
         }
 
-        [HttpDelete]
+        [HttpPatch("{id}")]
         [Authorize(Roles = "Cashier,Repurchaser,Seller")]
         public async Task<ActionResult> DeleteBasketAsync(string id)
         {
