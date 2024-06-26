@@ -1,0 +1,77 @@
+@import "abstracts/variables";
+
+.checkout {
+
+  &__heading {
+    font-size: 3.2rem;
+    color: $color-primary-dark;
+    text-transform: uppercase;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 1.3px;
+  }
+
+  &__basket-summary {}
+}
+
+// Contains Stepper and Total Summary
+.flex {
+  display: flex;
+  gap: $gutter-layout;
+  justify-content: center;
+
+  // Stepper
+  .stepper {
+    order: 1;
+    flex: 3 0;
+    max-width: 55%;
+    min-width: 35%;
+  }
+
+  // Total Summary
+  .total-summary {
+    order: 2;
+    flex: 1 0;
+
+
+    &__heading {
+      text-transform: uppercase;
+      font-weight: 900;
+      padding: 1.2rem 2.0rem;
+      background-color: $color-primary-dark;
+      font-size: $default-font-size;
+      color: $color-grey-light;
+      text-align: center;
+      letter-spacing: 1.3px;
+    }
+
+    &__desc {
+      padding: 20px;
+    }
+
+    &__list {
+      padding: 0.8rem;
+      list-style-type: none;
+    }
+
+    &__item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.2rem 0;
+      font-size: 1.8rem;
+      gap: 1.8rem;
+      border-bottom: 1px solid $color-black;
+
+      align-items: center;
+
+      span:nth-of-type(1) {
+        white-space: nowrap;
+      }
+
+      span:nth-of-type(2) {
+        color: $color-black;
+        font-weight: 900;
+      }
+    }
+  }
+}

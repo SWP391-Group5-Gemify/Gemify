@@ -1,19 +1,21 @@
-<h1 mat-dialog-title>Create New Basket</h1>
-
 <!-- Form -->
 <form [formGroup]="basketForm"
-      (ngSubmit)="onSubmit()">
+      (ngSubmit)="onSubmit()"
+      class="form--modal">
+
+  <h2 mat-dialog-title
+      class="form--modal__title">Create New Basket</h2>
 
   <!-- Content -->
-  <div mat-dialog-content>
+  <mat-dialog-content class="form--modal__content u-padding-top-medium">
 
     <!-- Customer Name -->
-    <mat-form-field>
+    <!-- <mat-form-field>
       <mat-label>Customer Name</mat-label>
       <input matInput
              formControlName="customerName">
       <mat-error *ngIf="basketForm.controls['customerName'].invalid">{{getErrorMessage('customerName')}}</mat-error>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <!-- Phone Number -->
     <mat-form-field>
@@ -22,15 +24,15 @@
              formControlName="phoneNumber">
       <mat-error *ngIf="basketForm.controls['phoneNumber'].invalid">{{getErrorMessage('phoneNumber')}}</mat-error>
     </mat-form-field>
-  </div>
+  </mat-dialog-content>
 
   <!-- Actions -->
-  <div mat-dialog-actions>
+  <mat-dialog-actions class="form--modal__controls">
     <button class="btn btn--grad"
             (click)="onNoClick()">Cancel</button>
     <button class="btn btn--primary"
             type="submit"
             [disabled]="basketForm.invalid"
             cdkFocusInitial>OK</button>
-  </div>
+  </mat-dialog-actions>
 </form>

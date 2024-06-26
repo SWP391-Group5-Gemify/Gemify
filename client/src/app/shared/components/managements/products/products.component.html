@@ -38,10 +38,7 @@
 </section>
 
 <!-- Create New Basket or Update existed Basket -->
-<section>
-  <div *ngIf="basketService.basketSource$ | async as basket">Giỏ hàng hiện tại
-    {{getCountTotalItemsAddedInToBasketSource(basket.saleItems)}}</div>
-
+<section class="add-basket">
   <button class="btn btn--grad btn--with-icon"
           (click)="onOpenModalAndCreateBasketWithCustomerPhone()">
     <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng mới
@@ -49,9 +46,12 @@
 
   <app-generic-dropdown #chooseExistingBasket
                         label="Chọn giỏ hàng"
-                        [options]="basketIdAndPhoneDropdown"
+                        [options]="basketIdAndPhoneDropdown$ | async"
                         (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
   </app-generic-dropdown>
+
+  <p *ngIf="basketService.basketSource$ | async as basket">Giỏ hàng hiện tại
+    {{getCountTotalItemsAddedInToBasketSource(basket.saleItems)}}</p>
 </section>
 
 <!-- Paginator -->

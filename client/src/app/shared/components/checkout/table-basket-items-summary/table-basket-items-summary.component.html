@@ -1,56 +1,43 @@
 <mat-table [dataSource]="basketItems"
-           class="table-item">
+           class="table-basket-item">
 
   <!-- Image -->
   <ng-container matColumnDef="pictureUrl">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let basketItem"><img class="table-item__product-img"
+    <mat-cell *matCellDef="let basketItem"><img class="table-basket-item__product-img"
            [src]="basketItem.pictureUrl"
            [alt]="basketItem.productName" /></mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
+    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
   </ng-container>
 
   <!-- Name -->
   <ng-container matColumnDef="productName">
     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
     <mat-cell *matCellDef="let basketItem"> {{ basketItem.productName }} </mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
   </ng-container>
 
   <!-- Quantity -->
   <ng-container matColumnDef="quantity">
     <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
     <mat-cell *matCellDef="let basketItem">
-      <button mat-icon-button>
-        <mat-icon class="table-item__icon-quantity">add</mat-icon>
-      </button>
       {{ basketItem.quantity }}
-      <button mat-icon-button>
-        <mat-icon class="table-item__icon-quantity">remove</mat-icon>
-      </button></mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
+    </mat-cell>
   </ng-container>
 
   <!-- Price -->
   <ng-container matColumnDef="price">
     <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
     <mat-cell *matCellDef="let basketItem"> {{ basketItem.price | currency:"VND" }} </mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
   </ng-container>
 
-  <!-- Remove -->
-  <ng-container matColumnDef="remove">
-    <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
-    <mat-cell *matCellDef="let basketItem">
-      <button mat-icon-button>
-        <mat-icon class="table-item__icon-delete">delete</mat-icon>
-      </button>
+  <!-- Total -->
+  <ng-container matColumnDef="total">
+    <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+    <mat-cell *matCellDef="let basketItem"> {{ this.calculatePerItemTotalPrice(basketItem) | currency:"VND" }}
     </mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell> <!-- Empty footer cell -->
   </ng-container>
 
   <!-- Headers -->
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
 </mat-table>

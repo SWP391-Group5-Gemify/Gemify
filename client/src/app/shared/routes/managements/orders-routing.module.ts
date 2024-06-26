@@ -9,9 +9,9 @@ const routes: Routes = [
     component: OrdersComponent,
   },
   {
-    path: ':id', 
-    component: OrderDetailComponent
-  }
+    path: ':id',
+    component: OrderDetailComponent,
+  },
 ];
 
 @NgModule({

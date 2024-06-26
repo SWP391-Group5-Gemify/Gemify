@@ -19,7 +19,7 @@ import {
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { filter, map, Observable, tap } from 'rxjs';
 import { CardBasketComponent } from './card-basket/card-basket.component';
-import { CardBasketItemComponent } from './card-basket-item/card-basket-item.component';
+import { TableBasketItemsComponent } from './table-basket-items/table-basket-items.component';
 
 @Component({
   selector: 'app-basket',
@@ -36,7 +36,7 @@ import { CardBasketItemComponent } from './card-basket-item/card-basket-item.com
     MatButtonModule,
     MatTableModule,
     CardBasketComponent,
-    CardBasketItemComponent,
+    TableBasketItemsComponent,
   ],
 })
 export class BasketComponent implements OnInit {
@@ -75,7 +75,6 @@ export class BasketComponent implements OnInit {
     // Since the GET don't have any params, I have to call GET all and GET by ID api to achive the dropdown and filter
     this.baskets$ = this.basketService.getBaskets().pipe(
       map((baskets: BasketModel[]) => {
-        console.table(baskets);
         let filteredBaskets = baskets;
 
         // filter on id
@@ -147,5 +146,16 @@ export class BasketComponent implements OnInit {
     this.basketSearchCriteria.id = undefined;
     this.basketSearchCriteria.searchPhoneNumber = undefined;
     this.loadBaskets();
+  }
+
+  /**
+   * if the delete basket event from children success, then reload the baskets list
+   * @param success
+   */
+  public onBasketDeletedFromParent(success: boolean) {
+    if (success) {
+      this.loadBaskets();
+      this.loadBasketIdAndPhoneDropdown();
+    }
   }
 }

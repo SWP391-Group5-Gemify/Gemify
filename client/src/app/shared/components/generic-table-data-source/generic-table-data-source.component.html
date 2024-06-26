@@ -47,13 +47,13 @@
             <button mat-icon-button
                     matTooltip="Edit"
                     aria-label="Edit Icon"
-                    (click)="editObject(object)">
+                    (click)="editObject($event, object)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button
                     matTooltip="Disable"
                     aria-label="Disable Icon"
-                    (click)="deleteObject(object)">
+                    (click)="deleteObject($event, object)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
