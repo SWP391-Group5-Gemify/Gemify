@@ -30,13 +30,5 @@
     "LatestBidPrice": 5220000,
     "Unit": "Chỉ",
     "Status": true
-  },
-  {
-    "Name": "SJC",
-    "Content": 99.99,
-    "LatestAskPrice": 8840000,
-    "LatestBidPrice": 9040000,
-    "Unit": "Chỉ",
-    "Status": true
   }
 ]

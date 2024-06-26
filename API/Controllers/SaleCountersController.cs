@@ -7,6 +7,7 @@ using Core.Specifications;
 using API.Errors;
 using Microsoft.AspNetCore.Authorization;
 using Core.Specifications.Counters;
+using API.Helpers;
 
 namespace API.Controllers
 {
@@ -14,11 +15,14 @@ namespace API.Controllers
     public class SaleCountersController : BaseApiController
     {
         private readonly IGenericRepository<SaleCounter> _saleCountersRepo;
+        private readonly ISaleCounterRevenueService _saleCounterRevenueService;
         private readonly IMapper _mapper;
 
-        public SaleCountersController (IGenericRepository<SaleCounter> saleCounterRepo, IMapper mapper)
+        public SaleCountersController (IGenericRepository<SaleCounter> saleCounterRepo, 
+            ISaleCounterRevenueService saleCounterRevenueService, IMapper mapper)
         {
             _saleCountersRepo = saleCounterRepo;
+            _saleCounterRevenueService = saleCounterRevenueService;
             _mapper = mapper;
         }
 
@@ -96,5 +100,37 @@ namespace API.Controllers
             return BadRequest(new ApiResponse(400, "Fail to delete sale counter"));
         }
 
+        // Get revenues of sale counter by id
+        [HttpGet("revenues")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>> 
+            GetSaleCounterRevenuesById([FromQuery] SaleCounterRevenueParams saleCounterRevenueParams)
+        {
+            var spec = new SaleCounterRevenueSpecification(saleCounterRevenueParams);
+            var countSpec = new SaleCounterRevenueCountSpecification(saleCounterRevenueParams);
+            var totalRevenues = await _saleCounterRevenueService.CountSaleCounterRevenuesAsync(countSpec);
+            var data = await _saleCounterRevenueService.GetSaleCounterRevenuesByIdAsync(spec);
+            return Ok(new Pagination<SaleCounterRevenue>
+                (saleCounterRevenueParams.PageIndex,saleCounterRevenueParams.PageSize,totalRevenues,data));
+        }
+
+        // Get revenues of sale counters by date
+        [HttpGet("bydate")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>> GetSaleCounterRevenuesByDate([FromQuery] DateOnly revenueDate)
+        {
+            var revenues = await _saleCounterRevenueService.GetSaleCounterRevenuesByDateAsync(revenueDate);
+            return Ok(revenues);
+        }
+
+        // Update daily sale counter revenues
+        [HttpPost("updates")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
+        public async Task<ActionResult> UpdateSaleCounterRevenues()
+        {
+            var result = await _saleCounterRevenueService.UpdateSaleCounterRevenuesAsync();
+            if(result > 0) return Ok(new ApiResponse(200,"Daily revenues updated!"));
+            else return BadRequest(new ApiResponse(400,"Failed to update daily revenues!"));
+        }
     }
 }

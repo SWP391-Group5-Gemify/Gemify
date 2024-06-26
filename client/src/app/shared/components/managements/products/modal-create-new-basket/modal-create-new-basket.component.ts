@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {
   MatFormFieldControl,
   MatFormFieldModule,
@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatDialogModule,
   ],
   templateUrl: './modal-create-new-basket.component.html',
   styleUrl: './modal-create-new-basket.component.scss',

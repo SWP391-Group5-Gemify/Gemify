@@ -1,0 +1,8 @@
+@import "abstracts/variables";
+
+.stepper {
+  &__nav {
+    display: flex;
+    align-items: center;
+  }
+}

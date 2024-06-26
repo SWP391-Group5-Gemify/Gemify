@@ -11,18 +11,13 @@
   },
   {
     "CategoryId": 1,
-    "Name": "Vòng tay",
+    "Name": "Lắc tay",
     "Unit": "Món"
   },
   {
     "CategoryId": 1,
     "Name": "Bông tai",
     "Unit": "Đôi"
-  },
-  {
-    "CategoryId": 1,
-    "Name": "Vòng chân",
-    "Unit": "Món"
   },
   {
     "CategoryId": 2,
@@ -33,11 +28,6 @@
     "CategoryId": 2,
     "Name": "Vàng miếng",
     "Unit": "Chỉ"
-  },
-  {
-    "CategoryId": 3,
-    "Name": "Đá quý",
-    "Unit": "Carat"
   },
   {
     "CategoryId": 1,

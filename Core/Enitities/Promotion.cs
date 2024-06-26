@@ -35,7 +35,6 @@ namespace Core.Enitities
 
         [Column(TypeName = "varchar(100)"), Required]
         public string Code { get; set; }
-
         public bool Status { get; set; } = true;
     }
 
