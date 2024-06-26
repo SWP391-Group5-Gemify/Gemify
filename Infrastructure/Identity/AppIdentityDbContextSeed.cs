@@ -38,10 +38,10 @@ namespace Infrastructure.Identity
                         Gender = "Nam",
                         Status = "Active",
                         DateOfBirth = new DateOnly(2000, 2, 1),
-                        Image_Url = "wwwroot/khanh.png",
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Fmale-user.png",
                         PhoneNumber = "0034988493",
                         Address = "Xa Lộ Hà Nội"
-                    },"khanh1234","StoreOwner"),
+                    },"khanh123456","StoreOwner"),
                     (new User
                     {
                         FullName = "Vũ Kim Duy",
@@ -50,10 +50,10 @@ namespace Infrastructure.Identity
                         Gender = "Nam",
                         Status = "Active",
                         DateOfBirth = new DateOnly(2000, 2, 1),
-                        Image_Url = "wwwroot/khanh.png",
-                        PhoneNumber = "0034988493",
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Fmale-user.png",
+                        PhoneNumber = "0987363648",
                         Address = "Vũng Tàu"
-                    },"duy1234","Cashier"),
+                    },"duy123456","Cashier"),
                     (new User
                     {
                         FullName = "Lâm Tiểu My",
@@ -62,10 +62,10 @@ namespace Infrastructure.Identity
                         Gender = "Nữ",
                         Status = "Active",
                         DateOfBirth = new DateOnly(2000, 2, 1),
-                        Image_Url = "wwwroot/khanh.png",
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Ffemale-user.png",
                         PhoneNumber = "0034988493",
                         Address = "19 Trần Phú, Nha Trang"
-                    },"my1234","StoreOwner"),
+                    },"my123456","StoreManager"),
                     (new User
                     {
                         FullName = "Cao Ngô Phương Khánh",
@@ -74,10 +74,10 @@ namespace Infrastructure.Identity
                         Gender = "Nữ",
                         Status = "Active",
                         DateOfBirth = new DateOnly(2000, 2, 1),
-                        Image_Url = "wwwroot/khanh.png",
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Ffemale-user.png",
                         PhoneNumber = "0034988493",
                         Address = "Đà Nẵng"
-                    },"khanh1234","Repurchaser"),
+                    },"khanh123456","Repurchaser"),
                     (new User
                     {
                         FullName = "Phan Quang anh",
@@ -86,16 +86,16 @@ namespace Infrastructure.Identity
                         Gender = "Nam",
                         Status = "Active",
                         DateOfBirth = new DateOnly(2000, 2, 1),
-                        Image_Url = "wwwroot/khanh.png",
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Fmale-user.png",
                         PhoneNumber = "0034988493",
                         Address = "Hà Nội"
-                    },"anh1234","Seller"),
+                    },"anh123456","Seller"),
                 };
                 
-                foreach (var (user,password,role) in userList)
+                foreach (var account in userList)
                 {
-                    await userManager.CreateAsync(user, password);
-                    await userManager.AddToRoleAsync(user, role);
+                    await userManager.CreateAsync(account.user, account.password);
+                    await userManager.AddToRoleAsync(account.user, account.role);
                 }
                 
             }
