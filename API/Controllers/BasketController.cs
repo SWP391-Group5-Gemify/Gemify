@@ -36,24 +36,18 @@ namespace API.Controllers
             return Ok(basket ?? new CustomerBasket(id));
         }
 
-        [HttpPost("{id}")]
+        [HttpPost]
         [Authorize(Roles = "Cashier,Repurchaser,Seller")]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(string id, CustomerBasketDto basket)
+        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
         {            
-            var customerBasket = await _basketRepository.GetBasketAsync(id);
+            var customerBasket =  _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
 
-            if(customerBasket!=null) 
-            {               
-                _mapper.Map(basket, customerBasket);
+            var updatedBasket = await _basketRepository.UpdateBasketAsync(customerBasket);
 
-                var updatedBasket = await _basketRepository.UpdateBasketAsync(customerBasket);
-
-                return Ok(updatedBasket);
-            }
-            else return NotFound(new ApiResponse(404, "Basket not found."));
+            return Ok(updatedBasket);
         }
 
-        [HttpPatch("{id}")]
+        [HttpDelete]
         [Authorize(Roles = "Cashier,Repurchaser,Seller")]
         public async Task<ActionResult> DeleteBasketAsync(string id)
         {
