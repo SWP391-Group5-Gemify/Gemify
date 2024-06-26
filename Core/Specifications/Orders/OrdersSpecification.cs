@@ -36,5 +36,15 @@ namespace Core.Specifications.Orders
             AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
             AddCustomInclude(q => q.Include(o => o.Customer).ThenInclude(oi => oi.Membership));
         }
+
+        public OrdersSpecification(DateOnly today)
+            : base(o => DateOnly.FromDateTime(o.OrderDate).CompareTo(today) == 0
+                && o.OrderTypeId == 1
+                && o.Status.Equals("PaymentReceived"))
+        {
+            AddInclude(o => o.Promotion);
+            AddInclude(o => o.Membership);
+            AddCustomInclude(q => q.Include(o => o.OrderItems).ThenInclude(oi => oi.OrderItemGems));
+        }
     }
 }
