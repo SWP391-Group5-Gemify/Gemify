@@ -1,21 +1,21 @@
 [
   {
-    "Name": "Bronze",
+    "Name": "Kết nối",
     "MinPoint": 0,
     "Discount": 0
   },
   {
-    "Name": "Silver",
+    "Name": "Thành viên",
     "MinPoint": 100,
     "Discount": 0.05
   },
   {
-    "Name": "Gold",
+    "Name": "Đồng hành",
     "MinPoint": 400,
     "Discount": 0.08
   },
   {
-    "Name": "Diamond",
+    "Name": "Thân thiết",
     "MinPoint": 1000,
     "Discount": 0.1
   }

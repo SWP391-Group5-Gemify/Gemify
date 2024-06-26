@@ -8,9 +8,9 @@
     "Labour": 350000,
     "Status": "Available",
     "Quantity": 3,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fnhan-18K.png",
     "SubCategoryId": 1,
-    "SaleCounterId": 4
+    "SaleCounterId": 1
   },
   {
     "Name": "Nhẫn trang sức đính đá ECZ",
@@ -21,12 +21,12 @@
     "Labour": 400000,
     "Status": "Available",
     "Quantity": 2,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fnhan-dinh-da-ECZ.png",
     "SubCategoryId": 1,
-    "SaleCounterId": 4
+    "SaleCounterId": 1
   },
   {
-    "Name": "Vỏ nhẫn kim cương vàng trắng 14K",
+    "Name": "Nhẫn kim cương 18K",
     "Description": "Consequat labore in laborum et dolor voluptate veniam. Cupidatat aliqua magna nulla laboris cupidatat. Deserunt aute sunt consectetur nulla aute aute esse sit sunt amet ex eiusmod. Pariatur elit ea incididunt sit culpa occaecat fugiat nisi.\r\n",
     "GoldTypeId": 4,
     "GoldWeight": 3.37,
@@ -34,9 +34,9 @@
     "Labour": 1290000,
     "Status": "Available",
     "Quantity": 7,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fnhan-kim-cuong-vang.png",
     "SubCategoryId": 1,
-    "SaleCounterId": 3
+    "SaleCounterId": 1
   },
   {
     "Name": "Nhẫn kim cương vàng trắng 14K",
@@ -47,9 +47,9 @@
     "Labour": 1201000,
     "Status": "Available",
     "Quantity": 1,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fnhan-kim-cuong-vang-trang-14k.png",
     "SubCategoryId": 1,
-    "SaleCounterId": 3
+    "SaleCounterId": 1
   },
   {
     "Name": "Dây chuyền vàng Ý 18K",
@@ -60,9 +60,9 @@
     "Labour": 1172000,
     "Status": "Available",
     "Quantity": 5,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 1,
-    "SaleCounterId": 5
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fday-chuyen-vang-18k.png",
+    "SubCategoryId": 2,
+    "SaleCounterId": 2
   },
   {
     "Name": "Dây chuyền vàng 610 Foreverone đính đá ECZ",
@@ -73,22 +73,22 @@
     "Labour": 1372000,
     "Status": "Available",
     "Quantity": 6,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fday-chuyen-vang-dinh-da-ecz.png",
     "SubCategoryId": 2,
-    "SaleCounterId": 3
+    "SaleCounterId": 2
   },
   {
-    "Name": "Dây chuyền vàng trắng 14K",
+    "Name": "Mặt dây chuyền vàng 18K Kim bảo Như Ý",
     "Description": "Magna dolore proident est non labore adipisicing. Lorem non esse in deserunt ut excepteur sint sint. Lorem ad proident eiusmod eu ea pariatur.\r\n",
-    "GoldTypeId": 4,
+    "GoldTypeId": 3,
     "GoldWeight": 1.7,
     "TotalWeight": 1.7,
     "Labour": 1524000,
     "Status": "Available",
     "Quantity": 7,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fmat-day-chuyen-nhu-y.png",
     "SubCategoryId": 2,
-    "SaleCounterId": 3
+    "SaleCounterId": 2
   },
   {
     "Name": "Lắc tay vàng Ý 18K đính đá ECZ",
@@ -99,9 +99,9 @@
     "Labour": 1906000,
     "Status": "Available",
     "Quantity": 4,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Flac-tay-vang-18k-dinh-da-ecz.png",
     "SubCategoryId": 3,
-    "SaleCounterId": 5
+    "SaleCounterId": 4
   },
   {
     "Name": "Lắc tay kim tiền vàng 610",
@@ -112,51 +112,51 @@
     "Labour": 1023000,
     "Status": "Available",
     "Quantity": 5,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Flac-tay-vang-610.png",
     "SubCategoryId": 3,
-    "SaleCounterId": 1
+    "SaleCounterId": 4
   },
   {
-    "Name": "Nhẫn SJC 1 chỉ",
+    "Name": "Nhẫn trơn 9999 1 chỉ",
     "Description": "Eu elit ex occaecat nostrud exercitation proident laborum aliqua. Laborum pariatur magna culpa cillum tempor nulla. Aliqua ea et excepteur ad ut veniam. Aute nulla id aliqua ut ipsum eu.\r\n",
-    "GoldTypeId": 5,
+    "GoldTypeId": 2,
     "GoldWeight": 1,
     "TotalWeight": 1,
     "Labour": 200000,
     "Status": "Available",
     "Quantity": 11,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 6,
-    "SaleCounterId": 4
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fnhan-tron.png",
+    "SubCategoryId": 5,
+    "SaleCounterId": 6
   },
   {
-    "Name": "Nhẫn SJC 2 chỉ",
+    "Name": "Nhẫn trơn 9999 2 chỉ",
     "Description": "Deserunt ex irure enim incididunt. Laboris eiusmod magna laborum magna occaecat dolor aute fugiat occaecat est adipisicing. Ullamco et fugiat aliqua cillum amet esse veniam. Commodo ea dolor nulla ea.\r\n",
-    "GoldTypeId": 5,
+    "GoldTypeId": 2,
     "GoldWeight": 2,
     "TotalWeight": 2,
     "Labour": 200000,
     "Status": "Available",
     "Quantity": 10,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 6,
-    "SaleCounterId": 4
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fnhan-tron.png",
+    "SubCategoryId": 5,
+    "SaleCounterId": 6
   },
   {
-    "Name": "Nhẫn trơn vàng 24K 1 chỉ",
+    "Name": "Nhẫn trơn 9999 5 phân",
     "Description": "Exercitation elit ipsum dolore officia incididunt ea pariatur incididunt pariatur et et. Dolor enim laborum ullamco velit mollit. Nisi mollit duis id enim culpa labore eiusmod qui laboris do ut enim laboris. Excepteur non officia cupidatat laboris tempor officia Lorem adipisicing irure ad sunt aliquip cillum proident. Minim commodo ex reprehenderit exercitation ad aute amet nostrud ullamco esse et ut sunt. Proident ut magna amet Lorem dolor dolor aute veniam. Est mollit adipisicing sint sit commodo.\r\n",
     "GoldTypeId": 2,
-    "GoldWeight": 1,
-    "TotalWeight": 1,
+    "GoldWeight": 0.5,
+    "TotalWeight": 0.5,
     "Labour": 400000,
     "Status": "Available",
     "Quantity": 10,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 6,
-    "SaleCounterId": 1
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fnhan-tron.png",
+    "SubCategoryId": 5,
+    "SaleCounterId": 6
   },
   {
-    "Name": "Nhẫn trơn vàng 24K 2 chỉ",
+    "Name": "Bông tai vàng 24K",
     "Description": "Qui irure ut minim reprehenderit minim. Adipisicing ex officia deserunt reprehenderit nostrud quis culpa veniam exercitation non do in tempor nulla. Commodo id ad et veniam do culpa excepteur. Veniam ipsum pariatur sit veniam ea aliquip aliqua ut labore commodo irure labore ipsum laboris.\r\n",
     "GoldTypeId": 2,
     "GoldWeight": 5,
@@ -164,61 +164,35 @@
     "Labour": 350000,
     "Status": "Available",
     "Quantity": 10,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 6,
-    "SaleCounterId": 4
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fbong-tai-24k.png",
+    "SubCategoryId": 4,
+    "SaleCounterId": 3
   },
   {
-    "Name": "Vàng miếng thần tài SJC 1 chỉ",
+    "Name": "Lắc tay vàng Ý 18K",
     "Description": "Exercitation pariatur fugiat ad est commodo reprehenderit. Do enim cupidatat reprehenderit est quis deserunt tempor irure nisi non. Est consequat amet duis nisi aute eu dolore cupidatat anim quis quis cillum laborum sunt. Aute enim esse ex adipisicing reprehenderit ex deserunt fugiat qui minim adipisicing Lorem. Aliquip sunt duis elit nostrud voluptate enim officia excepteur.\r\n",
-    "GoldTypeId": 5,
-    "GoldWeight": 1,
-    "TotalWeight": 1,
+    "GoldTypeId": 3,
+    "GoldWeight": 1.3,
+    "TotalWeight": 1.3,
     "Labour": 300000,
     "Status": "Available",
     "Quantity": 12,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 7,
-    "SaleCounterId": 2
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Flac-tay-vang-18k.png",
+    "SubCategoryId": 3,
+    "SaleCounterId": 4
   },
   {
-    "Name": "Vàng miếng thần tài SJC 2 chỉ",
+    "Name": "Bông tai cưới vàng 18K",
     "Description": "Sint ut aute duis in officia. Anim anim amet in ea esse labore magna cillum aute tempor commodo. Nisi sit id reprehenderit qui enim commodo Lorem. Exercitation consequat occaecat consequat est dolore nisi qui anim occaecat sit id ea.\r\n",
-    "GoldTypeId": 4,
-    "GoldWeight": 2,
-    "TotalWeight": 2,
+    "GoldTypeId": 3,
+    "GoldWeight": 0.8,
+    "TotalWeight": 0.8,
     "Labour": 350000,
     "Status": "Available",
     "Quantity": 10,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 7,
-    "SaleCounterId": 2
-  },
-  {
-    "Name": "Kim cương tự nhiên",
-    "Description": "Elit sint consequat exercitation consequat cupidatat ea minim tempor velit proident occaecat. Esse labore aliquip in tempor consectetur. Veniam ullamco ut amet tempor excepteur. Eu eu exercitation mollit dolor mollit eiusmod quis enim laborum id proident. Laboris sit sint ea esse. Non sit duis mollit officia non labore cupidatat ad sint incididunt voluptate fugiat.\r\n",
-    "GoldTypeId": null,
-    "GoldWeight": 0,
-    "TotalWeight": 1.5,
-    "Labour": 0,
-    "Status": "Available",
-    "Quantity": 1,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 8,
-    "SaleCounterId": 5
-  },
-  {
-    "Name": "Đá Ruby tự nhiên",
-    "Description": "Esse eiusmod nostrud fugiat elit irure cillum laboris duis eu dolore pariatur aute sint. Lorem sint ullamco proident elit enim Lorem aliquip. Nostrud velit minim sint laborum est tempor. Ut sint laboris duis non aute ea pariatur eiusmod officia minim aliqua. Pariatur id excepteur do consequat non.\r\n",
-    "GoldTypeId": null,
-    "GoldWeight": 0,
-    "TotalWeight": 1.5,
-    "Labour": 0,
-    "Status": "Unavailable",
-    "Quantity": 1,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 8,
-    "SaleCounterId": 5
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fbong-tai-cuoi-18k.png",
+    "SubCategoryId": 4,
+    "SaleCounterId": 3
   },
   {
     "Name": "Mặt dây chuyền vàng trắng 14K đính đá Ruby",
@@ -229,9 +203,9 @@
     "Labour": 438000,
     "Status": "Available",
     "Quantity": 1,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 9,
-    "SaleCounterId": 3
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fmat-day-chuyen-vang-14k-dinh-da-ruby.png",
+    "SubCategoryId": 7,
+    "SaleCounterId": 5
   },
   {
     "Name": "Mặt dây chuyền trang sức vàng 610 đính đá CZ",
@@ -242,21 +216,8 @@
     "Labour": 550000,
     "Status": "Unavailable",
     "Quantity": 5,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 9,
-    "SaleCounterId": 4
-  },
-  {
-    "Name": "Kim cương tự nhiên",
-    "Description": "In mollit aliquip nisi eu culpa sit proident cupidatat pariatur est adipisicing duis laborum. Lorem duis adipisicing aliquip anim occaecat tempor sint officia elit cillum magna aliquip. Sunt nisi incididunt et ad sint aute officia.\r\n",
-    "GoldTypeId": null,
-    "GoldWeight": 0,
-    "TotalWeight": 2,
-    "Labour": 500000,
-    "Status": "Unavailable",
-    "Quantity": 2,
-    "ImageUrl": "https://tinyurl.com/w4e5cwr2",
-    "SubCategoryId": 8,
+    "ImageUrl": "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fproducts%2Fmat-day-chuyen-vang-610-dinh-da-ecz-pnj-1.png",
+    "SubCategoryId": 7,
     "SaleCounterId": 5
   }
 ]
