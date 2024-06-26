@@ -19,6 +19,7 @@ export class UploadFilePdfComponent {
   // == Fields
   // ============================
   downloadURLs: string[] = [];
+  downloadURL: string | null = null;
   selectedFiles: File[] = [];
   uploadProgress$: Subject<number> = new Subject<number>();
 
@@ -71,5 +72,24 @@ export class UploadFilePdfComponent {
           });
       });
     }
+  }
+
+  /**
+   * Download the PDF file
+   */
+  downloadPolicyFile() : void {
+    this.fileService.downloadPolicyFile()
+    .subscribe({
+      next: (result) => {
+        if (result) {
+          this.downloadURL = result;
+          console.log (this.downloadURL);        
+        }
+      },
+
+      error: (err) => {
+        console.error(err);
+      }
+    })
   }
 }
