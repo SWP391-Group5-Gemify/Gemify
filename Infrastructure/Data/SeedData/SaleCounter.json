@@ -1,26 +1,31 @@
 [
   {
-    "Name": "Counter 1",
+    "Name": "Quầy nhẫn",
     "ProductQuantity": 15,
     "status": true
   },
   {
-    "Name": "Counter 2",
+    "Name": "Quầy dây chuyền",
     "ProductQuantity": 22,
     "status": true
   },
   {
-    "Name": "Counter 3",
+    "Name": "Quầy bông tai",
     "ProductQuantity": 22,
     "status": true
   },
   {
-    "Name": "Counter 4",
+    "Name": "Quầy lắc",
     "ProductQuantity": 41,
     "status": true
   },
   {
-    "Name": "Counter 5",
+    "Name": "Quầy mặt dây chuyền",
+    "ProductQuantity": 13,
+    "status": true
+  },
+  {
+    "Name": "Quầy vàng tài lộc",
     "ProductQuantity": 13,
     "status": true
   }
