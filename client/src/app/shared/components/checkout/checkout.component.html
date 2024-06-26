@@ -57,11 +57,13 @@
       <div class="stepper">
         <app-generic-stepper [linearModeSelected]="false"
                              #appStepper>
-          <cdk-step [label]="'Khách hàng'">
+          <cdk-step [label]="'Khách hàng'"
+                    [completed]="checkoutForm.get('customerForm')?.valid">
             <app-checkout-customer [checkoutForm]="checkoutForm"></app-checkout-customer>
           </cdk-step>
-          <cdk-step [label]="'Thanh toán'">
-            <app-checkout-payment></app-checkout-payment>
+          <cdk-step [label]="'Thanh toán'"
+                    [completed]="checkoutForm.get('customerForm')?.valid">
+            <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
           </cdk-step>
         </app-generic-stepper>
       </div>

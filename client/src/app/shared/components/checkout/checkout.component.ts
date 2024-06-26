@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CommonModule, Location } from '@angular/common';
 import { BasketItemModel } from '../../../core/models/basket.model';
-import { TableBasketItemsComponent } from '../managements/basket/table-basket-items/table-basket-items.component';
 import { TableBasketItemsSummaryComponent } from './table-basket-items-summary/table-basket-items-summary.component';
 import { MatIconModule } from '@angular/material/icon';
 import { GenericStepperComponent } from '../generic-stepper/generic-stepper.component';
-import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CheckoutPaymentComponent } from './checkout-payment/checkout-payment.component';
 import { CheckoutCustomerComponent } from './checkout-customer/checkout-customer.component';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',

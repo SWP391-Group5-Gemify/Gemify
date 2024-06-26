@@ -5,3 +5,19 @@ img {
   height: 20rem;
   object-fit: cover;
 }
+
+
+.add-basket {
+  display: flex;
+  flex-direction: row;
+  gap: $gutter-layout;
+  align-items: center;
+
+  p {
+    font-size: 1.8rem;
+  }
+
+  button {
+    align-self: flex-start;
+  }
+}
