@@ -58,17 +58,13 @@
         <app-generic-stepper [linearModeSelected]="false"
                              #appStepper>
           <cdk-step [label]="'Khách hàng'">
-            Step 1
-          </cdk-step>
-          <cdk-step [label]="'Tóm Tắt'">
-            Step 2
+            <app-checkout-customer [checkoutForm]="checkoutForm"></app-checkout-customer>
           </cdk-step>
           <cdk-step [label]="'Thanh toán'">
-            Step 3
+            <app-checkout-payment></app-checkout-payment>
           </cdk-step>
         </app-generic-stepper>
       </div>
-
     </div>
   </ng-container>
 
