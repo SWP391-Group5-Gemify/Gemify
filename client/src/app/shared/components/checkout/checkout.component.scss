@@ -4,7 +4,7 @@
 
   &__heading {
     font-size: 3.2rem;
-    color: $color-primary-light;
+    color: $color-primary-dark;
     text-transform: uppercase;
     font-weight: 900;
     text-align: center;
@@ -23,13 +23,16 @@
   // Stepper
   .stepper {
     order: 1;
-    flex: 1 0;
+    flex: 3 0;
+    max-width: 55%;
+    min-width: 35%;
   }
 
   // Total Summary
   .total-summary {
     order: 2;
-    flex: 0 1 30rem;
+    flex: 1 0;
+
 
     &__heading {
       text-transform: uppercase;
