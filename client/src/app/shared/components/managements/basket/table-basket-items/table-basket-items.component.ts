@@ -4,6 +4,11 @@ import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { BasketService } from '../../../../../core/services/basket/basket.service';
+import {
+  BasketItemModel,
+  BasketModel,
+} from '../../../../../core/models/basket.model';
 
 @Component({
   selector: 'app-table-basket-items',
@@ -25,4 +30,12 @@ export class TableBasketItemsComponent {
     'price',
     'remove',
   ];
+
+  // ======================
+  // == Constructors
+  // ======================
+
+  // ======================
+  // == Methods
+  // ======================
 }

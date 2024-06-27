@@ -1,5 +1,5 @@
-import { GenderEnum } from "./gender.model";
-import { RoleEnum } from "./role.model";
+import { GenderEnum } from './gender.model';
+import { RoleEnum } from './role.model';
 
 export interface UserModel {
   fullName: string;

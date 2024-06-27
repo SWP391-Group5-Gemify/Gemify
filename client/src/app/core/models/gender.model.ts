@@ -4,6 +4,6 @@ export interface GenderModel {
 }
 
 export enum GenderEnum {
-  Female = 'Female',
-  Male = 'Male',
+  Female = 'Nữ',
+  Male = 'Nam',
 }

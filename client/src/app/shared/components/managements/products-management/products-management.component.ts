@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {
   CategoryModel,
   ProductModel,
-  ProductsSearchingCriteriaModel,
+  ProductParams,
   ProductStatusEnum,
   SortProductsQuantityEnum,
   SubCategoryModel,
@@ -42,7 +42,7 @@ export class ProductsManagementComponent implements OnInit {
     'actions',
   ];
 
-  public productSearchCriteria: ProductsSearchingCriteriaModel = {
+  public productSearchCriteria: ProductParams = {
     pageSize: 10,
     pageIndex: 0,
     searchName: undefined,

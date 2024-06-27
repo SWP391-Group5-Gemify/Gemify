@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ref, uploadBytesResumable, getDownloadURL, listAll } from 'firebase/storage';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  listAll,
+} from 'firebase/storage';
 import { Storage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 
@@ -72,27 +77,34 @@ export class FileService {
     });
   }
 
-  downloadPolicyFile() : Observable<string> {
+  /**
+   * Download policy file, get the url from the firestore
+   * @returns
+   */
+  downloadPolicyFile(): Observable<string> {
     const filePath = this.baseDocumentsPolicyPath;
-    const storageRef = ref (this.storage,filePath);
+    const storageRef = ref(this.storage, filePath);
     const downloadTask = listAll(storageRef);
 
     return new Observable((observer) => {
-      downloadTask.then((res) => {
-        if (res.items.length > 0) {
-          getDownloadURL(res.items[0]).then((url) => {
-            observer.next (url);
-            observer.complete();
-          }).catch((error) => {
-            observer.error(error);
-          })
-        } else {
-          observer.error("No files found in specified path");
-        }       
-      })
-      .catch((error) => {
-        observer.error(error);
-      });
-    })
+      downloadTask
+        .then((res) => {
+          if (res.items.length > 0) {
+            getDownloadURL(res.items[0])
+              .then((url) => {
+                observer.next(url);
+                observer.complete();
+              })
+              .catch((error) => {
+                observer.error(error);
+              });
+          } else {
+            observer.error('No files found in specified path');
+          }
+        })
+        .catch((error) => {
+          observer.error(error);
+        });
+    });
   }
 }

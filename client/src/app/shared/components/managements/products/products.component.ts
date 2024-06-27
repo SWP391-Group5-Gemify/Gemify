@@ -13,7 +13,7 @@ import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
 import {
   ProductModel,
-  ProductsSearchingCriteriaModel,
+  ProductParams,
   SortProductsQuantityEnum,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
@@ -54,7 +54,7 @@ export class ProductsComponent implements OnInit {
   // == Fields
   // ==========================================
   public products$!: Observable<ProductModel[]>;
-  public productSearchCriteria: ProductsSearchingCriteriaModel = {
+  public productSearchCriteria: ProductParams = {
     pageSize: 10,
     pageIndex: 0,
     searchName: undefined,
