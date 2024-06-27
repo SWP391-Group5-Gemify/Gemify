@@ -182,7 +182,7 @@ namespace Infrastructure.Services
             await OrderSuccessBusinessLogicUpdate(order);
 
             // Update OrderStatus
-            order.Status = OrderStatus.PaymentReceived.ToString();
+            order.Status = OrderStatus.PaymentReceived.GetEnumMemberValue();
             await _unitOfWork.Complete();
 
             return order;
@@ -196,7 +196,7 @@ namespace Infrastructure.Services
 
             if (order == null) return null;
 
-            order.Status = OrderStatus.PaymentFailed.ToString();
+            order.Status = OrderStatus.PaymentFailed.GetEnumMemberValue();
             await _unitOfWork.Complete();
 
             return order;

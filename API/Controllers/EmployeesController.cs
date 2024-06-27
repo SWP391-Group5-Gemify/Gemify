@@ -2,6 +2,7 @@
 using API.Errors;
 using API.Helpers;
 using AutoMapper;
+using Core.Enitities;
 using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
@@ -69,7 +70,7 @@ namespace API.Controllers
 
             if(exist_emp==null) return NotFound(new ApiResponse(404));
 
-            exist_emp.Status = "Closed";
+            exist_emp.Status = UserStatus.Closed.GetEnumMemberValue();
 
             var result = await _userService.UpdateUserAsync(exist_emp);
 

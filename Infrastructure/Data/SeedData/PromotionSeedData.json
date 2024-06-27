@@ -1,6 +1,6 @@
 ﻿[
   {
-    "name": "Summer Sale",
+    "name": "Ưu đãi mùa hè",
     "expDate": "2024-07-31",
     "effDate": "2024-06-01",
     "discount": 0.15,
@@ -9,16 +9,16 @@
     "status": true
   },
   {
-    "name": "Free Shipping",
+    "name": "Ưu đãi 26/6",
     "expDate": "2024-06-30",
-    "effDate": "2024-06-10",
+    "effDate": "2024-06-26",
     "discount": 0.15,
-    "code": "FREESHIP",
+    "code": "JUNE06",
     "minValue": 100,
     "status": true
   },
   {
-    "name": "Weekend Flash Sale",
+    "name": "Ưu đãi cuối tuần",
     "expDate": "2024-06-16",
     "effDate": "2024-06-14",
     "discount": 0.2,

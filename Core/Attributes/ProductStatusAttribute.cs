@@ -12,8 +12,8 @@ namespace Core.Attributes
         {
             if (value == null) return false;
             var productStatus = value.ToString();
-            return productStatus == ProductStatus.Available.ToString()
-                || productStatus == ProductStatus.Unavailable.ToString();
+            return productStatus == ProductStatus.Available.GetEnumMemberValue()
+                || productStatus == ProductStatus.Unavailable.GetEnumMemberValue();   
         }
     }
 }

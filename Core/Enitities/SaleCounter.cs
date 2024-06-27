@@ -7,7 +7,7 @@ namespace Core.Enitities
 {
     public class SaleCounter : BaseEntity
     {
-        [Column(TypeName = "varchar(50)"), Required]
+        [Column(TypeName = "nvarchar(50)"), Required]
         public string Name { get; set; }
         public int? ProductQuantity { get; set; }
         public bool Status { get; set; } = true;

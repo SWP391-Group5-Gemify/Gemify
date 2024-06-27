@@ -35,6 +35,7 @@ namespace Infrastructure.Services
         {
             var spec = new PromotionSpecification(code);
             var promotion = await _unitOfWork.Repository<Promotion>().GetEntityWithSpec(spec);
+            if(promotion == null) return null;
             if(promotion.Status == true && CheckPromotionStatus(promotion) == true)
             {
                 return promotion;
@@ -48,7 +49,10 @@ namespace Infrastructure.Services
         // Add new promotion
         public async Task<Promotion> AddNewPromotionAsync(Promotion promotion)
         {
-            if (promotion != null && promotion.ExpDate.CompareTo(promotion.EffDate) > 0)
+            if(promotion == null) return null;
+            var promotionSpec = new PromotionSpecification(promotion.Code);
+            var exist_promotion = await _unitOfWork.Repository<Promotion>().GetEntityWithSpec(promotionSpec);
+            if (exist_promotion == null && promotion.ExpDate.CompareTo(promotion.EffDate) > 0)
             {
                 _unitOfWork.Repository<Promotion>().Add(promotion);
                 var result = await _unitOfWork.Complete();

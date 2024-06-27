@@ -47,24 +47,5 @@
     "GemTypeId": 2,
     "GemWeight": 0.5,
     "Quantity": 5
-  },
-  {
-    "ProductId": 18,
-    "GemTypeId": 10,
-    "GemWeight": 1.5,
-    "CertificateCode": "1456789032",
-    "Quantity": 1
-  },
-  {
-    "ProductId": 18,
-    "GemTypeId": 9,
-    "GemWeight": 2.5,
-    "Quantity": 25
-  },
-  {
-    "ProductId": 19,
-    "GemTypeId": 7,
-    "GemWeight": 2.5,
-    "Quantity": 10
   }
 ]
