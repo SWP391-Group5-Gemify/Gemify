@@ -17,7 +17,7 @@ namespace API.Controllers
         }
 
         // Get promotions with spec
-        [HttpGet("discounts")]
+        [HttpGet]
         [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier")]
         public async Task<ActionResult<Pagination<IReadOnlyList<Promotion>>>> GetPromotions([FromQuery] PromotionParams promotionParams)
         {
