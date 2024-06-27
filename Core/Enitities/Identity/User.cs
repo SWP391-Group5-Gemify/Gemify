@@ -11,7 +11,7 @@ namespace Core.Enitities.Identity
         public string FullName { get; set; }
 
         [Gender(ErrorMessage = "Invalid Gender")]
-        [Column(TypeName = "varchar(50)"), Required]
+        [Column(TypeName = "nvarchar(50)"), Required]
         public string Gender { get; set; }
 
         [Column(TypeName = "date"), Required]

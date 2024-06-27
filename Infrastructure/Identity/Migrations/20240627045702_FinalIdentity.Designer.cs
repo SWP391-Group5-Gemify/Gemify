@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20240602161711_FinalIdentity")]
+    [Migration("20240627045702_FinalIdentity")]
     partial class FinalIdentity
     {
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace Infrastructure.Identity.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Image_Url")
                         .HasColumnType("varchar(200)");

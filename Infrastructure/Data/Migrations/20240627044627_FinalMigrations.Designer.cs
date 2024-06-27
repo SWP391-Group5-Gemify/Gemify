@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240623095920_FinalMigrations")]
+    [Migration("20240627044627_FinalMigrations")]
     partial class FinalMigrations
     {
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("MembershipId")
                         .HasColumnType("int");
@@ -247,7 +247,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Image_Url")
                         .HasColumnType("varchar(200)");

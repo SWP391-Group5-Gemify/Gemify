@@ -51,7 +51,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("MembershipId")
                         .HasColumnType("int");
@@ -244,7 +244,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Image_Url")
                         .HasColumnType("varchar(200)");
