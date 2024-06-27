@@ -10,6 +10,7 @@ import {
 } from '../../models/gold.model';
 import { map, Observable } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
+import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -85,8 +86,10 @@ export class GoldService {
    * @param bidAskGoldPriceModel
    * @returns
    */
-  updateBidAskGoldPrice(bidAskGoldPriceModel: UpdateGoldPricesModel) {
-    return this.httpClient.put<UpdateGoldPricesModel>(
+  updateBidAskGoldPrice(
+    bidAskGoldPriceModel: UpdateGoldPricesModel
+  ): Observable<CreateUpdateDeleteResponseModel> {
+    return this.httpClient.put<CreateUpdateDeleteResponseModel>(
       this.baseGoldChartUrl,
       bidAskGoldPriceModel
     );

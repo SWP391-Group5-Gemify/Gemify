@@ -6,6 +6,7 @@ import { PaginationModel } from '../../models/pagination.model';
 import { EmployeeModel } from '../../models/employee.model';
 import { AuthService } from '../auth/auth.service';
 import { RoleEnum, RoleModel } from '../../models/role.model';
+import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -72,24 +73,30 @@ export class EmployeeService {
    * @param employee
    * @returns
    */
-  updateEmployee(employee: EmployeeModel): Observable<any> {
-    return this.http.put(this.baseEmployeeUrl, employee);
+  updateEmployee(employee: EmployeeModel): Observable<EmployeeModel> {
+    return this.http.put<EmployeeModel>(
+      `${this.baseEmployeeUrl}/${employee.id}`,
+      employee
+    );
   }
 
   /**
    * Disable Employee account
    * @param id
    */
-  disableEmployee(id: number): Observable<any> {
-    const params = new HttpParams().set('id', Number(id));
-    return this.http.delete(this.baseEmployeeUrl, { params });
+  disableEmployee(id: number): Observable<CreateUpdateDeleteResponseModel> {
+    return this.http.delete<CreateUpdateDeleteResponseModel>(
+      `${this.baseEmployeeUrl}/${id}`
+    );
   }
 
   /**
    * Register a new employee account
    * - Only StoreOwner can register an account for other employees
    */
-  registerNewEmployee(employee: EmployeeModel): Observable<any> {
+  registerNewEmployee(
+    employee: EmployeeModel
+  ): Observable<CreateUpdateDeleteResponseModel> {
     return this.authService.registerNewUser(employee);
   }
 }

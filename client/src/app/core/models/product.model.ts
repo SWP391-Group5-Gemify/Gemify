@@ -62,7 +62,7 @@ export enum SortProductsQuantityEnum {
   QuantityAsc = 'quantityAsc',
 }
 
-export interface ProductsSearchingCriteriaModel {
+export interface ProductParams {
   pageSize: number;
   pageIndex: number;
   searchName: string | undefined;

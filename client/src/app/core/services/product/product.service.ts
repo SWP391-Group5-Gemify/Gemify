@@ -4,12 +4,13 @@ import { map, Observable } from 'rxjs';
 import {
   CategoryModel,
   ProductModel,
-  ProductsSearchingCriteriaModel,
+  ProductParams as ProductParams,
   SubCategoryModel,
 } from '../../models/product.model';
 import { environment } from '../../../../environments/environment';
 import { PaginationModel } from '../../models/pagination.model';
 import ImageUtils from '../../../shared/utils/ImageUtils';
+import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,43 +22,48 @@ export class ProductService {
 
   /**
    * Get the list of products based on searching criteria
-   * @param productSearchCriteria
+   * @param productsSearchCriteria
    * @returns
    */
   getProducts(
-    productSearchCriteria: ProductsSearchingCriteriaModel
+    productsSearchCriteria: ProductParams
   ): Observable<PaginationModel<ProductModel>> {
     let params = new HttpParams()
-      .set('pageIndex', productSearchCriteria.pageIndex.toString())
-      .set('pageSize', productSearchCriteria.pageSize.toString());
+      .set('pageIndex', productsSearchCriteria.pageIndex.toString())
+      .set('pageSize', productsSearchCriteria.pageSize.toString());
 
     // Assign params if exists
-    if (productSearchCriteria.searchName) {
-      params = params.set('search', productSearchCriteria.searchName);
+    if (productsSearchCriteria.searchName) {
+      params = params.set('search', productsSearchCriteria.searchName);
     }
-    if (productSearchCriteria.goldTypeId) {
+
+    if (productsSearchCriteria.goldTypeId) {
       params = params.set(
         'goldTypeId',
-        productSearchCriteria.goldTypeId.toString()
+        productsSearchCriteria.goldTypeId.toString()
       );
     }
-    if (productSearchCriteria.subCategoryId) {
+
+    if (productsSearchCriteria.subCategoryId) {
       params = params.set(
         'subcategoryId',
-        productSearchCriteria.subCategoryId.toString()
+        productsSearchCriteria.subCategoryId.toString()
       );
     }
-    if (productSearchCriteria.categoryId) {
+
+    if (productsSearchCriteria.categoryId) {
       params = params.set(
         'categoryId',
-        productSearchCriteria.categoryId.toString()
+        productsSearchCriteria.categoryId.toString()
       );
     }
-    if (productSearchCriteria.status) {
-      params = params.set('status', productSearchCriteria.status);
+
+    if (productsSearchCriteria.status) {
+      params = params.set('status', productsSearchCriteria.status);
     }
-    if (productSearchCriteria.sortQuantity) {
-      params = params.set('sort', productSearchCriteria.sortQuantity);
+
+    if (productsSearchCriteria.sortQuantity) {
+      params = params.set('sort', productsSearchCriteria.sortQuantity);
     }
 
     return this.httpClient
@@ -96,27 +102,6 @@ export class ProductService {
   }
 
   /**
-   * Update product information based on id
-   * @param product
-   * @returns
-   */
-  updateProduct(product: ProductModel): Observable<any> {
-    return this.httpClient.put<ProductModel>(
-      `${this.baseProductUrl}/${product.id}`,
-      product
-    );
-  }
-
-  /**
-   * Disable Product based on id
-   * @param id
-   * @returns
-   */
-  disableProduct(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.baseProductUrl}/${id}`);
-  }
-
-  /**
    * Get the list of categories
    * @returns
    */
@@ -144,5 +129,30 @@ export class ProductService {
           );
         })
       );
+  }
+
+  /**
+   * Update product information based on id
+   * @param product
+   * @returns
+   */
+  updateProduct(
+    product: ProductModel
+  ): Observable<CreateUpdateDeleteResponseModel> {
+    return this.httpClient.put<CreateUpdateDeleteResponseModel>(
+      `${this.baseProductUrl}/${product.id}`,
+      product
+    );
+  }
+
+  /**
+   * Disable Product based on id
+   * @param id
+   * @returns
+   */
+  disableProduct(id: number): Observable<CreateUpdateDeleteResponseModel> {
+    return this.httpClient.delete<CreateUpdateDeleteResponseModel>(
+      `${this.baseProductUrl}/${id}`
+    );
   }
 }

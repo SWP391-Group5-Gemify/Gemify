@@ -5,6 +5,7 @@ import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 import { RoleEnum } from '../../models/role.model';
 import ImageUtils from '../../../shared/utils/ImageUtils';
+import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -86,13 +87,6 @@ export class AuthService {
   }
 
   /**
-   * Register a new user account
-   */
-  public registerNewUser(user: UserModel): Observable<any> {
-    return this.http.post(`${this.baseAccountUrl}/register`, user);
-  }
-
-  /**
    * Get the current user profile
    */
   public getCurrentUserProfile(): Observable<UserModel> {
@@ -113,5 +107,17 @@ export class AuthService {
    */
   public belongToAnyRoles(expectedRoles: RoleEnum[]): boolean {
     return expectedRoles.some((role) => role === this.currentUser?.role);
+  }
+
+  /**
+   * Register a new user account
+   */
+  public registerNewUser(
+    user: UserModel
+  ): Observable<CreateUpdateDeleteResponseModel> {
+    return this.http.post<CreateUpdateDeleteResponseModel>(
+      `${this.baseAccountUrl}/register`,
+      user
+    );
   }
 }
