@@ -4,10 +4,10 @@ namespace Core.Enitities
 {
     public enum ProductStatus
     {
-        [EnumMember(Value = "Còn Hàng")]
+        [EnumMember(Value = "Available")]
         Available,
 
-        [EnumMember(Value = "Không Bán")]
+        [EnumMember(Value = "Unavailable")]
         Unavailable,
     }
 }
