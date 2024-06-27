@@ -21,7 +21,7 @@ namespace Core.Enitities
             this.Status = true;
         }
         
-        [Column(TypeName = "varchar(200)"), Required]
+        [Column(TypeName = "nvarchar(200)"), Required]
         public string Name { get; set; }
 
         [Column(TypeName = "Date")]

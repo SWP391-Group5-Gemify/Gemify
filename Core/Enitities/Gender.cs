@@ -4,10 +4,10 @@ namespace Core.Enitities
 {
     public enum Gender
     {
-        [EnumMember(Value = "Male")]
+        [EnumMember(Value = "Nam")]
         Male,
 
-        [EnumMember(Value = "Female")]
+        [EnumMember(Value = "Nữ")]
         Female
     }
 }

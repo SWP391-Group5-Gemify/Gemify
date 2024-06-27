@@ -49,46 +49,22 @@ export class GoldChartComponent implements OnInit {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src =
-      'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js';
+      'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
     script.async = true;
     script.innerHTML = `
     {
-      "symbols": [
-        [
-          "TVC:GOLD|4M"
-        ]
-      ],
-      "chartOnly": false,
-      "width": "100%",
-      "height": "100%",
-      "locale": "en",
-      "colorTheme": "light",
       "autosize": true,
-      "showVolume": false,
-      "showMA": true,
-      "hideDateRanges": false,
-      "hideMarketStatus": false,
-      "hideSymbolLogo": true,
-      "scalePosition": "left",
-      "scaleMode": "Normal",
-      "fontFamily": "Roboto, BlinkMacSystemFont, sans-serif",
-      "fontSize": "16",
-      "noTimeScale": false,
-      "valuesTracking": "1",
-      "changeMode": "price-and-percent",
-      "chartType": "area",
-      "maLineColor": "#EA580C",
-      "maLineWidth": 2,
-      "maLength": 9,
-      "lineWidth": 2,
-      "lineType": 0,
-      "dateRanges": [
-        "1m|30",
-        "3m|60",
-        "12m|1D",
-        "60m|1W",
-        "all|1M"
-      ]
+      "symbol": "TVC:GOLD*FX_IDC:USDVND",
+      "interval": "D",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "theme": "light",
+      "style": "1",
+      "locale": "vi_VN",
+      "allow_symbol_change": false,
+      "calendar": false,
+      "withdateranges": true,
+      "details": true,
+      "support_host": "https://www.tradingview.com"
     }`;
     document
       .getElementById('id-gold-chart-tradingview-widget')

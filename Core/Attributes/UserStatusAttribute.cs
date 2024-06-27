@@ -12,8 +12,8 @@ namespace Core.Attributes
         {
             if (value == null) return false;
             var status = value.ToString();
-            return status == UserStatus.Active.ToString()
-                || status == UserStatus.Closed.ToString();
+            return status == UserStatus.Active.GetEnumMemberValue()
+                || status == UserStatus.Closed.GetEnumMemberValue();
         }
     }
 }

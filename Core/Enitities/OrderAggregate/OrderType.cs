@@ -4,7 +4,7 @@ namespace Core.Enitities.OrderAggregate
 {
     public class OrderType : BaseEntity
     {
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "nvarchar(50)")]
         public string Name { get; set; }
     }
 }
