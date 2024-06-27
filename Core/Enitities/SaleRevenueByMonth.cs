@@ -8,7 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Core.Enitities
 {
-    public class SaleRevenueByMonth : BaseEntity
+    public class SaleRevenueByMonth
     {
         public SaleRevenueByMonth(decimal revenue, int month, int year)
         {

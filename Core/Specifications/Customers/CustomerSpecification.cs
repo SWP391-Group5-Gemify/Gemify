@@ -25,6 +25,11 @@ namespace Core.Specifications.Customers
             }
         }
 
+        public CustomerSpecification(string phone) : base (x => x.Phone == phone)
+        {
+            AddInclude(x => x.Membership);
+        }
+
         public CustomerSpecification(int id) : base(x => x.Id == id)
         {
             AddInclude(x => x.Membership);

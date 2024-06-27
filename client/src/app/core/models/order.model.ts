@@ -8,7 +8,8 @@ export interface OrderModel {
   total: number;
   name: string;
   phone: string;
-  membership: string;
+  membershipName: string;
+  membershipDiscount: number;
   userId: number;
   paymentIntentId: string;
   promotionCode?: any;

@@ -50,5 +50,6 @@
                                [count]="totalProducts"
                                (onPageChangeFromChild)="onPageChange($event)"
                                (onFilterFromChild)="onValueChangesNameFromParent($event)"
+                               (onDisableFromChild)="onDisableProduct($event)"
                                (onIdGetFromChild)="onProductByIdFromParent($event)">
 </app-generic-table-data-source>

@@ -10,7 +10,7 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'orders',
-        pathMatch: 'prefix',
+        pathMatch: 'full',
       },
       {
         path: 'baskets',
@@ -59,6 +59,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('../../routes/managements/warranty-routing.module').then(
             (m) => m.WarrantyRoutingModule
+          ),
+      },
+      {
+        path: 'checkout',
+        loadChildren: () =>
+          import('../managements/checkout-routing.module').then(
+            (m) => m.CheckoutRoutingModule
           ),
       },
       {

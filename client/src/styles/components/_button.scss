@@ -1,5 +1,6 @@
 // Follow the rule Love Fear Hate
 
+// Styling for normal button
 .btn {
 
   &,
@@ -85,5 +86,55 @@
     overflow-wrap: break-word;
     white-space: normal;
     line-height: 1.8rem;
+  }
+}
+
+// Styling for square button
+.btn-square {
+
+  &,
+  &:link,
+  &:visited {
+    display: inline-block;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.2rem 2.0rem;
+    width: max-content;
+    text-wrap: nowrap;
+    border-radius: 0.1rem;
+    font-size: $default-font-size;
+    font-weight: 500;
+    letter-spacing: 1.3px;
+    color: $color-white;
+
+    transition: all 0.12s ease-out;
+    cursor: pointer;
+  }
+
+  // &:focus,
+  &:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 1rem 2rem rgba($color-black, .2);
+    outline: 2px solid $color-primary;
+  }
+
+  &:active {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba($color-black, .2);
+  }
+
+  &--primary-light {
+    background-color: $color-primary-light;
+    color: $color-white;
+
+    // &:focus,
+    &:hover {
+      outline: 2px solid $color-grey-dark-3;
+    }
+  }
+
+  &--active {
+    background-color: $color-primary-dark;
+    color: $color-white;
   }
 }

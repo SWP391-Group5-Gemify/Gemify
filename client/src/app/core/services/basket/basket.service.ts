@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { BasketItemModel, BasketModel } from '../../models/basket.model';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import {
+  BasketBuybackItemModel,
+  BasketItemModel,
+  BasketModel,
+} from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
+import { OrderItemModel } from '../../models/order.model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,25 +66,45 @@ export class BasketService {
   }
 
   /**
-   * Set or Update the current existing basket
+   * Set into the basket source
+   * Update that basket info and set to that basket source
    * @param basket
    * @returns
    */
-  public setCurrentBasket(basket: BasketModel) {
+  public setCurrentBasket(updatedBasket: BasketModel) {
     return this.httpClient
-      .post<BasketModel>(this.baseBasketUrl, basket)
+      .post<BasketModel>(this.baseBasketUrl, updatedBasket)
       .subscribe({
         next: (basket) => {
+          localStorage.setItem('basket_id', basket.id);
           this._basketSource.next(basket);
         },
       });
   }
 
   /**
-   * Get the current basket value
+   * Remove a basket
+   * - If it's a current basket in the basket source, then set the current basket source to null
+   * @param id
+   * @returns
    */
-  public getCurrentBasketValue(): BasketModel | null {
-    return this._basketSource.value;
+  public deleteBasket(id: number | string): Observable<boolean> {
+    let params = new HttpParams();
+    params = params.set('id', id.toString());
+
+    return this.httpClient
+      .delete<boolean>(this.baseBasketUrl, {
+        params: params,
+      })
+      .pipe(
+        tap(() => {
+          // Perform remove the current basket source if delete it
+          if (this.getCurrentBasketValue()?.id === id) {
+            this._basketSource.next(null);
+            localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
+          }
+        })
+      );
   }
 
   /**
@@ -114,14 +139,55 @@ export class BasketService {
   }
 
   /**
+   * Check the current basket
+   * - If having basket, then add item to it
+   * - if don't have basket, then create new basket with random id = cuid2
+   *
+   * Add or Update Buyback Item to Basket
+   * - Scenario 1: item is existed, then update the quantity
+   * - Scenario 2: item is not existed, then add to the list of basket, and set to basket
+   *
+   * Default quantity is 1
+   * @param item
+   * @param price
+   * @param goldWeight
+   * @param quantity
+   */
+  public addBuybackItemToCurrentBasket(
+    item: OrderItemModel,
+    price: number,
+    goldWeight: number,
+    quantity = 1
+  ): void {
+    const buybackBasketItemToAdd = this.mapOrderItemToBasketBuybackItem(
+      item,
+      price,
+      goldWeight
+    );
+
+    // Check the current basket
+    let basket = this.getCurrentBasketValue() ?? this.createBasket();
+
+    // Update the basket's buyback items when add or update the item
+    basket.buybackItems = this.addOrUpdateBuybackBasketItem(
+      basket?.buybackItems,
+      buybackBasketItemToAdd,
+      quantity
+    );
+
+    // Update the basket into the basket source
+    // the basket source will get that value immediately when the addBuybackItemToBasket triggered
+    this.setCurrentBasket(basket);
+  }
+
+  /**
    * Create an empty basket with phoneNumber
    * @param phoneNumber
    */
-  public createEmptyBasket(phoneNumber: string): void {
+  public createEmptyBasketWithPhoneNumber(phoneNumber: string): void {
     const newBasket: BasketModel = new BasketModel();
     newBasket.phoneNumber = phoneNumber;
     localStorage.setItem('basket_id', newBasket.id);
-
     this.setCurrentBasket(newBasket);
   }
 
@@ -134,7 +200,6 @@ export class BasketService {
    * @param quantity
    * @returns
    */
-
   private addOrUpdateBasketItem(
     items: BasketItemModel[],
     basketItemToAdd: BasketItemModel,
@@ -151,7 +216,41 @@ export class BasketService {
   }
 
   /**
+   * Get the current basket value
+   */
+  private getCurrentBasketValue(): BasketModel | null {
+    return this._basketSource.value;
+  }
+
+  /**
+   * Add or Update Buyback Item to Basket
+   * - Scenario 1: item is existed, then update the quantity
+   * - Scenario 2: item is not existed, then add to the list of basket, and set
+   * @param items
+   * @param basketItemToAdd
+   * @param quantity
+   * @returns
+   */
+  private addOrUpdateBuybackBasketItem(
+    items: BasketBuybackItemModel[],
+    basketItemToAdd: BasketBuybackItemModel,
+    quantity: number
+  ): BasketBuybackItemModel[] {
+    let targetBuybackBasketItem = items.find(
+      (item) => item.id === basketItemToAdd.id
+    );
+    if (targetBuybackBasketItem) {
+      targetBuybackBasketItem.quantity += quantity;
+    } else {
+      basketItemToAdd.quantity = quantity;
+      items.push(basketItemToAdd);
+    }
+    return items;
+  }
+
+  /**
    * Create a new basket with default basket_id = cuid2
+   * Set it into the basket_id
    */
   private createBasket(): BasketModel {
     const basket = new BasketModel();
@@ -174,6 +273,28 @@ export class BasketService {
     };
   }
 
+  /**
+   * Map the product item properties into the buyback asket item properties
+   * @param orderItem
+   * @param buybackPrice
+   * @param goldWeight
+   * @returns BasketBuybackItemModel
+   */
+  private mapOrderItemToBasketBuybackItem(
+    orderItem: OrderItemModel,
+    buybackPrice: number,
+    goldWeight: number
+  ): BasketBuybackItemModel {
+    return {
+      id: orderItem.id,
+      price: buybackPrice,
+      productName: orderItem.productName,
+      quantity: 0,
+      pictureUrl: orderItem.image_Url,
+      goldWeight: goldWeight,
+    };
+  }
+
   // ================================ FOR A LIST OF BASKET ============================
 
   /**
@@ -186,18 +307,16 @@ export class BasketService {
 
   /**
    * Generate Temp ticket id For customer preference in store
-   * @param id
+   * @param customerName
    * @returns
    */
-  public generateTempTicketId(id: string, phoneNumber?: string): string {
-    let tempTicketId: string = 'BAS'
-      .concat('-')
-      .concat(id.slice(0, 3))
-      .toUpperCase();
+  public generateTempTicketId(basketId: string, phoneNumber?: string): string {
+    let tempTicketId: string = ''.concat(basketId.slice(0, 3)).toUpperCase();
 
     // If having phone number
     if (phoneNumber) {
-      tempTicketId
+      tempTicketId = tempTicketId
+        .concat('-')
         .concat(phoneNumber[0])
         .concat(phoneNumber[phoneNumber.length - 1]);
     }

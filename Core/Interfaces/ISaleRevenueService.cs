@@ -10,12 +10,10 @@ namespace Core.Interfaces
 {
     public interface ISaleRevenueService
     {
-        Task<int> CountSaleRevenuesAsync(ISpecification<SaleRevenue> spec);
-
         Task<IReadOnlyList<SaleRevenue>> GetSaleRevenueByDateAsync(DateOnly startDate, DateOnly endDate);
-
         bool IsLeapYear(int year);
-
         Task<IReadOnlyList<SaleRevenueByMonth>> GetSaleRevenuesByMonthAsync(int year);
+        Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date);
+        Task<decimal> GetSaleCounterRevenueByYearAsync(int year);
     }
 }

@@ -37,13 +37,24 @@ namespace Infrastructure.Services
             }
 
             var promotionDiscount = 0m;
-            
+            var membershipDiscount = 0m;
+
             // Retrieve Promotion Discount from the server for security
-            if(basket.PromotionId.HasValue)
+            if (basket.PromotionId.HasValue)
             {
                 var promotion = await _unitOfWork.Repository<Promotion>().GetByIdAsync((int) basket.PromotionId);
                 promotionDiscount = promotion.Discount;
             }
+
+            // Retrieve Membership Discount from the server for security
+            if (basket.MembershipId.HasValue)
+            {
+                var membership = await _unitOfWork.Repository<Membership>().GetByIdAsync((int)basket.MembershipId);
+                membershipDiscount = membership.Discount;
+            }
+
+            // Calculate total discount
+            var totalDiscount = promotionDiscount + membershipDiscount;
 
             // Update Sell prices for security
             await UpdateBasketSellItemPrice(basket);
@@ -67,8 +78,8 @@ namespace Infrastructure.Services
             // If the customers buy more than what they sell, they will be responsible for the outstanding amount
             if (totalBuybackAmount < totalSellAmount)
             {
-                totalAmount = ((long)(totalSellAmount)) - ((long)(totalSellAmount * promotionDiscount)) -
-                    ((long)totalBuybackAmount);
+                totalAmount = (long) (totalSellAmount) - (long) totalBuybackAmount;
+                totalAmount = (long) (totalAmount - (totalAmount * totalDiscount));
             }
 
             // If total amount > 99999999 stripe will return an error (Stripe allows maximum 8-digits)
@@ -135,9 +146,6 @@ namespace Infrastructure.Services
         // Update buyback prices of items in basket with prices from server
         public async Task UpdateBasketBuybackItemPrice(CustomerBasket basket)
         {
-            // Calculate Price for buyback items
-            var buybackPriceTotal = 0m;
-
             foreach (var item in basket.BuybackItems)
             {
                 var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
@@ -155,12 +163,9 @@ namespace Infrastructure.Services
                     (acc, g) => acc + g.Price * 0.7m * g.Quantity
                 );
 
-                // Add product price to total Buyback price
-                buybackPriceTotal += buybackProductPrice * item.Quantity;
-
-                if (item.Price != buybackPriceTotal)
+                if (item.Price != buybackProductPrice)
                 {
-                    item.Price = buybackPriceTotal;
+                    item.Price = buybackProductPrice;
                 }
             }
         }

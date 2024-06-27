@@ -32,6 +32,7 @@ namespace API.Extensions
             services.AddScoped<IGoldService, GoldService>();
             services.AddScoped<ISaleCounterRevenueService, SaleCounterRevenueService>();
             services.AddScoped<ISaleRevenueService, SaleRevenueService>();
+            services.AddScoped<IPromotionService, PromotionService>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderService, OrderService>();

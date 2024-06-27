@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Enitities
 {
-    public class SaleRevenue : BaseEntity
+    public class SaleRevenue
     {
         public SaleRevenue(decimal revenue, DateOnly date)
         {

@@ -13,18 +13,11 @@ namespace Infrastructure.Services
 {
     public class SaleRevenueService : ISaleRevenueService
     {
-        private readonly IUnitOfWork _unitOfWork; 
-        private readonly ISaleCounterRevenueService _saleCounterRevenueService; 
+        private readonly IUnitOfWork _unitOfWork;
 
-        public SaleRevenueService(IUnitOfWork unitOfWork, ISaleCounterRevenueService saleCounterRevenueService)
+        public SaleRevenueService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _saleCounterRevenueService = saleCounterRevenueService;
-        }
-
-        public async Task<int> CountSaleRevenuesAsync(ISpecification<SaleRevenue> spec)
-        {
-            return await _unitOfWork.Repository<SaleRevenue>().CountAsync(spec);
         }
 
         // Get revenue of sale in a day
@@ -34,12 +27,20 @@ namespace Infrastructure.Services
 
             for (var date = startDate; date <= toDate; date = date.AddDays(1))
             {
-                decimal revenue = await _saleCounterRevenueService.GetTotalSaleRevenueByDateAsync(date);
+                decimal revenue = await GetTotalSaleRevenueByDateAsync(date);
                 var saleRevenue = new SaleRevenue(revenue,date);
                 saleRevenues.Add(saleRevenue);
             }
 
             return saleRevenues.AsReadOnly();
+        }
+
+        public async Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date)
+        {
+            var spec = new SaleCounterRevenueSpecification(date);
+            var revenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+
+            return revenues.Sum(r => r.Revenue);
         }
 
         public bool IsLeapYear(int year)
@@ -75,6 +76,34 @@ namespace Infrastructure.Services
             }
 
             return saleRevenues.AsReadOnly();
+        }
+
+        public async Task<decimal> GetSaleCounterRevenueByYearAsync(int year)
+        {
+            decimal total = 0;
+            DateOnly fromDate;
+            DateOnly toDate;
+
+            if (IsLeapYear(year))
+            {
+                fromDate = new DateOnly(year, 1, 1);
+                toDate = new DateOnly(year, 12, 31);
+            }
+            else
+            {
+                fromDate = new DateOnly(year, 1, 1);
+                toDate = new DateOnly(year, 12, 30);
+            }
+
+            // Get the revenues between the start and end dates
+            var revenues = await GetSaleRevenueByDateAsync(fromDate, toDate);
+
+            foreach (var revenue in revenues)
+            {
+                total += revenue.Revenue;
+            }
+
+            return total;
         }
     }
 }
