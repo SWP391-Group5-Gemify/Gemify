@@ -59,7 +59,7 @@ namespace API.Controllers
         }
 
         // Disable Employee Account
-        [HttpPatch("{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult<EmployeeDto>> DeleteEmployee(int id)
         {
