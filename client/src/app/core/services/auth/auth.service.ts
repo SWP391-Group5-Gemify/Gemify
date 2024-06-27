@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 import { RoleEnum } from '../../models/role.model';
+import ImageUtils from '../../../shared/utils/ImageUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -95,7 +96,14 @@ export class AuthService {
    * Get the current user profile
    */
   public getCurrentUserProfile(): Observable<UserModel> {
-    return this.http.get<UserModel>(this.baseAccountUrl);
+    return this.http.get<UserModel>(this.baseAccountUrl).pipe(
+      map((user) => {
+        return {
+          ...user,
+          image_Url: ImageUtils.concatLinkToTokenFirebase(user.image_Url),
+        };
+      })
+    );
   }
 
   /**

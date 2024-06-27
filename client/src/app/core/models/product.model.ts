@@ -1,3 +1,5 @@
+import ImageUtils from '../../shared/utils/ImageUtils';
+
 export interface ProductModel {
   id: number;
   name: string;

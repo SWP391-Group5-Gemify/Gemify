@@ -68,9 +68,9 @@ export class LoginComponent implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(6),
+          Validators.minLength(4),
           Validators.maxLength(32),
-          Validators.pattern(/^[a-z]{6,32}$/i),
+          Validators.pattern(/^[a-z]{4,32}$/i),
         ])
       ),
 
@@ -92,12 +92,12 @@ export class LoginComponent implements OnInit {
         errorMessage = 'This field is required';
         break;
       case control?.hasError('minlength') || control?.hasError('maxLength'):
-        errorMessage = 'Must be between 6 and 32 characters long';
+        errorMessage = 'Must be between 4 and 32 characters long';
         break;
       case control?.hasError('pattern'):
         if (controlName === 'userName') {
           errorMessage =
-            'Username must contain only letters and between 6 and 32 characters long';
+            'Username must contain only letters and between 4 and 32 characters long';
         }
         break;
     }

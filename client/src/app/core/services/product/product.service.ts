@@ -9,6 +9,7 @@ import {
 } from '../../models/product.model';
 import { environment } from '../../../../environments/environment';
 import { PaginationModel } from '../../models/pagination.model';
+import ImageUtils from '../../../shared/utils/ImageUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -59,10 +60,21 @@ export class ProductService {
       params = params.set('sort', productSearchCriteria.sortQuantity);
     }
 
-    return this.httpClient.get<PaginationModel<ProductModel>>(
-      this.baseProductUrl,
-      { params: params }
-    );
+    return this.httpClient
+      .get<PaginationModel<ProductModel>>(this.baseProductUrl, {
+        params: params,
+      })
+      .pipe(
+        map((paginationModel) => {
+          // Transform each product's imageUrl using ImageUtils.concatLinkToTokenFirebase
+          paginationModel.data.forEach((product) => {
+            product.imageUrl = ImageUtils.concatLinkToTokenFirebase(
+              product.imageUrl
+            );
+          });
+          return paginationModel;
+        })
+      );
   }
 
   /**
@@ -71,7 +83,16 @@ export class ProductService {
    * @returns
    */
   getProductById(id: number): Observable<ProductModel> {
-    return this.httpClient.get<ProductModel>(`${this.baseProductUrl}/${id}/`);
+    return this.httpClient
+      .get<ProductModel>(`${this.baseProductUrl}/${id}/`)
+      .pipe(
+        map((product) => {
+          return {
+            ...product,
+            imageUrl: ImageUtils.concatLinkToTokenFirebase(product.imageUrl),
+          };
+        })
+      );
   }
 
   /**
