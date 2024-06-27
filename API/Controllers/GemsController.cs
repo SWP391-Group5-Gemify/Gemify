@@ -54,7 +54,7 @@ namespace API.Controllers
             return Ok(_mapper.Map<GemType, GemTypeDto>(gem));
         }
 
-        [HttpGet("prices/{gemId}")]
+        [HttpGet("{gemId}/prices")]
         [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<IReadOnlyList<GemPriceDto>>> GetGemPriceHistory(int gemId, [FromQuery] GemPriceSpecParams gemPriceSpecParams)
         {
@@ -84,7 +84,7 @@ namespace API.Controllers
             return Ok(new ApiResponse(200, "Add Gem Successfully"));
         }
 
-        [HttpPatch("{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> DeleteGem(int id)
         {

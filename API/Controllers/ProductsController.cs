@@ -76,7 +76,7 @@ namespace API.Controllers
         }
 
         // Delete Product
-        [HttpPatch("{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> DeleteProduct (int id)
         {

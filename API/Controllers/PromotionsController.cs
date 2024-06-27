@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
         // Disable promotion manually
-        [HttpPatch("{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner")]
         public async Task<ActionResult> DisablePromotionById(int id)
         {

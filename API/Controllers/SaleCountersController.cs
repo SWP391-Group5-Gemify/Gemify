@@ -83,7 +83,7 @@ namespace API.Controllers
         }
 
         //Delete counter
-        [HttpPatch("{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult> DeleteSaleCounter (int id)
         {
@@ -101,7 +101,7 @@ namespace API.Controllers
         }
 
         // Get revenues of sale counter by id
-        [HttpGet("revenues/{saleCounterId}")]
+        [HttpGet("{saleCounterId}/revenues")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>> 
             GetSaleCounterRevenuesById(int saleCounterId, [FromQuery] SaleCounterRevenueParams saleCounterRevenueParams)

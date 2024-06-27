@@ -47,7 +47,7 @@ namespace API.Controllers
         }   
 
         // Get gold price history by gold type id
-        [HttpGet("prices/{goldTypeId}")]
+        [HttpGet("{goldTypeId}/prices")]
         [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<IReadOnlyList<GoldPrice>>> GoldPriceHistoryById(int goldTypeId, [FromQuery] GoldPriceParams goldPriceParams)
         {
@@ -82,7 +82,7 @@ namespace API.Controllers
         }
 
         // Disable gold type status
-        [HttpPatch("{id}")]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")] 
         public async Task<ActionResult> DeleteGoldType(int id)
         {
