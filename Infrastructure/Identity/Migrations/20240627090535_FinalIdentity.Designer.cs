@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20240627045702_FinalIdentity")]
+    [Migration("20240627090535_FinalIdentity")]
     partial class FinalIdentity
     {
         /// <inheritdoc />
@@ -95,7 +95,7 @@ namespace Infrastructure.Identity.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");

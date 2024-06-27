@@ -22,7 +22,7 @@ namespace Core.Enitities
         public decimal Labour {  get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]
         [Column(TypeName = "varchar(50)"), Required]
-        public string Status { get; set; }
+        public string Status { get; set; } = ProductStatus.Available.GetEnumMemberValue();
         public int Quantity { get; set; }
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }

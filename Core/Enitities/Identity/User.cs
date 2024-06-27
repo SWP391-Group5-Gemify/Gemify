@@ -18,8 +18,8 @@ namespace Core.Enitities.Identity
         public DateOnly DateOfBirth { get; set; }
 
         [UserStatus(ErrorMessage = "Invalid User Status")]
-        [Column(TypeName = "varchar(50)"), Required]
-        public string Status { get; set; } = "Active";
+        [Column(TypeName = "nvarchar(50)"), Required]
+        public string Status { get; set; } = UserStatus.Active.GetEnumMemberValue();
 
         [Column(TypeName = "varchar(200)")]
         public string Image_Url { get; set; }

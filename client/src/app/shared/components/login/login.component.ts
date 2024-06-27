@@ -64,17 +64,9 @@ export class LoginComponent implements OnInit {
     // SignIn Form
     this.signInForm = this.formBuilder.group({
       // required, min length is 6, max is 32, receive a to z, case insensitive
-      userName: new FormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(32),
-          Validators.pattern(/^[a-z]{6,32}$/i),
-        ])
-      ),
+      userName: new FormControl(''),
 
-      password: new FormControl('', Validators.compose([Validators.required])),
+      password: new FormControl(''),
     });
   }
 

@@ -9,10 +9,10 @@ namespace Core.Enitities
 {
     public enum UserStatus
     {
-        [EnumMember(Value = "Active")]
+        [EnumMember(Value = "Đang Hoạt Động")]
         Active,
 
-        [EnumMember(Value = "Closed")]
+        [EnumMember(Value = "Đã Đóng")]
         Closed
     }
 }

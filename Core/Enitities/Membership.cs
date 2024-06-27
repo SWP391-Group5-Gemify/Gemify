@@ -5,7 +5,7 @@ namespace Core.Enitities
 {
     public class Membership : BaseEntity
     {
-        [Column(TypeName = "varchar(50)"), Required]
+        [Column(TypeName = "nvarchar(50)"), Required]
         public string Name { get; set; }
 
         [Required]

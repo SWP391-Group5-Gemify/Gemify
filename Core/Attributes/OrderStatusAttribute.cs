@@ -11,9 +11,9 @@ namespace Core.Attributes
         {
             if (value == null) return false;
             var status = value.ToString();
-            return status == OrderStatus.Pending.ToString()
-                || status == OrderStatus.PaymentReceived.ToString()
-                || status == OrderStatus.PaymentFailed.ToString();
+            return status == OrderStatus.Pending.GetEnumMemberValue()
+                || status == OrderStatus.PaymentReceived.GetEnumMemberValue()
+                || status == OrderStatus.PaymentFailed.GetEnumMemberValue();
         }
     }
 }
