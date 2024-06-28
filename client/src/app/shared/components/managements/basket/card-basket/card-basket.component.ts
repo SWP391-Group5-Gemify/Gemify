@@ -79,7 +79,7 @@ export class CardBasketComponent {
    * Go to checkout page
    */
   public onGoToCheckOutPage() {
-    this.basketService.setCurrentBasket(this.basket);
+    this.basketService.selectBasketBeCurrentBasket(this.basket);
     this.router.navigate(['/cashier/checkout']);
   }
 }

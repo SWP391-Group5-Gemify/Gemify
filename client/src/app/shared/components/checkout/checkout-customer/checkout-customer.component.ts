@@ -6,8 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { GenderEnum, GenderModel } from '../../../../core/models/gender.model';
 import EnumUtils from '../../../utils/EnumUtils';
 import { MatRadioModule } from '@angular/material/radio';
-import { GenericStepperComponent } from '../../generic-stepper/generic-stepper.component';
-import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-checkout-customer',
@@ -40,6 +39,10 @@ export class CheckoutCustomerComponent implements OnInit {
   // =========================
   // == Methods
   // =========================
+
+  /**
+   * Load gender radio buttons
+   */
   loadGenderRadioButtons() {
     this.genderOptions = EnumUtils.enumToObject(GenderEnum);
   }
