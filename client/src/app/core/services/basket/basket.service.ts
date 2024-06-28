@@ -39,11 +39,28 @@ export class BasketService {
   // ================================ FOR A SINGLE BASKET ============================
 
   /**
+   * Switching the target into current basket
+   * @param basket
+   */
+  public selectBasketBeCurrentBasket(basket: BasketModel) {
+    this._basketSource.next(basket);
+    localStorage.setItem(this.LOCAL_STORAGE_BASKET_ID, basket.id);
+  }
+
+  /**
+   * Delete the current basket
+   */
+  public deleteCurrentBasket() {
+    this._basketSource.next(null);
+    localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
+  }
+
+  /**
    * Load a basket by id into the basket source
    * @param id
    * @returns
    */
-  public loadCurrentBasket(id: string) {
+  public loadBasketById(id: string) {
     return this.httpClient
       .get<BasketModel>(`${this.baseBasketUrl}/${id}`)
       .pipe(untilDestroyed(this))
@@ -64,7 +81,7 @@ export class BasketService {
   /**
    * Getter of basketId
    */
-  public get currentBasketId() {
+  public get currentBasketIdLocalStorage() {
     return localStorage.getItem(this.LOCAL_STORAGE_BASKET_ID);
   }
 
@@ -89,11 +106,6 @@ export class BasketService {
           console.log('AFTER NEXT: ', this._basketSource.getValue());
         },
       });
-  }
-
-  public selectBasketBeCurrentBasket(basket: BasketModel) {
-    this._basketSource.next(basket);
-    localStorage.setItem(this.LOCAL_STORAGE_BASKET_ID, basket.id);
   }
 
   /**

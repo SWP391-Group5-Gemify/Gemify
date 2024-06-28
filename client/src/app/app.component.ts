@@ -51,8 +51,8 @@ export class AppComponent implements OnInit {
       this.authService.token != null;
 
     if (isAllowedToLoadBaskets) {
-      const basketId = this.basketService.currentBasketId;
-      basketId && this.basketService.loadCurrentBasket(basketId);
+      const basketId = this.basketService.currentBasketIdLocalStorage;
+      basketId && this.basketService.loadBasketById(basketId);
     }
   }
 }

@@ -10,6 +10,7 @@ import { Observable, switchMap } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { BasketModel } from '../../../../core/models/basket.model';
+import { Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -31,9 +32,9 @@ export class CheckoutPaymentComponent {
   constructor(
     private basketService: BasketService,
     private orderService: OrderService,
-    private promotionService: PromotionService,
     private customerService: CustomerService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   // =========================
@@ -83,6 +84,8 @@ export class CheckoutPaymentComponent {
                 .subscribe({
                   next: (value) => {
                     this.notificationService.show('Tạo hóa đơn thành công');
+                    this.basketService.deleteCurrentBasket();
+                    this.router.navigate(['cashier/orders']);
                   },
                 });
             }
