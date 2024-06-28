@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import { OrdersService } from '../../../../core/services/orders/orders.service';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-checkout-payment',
   standalone: true,
-  imports: [],
+  imports: [CdkStepperModule],
   templateUrl: './checkout-payment.component.html',
   styleUrl: './checkout-payment.component.scss',
 })

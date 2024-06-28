@@ -66,13 +66,13 @@
 
           <!-- Promotion -->
           <cdk-step [label]="'Khuyến mãi'"
-                    [completed]="checkoutForm.get('customerForm')?.valid">
+                    [completed]="checkoutForm.get('promotionForm')?.valid">
             <app-checkout-promotion [checkoutForm]="checkoutForm"></app-checkout-promotion>
           </cdk-step>
 
           <!-- Payment -->
           <cdk-step [label]="'Thanh toán'"
-                    [completed]="checkoutForm.get('customerForm')?.valid">
+                    [completed]="checkoutForm.get('promotionForm')?.valid">
             <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
           </cdk-step>
         </app-generic-stepper>
