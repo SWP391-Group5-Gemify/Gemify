@@ -31,7 +31,7 @@ export class ModalChangeGoldWeightComponent {
     public dialogRef: MatDialogRef<ModalChangeGoldWeightComponent>
   ) {}
 
-  decimalPattern = '\d+([.]\d+)?';
+  decimalPattern = /^\d+(\.\d+)?$/;
 
   ngOnInit(): void {
     this.goldForm = this.fb.group({

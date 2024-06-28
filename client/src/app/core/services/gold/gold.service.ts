@@ -18,9 +18,8 @@ import { PaginationModel } from '../../models/pagination.model';
 })
 export class GoldService {
   baseGoldChartUrl: string = environment.baseApiUrl.concat('/golds');
-  goldPriceApiUrl = environment.worldGoldPriceApiConfig.apiUrl;
-  goldPriceApiKey = environment.worldGoldPriceApiConfig.apiToken;
-  currencyApi = environment.currencyApi;
+  goldPriceApiUrl = environment.goldPriceApiUrl;
+  currencyApi = environment.currencyApiUrl;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -90,7 +89,7 @@ export class GoldService {
    * @param bidAskGoldPriceModel
    * @returns
    */
-  updateBidAskGoldPrice(bidAskGoldPriceModel: UpdateGoldPricesModel) {
+  updateBidAskGoldPrice(goldTypeId: number, bidAskGoldPriceModel: UpdateGoldPricesModel) {
     return this.httpClient.put<UpdateGoldPricesModel>(
       this.baseGoldChartUrl,
       bidAskGoldPriceModel
@@ -101,10 +100,7 @@ export class GoldService {
    * Get current gold price VND/ounce
    */
   getWorldGoldPrice(): Observable<WorldGoldPrice> {
-    const header = new HttpHeaders()
-    .set('Content-Type', 'application/json')
-    .set('x-access-token', this.goldPriceApiKey);
-    return this.httpClient.get<WorldGoldPrice>(this.goldPriceApiUrl, {headers: header})
+    return this.httpClient.get<WorldGoldPrice>(this.goldPriceApiUrl)
   }
 
   /**

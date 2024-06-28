@@ -1,41 +1,77 @@
 <section>
-    <form [formGroup]="goldRateForm">
-        <app-generic-dropdown label="Select Gold Type"
-                            [options]="goldsDropdown"
-                            (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
-      </app-generic-dropdown>
-
-      <div *ngIf="(selectedGoldSource$ | async) as gold">
-        {{gold.name}}        
+    <form [formGroup]="goldRateForm" class="gold-form">
+      <div class="gold-form__header">
+          CẬP NHẬT GIÁ VÀNG
       </div>
 
-      <!-- Username -->
-      <mat-form-field appearance="outline">
-        <mat-label>Bid Rate</mat-label>
-        <input matInput
-               type="text"
-               formControlName="bidRate"
-               name="bidRate">
-        <!-- Handle Error on Control -->
-        @if (goldRateForm.get('bidRate')?.invalid) {
-            <mat-error>{{updateErrorMessage('bidRate')}}</mat-error>
-        }
-      </mat-form-field>
+      <div class="gold-form__current">
+        <button class="btn btn--grad btn--with-icon"
+            (click)="getWorldGoldPrice()"><mat-icon>attach_money</mat-icon>Lấy giá vàng thế giới (VND/Chi)
+        </button>
+        <div *ngIf="currentGoldPrice" class="gold-form__current-price">
+          {{currentGoldPrice | currency:'VND'}}
+        </div>
+        
+      </div>
+      
+      <mat-divider></mat-divider>
 
-      <!-- Username -->
-      <mat-form-field appearance="outline">
-        <mat-label>Ask Rate</mat-label>
-        <input matInput
-               type="text"
-               formControlName="askRate"
-               name="askRate">
-        <!-- Handle Error on Control -->
-        @if (goldRateForm.get('askRate')?.invalid) {
-            <mat-error>{{updateErrorMessage('askRate')}}</mat-error>
-        }
-      </mat-form-field>
+      <div class="gold-form__options">
+        <!-- Bid Rate -->
+        <mat-form-field appearance="outline">
+          <mat-label>Tỉ Lệ Áp Giá Bán</mat-label>
+          <input matInput
+                type="text"
+                formControlName="bidRate"
+                name="bidRate">
+          <!-- Handle Error on Control -->
+          @if (goldRateForm.get('bidRate')?.invalid) {
+              <mat-error>{{updateErrorMessage('bidRate')}}</mat-error>
+          }
+        </mat-form-field>
+        
+        <!-- Ask Rate -->
+        <mat-form-field appearance="outline">
+          <mat-label>Tỉ Lệ Áp Giá Mua</mat-label>
+          <input matInput
+                type="text"
+                formControlName="askRate"
+                name="askRate">
+          <!-- Handle Error on Control -->
+          @if (goldRateForm.get('askRate')?.invalid) {
+              <mat-error>{{updateErrorMessage('askRate')}}</mat-error>
+          }
+        </mat-form-field> 
 
-      <button class="btn btn--primary btn--with-icon"
-            (click)="onSubmit()"><mat-icon>save</mat-icon>Save</button>
+        <app-generic-dropdown label="Chọn Loại Vàng" class="gold-form__dropdown"
+                              [options]="goldsDropdown"
+                              (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
+        </app-generic-dropdown>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="gold-form__calculated">
+        <button class="btn btn--grad btn--with-icon gold-form__calculated__button"
+            (click)="calculateGoldPrice()"><mat-icon>attach_money</mat-icon>Tính giá bán/mua (VND/chi)
+        </button>
+
+        <div *ngIf="newBidPrice" class="gold-form__calculated__bidprice">
+          <strong>Giá Bán (VND/Chỉ)</strong>
+          <strong>{{newBidPrice | currency:'VND'}}</strong>
+        </div>
+
+        <div *ngIf="newAskPrice" class="gold-form__calculated__askprice">
+          <strong>Giá Mua (VND/Chỉ)</strong>
+          <strong>{{newAskPrice | currency:'VND'}}</strong>
+        </div>
+      </div>
+      
+      <div class="gold-form__buttons">
+        <button class="btn btn--grad btn--with-icon gold-form__buttons__reset"
+          (click)="onReset()"><mat-icon>restore</mat-icon>Đặt Lại</button>
+        <button class="btn btn--primary btn--with-icon gold-form__buttons__submit"
+              (click)="onSubmit()"><mat-icon>update</mat-icon>Cập Nhật</button>
+      </div>
     </form>
 </section>

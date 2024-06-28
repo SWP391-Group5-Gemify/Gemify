@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { GoldModel, WorldGoldPrice } from '../../../../core/models/gold.model';
+import { GoldModel, GoldPricesModel, UpdateGoldPricesModel } from '../../../../core/models/gold.model';
 import { GoldService } from '../../../../core/services/gold/gold.service';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
-import { BehaviorSubject, forkJoin, map } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +12,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @Component({
@@ -24,7 +25,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     ReactiveFormsModule,
     GenericDropdownComponent,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule
   ],
   templateUrl: './gold-bid-ask.component.html',
   styleUrl: './gold-bid-ask.component.scss',
@@ -32,11 +34,12 @@ import { MatIconModule } from '@angular/material/icon';
 export class GoldBidAskComponent implements OnInit{
   goldTypes: GoldModel[] = [];
   goldsDropdown!: DropdownModel[];
-  worldGoldPrice!: number;
-  newBidRate!: number;
-  newAskRate!: number;
-  private selectedGoldSource = new BehaviorSubject<GoldModel | null>(null);
-  selectedGoldSource$ = this.selectedGoldSource.asObservable();
+  currentGoldPrice?: number = 50000000;
+  newBidPrice?: number = 400000;
+  newAskPrice?: number = 399999;
+  goldPurity: number = 1;
+  selectedGold?: GoldModel;
+  goldPrice?: UpdateGoldPricesModel;
 
   decimalPattern = /^\d+(\.\d+)?$/;
 
@@ -53,8 +56,6 @@ export class GoldBidAskComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadGoldsDropdown();
-    this.getWorldGoldPrice();
-    console.log(this.worldGoldPrice);
   }
 
   /**
@@ -85,7 +86,7 @@ export class GoldBidAskComponent implements OnInit{
   public getWorldGoldPrice() {
     forkJoin([this.goldService.getWorldGoldPrice(), this.goldService.getCurrency()]).subscribe({
       next: ([goldPrice, currency]) => {
-        this.worldGoldPrice = Math.round((goldPrice.price * currency.data.VND.value)/8.29);
+        this.currentGoldPrice = Math.round((goldPrice.price * currency.data.VND.value)/8.29);
       },
       error: error => console.log(error)
     })
@@ -98,21 +99,55 @@ export class GoldBidAskComponent implements OnInit{
    */
   onSelectionChangeRoleNameFromParent(event: any) {
      const gold = this.goldTypes.find(gold => gold.id == event.value)
-     if (gold) this.selectedGoldSource.next(gold);
+     if (gold) {
+      this.selectedGold = gold;
+      if (this.currentGoldPrice) 
+        this.goldPurity = gold.content/100;
+     }
   }
 
-  /**
-   * Get selected gold
-   * @returns value of the selected gold source
-   */
-  getSelectedGold() {
-    return this.selectedGoldSource.value;
+  calculateGoldPrice() {
+    if(this.goldRateForm.valid) {
+      const bidRate = Number(this.goldRateForm.get('bidRate')!.value);
+      const askRate = Number(this.goldRateForm.get('askRate')!.value);
+
+      if(this.currentGoldPrice) {
+        this.newBidPrice = this.currentGoldPrice * bidRate * this.goldPurity;
+        this.newAskPrice = this.currentGoldPrice * askRate * this.goldPurity;
+      }  
+    }
+  }
+
+  onReset() {
+    this.getWorldGoldPrice();
+    this.newBidPrice = undefined;
+    this.newAskPrice = undefined;
+    this.goldPurity = 1;
+    this.selectedGold = undefined;
+    this.goldRateForm.reset();
   }
 
   onSubmit() {
-    console.log(this.goldRateForm.value);
-    
-    
+    if(this.goldRateForm.valid && this.selectedGold && this.newBidPrice && this.newAskPrice) {
+      this.goldPrice = {
+        goldTypeId: this.selectedGold.id,
+        bidPrice: this.newBidPrice,
+        askPrice: this.newAskPrice
+      }
+
+      this.goldService.updateBidAskGoldPrice(this.goldPrice).subscribe({
+        next: (response: any) => {
+          this.notificationService.show(
+            `Gold with ID = ${this.selectedGold?.id} updated successfully`
+          );
+        },
+  
+        error: (err) => {
+          console.error(err);
+          this.notificationService.show('Error updating gold prices', 'Retry', 5000);
+        },
+      });;
+    }
   }
 
   // Checking if the input is valid or not for mat-errors
@@ -135,7 +170,6 @@ export class GoldBidAskComponent implements OnInit{
         }
         break;
     }
-
     return errorMessage;
   }
 }
