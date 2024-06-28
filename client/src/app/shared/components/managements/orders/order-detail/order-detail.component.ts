@@ -113,29 +113,6 @@ export class OrderDetailComponent implements OnInit {
       : null;
   }
 
-  // Calculate the total price of the product
-  // Product price = (gold weight * bid price) + labour + (gem price * quantity)
-  public calculateProductTotal(orderItem: OrderItemModel) {
-    return (
-      (orderItem.goldPrice * orderItem.goldWeight +
-        orderItem.productLabour +
-        this.calculateGemsTotal(orderItem.orderItemGems)) *
-      orderItem.quantity
-    );
-  }
-
-  // Calculate the total price of all of the gems on a product
-  private calculateGemsTotal(orderItemGems: OrderItemGemModel[]) {
-    return orderItemGems.reduce((acc, curr) => {
-      return acc + this.calculateGemTotal(curr);
-    }, 0);
-  }
-
-  // Calculate the total price of gem
-  public calculateGemTotal(orderItemGem: OrderItemGemModel) {
-    return orderItemGem.price * orderItemGem.quantity;
-  }
-
   /**
    * Loads the dropdown options for basket ID and phone number.
    * Maps baskets to dropdown model.
