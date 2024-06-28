@@ -14,4 +14,9 @@ export interface PromotionsSearchingCriteriaModel {
   searchName: string | undefined;
 }
 
-export interface PromotionCreateModel {}
+export interface PromotionCreateModel {
+  code: string;
+  discount: number;
+  name: string;
+  expDate: string;
+}
