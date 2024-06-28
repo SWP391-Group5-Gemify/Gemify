@@ -1,12 +1,14 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import {
+  Currency,
   GoldModel,
   GoldPricesModel,
   GoldsSearchingCriteriaModel,
   LatestGoldPricesModel,
   UpdateGoldPricesModel,
+  WorldGoldPrice,
 } from '../../models/gold.model';
 import { map, Observable } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
@@ -16,6 +18,9 @@ import { PaginationModel } from '../../models/pagination.model';
 })
 export class GoldService {
   baseGoldChartUrl: string = environment.baseApiUrl.concat('/golds');
+  goldPriceApiUrl = environment.worldGoldPriceApiConfig.apiUrl;
+  goldPriceApiKey = environment.worldGoldPriceApiConfig.apiToken;
+  currencyApi = environment.currencyApi;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -91,4 +96,22 @@ export class GoldService {
       bidAskGoldPriceModel
     );
   }
+
+  /**
+   * Get current gold price VND/ounce
+   */
+  getWorldGoldPrice(): Observable<WorldGoldPrice> {
+    const header = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('x-access-token', this.goldPriceApiKey);
+    return this.httpClient.get<WorldGoldPrice>(this.goldPriceApiUrl, {headers: header})
+  }
+
+  /**
+   * Get USD to VND currency
+   */
+  getCurrency(): Observable<Currency> {
+    return this.httpClient.get<Currency>(this.currencyApi);
+  }
+
 }

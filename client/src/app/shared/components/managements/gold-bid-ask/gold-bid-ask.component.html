@@ -1,1 +1,41 @@
+<section>
+    <form [formGroup]="goldRateForm">
+        <app-generic-dropdown label="Select Gold Type"
+                            [options]="goldsDropdown"
+                            (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
+      </app-generic-dropdown>
 
+      <div *ngIf="(selectedGoldSource$ | async) as gold">
+        {{gold.name}}        
+      </div>
+
+      <!-- Username -->
+      <mat-form-field appearance="outline">
+        <mat-label>Bid Rate</mat-label>
+        <input matInput
+               type="text"
+               formControlName="bidRate"
+               name="bidRate">
+        <!-- Handle Error on Control -->
+        @if (goldRateForm.get('bidRate')?.invalid) {
+            <mat-error>{{updateErrorMessage('bidRate')}}</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Username -->
+      <mat-form-field appearance="outline">
+        <mat-label>Ask Rate</mat-label>
+        <input matInput
+               type="text"
+               formControlName="askRate"
+               name="askRate">
+        <!-- Handle Error on Control -->
+        @if (goldRateForm.get('askRate')?.invalid) {
+            <mat-error>{{updateErrorMessage('askRate')}}</mat-error>
+        }
+      </mat-form-field>
+
+      <button class="btn btn--primary btn--with-icon"
+            (click)="onSubmit()"><mat-icon>save</mat-icon>Save</button>
+    </form>
+</section>
