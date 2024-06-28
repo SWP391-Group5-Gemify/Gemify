@@ -47,7 +47,7 @@ export class GenericStepperComponent extends CdkStepper implements OnInit {
   // == Methods
   // ======================
 
-  onClick(index: number) {
+  selectStepByIndex(index: number) {
     this.selectedIndex = index;
   }
 }
