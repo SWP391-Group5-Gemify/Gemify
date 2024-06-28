@@ -41,7 +41,7 @@ namespace API.Controllers
         // Get revenues of sale by month in year
         [HttpGet("revenues/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleRevenueByMonth>>> GetSaleRevenuesByYear(int year)
+        public async Task<ActionResult<IReadOnlyList<SaleRevenue>>> GetSaleRevenuesByYear(int year)
         {
             var revenues = await _saleRevenueService.GetSaleRevenuesByMonthAsync(year);
             return Ok(revenues);

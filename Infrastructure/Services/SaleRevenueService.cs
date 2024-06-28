@@ -5,11 +5,6 @@ using Core.Specifications.Counters;
 using Core.Specifications.Sales;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
@@ -32,7 +27,11 @@ namespace Infrastructure.Services
             for (var date = startDate; date <= toDate; date = date.AddDays(1))
             {
                 decimal revenue = await GetTotalSaleRevenueByDateAsync(date);
-                var saleRevenue = new SaleRevenue(revenue,date);
+                var saleRevenue = new SaleRevenue
+                {
+                    Revenue = revenue,
+                    Date = date,
+                };
                 saleRevenues.Add(saleRevenue);
             }
 
@@ -47,76 +46,41 @@ namespace Infrastructure.Services
             return revenues.Sum(r => r.Revenue);
         }
 
-        public bool IsLeapYear(int year)
+        /**
+         * Get list of monthly revenue of year
+         */
+        public async Task<IReadOnlyList<SaleRevenue>> GetSaleRevenuesByMonthAsync(int year)
         {
-            return DateTime.IsLeapYear(year);
+            var spec = new SaleCounterRevenueSpecification(year);
+            var counterDailyRevenuesOfYear = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+            var monthlyRevenueList = Enumerable.Range(1, 12)
+                                               .GroupJoin(
+                                                    counterDailyRevenuesOfYear,
+                                                    month => month,
+                                                    revenue => revenue.Date.Month,
+                                                    (month, revenues) => new SaleRevenue
+                                                    {
+                                                        Month = month,
+                                                        Revenue = revenues.Sum(r => r.Revenue)
+                                                    })
+                                               .ToList();
+
+            return monthlyRevenueList;
         }
 
-        // Get revenues of sale 
-        public async Task<IReadOnlyList<SaleRevenueByMonth>> GetSaleRevenuesByMonthAsync(int year)
-        {
-            var saleRevenues = new List<SaleRevenueByMonth>();
-
-            // Loop through each month of the year
-            for (int month = 1; month <= 12; month++)
-            {
-                // Create the start and end dates for the month using DateOnly
-                DateOnly fromDate = new DateOnly(year, month, 1);
-                DateOnly toDate = new DateOnly(year, month, DateTime.DaysInMonth(year, month));
-
-                // Get the revenues between the start and end dates
-                var revenues = await GetSaleRevenueByDateAsync(fromDate, toDate);
-
-                // Calculate the total revenue for the month
-                decimal total = 0;
-                foreach (var revenue in revenues)
-                {
-                    total += revenue.Revenue;
-                }
-
-                var saleRevenueByMonth = new SaleRevenueByMonth(total, month, year);
-
-                saleRevenues.Add(saleRevenueByMonth);
-            }
-
-            return saleRevenues.AsReadOnly();
-        }
-
+        /**
+         * Get total yearly revenue
+         */
         public async Task<decimal> GetSaleRevenueByYearAsync(int year)
         {
-            decimal total = 0;
-            DateOnly fromDate;
-            DateOnly toDate;
-
-            if (IsLeapYear(year))
-            {
-                fromDate = new DateOnly(year, 1, 1);
-                toDate = new DateOnly(year, 12, 31);
-            }
-            else
-            {
-                fromDate = new DateOnly(year, 1, 1);
-                toDate = new DateOnly(year, 12, 30);
-            }
-
-            // Get the revenues between the start and end dates
-            var revenues = await GetSaleRevenueByDateAsync(fromDate, toDate);
-
-            foreach (var revenue in revenues)
-            {
-                total += revenue.Revenue;
-            }
-
-            return total;
+            var spec = new SaleCounterRevenueSpecification(year);
+            var counterDailyRevenuesOfYear = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+            return counterDailyRevenuesOfYear.Sum(r => r.Revenue);
         }
 
-        // Get revenues of sale counter by id
-        public async Task<IReadOnlyList<SaleCounterRevenue>>
-            GetSaleCounterRevenuesByIdAsync(SaleCounterRevenueSpecification spec)
-        {
-            return await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
-        }
-
+        /**
+         * Get list of sale counter's monthly revenue of year 
+         */
         public async Task<IReadOnlyList<DashboardCounterRevenue>> 
             GetSaleCounterRevenuesByMonthAsync(int year)
         {
@@ -173,13 +137,6 @@ namespace Infrastructure.Services
             }
 
             return saleCounterRevenues;
-        }
-
-        public decimal CalculateTotal(List<decimal> number)
-        {
-            decimal total = number.Sum();
-
-            return total;
         }
     }
 }
