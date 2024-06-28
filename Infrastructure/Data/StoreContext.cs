@@ -29,6 +29,7 @@ namespace Infrastructure.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderItemGem> OrderItemGems { get; set; }
+        public DbSet<SaleCounterRevenue> SaleCounterRevenue { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

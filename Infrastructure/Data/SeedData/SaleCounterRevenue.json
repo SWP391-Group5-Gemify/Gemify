@@ -1,0 +1,362 @@
+[
+  {
+    "revenue": 20000000,
+    "saleCounterId": 1,
+    "date": "2024-01-01"
+  },
+  {
+    "revenue": 30000000,
+    "saleCounterId": 2,
+    "date": "2024-01-01"
+  },
+  {
+    "revenue": 40000000,
+    "saleCounterId": 3,
+    "date": "2024-01-01"
+  },
+  {
+    "revenue": 33000000,
+    "saleCounterId": 4,
+    "date": "2024-01-01"
+  },
+  {
+    "revenue": 25000000,
+    "saleCounterId": 5,
+    "date": "2024-01-01"
+  },
+  {
+    "revenue": 15000000,
+    "saleCounterId": 6,
+    "date": "2024-01-01"
+  },
+  {
+    "revenue": 11000000,
+    "saleCounterId": 1,
+    "date": "2024-02-01"
+  },
+  {
+    "revenue": 17000000,
+    "saleCounterId": 2,
+    "date": "2024-02-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 3,
+    "date": "2024-02-01"
+  },
+  {
+    "revenue": 28000000,
+    "saleCounterId": 4,
+    "date": "2024-02-01"
+  },
+  {
+    "revenue": 19000000,
+    "saleCounterId": 5,
+    "date": "2024-02-01"
+  },
+  {
+    "revenue": 30000000,
+    "saleCounterId": 6,
+    "date": "2024-02-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-03-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-03-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-03-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-03-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-03-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-03-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-04-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-04-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-04-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-04-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-04-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-04-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-05-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-05-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-05-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-05-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-05-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-05-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-06-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-06-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-06-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-06-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-06-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-06-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-07-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-07-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-07-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-07-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-07-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-07-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-08-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-08-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-08-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-08-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-08-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-08-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-09-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-09-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-09-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-09-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-09-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-09-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-10-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-10-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-10-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-10-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-10-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-10-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-11-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-11-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-11-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-11-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-11-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-11-01"
+  },
+  {
+    "revenue": 8000000,
+    "saleCounterId": 1,
+    "date": "2024-12-01"
+  },
+  {
+    "revenue": 9000000,
+    "saleCounterId": 2,
+    "date": "2024-12-01"
+  },
+  {
+    "revenue": 10000000,
+    "saleCounterId": 3,
+    "date": "2024-12-01"
+  },
+  {
+    "revenue": 35000000,
+    "saleCounterId": 4,
+    "date": "2024-12-01"
+  },
+  {
+    "revenue": 18000000,
+    "saleCounterId": 5,
+    "date": "2024-12-01"
+  },
+  {
+    "revenue": 26000000,
+    "saleCounterId": 6,
+    "date": "2024-12-01"
+  }
+]
