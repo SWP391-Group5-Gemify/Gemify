@@ -3,6 +3,8 @@ using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Counters;
 using Core.Specifications.Sales;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +15,13 @@ namespace Infrastructure.Services
 {
     public class SaleRevenueService : ISaleRevenueService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork; 
+        private readonly StoreContext _context; 
 
-        public SaleRevenueService(IUnitOfWork unitOfWork)
+        public SaleRevenueService(IUnitOfWork unitOfWork, StoreContext context)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         // Get revenue of sale in a day
@@ -78,7 +82,7 @@ namespace Infrastructure.Services
             return saleRevenues.AsReadOnly();
         }
 
-        public async Task<decimal> GetSaleCounterRevenueByYearAsync(int year)
+        public async Task<decimal> GetSaleRevenueByYearAsync(int year)
         {
             decimal total = 0;
             DateOnly fromDate;
@@ -102,6 +106,78 @@ namespace Infrastructure.Services
             {
                 total += revenue.Revenue;
             }
+
+            return total;
+        }
+
+        // Get revenues of sale counter by id
+        public async Task<IReadOnlyList<SaleCounterRevenue>>
+            GetSaleCounterRevenuesByIdAsync(SaleCounterRevenueSpecification spec)
+        {
+            return await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+        }
+
+        public async Task<IReadOnlyList<DashboardCounterRevenue>> 
+            GetSaleCounterRevenuesByMonthAsync(int year)
+        {
+            var saleRevenues = new List<DashboardCounterRevenue>();
+
+            // Loop through each month of the year
+            for (int month = 1; month <= 12; month++)
+            {
+                var dashboardCounterRevenue = new DashboardCounterRevenue();
+                var saleCounterRevenueByMonths = GetSaleCounterRevenueInMonthAsync(month,year);
+                dashboardCounterRevenue.saleCounterRevenueByMonths = await saleCounterRevenueByMonths;
+                dashboardCounterRevenue.month = month;
+
+                saleRevenues.Add(dashboardCounterRevenue);
+            }
+
+            return saleRevenues;
+        }
+
+        public async Task<IReadOnlyList<SaleCounterRevenueByMonth>>
+            GetSaleCounterRevenueInMonthAsync(int month, int year)
+        {
+            var counters = await _context.SaleCounters
+                                .Include(c => c.SaleCounterRevenue)
+                                .ToListAsync();
+
+            var saleCounterRevenues = new List<SaleCounterRevenueByMonth>();
+
+            foreach (var counter in counters)
+            {
+                var total = 0;
+                var saleCounterRevenueByMonth = new SaleCounterRevenueByMonth()
+                {
+                    SaleCounterId = counter.Id
+                }; 
+                saleCounterRevenueByMonth.SaleCounterId = counter.Id;
+
+                foreach (var counterRevenue in counter.SaleCounterRevenue)
+                {
+                    if (counterRevenue == null)
+                    {
+                        total = 0;
+                    }
+                    else if (counterRevenue.Date.Month == month && counterRevenue.Date.Year == year)
+                    {
+                        total += (int)counterRevenue.Revenue;
+                    }
+                }
+                saleCounterRevenueByMonth.Revenue = total;
+
+                saleCounterRevenueByMonth.SaleCounterName = counter.Name;
+
+                saleCounterRevenues.Add(saleCounterRevenueByMonth);
+            }
+
+            return saleCounterRevenues;
+        }
+
+        public decimal CalculateTotal(List<decimal> number)
+        {
+            decimal total = number.Sum();
 
             return total;
         }

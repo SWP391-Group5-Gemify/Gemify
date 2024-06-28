@@ -19,5 +19,11 @@ namespace Core.Specifications.Counters
         {
             AddInclude(x => x.User);
         }
+
+        public SaleCounterSpecification() : base()
+        {
+            AddInclude(x => x.User);
+            AddInclude (x => x.SaleCounterRevenue);
+        }
     }
 }

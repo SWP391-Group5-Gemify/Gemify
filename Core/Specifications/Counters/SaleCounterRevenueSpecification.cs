@@ -19,5 +19,17 @@ namespace Core.Specifications.Counters
         {
 
         }
+
+        public SaleCounterRevenueSpecification(DateOnly fromDate, DateOnly toDate)
+            : base(x => x.Date.CompareTo(fromDate) >= 0 && x.Date.CompareTo(toDate) <= 0)
+        {
+
+        }
+
+        public SaleCounterRevenueSpecification(int month, int year)
+            : base(x => x.Date.Year == year && x.Date.Month == month)
+        {
+
+        }
     }
 }

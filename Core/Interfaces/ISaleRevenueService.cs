@@ -14,6 +14,7 @@ namespace Core.Interfaces
         bool IsLeapYear(int year);
         Task<IReadOnlyList<SaleRevenueByMonth>> GetSaleRevenuesByMonthAsync(int year);
         Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date);
-        Task<decimal> GetSaleCounterRevenueByYearAsync(int year);
+        Task<decimal> GetSaleRevenueByYearAsync(int year);
+        Task<IReadOnlyList<DashboardCounterRevenue>> GetSaleCounterRevenuesByMonthAsync(int year);
     }
 }

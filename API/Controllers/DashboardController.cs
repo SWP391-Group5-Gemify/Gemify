@@ -32,18 +32,28 @@ namespace API.Controllers
         // Get revenues of sale 
         [HttpGet("revenue/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<decimal>> GetSaleCounterRevenueByYear(int year)
+        public async Task<ActionResult<decimal>> GetSaleRevenueByYear(int year)
         {
-            decimal total = await _saleRevenueService.GetSaleCounterRevenueByYearAsync(year);
+            decimal total = await _saleRevenueService.GetSaleRevenueByYearAsync(year);
             return Ok(total);
         }
 
         // Get revenues of sale by month in year
         [HttpGet("revenues/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleRevenueByMonth>>> GetSaleCounterRevenuesByYear(int year)
+        public async Task<ActionResult<IReadOnlyList<SaleRevenueByMonth>>> GetSaleRevenuesByYear(int year)
         {
             var revenues = await _saleRevenueService.GetSaleRevenuesByMonthAsync(year);
+            return Ok(revenues);
+        }
+
+        // Get counters revenues of sale by month in year
+        [HttpGet("revenues/counters/{year}")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<DashboardCounterRevenue>>>
+            GetSaleCounterRevenuesByMonthAsync(int year)
+        {
+            var revenues = await _saleRevenueService.GetSaleCounterRevenuesByMonthAsync(year);
             return Ok(revenues);
         }
     }
