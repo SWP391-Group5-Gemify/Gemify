@@ -34,3 +34,29 @@ export interface GoldsSearchingCriteriaModel {
   goldTypeId: number | string;
   dateTime: Date | string;
 }
+
+export interface WorldGoldPrice {
+  symbol: string;
+  name: string;
+  price: number;
+  updatedAt: string;
+  updatedAtReadable: string;
+}
+
+export interface Currency {
+  meta: Meta;
+  data: Data;
+}
+
+export interface Data {
+  VND: VND;
+}
+
+export interface VND {
+  code: string;
+  value: number;
+}
+
+export interface Meta {
+  last_updated_at: string;
+}
