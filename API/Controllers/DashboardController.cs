@@ -1,8 +1,6 @@
 ﻿using API.Helpers;
 using Core.Enitities;
 using Core.Interfaces;
-using Core.Specifications.Counters;
-using Core.Specifications.Sales;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,31 +17,21 @@ namespace API.Controllers
             _saleRevenueService = saleRevenueService;
         }
 
-        // Get revenues of sale by date, from date to date
-        [HttpGet("totalRevenues")]
-        [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleRevenue>>> 
-            GetSaleCounterRevenuesByDate([FromQuery] DateOnly fromDate, [FromQuery] DateOnly toDate)
-        {
-            var revenues = await _saleRevenueService.GetSaleRevenueByDateAsync(fromDate,toDate);
-            return Ok(revenues);
-        }
-
         // Get revenues of sale 
         [HttpGet("revenue/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<decimal>> GetSaleRevenueByYear(int year)
         {
-            decimal total = await _saleRevenueService.GetSaleRevenueByYearAsync(year);
+            decimal total = await _saleRevenueService.GetYearlyRevenueAsync(year);
             return Ok(total);
         }
 
         // Get revenues of sale by month in year
-        [HttpGet("revenues/{year}")]
+        [HttpGet("monthlyRevenues/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<IReadOnlyList<SaleRevenue>>> GetSaleRevenuesByYear(int year)
         {
-            var revenues = await _saleRevenueService.GetSaleRevenuesByMonthAsync(year);
+            var revenues = await _saleRevenueService.GetMonthlyRevenuesAsync(year);
             return Ok(revenues);
         }
 
@@ -53,7 +41,7 @@ namespace API.Controllers
         public async Task<ActionResult<IReadOnlyList<DashboardCounterRevenue>>>
             GetSaleCounterRevenuesByMonthAsync(int year)
         {
-            var revenues = await _saleRevenueService.GetSaleCounterRevenuesByMonthAsync(year);
+            var revenues = await _saleRevenueService.GetSaleCounterMonthlyRevenuesAsync(year);
             return Ok(revenues);
         }
     }

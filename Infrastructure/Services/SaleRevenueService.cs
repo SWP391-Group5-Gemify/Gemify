@@ -2,7 +2,6 @@
 using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Counters;
-using Core.Specifications.Sales;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,39 +16,12 @@ namespace Infrastructure.Services
         {
             _unitOfWork = unitOfWork;
             _context = context;
-        }
-
-        // Get revenue of sale in a day
-        public async Task<IReadOnlyList<SaleRevenue>> GetSaleRevenueByDateAsync(DateOnly startDate, DateOnly toDate)
-        {
-            var saleRevenues = new List<SaleRevenue>();
-
-            for (var date = startDate; date <= toDate; date = date.AddDays(1))
-            {
-                decimal revenue = await GetTotalSaleRevenueByDateAsync(date);
-                var saleRevenue = new SaleRevenue
-                {
-                    Revenue = revenue,
-                    Date = date,
-                };
-                saleRevenues.Add(saleRevenue);
-            }
-
-            return saleRevenues.AsReadOnly();
-        }
-
-        public async Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date)
-        {
-            var spec = new SaleCounterRevenueSpecification(date);
-            var revenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
-
-            return revenues.Sum(r => r.Revenue);
-        }
+        }       
 
         /**
          * Get list of monthly revenue of year
          */
-        public async Task<IReadOnlyList<SaleRevenue>> GetSaleRevenuesByMonthAsync(int year)
+        public async Task<IReadOnlyList<SaleRevenue>> GetMonthlyRevenuesAsync(int year)
         {
             var spec = new SaleCounterRevenueSpecification(year);
             var counterDailyRevenuesOfYear = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
@@ -71,7 +43,7 @@ namespace Infrastructure.Services
         /**
          * Get total yearly revenue
          */
-        public async Task<decimal> GetSaleRevenueByYearAsync(int year)
+        public async Task<decimal> GetYearlyRevenueAsync(int year)
         {
             var spec = new SaleCounterRevenueSpecification(year);
             var counterDailyRevenuesOfYear = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
@@ -81,8 +53,8 @@ namespace Infrastructure.Services
         /**
          * Get list of sale counter's monthly revenue of year 
          */
-        public async Task<IReadOnlyList<DashboardCounterRevenue>> 
-            GetSaleCounterRevenuesByMonthAsync(int year)
+        public async Task<IReadOnlyList<DashboardCounterRevenue>>
+            GetSaleCounterMonthlyRevenuesAsync(int year)
         {
             var saleRevenues = new List<DashboardCounterRevenue>();
 
@@ -137,6 +109,13 @@ namespace Infrastructure.Services
             }
 
             return saleCounterRevenues;
+        }
+        /**
+         * Get list of sale counter revenues of year
+         */
+        public Task<decimal> GetSaleCounterYearlyRevenueAsync(int year)
+        {
+            throw new NotImplementedException();
         }
     }
 }

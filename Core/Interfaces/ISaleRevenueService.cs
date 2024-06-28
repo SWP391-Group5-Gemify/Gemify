@@ -4,10 +4,9 @@ namespace Core.Interfaces
 {
     public interface ISaleRevenueService
     {
-        Task<IReadOnlyList<SaleRevenue>> GetSaleRevenueByDateAsync(DateOnly startDate, DateOnly endDate);
-        Task<IReadOnlyList<SaleRevenue>> GetSaleRevenuesByMonthAsync(int year);
-        Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date);
-        Task<decimal> GetSaleRevenueByYearAsync(int year);
-        Task<IReadOnlyList<DashboardCounterRevenue>> GetSaleCounterRevenuesByMonthAsync(int year);
+        Task<IReadOnlyList<SaleRevenue>> GetMonthlyRevenuesAsync(int year);
+        Task<decimal> GetYearlyRevenueAsync(int year);
+        Task<IReadOnlyList<DashboardCounterRevenue>> GetSaleCounterMonthlyRevenuesAsync(int year);
+        Task<decimal> GetSaleCounterYearlyRevenueAsync(int year);
     }
 }
