@@ -13,11 +13,20 @@ import { PaginationModel } from '../../models/pagination.model';
   providedIn: 'root',
 })
 export class OrdersService {
+  // =============================================
+  // == Fields
+  // =============================================
   baseOrderUrl = environment.baseApiUrl.concat('/orders');
   orderParams = new OrderParams();
 
+  // =============================================
+  // == Lifecycle
+  // =============================================
   constructor(private http: HttpClient) {}
 
+  // =============================================
+  // == Methods
+  // =============================================
   getOrders(): Observable<PaginationModel<OrderModel>> {
     let params = new HttpParams();
 
@@ -64,6 +73,10 @@ export class OrdersService {
       { params: params }
     );
   }
+
+  // =============================================
+  // == Create Sales, Buyback, Exchange orders
+  // =============================================
 
   createSaleOrder(basketId: number | string, customerId: number | string) {
     return this.http.post<{

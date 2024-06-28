@@ -10,3 +10,10 @@ export interface CustomerModel {
   membershipId: number;
   membershipRate: string;
 }
+
+export interface CustomerCreateModel {
+  name: string;
+  gender: string;
+  phone: string;
+  address: string;
+}

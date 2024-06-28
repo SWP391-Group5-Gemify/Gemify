@@ -1,8 +1,11 @@
 @import "abstracts/variables";
 
 .customer-form {
+
   &__heading {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
+    color: $color-black;
+    text-transform: uppercase;
   }
 
   &__controls {
@@ -10,5 +13,10 @@
     flex-direction: column;
     gap: $gutter-layout;
 
+    mat-radio-button {
+      span {
+        font-size: 1.8rem;
+      }
+    }
   }
 }

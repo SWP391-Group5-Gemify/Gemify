@@ -4,9 +4,9 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { GenderEnum, GenderModel } from '../../../../core/models/gender.model';
-import { EmployeeService } from '../../../../core/services/employee/employee.service';
 import EnumUtils from '../../../utils/EnumUtils';
 import { MatRadioModule } from '@angular/material/radio';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-checkout-customer',
@@ -17,6 +17,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
+    CdkStepperModule,
   ],
   templateUrl: './checkout-customer.component.html',
   styleUrl: './checkout-customer.component.scss',
@@ -38,6 +39,10 @@ export class CheckoutCustomerComponent implements OnInit {
   // =========================
   // == Methods
   // =========================
+
+  /**
+   * Load gender radio buttons
+   */
   loadGenderRadioButtons() {
     this.genderOptions = EnumUtils.enumToObject(GenderEnum);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CommonModule, Location } from '@angular/common';
 import { BasketItemModel } from '../../../core/models/basket.model';
@@ -9,7 +9,14 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CheckoutPaymentComponent } from './checkout-payment/checkout-payment.component';
 import { CheckoutCustomerComponent } from './checkout-customer/checkout-customer.component';
 import { FormBuilder, Validators } from '@angular/forms';
+import { CheckoutPromotionComponent } from './checkout-promotion/checkout-promotion.component';
+import { CustomerService } from '../../../core/services/customer/customer.service';
+import { GenderEnum } from '../../../core/models/gender.model';
+import { catchError, Observable, Subscription } from 'rxjs';
+import { CustomerModel } from '../../../core/models/customer.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-checkout',
   standalone: true,
@@ -23,19 +30,26 @@ import { FormBuilder, Validators } from '@angular/forms';
     CdkStepperModule,
     CheckoutPaymentComponent,
     CheckoutCustomerComponent,
+    CheckoutPromotionComponent,
   ],
 })
-export class CheckoutComponent {
-  // ======================
+export class CheckoutComponent implements OnInit {
+  // ======================-
   // == Fields
   // ======================
-  checkoutForm = this.fb.group({
+
+  public checkoutForm = this.fb.group({
     customerForm: this.fb.group({
       name: ['', Validators.required],
       gender: ['', Validators.required],
       phone: ['', Validators.required],
       address: ['', Validators.required],
     }),
+
+    promotionForm: this.fb.group({
+      promotionId: ['', Validators.required],
+    }),
+
     paymentForm: this.fb.group({
       nameOnCard: ['', Validators.required],
     }),
@@ -50,9 +64,42 @@ export class CheckoutComponent {
     private fb: FormBuilder
   ) {}
 
+  ngOnInit(): void {
+    this.loadCustomerOnFormIfExist();
+  }
+
   // ======================
   // == Methods
   // ======================
+
+  /**
+   * Load Customer form if exist using phone
+   */
+  public loadCustomerOnFormIfExist(): void {
+    console.log(
+      'IN THE CHECKOUT: ',
+      this.basketService.getCurrentBasketValue()
+    );
+
+    // this.basketService.basketSource$
+    //   .subscribe({
+    //     next: (currentBasket) => {
+    //       if (currentBasket?.phoneNumber) {
+    //         this.customerService
+    //           .getCustomerByPhone(currentBasket?.phoneNumber)
+    //           .subscribe({
+    //             next: (existedCustomer) => {
+    //               existedCustomer &&
+    //                 this.checkoutForm
+    //                   .get('customerForm')
+    //                   ?.patchValue(existedCustomer);
+    //             },
+    //           });
+    //       }
+    //     },
+    //   })
+    //   .unsubscribe();
+  }
 
   /**
    * Total Price of the Basket
@@ -70,5 +117,6 @@ export class CheckoutComponent {
    */
   public onGoBackToBasketsPage() {
     this.location.back();
+    this.checkoutForm.reset(this.checkoutForm.value);
   }
 }

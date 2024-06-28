@@ -1,0 +1,58 @@
+<section *ngIf="checkoutForm"
+         class="promotion-form"
+         [formGroup]="checkoutForm">
+
+  <h3 class="promotion-form__heading u-margin-top-medium u-margin-bottom-medium">Chương trình khuyến mãi</h3>
+
+  <div class="promotion-form__controls u-margin-bottom-medium"
+       formGroupName="promotionForm">
+
+    <!-- Promotions -->
+    <mat-radio-group aria-label="Select your gender"
+                     formControlName="promotionId">
+
+      <!-- Default NONE radio button -->
+      <mat-radio-button [value]="undefined"
+                        checked="true">
+        <div class="promotion-card u-margin-bottom-small">
+          <p class="promotion-card__name promotion-card__name--none">NONE</p>
+        </div>
+      </mat-radio-button>
+
+      <!-- Available choices -->
+      <div class="promotion-form__values">
+        @for (promotion of promotions | async; track $index) {
+        <mat-radio-button *ngIf="promotion.status === true"
+                          [value]="promotion.id">
+          <div class="promotion-card">
+            <p class="promotion-card__name">{{ promotion.name }}</p>
+            <div class="promotion-card__details">
+              <p>Hết hạn vào: {{ promotion.expDate }}</p>
+              <p>Có hiệu lực từ: {{ promotion.effDate }}</p>
+              <p>Giảm giá: {{ promotion.discount }}%</p>
+              <p>Mã: {{ promotion.code }}</p>
+            </div>
+          </div>
+        </mat-radio-button>
+        }
+      </div>
+    </mat-radio-group>
+  </div>
+</section>
+
+<!-- Paginator -->
+<mat-paginator [length]="totalPromotions"
+               [pageSize]="promotionParams.pageSize"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               (page)="onPageChange($event)"
+               style="background-color: #FAFAFA"
+               aria-label="Select page">
+</mat-paginator>
+
+<!-- Go previous or Go forward -->
+<div class="basket-summary-actions u-margin-top-medium">
+  <button class="btn btn--primary-light"
+          cdkStepperPrevious>Quay trở lại khách hàng</button>
+  <button class="btn btn--primary-dark"
+          cdkStepperNext>Đi tới thanh toán</button>
+</div>

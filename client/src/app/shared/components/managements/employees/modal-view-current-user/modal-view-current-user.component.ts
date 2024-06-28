@@ -17,6 +17,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ModalConfigModel } from '../../../../../core/models/modal.model';
 import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../../../../core/services/auth/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-modal-view-current-user',
@@ -42,7 +43,7 @@ export class ModalViewCurrentUserComponent implements OnInit {
   // =========================
   // == Fields
   // =========================
-  public currentUserInfo!: UserModel;
+  public currentUserInfo!: Observable<UserModel>;
 
   // =========================
   // == Life cycle
@@ -65,9 +66,10 @@ export class ModalViewCurrentUserComponent implements OnInit {
    * Load the current user
    */
   loadCurrentUser() {
-    this.authService.getCurrentUserProfile().subscribe((user: UserModel) => {
-      this.currentUserInfo = user;
-    });
+    this.currentUserInfo = this.authService.getCurrentUserProfile();
+    // .subscribe((user: UserModel) => {
+    //   // console.table(user);
+    // });
   }
 
   /**

@@ -1,8 +1,8 @@
-<div *ngIf="checkoutForm"
-     [formGroup]="checkoutForm"
-     class="customer-form">
+<section *ngIf="checkoutForm"
+         [formGroup]="checkoutForm"
+         class="customer-form">
 
-  <h3 class="customer-form__heading u-margin-top-small u-margin-bottom-small">Customer Information</h3>
+  <h3 class="customer-form__heading  u-margin-top-medium u-margin-bottom-medium">Thông tin khách hàng</h3>
 
   <div class="customer-form__controls"
        formGroupName="customerForm">
@@ -12,7 +12,7 @@
                      formControlName="gender"
                      name="gender">
       @for (gender of genderOptions; track $index) {
-      <mat-radio-button value="{{gender.id}}">{{gender.name}}</mat-radio-button>
+      <mat-radio-button value="{{gender.id}}"><span>{{gender.name}}</span></mat-radio-button>
       }
     </mat-radio-group>
 
@@ -42,5 +42,12 @@
                 name="address"></textarea>
     </mat-form-field>
   </div>
+</section>
 
+<!-- Go previous or Go forward -->
+<div class="basket-summary-actions u-margin-top-medium">
+  <button class="btn btn--primary-light"
+          cdkStepperPrevious>Quay trở lại giỏ hàng</button>
+  <button class="btn btn--primary-dark"
+          cdkStepperNext>Đi tới khuyến mãi</button>
 </div>

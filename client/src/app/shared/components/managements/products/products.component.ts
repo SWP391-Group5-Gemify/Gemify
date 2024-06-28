@@ -13,7 +13,7 @@ import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
 import {
   ProductModel,
-  ProductsSearchingCriteriaModel,
+  ProductParams,
   SortProductsQuantityEnum,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
@@ -32,7 +32,9 @@ import {
 } from '../../../../core/models/basket.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-create-new-basket.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -54,7 +56,7 @@ export class ProductsComponent implements OnInit {
   // == Fields
   // ==========================================
   public products$!: Observable<ProductModel[]>;
-  public productSearchCriteria: ProductsSearchingCriteriaModel = {
+  public productParams: ProductParams = {
     pageSize: 10,
     pageIndex: 0,
     searchName: undefined,
@@ -116,8 +118,8 @@ export class ProductsComponent implements OnInit {
    * @param e
    */
   public onPageChange(e: PageEvent) {
-    this.productSearchCriteria.pageIndex = e.pageIndex;
-    this.productSearchCriteria.pageSize = e.pageSize;
+    this.productParams.pageIndex = e.pageIndex;
+    this.productParams.pageSize = e.pageSize;
     this.loadProducts();
   }
 
@@ -127,13 +129,13 @@ export class ProductsComponent implements OnInit {
   public loadProducts() {
     this.products$ = this.productService
       .getProducts({
-        ...this.productSearchCriteria,
-        pageIndex: this.productSearchCriteria.pageIndex + 1,
+        ...this.productParams,
+        pageIndex: this.productParams.pageIndex + 1,
       })
       .pipe(
         map((response: PaginationModel<ProductModel>) => {
-          this.productSearchCriteria.pageIndex = response.pageIndex - 1;
-          this.productSearchCriteria.pageSize = response.pageSize;
+          this.productParams.pageIndex = response.pageIndex - 1;
+          this.productParams.pageSize = response.pageSize;
           this.totalProducts = response.count;
           return response.data;
         }),
@@ -152,6 +154,7 @@ export class ProductsComponent implements OnInit {
     this.productService
       .getSubCategories()
       .pipe(
+        untilDestroyed(this),
         map((subCategories: SubCategoryModel[]) => {
           return subCategories.map((subCategory: SubCategoryModel) => ({
             value: subCategory.id,
@@ -176,18 +179,21 @@ export class ProductsComponent implements OnInit {
    * TODO: Handle error when load failed
    */
   public loadGoldsDropdown() {
-    this.goldService.getAllGolds().subscribe({
-      next: (response: PaginationModel<GoldModel>) => {
-        this.goldsDropdown = response.data.map((gold) => ({
-          value: gold.id,
-          name: gold.name,
-        }));
-      },
+    this.goldService
+      .getAllGolds()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (response: PaginationModel<GoldModel>) => {
+          this.goldsDropdown = response.data.map((gold) => ({
+            value: gold.id,
+            name: gold.name,
+          }));
+        },
 
-      error(err) {
-        console.error(err);
-      },
-    });
+        error(err) {
+          console.error(err);
+        },
+      });
   }
 
   /**
@@ -195,7 +201,7 @@ export class ProductsComponent implements OnInit {
    * @param $event
    */
   public onSelectChangeGoldIdFromParent(event: any) {
-    this.productSearchCriteria.goldTypeId = event?.value;
+    this.productParams.goldTypeId = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -205,7 +211,7 @@ export class ProductsComponent implements OnInit {
    * @param $event
    */
   public onSelectChangeSubCategoryIdFromParent(event: any) {
-    this.productSearchCriteria.subCategoryId = event?.value;
+    this.productParams.subCategoryId = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -215,7 +221,7 @@ export class ProductsComponent implements OnInit {
    * @param event
    */
   public onSelectChangeSortQuantityFromParent(event: any) {
-    this.productSearchCriteria.sortQuantity = event?.value;
+    this.productParams.sortQuantity = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -225,7 +231,7 @@ export class ProductsComponent implements OnInit {
    * @param valueChanged
    */
   public onValueChangesNameFromParent(valueChanged: any) {
-    this.productSearchCriteria.searchName = valueChanged;
+    this.productParams.searchName = valueChanged;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -238,9 +244,9 @@ export class ProductsComponent implements OnInit {
     this.goldsDropdownRef.onClearSelection();
     this.sortsQuantityDropdownRef.onClearSelection();
     this.nameSearchInputRef.onClearInputFilter();
-    this.productSearchCriteria.goldTypeId = undefined;
-    this.productSearchCriteria.subCategoryId = undefined;
-    this.productSearchCriteria.sortQuantity = undefined;
+    this.productParams.goldTypeId = undefined;
+    this.productParams.subCategoryId = undefined;
+    this.productParams.sortQuantity = undefined;
     this.loadProducts();
   }
 
@@ -248,7 +254,7 @@ export class ProductsComponent implements OnInit {
    * Reset paginator to the first page after filtering
    */
   public onResetPaginatorToFirstPage() {
-    this.productSearchCriteria.pageIndex = 0;
+    this.productParams.pageIndex = 0;
     if (this.paginator) {
       this.paginator.firstPage();
     }
@@ -307,6 +313,7 @@ export class ProductsComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
       width: '30rem',
       height: '30rem',
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

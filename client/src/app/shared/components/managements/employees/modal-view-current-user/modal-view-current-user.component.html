@@ -7,34 +7,37 @@
   <!-- Content -->
   <mat-dialog-content class="form--modal__content u-padding-top-small u-padding-bottom-small">
 
-    <!-- Avatar -->
-    <img [src]="currentUserInfo.image_Url"
-         class="modal-profile__img" />
+    <ng-container *ngIf="currentUserInfo | async as user">
 
-    <p class="modal-profile__fullName">{{currentUserInfo.fullName}}</p>
-    <p class="modal-profile__userName">{{currentUserInfo.userName}}</p>
-    <p class="modal-profile__status mat-elevation-z2">Status: {{currentUserInfo.status}}</p>
+      <!-- Avatar -->
+      <img [src]="user.image_Url"
+           class="modal-profile__img" />
 
-    <ul class="grid grid--responsive modal-profile__infors">
-      <li>
-        <p>{{currentUserInfo.email}}</p>
-      </li>
-      <li>
-        <p>{{currentUserInfo.address}}</p>
-      </li>
-      <li>
-        <p>{{currentUserInfo.dateOfBirth}}</p>
-      </li>
-      <li>
-        <p>{{currentUserInfo.gender}}</p>
-      </li>
-      <li>
-        <p>{{currentUserInfo.phoneNumber}}</p>
-      </li>
-      <li>
-        <p>{{currentUserInfo.role}}</p>
-      </li>
-    </ul>
+      <p class="modal-profile__fullName">{{user.fullName}}</p>
+      <p class="modal-profile__userName">{{user.userName}}</p>
+      <p class="modal-profile__status mat-elevation-z2">Status: {{user.status}}</p>
+
+      <ul class="grid grid--responsive modal-profile__infors">
+        <li>
+          <p>{{user.email}}</p>
+        </li>
+        <li>
+          <p>{{user.address}}</p>
+        </li>
+        <li>
+          <p>{{user.dateOfBirth}}</p>
+        </li>
+        <li>
+          <p>{{user.gender}}</p>
+        </li>
+        <li>
+          <p>{{user.phoneNumber}}</p>
+        </li>
+        <li>
+          <p>{{user.role}}</p>
+        </li>
+      </ul>
+    </ng-container>
   </mat-dialog-content>
 
   <!-- Action to Close -->

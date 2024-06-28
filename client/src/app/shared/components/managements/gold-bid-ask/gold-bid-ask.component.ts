@@ -34,10 +34,10 @@ import { MatDividerModule } from '@angular/material/divider';
 export class GoldBidAskComponent implements OnInit{
   goldTypes: GoldModel[] = [];
   goldsDropdown!: DropdownModel[];
-  currentGoldPrice?: number = 50000000;
-  newBidPrice?: number = 400000;
-  newAskPrice?: number = 399999;
-  goldPurity: number = 1;
+  currentGoldPrice?: number;
+  newBidPrice?: number;
+  newAskPrice?: number;
+  goldPurity?: number;
   selectedGold?: GoldModel;
   goldPrice?: UpdateGoldPricesModel;
 
@@ -106,36 +106,42 @@ export class GoldBidAskComponent implements OnInit{
      }
   }
 
+  /**
+   * Calculate bid/ask gold price using bid/ask rate retrieve from the form
+   */
   calculateGoldPrice() {
-    if(this.goldRateForm.valid) {
+    if(this.goldRateForm.valid && this.currentGoldPrice && this.goldPurity) {
       const bidRate = Number(this.goldRateForm.get('bidRate')!.value);
       const askRate = Number(this.goldRateForm.get('askRate')!.value);
-
-      if(this.currentGoldPrice) {
-        this.newBidPrice = this.currentGoldPrice * bidRate * this.goldPurity;
-        this.newAskPrice = this.currentGoldPrice * askRate * this.goldPurity;
-      }  
+      this.newBidPrice = this.currentGoldPrice * bidRate * this.goldPurity;
+      this.newAskPrice = this.currentGoldPrice * askRate * this.goldPurity;  
     }
   }
 
+  /**
+   * Reset form fields and all calculation, also get latest gold price from the API
+   */
   onReset() {
     this.getWorldGoldPrice();
     this.newBidPrice = undefined;
     this.newAskPrice = undefined;
-    this.goldPurity = 1;
-    this.selectedGold = undefined;
+    this.goldPurity = undefined;
     this.goldRateForm.reset();
   }
 
+  /**
+   * Update the gold bid/ask price of the chosen gold type
+   */
   onSubmit() {
     if(this.goldRateForm.valid && this.selectedGold && this.newBidPrice && this.newAskPrice) {
+      const goldTypeId = this.selectedGold.id;
       this.goldPrice = {
-        goldTypeId: this.selectedGold.id,
+        goldTypeId: goldTypeId,
         bidPrice: this.newBidPrice,
         askPrice: this.newAskPrice
       }
 
-      this.goldService.updateBidAskGoldPrice(this.goldPrice).subscribe({
+      this.goldService.updateBidAskGoldPrice(goldTypeId, this.goldPrice).subscribe({
         next: (response: any) => {
           this.notificationService.show(
             `Gold with ID = ${this.selectedGold?.id} updated successfully`
