@@ -59,22 +59,22 @@
                              #appStepper>
 
           <!-- Customer -->
-          <!-- <cdk-step [label]="'Khách hàng'"
+          <cdk-step [label]="'Khách hàng'"
                     [completed]="checkoutForm.get('customerForm')?.valid">
             <app-checkout-customer [checkoutForm]="checkoutForm"></app-checkout-customer>
-          </cdk-step> -->
+          </cdk-step>
 
           <!-- Promotion -->
-          <!-- <cdk-step [label]="'Khuyến mãi'"
+          <cdk-step [label]="'Khuyến mãi'"
                     [completed]="checkoutForm.get('promotionForm')?.valid">
             <app-checkout-promotion [checkoutForm]="checkoutForm"></app-checkout-promotion>
-          </cdk-step> -->
+          </cdk-step>
 
           <!-- Payment -->
-          <!-- <cdk-step [label]="'Thanh toán'"
+          <cdk-step [label]="'Thanh toán'"
                     [completed]="checkoutForm.get('promotionForm')?.valid">
             <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
-          </cdk-step> -->
+          </cdk-step>
         </app-generic-stepper>
       </div>
     </div>

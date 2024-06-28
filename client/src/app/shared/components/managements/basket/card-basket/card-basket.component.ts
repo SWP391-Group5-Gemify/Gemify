@@ -11,7 +11,9 @@ import { NotificationService } from '../../../../../core/services/notification/n
 import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../../core/models/role.model';
 import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-card-basket',
   standalone: true,
@@ -52,18 +54,21 @@ export class CardBasketComponent {
    * Delete a basket based on id
    */
   onDeleteBasket() {
-    this.basketService.deleteBasket(this.basket.id).subscribe({
-      next: (response) => {
-        if (response) {
-          this.onDeleteBasketFromChild.emit(true);
-        }
-      },
+    this.basketService
+      .deleteBasket(this.basket.id)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.onDeleteBasketFromChild.emit(true);
+          }
+        },
 
-      error: (err) => {
-        this.onDeleteBasketFromChild.emit(false);
-        console.error(err);
-      },
-    });
+        error: (err) => {
+          this.onDeleteBasketFromChild.emit(false);
+          console.error(err);
+        },
+      });
   }
 
   /**

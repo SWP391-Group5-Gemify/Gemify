@@ -1,10 +1,8 @@
-<button class="btn btn--primary-dark u-margin-top-small"
-        (click)="createOrderOnBasketAndCustomer">Thanh toán giỏ hàng</button>
-
 <!-- Go previous or Go forward -->
 <div class="basket-summary-actions u-margin-top-medium">
   <button class="btn btn--primary-light"
           cdkStepperPrevious>Quay trở lại khuyến mãi</button>
   <button class="btn btn--primary-dark"
+          (click)="createOrder()"
           cdkStepperNext>Xác nhận thanh toán</button>
 </div>

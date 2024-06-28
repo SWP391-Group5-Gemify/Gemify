@@ -1,9 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BasketService } from '../../../../core/services/basket/basket.service';
-import { OrdersService } from '../../../../core/services/orders/orders.service';
+import { OrderService } from '../../../../core/services/order/order.service';
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { PromotionService } from '../../../../core/services/promotion/promotion.service';
+import { CustomerService } from '../../../../core/services/customer/customer.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Observable, switchMap } from 'rxjs';
+import { CustomerModel } from '../../../../core/models/customer.model';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
+import { BasketModel } from '../../../../core/models/basket.model';
 
+@UntilDestroy()
 @Component({
   selector: 'app-checkout-payment',
   standalone: true,
@@ -22,19 +30,64 @@ export class CheckoutPaymentComponent {
   // =========================
   constructor(
     private basketService: BasketService,
-    private orderService: OrdersService
+    private orderService: OrderService,
+    private promotionService: PromotionService,
+    private customerService: CustomerService,
+    private notificationService: NotificationService
   ) {}
 
   // =========================
   // == Methods
   // =========================
 
-  createOrderOnBasketAndCustomer() {
-    const basket_id = this.basketService.currentBasketId;
-    const customer_id = this.checkoutForm?.get('customerForm')?.get('id');
+  /**
+   * Create a customer if not existed
+   */
+  private createCustomerInfo(): Observable<CustomerModel> {
+    return this.customerService
+      .createCustomer(this.checkoutForm?.get('customerForm')?.value)
+      .pipe(
+        untilDestroyed(this),
+        switchMap(() => {
+          let phone = this.checkoutForm
+            ?.get('customerForm')
+            ?.get('phone')?.value;
 
-    if (basket_id && customer_id) {
-      this.orderService.createSaleOrder(basket_id, Number(customer_id));
+          return this.customerService.getCustomerByPhone(phone);
+        })
+      );
+  }
+
+  /**
+   * Create order after having
+   * - Basket Id
+   * - Customer Id
+   * - TODO: Promotion Id (optional)
+   */
+  createOrder() {
+    // Basket Id
+    let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
+
+    // If don't have basket, then return
+    if (basket) {
+      basket.promotionId =
+        this.checkoutForm?.get('promotionForm')?.value ?? null;
+      this.createCustomerInfo()
+        .pipe(untilDestroyed(this))
+        .subscribe({
+          next: (customer: CustomerModel) => {
+            if (customer.id && basket.id) {
+              // console.log(customer.id, basket.id, basket.promotionId);
+              this.orderService
+                .createSaleOrder(basket.id, customer.id)
+                .subscribe({
+                  next: (value) => {
+                    this.notificationService.show('Tạo hóa đơn thành công');
+                  },
+                });
+            }
+          },
+        });
     }
   }
 }
