@@ -7,7 +7,11 @@ import { GenderEnum, GenderModel } from '../../../../core/models/gender.model';
 import EnumUtils from '../../../utils/EnumUtils';
 import { MatRadioModule } from '@angular/material/radio';
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CustomerService } from '../../../../core/services/customer/customer.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-checkout-customer',
   standalone: true,
@@ -32,6 +36,8 @@ export class CheckoutCustomerComponent implements OnInit {
   // =========================
   // == Life cycle
   // =========================
+  constructor(private customerService: CustomerService) {}
+
   ngOnInit(): void {
     this.loadGenderRadioButtons();
   }

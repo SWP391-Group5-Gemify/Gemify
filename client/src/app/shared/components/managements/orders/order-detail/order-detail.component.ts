@@ -4,7 +4,7 @@ import {
   OrderItemModel,
   OrderItemGemModel,
 } from '../../../../../core/models/order.model';
-import { OrdersService } from '../../../../../core/services/orders/orders.service';
+import { OrderService } from '../../../../../core/services/order/order.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -85,7 +85,7 @@ export class OrderDetailComponent implements OnInit {
   ];
 
   constructor(
-    private ordersService: OrdersService,
+    private ordersService: OrderService,
     private route: ActivatedRoute,
     private basketService: BasketService,
     private dialog: MatDialog,

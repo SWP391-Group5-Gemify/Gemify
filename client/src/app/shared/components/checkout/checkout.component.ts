@@ -15,6 +15,7 @@ import { GenderEnum } from '../../../core/models/gender.model';
 import { catchError, Observable, Subscription } from 'rxjs';
 import { CustomerModel } from '../../../core/models/customer.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { OrderService } from '../../../core/services/order/order.service';
 
 @UntilDestroy()
 @Component({
@@ -61,11 +62,12 @@ export class CheckoutComponent implements OnInit {
   constructor(
     public basketService: BasketService,
     private location: Location,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
-    this.loadCustomerOnFormIfExist();
+    this.loadCustomerOnBasketIfExist();
   }
 
   // ======================
@@ -75,30 +77,19 @@ export class CheckoutComponent implements OnInit {
   /**
    * Load Customer form if exist using phone
    */
-  public loadCustomerOnFormIfExist(): void {
-    console.log(
-      'IN THE CHECKOUT: ',
-      this.basketService.getCurrentBasketValue()
-    );
+  public loadCustomerOnBasketIfExist(): void {
+    let phoneNumber = this.basketService.getCurrentBasketValue()?.phoneNumber;
 
-    // this.basketService.basketSource$
-    //   .subscribe({
-    //     next: (currentBasket) => {
-    //       if (currentBasket?.phoneNumber) {
-    //         this.customerService
-    //           .getCustomerByPhone(currentBasket?.phoneNumber)
-    //           .subscribe({
-    //             next: (existedCustomer) => {
-    //               existedCustomer &&
-    //                 this.checkoutForm
-    //                   .get('customerForm')
-    //                   ?.patchValue(existedCustomer);
-    //             },
-    //           });
-    //       }
-    //     },
-    //   })
-    //   .unsubscribe();
+    phoneNumber &&
+      this.customerService
+        .getCustomerByPhone(phoneNumber)
+        .pipe(untilDestroyed(this))
+        .subscribe({
+          next: (customer) => {
+            customer &&
+              this.checkoutForm.get('customerForm')?.patchValue(customer);
+          },
+        });
   }
 
   /**

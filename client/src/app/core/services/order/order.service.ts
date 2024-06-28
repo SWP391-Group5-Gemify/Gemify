@@ -12,7 +12,7 @@ import { PaginationModel } from '../../models/pagination.model';
 @Injectable({
   providedIn: 'root',
 })
-export class OrdersService {
+export class OrderService {
   // =============================================
   // == Fields
   // =============================================

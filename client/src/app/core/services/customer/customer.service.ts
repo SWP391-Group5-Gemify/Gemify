@@ -84,7 +84,7 @@ export class CustomerService {
     customer: CustomerModel
   ): Observable<CreateUpdateDeleteResponseModel> {
     return this.httpClient.put<CreateUpdateDeleteResponseModel>(
-      `${this.baseCustomerUrl}`,
+      `${this.baseCustomerUrl}/${customer.id}`,
       customer
     );
   }
