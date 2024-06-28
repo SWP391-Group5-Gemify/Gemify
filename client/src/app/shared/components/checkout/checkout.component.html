@@ -57,10 +57,20 @@
       <div class="stepper">
         <app-generic-stepper [linearModeSelected]="false"
                              #appStepper>
+
+          <!-- Customer -->
           <cdk-step [label]="'Khách hàng'"
                     [completed]="checkoutForm.get('customerForm')?.valid">
             <app-checkout-customer [checkoutForm]="checkoutForm"></app-checkout-customer>
           </cdk-step>
+
+          <!-- Promotion -->
+          <cdk-step [label]="'Khuyến mãi'"
+                    [completed]="checkoutForm.get('customerForm')?.valid">
+            <app-checkout-promotion [checkoutForm]="checkoutForm"></app-checkout-promotion>
+          </cdk-step>
+
+          <!-- Payment -->
           <cdk-step [label]="'Thanh toán'"
                     [completed]="checkoutForm.get('customerForm')?.valid">
             <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>

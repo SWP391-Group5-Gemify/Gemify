@@ -1,0 +1,56 @@
+@import "abstracts/variables";
+
+.promotion-form {
+
+  &__heading {
+    font-size: 2.4rem;
+    color: $color-black;
+    text-transform: uppercase;
+  }
+
+  &__controls {}
+
+  &__values {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $gutter-layout;
+  }
+}
+
+.promotion-card {
+  padding: 0.8rem;
+  border: 2px solid $color-grey-dark-2;
+  border-radius: 0.4rem;
+  background-color: $color-white;
+  transition: border-color 0.4s;
+
+  &__name {
+    text-transform: uppercase;
+    font-size: 1.8rem;
+    color: $color-primary;
+    margin-bottom: 0.8rem;
+    font-weight: 900;
+
+    &--none {
+      margin-bottom: 0;
+    }
+  }
+
+  &__details {
+    font-size: 1.6rem;
+    color: $color-secondary-light;
+
+    /* Adjust margin top for paragraphs except the first one */
+    p {
+      &:not(:first-of-type) {
+        margin-top: 0.4rem;
+      }
+    }
+  }
+
+  &:hover {
+    border-color: $color-primary;
+  }
+}

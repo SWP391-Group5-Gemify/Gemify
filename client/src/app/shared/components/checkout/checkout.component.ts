@@ -9,6 +9,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CheckoutPaymentComponent } from './checkout-payment/checkout-payment.component';
 import { CheckoutCustomerComponent } from './checkout-customer/checkout-customer.component';
 import { FormBuilder, Validators } from '@angular/forms';
+import { CheckoutPromotionComponent } from './checkout-promotion/checkout-promotion.component';
 
 @Component({
   selector: 'app-checkout',
@@ -23,19 +24,28 @@ import { FormBuilder, Validators } from '@angular/forms';
     CdkStepperModule,
     CheckoutPaymentComponent,
     CheckoutCustomerComponent,
+    CheckoutPromotionComponent,
   ],
 })
 export class CheckoutComponent {
-  // ======================
+  // ======================-
   // == Fields
   // ======================
   checkoutForm = this.fb.group({
     customerForm: this.fb.group({
       name: ['', Validators.required],
       gender: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: [
+        this.basketService.getCurrentBasketValue()?.phoneNumber,
+        Validators.required,
+      ],
       address: ['', Validators.required],
     }),
+
+    promotionForm: this.fb.group({
+      promotion: ['', Validators.required],
+    }),
+
     paymentForm: this.fb.group({
       nameOnCard: ['', Validators.required],
     }),

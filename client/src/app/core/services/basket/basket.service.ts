@@ -219,7 +219,7 @@ export class BasketService {
   /**
    * Get the current basket value
    */
-  private getCurrentBasketValue(): BasketModel | null {
+  public getCurrentBasketValue(): BasketModel | null {
     return this._basketSource.value;
   }
 
