@@ -4,11 +4,13 @@ import { map, Observable } from 'rxjs';
 import {
   CategoryModel,
   ProductModel,
-  ProductsSearchingCriteriaModel,
+  ProductParams as ProductParams,
   SubCategoryModel,
 } from '../../models/product.model';
 import { environment } from '../../../../environments/environment';
 import { PaginationModel } from '../../models/pagination.model';
+import ImageUtils from '../../../shared/utils/ImageUtils';
+import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,49 +22,65 @@ export class ProductService {
 
   /**
    * Get the list of products based on searching criteria
-   * @param productSearchCriteria
+   * @param productsSearchCriteria
    * @returns
    */
   getProducts(
-    productSearchCriteria: ProductsSearchingCriteriaModel
+    productsSearchCriteria: ProductParams
   ): Observable<PaginationModel<ProductModel>> {
     let params = new HttpParams()
-      .set('pageIndex', productSearchCriteria.pageIndex.toString())
-      .set('pageSize', productSearchCriteria.pageSize.toString());
+      .set('pageIndex', productsSearchCriteria.pageIndex.toString())
+      .set('pageSize', productsSearchCriteria.pageSize.toString());
 
     // Assign params if exists
-    if (productSearchCriteria.searchName) {
-      params = params.set('search', productSearchCriteria.searchName);
-    }
-    if (productSearchCriteria.goldTypeId) {
-      params = params.set(
-        'goldTypeId',
-        productSearchCriteria.goldTypeId.toString()
-      );
-    }
-    if (productSearchCriteria.subCategoryId) {
-      params = params.set(
-        'subcategoryId',
-        productSearchCriteria.subCategoryId.toString()
-      );
-    }
-    if (productSearchCriteria.categoryId) {
-      params = params.set(
-        'categoryId',
-        productSearchCriteria.categoryId.toString()
-      );
-    }
-    if (productSearchCriteria.status) {
-      params = params.set('status', productSearchCriteria.status);
-    }
-    if (productSearchCriteria.sortQuantity) {
-      params = params.set('sort', productSearchCriteria.sortQuantity);
+    if (productsSearchCriteria.searchName) {
+      params = params.set('search', productsSearchCriteria.searchName);
     }
 
-    return this.httpClient.get<PaginationModel<ProductModel>>(
-      this.baseProductUrl,
-      { params: params }
-    );
+    if (productsSearchCriteria.goldTypeId) {
+      params = params.set(
+        'goldTypeId',
+        productsSearchCriteria.goldTypeId.toString()
+      );
+    }
+
+    if (productsSearchCriteria.subCategoryId) {
+      params = params.set(
+        'subcategoryId',
+        productsSearchCriteria.subCategoryId.toString()
+      );
+    }
+
+    if (productsSearchCriteria.categoryId) {
+      params = params.set(
+        'categoryId',
+        productsSearchCriteria.categoryId.toString()
+      );
+    }
+
+    if (productsSearchCriteria.status) {
+      params = params.set('status', productsSearchCriteria.status);
+    }
+
+    if (productsSearchCriteria.sortQuantity) {
+      params = params.set('sort', productsSearchCriteria.sortQuantity);
+    }
+
+    return this.httpClient
+      .get<PaginationModel<ProductModel>>(this.baseProductUrl, {
+        params: params,
+      })
+      .pipe(
+        map((paginationModel) => {
+          // Transform each product's imageUrl using ImageUtils.concatLinkToTokenFirebase
+          paginationModel.data.forEach((product) => {
+            product.imageUrl = ImageUtils.concatLinkToTokenFirebase(
+              product.imageUrl
+            );
+          });
+          return paginationModel;
+        })
+      );
   }
 
   /**
@@ -71,28 +89,16 @@ export class ProductService {
    * @returns
    */
   getProductById(id: number): Observable<ProductModel> {
-    return this.httpClient.get<ProductModel>(`${this.baseProductUrl}/${id}/`);
-  }
-
-  /**
-   * Update product information based on id
-   * @param product
-   * @returns
-   */
-  updateProduct(product: ProductModel): Observable<any> {
-    return this.httpClient.put<ProductModel>(
-      `${this.baseProductUrl}/${product.id}`,
-      product
-    );
-  }
-
-  /**
-   * Disable Product based on id
-   * @param id
-   * @returns
-   */
-  disableProduct(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.baseProductUrl}/${id}`);
+    return this.httpClient
+      .get<ProductModel>(`${this.baseProductUrl}/${id}/`)
+      .pipe(
+        map((product) => {
+          return {
+            ...product,
+            imageUrl: ImageUtils.concatLinkToTokenFirebase(product.imageUrl),
+          };
+        })
+      );
   }
 
   /**
@@ -123,5 +129,30 @@ export class ProductService {
           );
         })
       );
+  }
+
+  /**
+   * Update product information based on id
+   * @param product
+   * @returns
+   */
+  updateProduct(
+    product: ProductModel
+  ): Observable<CreateUpdateDeleteResponseModel> {
+    return this.httpClient.put<CreateUpdateDeleteResponseModel>(
+      `${this.baseProductUrl}/${product.id}`,
+      product
+    );
+  }
+
+  /**
+   * Disable Product based on id
+   * @param id
+   * @returns
+   */
+  disableProduct(id: number): Observable<CreateUpdateDeleteResponseModel> {
+    return this.httpClient.delete<CreateUpdateDeleteResponseModel>(
+      `${this.baseProductUrl}/${id}`
+    );
   }
 }

@@ -2,6 +2,7 @@
 using API.Errors;
 using API.Helpers;
 using AutoMapper;
+using Core.Enitities;
 using Core.Enitities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
@@ -59,9 +60,9 @@ namespace API.Controllers
         }
 
         // Disable Employee Account
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner")]
-        public async Task<ActionResult<EmployeeDto>> DeleteEmployee([FromQuery] int id)
+        public async Task<ActionResult<EmployeeDto>> DeleteEmployee(int id)
         {
             var spec = new EmployeeSpecification(id);
 
@@ -69,7 +70,7 @@ namespace API.Controllers
 
             if(exist_emp==null) return NotFound(new ApiResponse(404));
 
-            exist_emp.Status = "Closed";
+            exist_emp.Status = UserStatus.Closed.GetEnumMemberValue();
 
             var result = await _userService.UpdateUserAsync(exist_emp);
 
@@ -78,11 +79,11 @@ namespace API.Controllers
         }
 
         // Update Employee Information
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = "StoreOwner")]
-        public async Task<ActionResult<EmployeeDto>> UpdateEmployee(EmployeeDto employee)
+        public async Task<ActionResult<EmployeeDto>> UpdateEmployee(int id, EmployeeDto employee)
         {
-            var spec = new EmployeeSpecification(employee.Id);
+            var spec = new EmployeeSpecification(id);
 
             var exist_emp = await _userService.GetUserWithSpec(spec);
 

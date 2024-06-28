@@ -1,19 +1,16 @@
 <div class="file-upload-container">
-
   <!-- Input for uploading file -->
-  <input type="file"
-         (change)="onFileSelected($event)"
-         multiple
-         #fileInput />
+  <input type="file" (change)="onFileSelected($event)" multiple #fileInput />
 
-  <button class="btn btn--grad btn--with-icon"
-          (click)="fileInput.click()">
+  <button class="btn btn--grad btn--with-icon" (click)="fileInput.click()">
     <mat-icon>attach_file</mat-icon>Select Files
   </button>
 
-  <button class="btn btn--primary btn--with-icon"
-          [disabled]="selectedFiles.length == 0"
-          (click)="uploadPolicyFile()">
+  <button
+    class="btn btn--primary btn--with-icon"
+    [disabled]="selectedFiles.length == 0"
+    (click)="uploadPolicyFile()"
+  >
     <mat-icon>upload</mat-icon>Upload
   </button>
 
@@ -32,7 +29,17 @@
   </mat-list>
 
   <!-- Progress Bar -->
-  <mat-progress-bar *ngIf="uploadProgress$ | async as progress"
-                    mode="determinate"
-                    [value]="progress"></mat-progress-bar>
+  <mat-progress-bar
+    *ngIf="uploadProgress$ | async as progress"
+    mode="determinate"
+    [value]="progress"
+  ></mat-progress-bar>
+
+  <!--button for downloading file-->
+  <button
+    class="btn btn--primary btn--with-icon"
+    (click)="downloadPolicyFile()"
+  >
+    <mat-icon>download</mat-icon>Download
+  </button>
 </div>

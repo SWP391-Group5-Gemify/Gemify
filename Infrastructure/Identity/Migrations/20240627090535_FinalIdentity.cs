@@ -33,9 +33,9 @@ namespace Infrastructure.Identity.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(100)", nullable: false),
-                    Gender = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
-                    Status = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Image_Url = table.Column<string>(type: "varchar(200)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     UserName = table.Column<string>(type: "varchar(50)", maxLength: 256, nullable: false),

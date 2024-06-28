@@ -1,4 +1,5 @@
 ﻿using API.Dtos;
+using API.Errors;
 using AutoMapper;
 using Core.Enitities;
 using Core.Interfaces;
@@ -38,8 +39,8 @@ namespace API.Controllers
         [HttpPost]
         [Authorize(Roles = "Cashier,Repurchaser,Seller")]
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
-        {
-            var customerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
+        {            
+            var customerBasket =  _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
 
             var updatedBasket = await _basketRepository.UpdateBasketAsync(customerBasket);
 

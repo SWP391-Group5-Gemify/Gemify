@@ -1,23 +1,27 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { environment } from "../../../../environments/environment";
-import { CustomerModel } from "../../models/customer.model";
-import { PaginationModel } from "../../models/pagination.model";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import {
+  CustomerCreateModel,
+  CustomerModel,
+} from '../../models/customer.model';
+import { PaginationModel } from '../../models/pagination.model';
+import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class CustomerService {
   // ====================
   // == Fields
   // ====================
-  baseCustomerUrl: string = environment.baseApiUrl.concat("/customers");
+  baseCustomerUrl: string = environment.baseApiUrl.concat('/customers');
 
   // ====================
   // == Life Cycle
   // ====================
-  constructor(private http: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   // ====================
   // == Methods
@@ -30,17 +34,20 @@ export class CustomerService {
    * @returns
    */
   getCustomers(
-    pageIndex: number,
-    pageSize: number
+    pageIndex: number = 1,
+    pageSize: number = 5
   ): Observable<PaginationModel<CustomerModel>> {
     const params = {
       pageIndex: pageIndex.toString(),
       pageSize: pageSize.toString(),
     };
 
-    return this.http.get<PaginationModel<CustomerModel>>(this.baseCustomerUrl, {
-      params: params,
-    });
+    return this.httpClient.get<PaginationModel<CustomerModel>>(
+      this.baseCustomerUrl,
+      {
+        params: params,
+      }
+    );
   }
 
   /**
@@ -49,15 +56,32 @@ export class CustomerService {
    * @returns
    */
   getCustomerById(id: number): Observable<CustomerModel> {
-    return this.http.get<CustomerModel>(`${this.baseCustomerUrl}/${id}/`);
+    return this.httpClient.get<CustomerModel>(`${this.baseCustomerUrl}/${id}/`);
   }
 
   /**
-   * Update Customer based on Object
+   * Update Customer based on customer object
    * @param customer
    * @returns
    */
-  updateCustomer(customer: CustomerModel): Observable<CustomerModel> {
-    return this.http.put<CustomerModel>(`${this.baseCustomerUrl}`, customer);
+  updateCustomer(
+    customer: CustomerModel
+  ): Observable<CreateUpdateDeleteResponseModel> {
+    return this.httpClient.put<CreateUpdateDeleteResponseModel>(
+      `${this.baseCustomerUrl}`,
+      customer
+    );
+  }
+
+  /**
+   *
+   * @param customerCreateModel
+   * @returns statusCode and message
+   */
+  createCustomer(customerCreateModel: CustomerCreateModel) {
+    return this.httpClient.post<CreateUpdateDeleteResponseModel>(
+      this.baseCustomerUrl,
+      customerCreateModel
+    );
   }
 }

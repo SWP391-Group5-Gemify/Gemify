@@ -89,8 +89,6 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
     this.employee =
       this.modalConfigFromParent.initialData ?? new EmployeeModel();
 
-    console.table(this.employee);
-
     switch (this.modalConfigFromParent.mode) {
       case ModalModeEnum.Edit: {
         this.loadFormIfEdit();

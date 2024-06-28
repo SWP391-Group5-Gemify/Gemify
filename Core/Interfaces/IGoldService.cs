@@ -14,7 +14,7 @@ namespace Infrastructure.Services
         Task<IReadOnlyList<GoldPrice>> GetGoldPricesByIdAsync(GoldPriceSpecification spec);
         Task<bool> DeleteGoldTypeAsync(int id);
         Task<int> CountGoldPricesAsync(ISpecification<GoldPrice> spec);
-        Task<bool> UpdateGoldPriceAsync(GoldPrice goldPrice);
+        Task<bool> UpdateGoldPriceAsync(int goldTypeId, GoldPrice goldPrice);
 
     }
 }

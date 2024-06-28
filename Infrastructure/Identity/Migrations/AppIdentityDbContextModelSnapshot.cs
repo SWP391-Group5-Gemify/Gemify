@@ -58,7 +58,7 @@ namespace Infrastructure.Identity.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Image_Url")
                         .HasColumnType("varchar(200)");
@@ -92,7 +92,7 @@ namespace Infrastructure.Identity.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");

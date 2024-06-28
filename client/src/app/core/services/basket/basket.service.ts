@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import {
   BasketBuybackItemModel,
   BasketItemModel,
@@ -9,6 +9,7 @@ import {
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
 import { OrderItemModel } from '../../models/order.model';
+import ImageUtils from '../../../shared/utils/ImageUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -218,7 +219,7 @@ export class BasketService {
   /**
    * Get the current basket value
    */
-  private getCurrentBasketValue(): BasketModel | null {
+  public getCurrentBasketValue(): BasketModel | null {
     return this._basketSource.value;
   }
 

@@ -65,11 +65,11 @@ namespace API.Controllers
         }
 
         //Update sale counter
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult> UpdateSaleCounter (SaleCounterDto saleCounterDto)
+        public async Task<ActionResult> UpdateSaleCounter (int id, SaleCounterDto saleCounterDto)
         {
-            var spec = new SaleCounterSpecification(saleCounterDto.Id);
+            var spec = new SaleCounterSpecification(id);
             var existingSaleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
             if (existingSaleCounter == null)
                 return NotFound();
@@ -101,11 +101,12 @@ namespace API.Controllers
         }
 
         // Get revenues of sale counter by id
-        [HttpGet("revenues")]
+        [HttpGet("{saleCounterId}/revenues")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>> 
-            GetSaleCounterRevenuesById([FromQuery] SaleCounterRevenueParams saleCounterRevenueParams)
+            GetSaleCounterRevenuesById(int saleCounterId, [FromQuery] SaleCounterRevenueParams saleCounterRevenueParams)
         {
+            saleCounterRevenueParams.saleCounterId = saleCounterId;
             var spec = new SaleCounterRevenueSpecification(saleCounterRevenueParams);
             var countSpec = new SaleCounterRevenueCountSpecification(saleCounterRevenueParams);
             var totalRevenues = await _saleCounterRevenueService.CountSaleCounterRevenuesAsync(countSpec);

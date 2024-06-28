@@ -11,8 +11,8 @@ namespace Core.Attributes
         {
             if (value == null) return false;
             var gender = value.ToString();
-            return gender == Gender.Male.ToString() 
-                || gender == Gender.Female.ToString();
+            return gender == Gender.Male.GetEnumMemberValue() 
+                || gender == Gender.Female.GetEnumMemberValue();
         }
     }
 }

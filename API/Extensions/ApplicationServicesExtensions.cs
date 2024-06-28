@@ -33,7 +33,6 @@ namespace API.Extensions
             services.AddScoped<ISaleCounterRevenueService, SaleCounterRevenueService>();
             services.AddScoped<ISaleRevenueService, SaleRevenueService>();
             services.AddScoped<IPromotionService, PromotionService>();
-
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

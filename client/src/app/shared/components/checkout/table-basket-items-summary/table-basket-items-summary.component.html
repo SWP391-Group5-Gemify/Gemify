@@ -14,7 +14,6 @@
   <ng-container matColumnDef="productName">
     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
     <mat-cell *matCellDef="let basketItem"> {{ basketItem.productName }} </mat-cell>
-
   </ng-container>
 
   <!-- Quantity -->
@@ -23,14 +22,12 @@
     <mat-cell *matCellDef="let basketItem">
       {{ basketItem.quantity }}
     </mat-cell>
-
   </ng-container>
 
   <!-- Price -->
   <ng-container matColumnDef="price">
     <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
     <mat-cell *matCellDef="let basketItem"> {{ basketItem.price | currency:"VND" }} </mat-cell>
-
   </ng-container>
 
   <!-- Total -->
@@ -38,7 +35,6 @@
     <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
     <mat-cell *matCellDef="let basketItem"> {{ this.calculatePerItemTotalPrice(basketItem) | currency:"VND" }}
     </mat-cell>
-
   </ng-container>
 
   <!-- Headers -->

@@ -10,7 +10,7 @@ namespace Core.Enitities
         public string Name { get; set; }
 
         [Gender]
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "nvarchar(50)")]
         public string Gender { get; set; }
 
         [Column(TypeName = "varchar(20)"), Required]

@@ -7,10 +7,10 @@ namespace Core.Enitities.OrderAggregate
         [EnumMember(Value = "Pending")]
         Pending,
 
-        [EnumMember(Value = "Payment Received")]
+        [EnumMember(Value = "PaymentReceived")]
         PaymentReceived,
 
-        [EnumMember(Value = "Payment Failed")]
+        [EnumMember(Value = "PaymentFailed")]
         PaymentFailed
     }
 }

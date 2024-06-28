@@ -135,6 +135,14 @@
 
   &--active {
     background-color: $color-primary-dark;
+    color: $color-grey-light;
+    scale: 1.25;
+    margin-right: $gutter-layout;
+    margin-left: $gutter-layout;
+  }
+
+  &--grad {
+    background-image: linear-gradient(to right, $color-secondary-dark 0%, $color-secondary-light 51%, $color-secondary-dark 100%);
     color: $color-white;
   }
 }

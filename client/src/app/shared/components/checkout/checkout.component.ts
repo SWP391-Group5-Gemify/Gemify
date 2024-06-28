@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CommonModule, Location } from '@angular/common';
 import { BasketItemModel } from '../../../core/models/basket.model';
-import { TableBasketItemsComponent } from '../managements/basket/table-basket-items/table-basket-items.component';
 import { TableBasketItemsSummaryComponent } from './table-basket-items-summary/table-basket-items-summary.component';
 import { MatIconModule } from '@angular/material/icon';
 import { GenericStepperComponent } from '../generic-stepper/generic-stepper.component';
-import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CheckoutPaymentComponent } from './checkout-payment/checkout-payment.component';
+import { CheckoutCustomerComponent } from './checkout-customer/checkout-customer.component';
+import { FormBuilder, Validators } from '@angular/forms';
+import { CheckoutPromotionComponent } from './checkout-promotion/checkout-promotion.component';
 
 @Component({
   selector: 'app-checkout',
@@ -19,19 +22,42 @@ import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
     MatIconModule,
     GenericStepperComponent,
     CdkStepperModule,
+    CheckoutPaymentComponent,
+    CheckoutCustomerComponent,
+    CheckoutPromotionComponent,
   ],
 })
 export class CheckoutComponent {
-  // ======================
+  // ======================-
   // == Fields
   // ======================
+  checkoutForm = this.fb.group({
+    customerForm: this.fb.group({
+      name: ['', Validators.required],
+      gender: ['', Validators.required],
+      phone: [
+        this.basketService.getCurrentBasketValue()?.phoneNumber,
+        Validators.required,
+      ],
+      address: ['', Validators.required],
+    }),
+
+    promotionForm: this.fb.group({
+      promotion: ['', Validators.required],
+    }),
+
+    paymentForm: this.fb.group({
+      nameOnCard: ['', Validators.required],
+    }),
+  });
 
   // ======================
   // == Lifecycle
   // ======================
   constructor(
     public basketService: BasketService,
-    private location: Location
+    private location: Location,
+    private fb: FormBuilder
   ) {}
 
   // ======================

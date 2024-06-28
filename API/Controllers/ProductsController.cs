@@ -84,7 +84,7 @@ namespace API.Controllers
             if (existingProduct == null)
                 return NotFound(new ApiResponse(404, "This product does not exist!"));
 
-            existingProduct.Status = "Unavailable";
+            existingProduct.Status = ProductStatus.Unavailable.GetEnumMemberValue();
 
             if (await _productService.UpdateProductAsync(existingProduct))
                 return Ok(new ApiResponse(200, "Product was successfully deleted"));

@@ -28,21 +28,71 @@ namespace Infrastructure.Identity
 
             if (!userManager.Users.Any())
             {
-                var user = new User
+                var userList = new List<(User user, string password, string role)>
                 {
-                    FullName = "Le Quang Khanh",
-                    Email = "khanh@test.com",
-                    UserName = "khanhlq",
-                    Gender = "Male",
-                    Status = "Active",
-                    DateOfBirth = new DateOnly(2000, 2, 1),
-                    Image_Url = "wwwroot/khanh.png",
-                    PhoneNumber = "0034988493",
-                    Address = "Xa Lo Ha Noi"
+                    (new User
+                    {
+                        FullName = "Lê Quang Khánh",
+                        Email = "khanh@test.com",
+                        UserName = "khanhlq",
+                        Gender = Gender.Male.GetEnumMemberValue(),
+                        DateOfBirth = new DateOnly(2000, 2, 1),
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Fmale-user.png",
+                        PhoneNumber = "0034988493",
+                        Address = "Xa Lộ Hà Nội"
+                    },"khanh123456","StoreOwner"),
+                    (new User
+                    {
+                        FullName = "Vũ Kim Duy",
+                        Email = "duy@test.com",
+                        UserName = "duyvk",
+                        Gender = Gender.Male.GetEnumMemberValue(),
+                        DateOfBirth = new DateOnly(2000, 2, 1),
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Fmale-user.png",
+                        PhoneNumber = "0987363648",
+                        Address = "Vũng Tàu"
+                    },"duy123456","Cashier"),
+                    (new User
+                    {
+                        FullName = "Lâm Tiểu My",
+                        Email = "my@test.com",
+                        UserName = "mylt",
+                        Gender = Gender.Female.GetEnumMemberValue(),
+                        DateOfBirth = new DateOnly(2000, 2, 1),
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Ffemale-user.png",
+                        PhoneNumber = "0034988493",
+                        Address = "19 Trần Phú, Nha Trang"
+                    },"my123456","StoreManager"),
+                    (new User
+                    {
+                        FullName = "Cao Ngô Phương Khánh",
+                        Email = "khanh@test.com",
+                        UserName = "khanhcnp",
+                        Gender = Gender.Female.GetEnumMemberValue(),
+                        DateOfBirth = new DateOnly(2000, 2, 1),
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Ffemale-user.png",
+                        PhoneNumber = "0034988493",
+                        Address = "Đà Nẵng"
+                    },"khanh123456","Repurchaser"),
+                    (new User
+                    {
+                        FullName = "Phan Quang anh",
+                        Email = "anh@test.com",
+                        UserName = "anhpq",
+                        Gender = Gender.Male.GetEnumMemberValue(),
+                        DateOfBirth = new DateOnly(2000, 2, 1),
+                        Image_Url = "https://firebasestorage.googleapis.com/v0/b/gemify-d7e93.appspot.com/o/images%2Fusers%2Fmale-user.png",
+                        PhoneNumber = "0034988493",
+                        Address = "Hà Nội"
+                    },"anh123456","Seller"),
                 };
-
-                await userManager.CreateAsync(user, "khanh1234");
-                await userManager.AddToRoleAsync(user, "StoreOwner");
+                
+                foreach (var account in userList)
+                {
+                    await userManager.CreateAsync(account.user, account.password);
+                    await userManager.AddToRoleAsync(account.user, account.role);
+                }
+                
             }
 
         }

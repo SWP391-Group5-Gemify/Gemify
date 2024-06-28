@@ -47,10 +47,11 @@ namespace API.Controllers
         }   
 
         // Get gold price history by gold type id
-        [HttpGet("prices")]
+        [HttpGet("{goldTypeId}/prices")]
         [Authorize(Roles = "StoreOwner,StoreManager,Seller,Repurchaser,Cashier")]
-        public async Task<ActionResult<IReadOnlyList<GoldPrice>>> GoldPriceHistoryById([FromQuery] GoldPriceParams goldPriceParams)
+        public async Task<ActionResult<IReadOnlyList<GoldPrice>>> GoldPriceHistoryById(int goldTypeId, [FromQuery] GoldPriceParams goldPriceParams)
         {
+            goldPriceParams.goldTypeId = goldTypeId;
             var spec = new GoldPriceSpecification(goldPriceParams);
             var countSpec = new GoldPriceWithFilterForCountSpecification(goldPriceParams);
             var totalPrices = await _goldService.CountGoldPricesAsync(countSpec);
@@ -81,9 +82,9 @@ namespace API.Controllers
         }
 
         // Disable gold type status
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")] 
-        public async Task<ActionResult> DeleteGoldType([FromQuery] int id)
+        public async Task<ActionResult> DeleteGoldType(int id)
         {
             var result = await _goldService.DeleteGoldTypeAsync(id);
             if(result) return Ok(new ApiResponse(200, "Disable successful"));
@@ -91,11 +92,11 @@ namespace API.Controllers
         }
 
         // Update gold prices and add to gold price history
-        [HttpPut]
+        [HttpPut("{goldTypeId}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult> UpdateGoldPrice(GoldPrice goldPrice)
+        public async Task<ActionResult> UpdateGoldPrice(int goldTypeId, GoldPrice goldPrice)
         {
-            var result = await _goldService.UpdateGoldPriceAsync(goldPrice);
+            var result = await _goldService.UpdateGoldPriceAsync(goldTypeId, goldPrice);
             if(result) return Ok(new ApiResponse(200, "Update gold prices successful"));
             else return BadRequest(new ApiResponse(400,"Failed to update gold prices"));
         }

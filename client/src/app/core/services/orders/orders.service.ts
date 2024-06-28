@@ -13,11 +13,20 @@ import { PaginationModel } from '../../models/pagination.model';
   providedIn: 'root',
 })
 export class OrdersService {
-  baseUrl = environment.baseApiUrl;
+  // =============================================
+  // == Fields
+  // =============================================
+  baseOrderUrl = environment.baseApiUrl.concat('/orders');
   orderParams = new OrderParams();
 
+  // =============================================
+  // == Lifecycle
+  // =============================================
   constructor(private http: HttpClient) {}
 
+  // =============================================
+  // == Methods
+  // =============================================
   getOrders(): Observable<PaginationModel<OrderModel>> {
     let params = new HttpParams();
 
@@ -32,20 +41,17 @@ export class OrdersService {
       params = params.append('search', this.orderParams.search);
     }
 
-    return this.http.get<PaginationModel<OrderModel>>(
-      this.baseUrl + '/orders',
-      {
-        params,
-      }
-    );
+    return this.http.get<PaginationModel<OrderModel>>(this.baseOrderUrl, {
+      params,
+    });
   }
 
   getOrderById(id: number) {
-    return this.http.get<OrderModel>(this.baseUrl + '/orders/' + id);
+    return this.http.get<OrderModel>(`${this.baseOrderUrl}/${id}`);
   }
 
   getOrderTypes() {
-    return this.http.get<OrderTypeModel[]>(this.baseUrl + '/orders/types');
+    return this.http.get<OrderTypeModel[]>(`${this.baseOrderUrl}/sales`);
   }
 
   getOrderParams() {
@@ -54,5 +60,51 @@ export class OrdersService {
 
   setOrderParams(params: OrderParams) {
     this.orderParams = params;
+  }
+
+  updateOrder(order: OrderModel) {
+    let params = new HttpParams();
+
+    if (order.status) {
+      params = params.set('status', order.status);
+    }
+    return this.http.put<OrderModel[]>(
+      `${this.baseOrderUrl}/update/${order.id}`,
+      { params: params }
+    );
+  }
+
+  // =============================================
+  // == Create Sales, Buyback, Exchange orders
+  // =============================================
+
+  createSaleOrder(basketId: number | string, customerId: number | string) {
+    return this.http.post<{
+      basketId: number | String;
+      customerId: number | string;
+    }>(`${this.baseOrderUrl}/sales`, {
+      basketId: basketId,
+      customerId: customerId,
+    });
+  }
+
+  createBuybackOrder(basketId: number | string, customerId: number | string) {
+    return this.http.post<{
+      basketId: number | String;
+      customerId: number | string;
+    }>(`${this.baseOrderUrl}/buyback`, {
+      basketId: basketId,
+      customerId: customerId,
+    });
+  }
+
+  createExchangeOrder(basketId: number | string, customerId: number | string) {
+    return this.http.post<{
+      basketId: number | String;
+      customerId: number | string;
+    }>(`${this.baseOrderUrl}/exchange`, {
+      basketId: basketId,
+      customerId: customerId,
+    });
   }
 }
