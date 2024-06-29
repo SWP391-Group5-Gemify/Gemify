@@ -19,8 +19,8 @@ import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 })
 export class GoldService {
   baseGoldChartUrl: string = environment.baseApiUrl.concat('/golds');
-  goldPriceApiUrl = 'environment.goldPriceApiUrl;';
-  currencyApi = 'environment.currencyApiUrl;';
+  goldPriceApiUrl = environment.goldPriceApiUrl;
+  currencyApi = environment.currencyApiUrl;
 
   constructor(private httpClient: HttpClient) {}
 
