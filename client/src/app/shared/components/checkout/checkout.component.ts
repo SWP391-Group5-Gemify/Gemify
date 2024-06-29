@@ -78,7 +78,9 @@ export class CheckoutComponent implements OnInit {
    * Load Customer form if exist using phone
    */
   public loadCustomerOnBasketIfExist(): void {
-    let phoneNumber = this.basketService.getCurrentBasketValue()?.phoneNumber;
+    let phoneNumber =
+      this.basketService.getCurrentBasketValue()?.phoneNumber ?? '';
+    this.patchCustomerPhoneToCheckout(phoneNumber);
 
     phoneNumber &&
       this.customerService
@@ -90,6 +92,13 @@ export class CheckoutComponent implements OnInit {
               this.checkoutForm.get('customerForm')?.patchValue(customer);
           },
         });
+  }
+
+  /**
+   * Patch temporary phone into the customer checkout form
+   */
+  private patchCustomerPhoneToCheckout(phone: string = '') {
+    this.checkoutForm.get('customerForm')?.get('phone')?.patchValue(phone);
   }
 
   /**

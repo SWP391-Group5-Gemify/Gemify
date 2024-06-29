@@ -10,6 +10,7 @@ import { Observable, switchMap } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { BasketModel } from '../../../../core/models/basket.model';
+import { Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -31,14 +32,26 @@ export class CheckoutPaymentComponent {
   constructor(
     private basketService: BasketService,
     private orderService: OrderService,
-    private promotionService: PromotionService,
     private customerService: CustomerService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {}
 
   // =========================
   // == Methods
   // =========================
+
+  /**
+   * Create the Stripe payment intent for the basket
+   */
+  public createPaymentIntent() {
+    this.basketService.createPaymentIntent().subscribe({
+      next: () => {
+        this.notificationService.show('Payment intent created');
+      },
+      error: (error) => this.notificationService.show(error.message),
+    });
+  }
 
   /**
    * Create a customer if not existed
@@ -60,29 +73,38 @@ export class CheckoutPaymentComponent {
 
   /**
    * Create order after having
+   * - Payment Intent Id
    * - Basket Id
    * - Customer Id
    * - TODO: Promotion Id (optional)
    */
-  createOrder() {
+  public createOrder() {
+    // Payment Intent
+    this.createPaymentIntent();
+
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
-
-    // If don't have basket, then return
     if (basket) {
+      // Attach promotion id if having
       basket.promotionId =
-        this.checkoutForm?.get('promotionForm')?.value ?? null;
+        this.checkoutForm?.get('promotionForm')?.get('promotionId')?.value ??
+        null;
+
+      // Load customer, get customer's id
       this.createCustomerInfo()
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (customer: CustomerModel) => {
             if (customer.id && basket.id) {
-              // console.log(customer.id, basket.id, basket.promotionId);
+              console.log(customer.id, basket.id, basket.promotionId);
+              console.table(basket);
               this.orderService
                 .createSaleOrder(basket.id, customer.id)
                 .subscribe({
                   next: (value) => {
                     this.notificationService.show('Tạo hóa đơn thành công');
+                    this.basketService.deleteCurrentBasket();
+                    this.router.navigate(['cashier/orders']);
                   },
                 });
             }

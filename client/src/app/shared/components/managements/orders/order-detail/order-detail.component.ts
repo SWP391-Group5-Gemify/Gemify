@@ -139,7 +139,7 @@ export class OrderDetailComponent implements OnInit {
     const selectedBasketId = event?.value;
 
     if (selectedBasketId) {
-      this.basketService.loadCurrentBasket(selectedBasketId);
+      this.basketService.loadBasketById(selectedBasketId);
     }
   }
 

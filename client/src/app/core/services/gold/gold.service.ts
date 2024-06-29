@@ -19,8 +19,8 @@ import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 })
 export class GoldService {
   baseGoldChartUrl: string = environment.baseApiUrl.concat('/golds');
-  goldPriceApiUrl = environment.goldPriceApiUrl;
-  currencyApi = environment.currencyApiUrl;
+  goldPriceApiUrl = 'environment.goldPriceApiUrl;';
+  currencyApi = 'environment.currencyApiUrl;';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -104,7 +104,7 @@ export class GoldService {
    * Get current gold price VND/ounce
    */
   getWorldGoldPrice(): Observable<WorldGoldPrice> {
-    return this.httpClient.get<WorldGoldPrice>(this.goldPriceApiUrl)
+    return this.httpClient.get<WorldGoldPrice>(this.goldPriceApiUrl);
   }
 
   /**
@@ -113,5 +113,4 @@ export class GoldService {
   getCurrency(): Observable<Currency> {
     return this.httpClient.get<Currency>(this.currencyApi);
   }
-
 }
