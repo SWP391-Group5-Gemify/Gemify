@@ -32,7 +32,9 @@ import {
 } from '../../../../core/models/basket.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-create-new-basket.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -152,6 +154,7 @@ export class ProductsComponent implements OnInit {
     this.productService
       .getSubCategories()
       .pipe(
+        untilDestroyed(this),
         map((subCategories: SubCategoryModel[]) => {
           return subCategories.map((subCategory: SubCategoryModel) => ({
             value: subCategory.id,
@@ -176,18 +179,21 @@ export class ProductsComponent implements OnInit {
    * TODO: Handle error when load failed
    */
   public loadGoldsDropdown() {
-    this.goldService.getAllGolds().subscribe({
-      next: (response: PaginationModel<GoldModel>) => {
-        this.goldsDropdown = response.data.map((gold) => ({
-          value: gold.id,
-          name: gold.name,
-        }));
-      },
+    this.goldService
+      .getAllGolds()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (response: PaginationModel<GoldModel>) => {
+          this.goldsDropdown = response.data.map((gold) => ({
+            value: gold.id,
+            name: gold.name,
+          }));
+        },
 
-      error(err) {
-        console.error(err);
-      },
-    });
+        error(err) {
+          console.error(err);
+        },
+      });
   }
 
   /**
@@ -285,7 +291,7 @@ export class ProductsComponent implements OnInit {
     const selectedBasketId = event?.value;
 
     if (selectedBasketId) {
-      this.basketService.loadCurrentBasket(selectedBasketId);
+      this.basketService.loadBasketById(selectedBasketId);
     }
   }
 
@@ -307,6 +313,7 @@ export class ProductsComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
       width: '30rem',
       height: '30rem',
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

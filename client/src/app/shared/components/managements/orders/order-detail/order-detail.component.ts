@@ -4,7 +4,7 @@ import {
   OrderItemModel,
   OrderItemGemModel,
 } from '../../../../../core/models/order.model';
-import { OrdersService } from '../../../../../core/services/orders/orders.service';
+import { OrderService } from '../../../../../core/services/order/order.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -85,7 +85,7 @@ export class OrderDetailComponent implements OnInit {
   ];
 
   constructor(
-    private ordersService: OrdersService,
+    private ordersService: OrderService,
     private route: ActivatedRoute,
     private basketService: BasketService,
     private dialog: MatDialog,
@@ -111,29 +111,6 @@ export class OrderDetailComponent implements OnInit {
       ? (this.expandedElement =
           this.expandedElement === element ? null : element)
       : null;
-  }
-
-  // Calculate the total price of the product
-  // Product price = (gold weight * bid price) + labour + (gem price * quantity)
-  public calculateProductTotal(orderItem: OrderItemModel) {
-    return (
-      (orderItem.goldPrice * orderItem.goldWeight +
-        orderItem.productLabour +
-        this.calculateGemsTotal(orderItem.orderItemGems)) *
-      orderItem.quantity
-    );
-  }
-
-  // Calculate the total price of all of the gems on a product
-  private calculateGemsTotal(orderItemGems: OrderItemGemModel[]) {
-    return orderItemGems.reduce((acc, curr) => {
-      return acc + this.calculateGemTotal(curr);
-    }, 0);
-  }
-
-  // Calculate the total price of gem
-  public calculateGemTotal(orderItemGem: OrderItemGemModel) {
-    return orderItemGem.price * orderItemGem.quantity;
   }
 
   /**
@@ -162,7 +139,7 @@ export class OrderDetailComponent implements OnInit {
     const selectedBasketId = event?.value;
 
     if (selectedBasketId) {
-      this.basketService.loadCurrentBasket(selectedBasketId);
+      this.basketService.loadBasketById(selectedBasketId);
     }
   }
 

@@ -1,0 +1,27 @@
+@import "abstracts/variables";
+
+.payment-form {
+
+  &__heading {
+    font-size: 2.4rem;
+    color: $color-black;
+    text-transform: uppercase;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: $gutter-layout;
+  }
+
+  .flex--3-cols {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: $gutter-layout;
+
+    mat-form-field {
+      flex: 1;
+    }
+  }
+}

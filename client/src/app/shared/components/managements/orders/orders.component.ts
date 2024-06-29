@@ -4,7 +4,7 @@ import {
   OrderParams,
   OrderTypeModel,
 } from '../../../../core/models/order.model';
-import { OrdersService } from '../../../../core/services/orders/orders.service';
+import { OrderService } from '../../../../core/services/order/order.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
@@ -53,7 +53,7 @@ export class OrdersComponent implements OnInit {
   typeDropdown!: DropdownModel[];
   totalOrders = 0;
 
-  constructor(private ordersService: OrdersService, private router: Router) {
+  constructor(private ordersService: OrderService, private router: Router) {
     this.orderParams = ordersService.getOrderParams();
   }
 

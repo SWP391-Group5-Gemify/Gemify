@@ -1,6 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
   CustomerCreateModel,
@@ -51,12 +55,24 @@ export class CustomerService {
   }
 
   /**
-   * Get customers on Id
+   * Get customer on Id
    * @param id id of the customer
    * @returns
    */
   getCustomerById(id: number): Observable<CustomerModel> {
     return this.httpClient.get<CustomerModel>(`${this.baseCustomerUrl}/${id}/`);
+  }
+
+  /**
+   * Get customer by Phone
+   * TODO: Currently return false if the user not existed
+   * @param phone
+   * @returns
+   */
+  getCustomerByPhone(phone: number | string): Observable<CustomerModel> {
+    return this.httpClient.get<CustomerModel>(
+      `${this.baseCustomerUrl}/phone/${phone}`
+    );
   }
 
   /**
@@ -68,7 +84,7 @@ export class CustomerService {
     customer: CustomerModel
   ): Observable<CreateUpdateDeleteResponseModel> {
     return this.httpClient.put<CreateUpdateDeleteResponseModel>(
-      `${this.baseCustomerUrl}`,
+      `${this.baseCustomerUrl}/${customer.id}`,
       customer
     );
   }

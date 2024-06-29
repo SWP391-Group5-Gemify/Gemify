@@ -18,7 +18,9 @@ import { ModalConfigModel } from '../../../../../core/models/modal.model';
 import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { Observable } from 'rxjs';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-modal-view-current-user',
   standalone: true,

@@ -53,8 +53,8 @@ export interface SubCategoryModel {
 }
 
 export enum ProductStatusEnum {
-  Unavailable = 'Unavailable',
-  Available = 'Available',
+  Unavailable = 'Không Bán',
+  Available = 'Còn Hàng',
 }
 
 export enum SortProductsQuantityEnum {

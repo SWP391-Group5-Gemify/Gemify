@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
@@ -17,10 +17,12 @@ import {
   BasketsSearchingCriteriaModel,
 } from '../../../../core/models/basket.model';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { filter, map, Observable, tap } from 'rxjs';
+import { filter, map, Observable, Subscription, tap } from 'rxjs';
 import { CardBasketComponent } from './card-basket/card-basket.component';
 import { TableBasketItemsComponent } from './table-basket-items/table-basket-items.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-basket',
   standalone: true,
@@ -64,6 +66,7 @@ export class BasketComponent implements OnInit {
     this.loadBaskets();
     this.loadBasketIdAndPhoneDropdown();
   }
+
   // ==========================================
   // == Methods
   // ==========================================
@@ -105,15 +108,18 @@ export class BasketComponent implements OnInit {
    * Maps baskets to dropdown model.
    */
   public loadBasketIdAndPhoneDropdown() {
-    this.basketService.getBaskets().subscribe((baskets: BasketModel[]) => {
-      this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
-        value: basket.id,
-        name: this.basketService.generateTempTicketId(
-          basket.id,
-          basket.phoneNumber
-        ),
-      }));
-    });
+    this.basketService
+      .getBaskets()
+      .pipe(untilDestroyed(this))
+      .subscribe((baskets: BasketModel[]) => {
+        this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
+          value: basket.id,
+          name: this.basketService.generateTempTicketId(
+            basket.id,
+            basket.phoneNumber
+          ),
+        }));
+      });
   }
 
   /**

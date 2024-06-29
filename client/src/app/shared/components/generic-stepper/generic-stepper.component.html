@@ -2,9 +2,11 @@
   <ul class="stepper__nav">
     <li class="nav__item"
         *ngFor="let step of steps; let i = index">
-      <button (click)="onClick(i)"
+      <button (click)="selectStepByIndex(i)"
               [class.btn-square--active]="selectedIndex === i"
-              class="btn-square btn-square--primary-light">{{step.label}}</button>
+              class="btn-square btn-square--primary-light">{{step.label}}
+        -{{step.completed}}
+      </button>
     </li>
   </ul>
 

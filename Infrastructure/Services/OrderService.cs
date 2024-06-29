@@ -153,6 +153,7 @@ namespace Infrastructure.Services
             foreach (var item in basket.SaleItems)
             {
                 var salesOrderItem = await CreateSalesOrderItem(item);
+                if (salesOrderItem == null) return null;
                 items.Add(salesOrderItem);
             }
 
@@ -231,6 +232,7 @@ namespace Infrastructure.Services
             foreach (var item in basket.SaleItems)
             {
                 var salesOrderItem = await CreateSalesOrderItem(item);
+                if (salesOrderItem == null) return null;
                 saleItemList.Add(salesOrderItem);
             }
 

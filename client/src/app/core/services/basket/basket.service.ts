@@ -9,8 +9,9 @@ import {
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
 import { OrderItemModel } from '../../models/order.model';
-import ImageUtils from '../../../shared/utils/ImageUtils';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
@@ -19,6 +20,8 @@ export class BasketService {
   // == Fields
   // ====================
   private baseBasketUrl: string = environment.baseApiUrl.concat('/basket');
+  private basePaymentUrl: string = environment.baseApiUrl.concat('/payments');
+
   private readonly LOCAL_STORAGE_BASKET_ID: string = 'basket_id';
 
   // Create a singleton for the basket source, which will be accessed
@@ -38,13 +41,48 @@ export class BasketService {
   // ================================ FOR A SINGLE BASKET ============================
 
   /**
+   * Create a payment intent
+   * @returns
+   */
+  public createPaymentIntent() {
+    return this.httpClient
+      .post<BasketModel>(
+        `${this.basePaymentUrl}/${this.getCurrentBasketValue()?.id}`,
+        {}
+      )
+      .pipe(
+        map((basket) => {
+          this._basketSource.next(basket);
+        })
+      );
+  }
+
+  /**
+   * Switching the target into current basket
+   * @param basket
+   */
+  public selectBasketBeCurrentBasket(basket: BasketModel) {
+    this._basketSource.next(basket);
+    localStorage.setItem(this.LOCAL_STORAGE_BASKET_ID, basket.id);
+  }
+
+  /**
+   * Delete the current basket
+   */
+  public deleteCurrentBasket() {
+    this._basketSource.next(null);
+    localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
+  }
+
+  /**
    * Load a basket by id into the basket source
    * @param id
    * @returns
    */
-  public loadCurrentBasket(id: string) {
+  public loadBasketById(id: string) {
     return this.httpClient
       .get<BasketModel>(`${this.baseBasketUrl}/${id}`)
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (basket) => this._basketSource.next(basket),
       });
@@ -62,23 +100,29 @@ export class BasketService {
   /**
    * Getter of basketId
    */
-  public get currentBasketId() {
+  public get currentBasketIdLocalStorage() {
     return localStorage.getItem(this.LOCAL_STORAGE_BASKET_ID);
   }
 
   /**
-   * Set into the basket source
-   * Update that basket info and set to that basket source
+   * Set into the basket source after the post is successful
+   * Update that basket info
    * @param basket
    * @returns
    */
-  public setCurrentBasket(updatedBasket: BasketModel) {
+  public setOrUpdateBasket(updatedBasket: BasketModel) {
+    // If 2 basket object are exactly the same, dont need to add, update, or emit into basket source
+
     return this.httpClient
       .post<BasketModel>(this.baseBasketUrl, updatedBasket)
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (basket) => {
-          localStorage.setItem('basket_id', basket.id);
+          console.log('BEFORE NEXT: ', basket);
+
           this._basketSource.next(basket);
+
+          console.log('AFTER NEXT: ', this._basketSource.getValue());
         },
       });
   }
@@ -136,7 +180,7 @@ export class BasketService {
 
     // Update the basket into the basket source
     // the basket source will get that value immediately when the addItemToBasket triggered
-    this.setCurrentBasket(basket);
+    this.setOrUpdateBasket(basket);
   }
 
   /**
@@ -178,7 +222,7 @@ export class BasketService {
 
     // Update the basket into the basket source
     // the basket source will get that value immediately when the addBuybackItemToBasket triggered
-    this.setCurrentBasket(basket);
+    this.setOrUpdateBasket(basket);
   }
 
   /**
@@ -188,8 +232,7 @@ export class BasketService {
   public createEmptyBasketWithPhoneNumber(phoneNumber: string): void {
     const newBasket: BasketModel = new BasketModel();
     newBasket.phoneNumber = phoneNumber;
-    localStorage.setItem('basket_id', newBasket.id);
-    this.setCurrentBasket(newBasket);
+    this.setOrUpdateBasket(newBasket);
   }
 
   /**
@@ -220,7 +263,7 @@ export class BasketService {
    * Get the current basket value
    */
   public getCurrentBasketValue(): BasketModel | null {
-    return this._basketSource.value;
+    return this._basketSource.getValue();
   }
 
   /**

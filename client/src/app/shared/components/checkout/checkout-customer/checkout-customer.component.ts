@@ -4,10 +4,14 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { GenderEnum, GenderModel } from '../../../../core/models/gender.model';
-import { EmployeeService } from '../../../../core/services/employee/employee.service';
 import EnumUtils from '../../../utils/EnumUtils';
 import { MatRadioModule } from '@angular/material/radio';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CustomerService } from '../../../../core/services/customer/customer.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-checkout-customer',
   standalone: true,
@@ -17,6 +21,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
+    CdkStepperModule,
   ],
   templateUrl: './checkout-customer.component.html',
   styleUrl: './checkout-customer.component.scss',
@@ -31,6 +36,8 @@ export class CheckoutCustomerComponent implements OnInit {
   // =========================
   // == Life cycle
   // =========================
+  constructor(private customerService: CustomerService) {}
+
   ngOnInit(): void {
     this.loadGenderRadioButtons();
   }
@@ -38,6 +45,10 @@ export class CheckoutCustomerComponent implements OnInit {
   // =========================
   // == Methods
   // =========================
+
+  /**
+   * Load gender radio buttons
+   */
   loadGenderRadioButtons() {
     this.genderOptions = EnumUtils.enumToObject(GenderEnum);
   }

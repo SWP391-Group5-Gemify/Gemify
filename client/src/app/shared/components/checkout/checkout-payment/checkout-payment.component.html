@@ -1,2 +1,50 @@
-<button class="btn btn--primary-dark u-margin-top-small"
-        (click)="createOrderOnBasketAndCustomer">Thanh toán giỏ hàng</button>
+<!-- Stripe Inputs Form -->
+<section *ngIf="checkoutForm"
+         [formGroup]="checkoutForm"
+         class="payment-form">
+
+  <h3 class="payment-form__heading  u-margin-top-medium u-margin-bottom-medium">Thông tin thanh toán</h3>
+  <div class="payment-form__controls">
+    <!-- Name On Card -->
+    <mat-form-field appearance="outline">
+      <mat-label>Tên chủ thẻ</mat-label>
+      <input matInput
+             type="text"
+             formControlName="nameOnCard"
+             name="nameOnCard">
+    </mat-form-field>
+
+    <!-- Card Number -->
+
+    <div class="flex--3-cols">
+      <mat-form-field appearance="outline">
+        <mat-label>Số thẻ</mat-label>
+        <input matInput
+               type="text">
+      </mat-form-field>
+
+      <!-- Card Expiry -->
+      <mat-form-field appearance="outline">
+        <mat-label>Ngày hết hạn</mat-label>
+        <input matInput
+               type="date">
+      </mat-form-field>
+
+      <!-- CVC -->
+      <mat-form-field appearance="outline">
+        <mat-label>CVC</mat-label>
+        <input matInput
+               type="text">
+      </mat-form-field>
+    </div>
+  </div>
+</section>
+
+<!-- Go previous or Go forward -->
+<div class="basket-summary-actions u-margin-top-medium">
+  <button class="btn btn--primary-light"
+          cdkStepperPrevious>Quay trở lại khuyến mãi</button>
+  <button class="btn btn--primary-dark"
+          (click)="createOrder()"
+          cdkStepperNext>Xác nhận thanh toán</button>
+</div>
