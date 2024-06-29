@@ -110,12 +110,36 @@ namespace Infrastructure.Services
 
             return saleCounterRevenues;
         }
+
         /**
          * Get list of sale counter revenues of year
          */
-        public Task<decimal> GetSaleCounterYearlyRevenueAsync(int year)
+        public async Task<IReadOnlyList<SaleCounterRevenue>> GetSaleCounterYearlyRevenueAsync(int year)
         {
-            throw new NotImplementedException();
+            var yearlyRevenues = new List<SaleCounterRevenue>();
+
+            // Giả sử có 6 quầy hàng
+            for (int saleCounterId = 1; saleCounterId <= 6; saleCounterId++)
+            {
+                decimal totalRevenue = 0;
+                for (int month = 1; month <= 12; month++)
+                {
+                    var monthlyRevenues = await GetSaleCounterRevenueInMonthAsync(month, year);
+
+                    foreach (var revenue in monthlyRevenues)
+                    {
+                        if (revenue.SaleCounterId == saleCounterId)
+                        {
+                            totalRevenue += revenue.Revenue;
+                        }
+                    }
+                }
+
+                var yearlyRevenue = new SaleCounterRevenue(totalRevenue, saleCounterId, new DateOnly(year, 1, 1));
+                yearlyRevenues.Add(yearlyRevenue);
+            }
+
+            return yearlyRevenues.AsReadOnly();
         }
     }
 }

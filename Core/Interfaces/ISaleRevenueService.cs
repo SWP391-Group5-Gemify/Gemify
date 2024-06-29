@@ -7,6 +7,6 @@ namespace Core.Interfaces
         Task<IReadOnlyList<SaleRevenue>> GetMonthlyRevenuesAsync(int year);
         Task<decimal> GetYearlyRevenueAsync(int year);
         Task<IReadOnlyList<DashboardCounterRevenue>> GetSaleCounterMonthlyRevenuesAsync(int year);
-        Task<decimal> GetSaleCounterYearlyRevenueAsync(int year);
+        Task<IReadOnlyList<SaleCounterRevenue>> GetSaleCounterYearlyRevenueAsync(int year);
     }
 }

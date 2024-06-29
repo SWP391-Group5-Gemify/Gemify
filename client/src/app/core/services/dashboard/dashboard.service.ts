@@ -21,11 +21,11 @@ export class DashboardService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getRevenuesData(year: number){
-    return this.http.get<revenuesData[]>(`${this.baseDashboardUrl}/revenues/${year}`);
+    return this.http.get<revenuesData[]>(`${this.baseDashboardUrl}/monthlyRevenues/${year}`);
   }
 
   getCounterRevenuesData(year: number){
-    return this.http.get<revenuesData[]>(`${this.baseDashboardUrl}/revenues/${year}`);
+    return this.http.get<revenuesData[]>(`${this.baseDashboardUrl}/monthlyRevenues/${year}`);
   }
 
   getSpecificCounterRevenuesData(year: number): Observable<MonthlyRevenue[]> {
