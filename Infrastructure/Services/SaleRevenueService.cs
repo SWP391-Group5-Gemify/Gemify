@@ -72,6 +72,7 @@ namespace Infrastructure.Services
             return saleRevenues;
         }
 
+        //lấy theo tháng cụ thể
         public async Task<IReadOnlyList<SaleCounterRevenueByMonth>>
             GetSaleCounterRevenueInMonthAsync(int month, int year)
         {
@@ -140,6 +141,46 @@ namespace Infrastructure.Services
             }
 
             return yearlyRevenues.AsReadOnly();
+        }
+
+        //lấy revenue của counter theo năm
+        public async Task<IReadOnlyList<SaleCounterRevenueYearly>>
+            GetSaleCounterRevenueYearlyAsync(int year)
+        {
+            var counters = await _context.SaleCounters
+                                .Include(c => c.SaleCounterRevenue)
+                                .ToListAsync();
+
+            var saleCounterRevenues = new List<SaleCounterRevenueYearly>();
+
+            foreach (var counter in counters)
+            {
+                var total = 0;
+                var saleCounterRevenueYearly = new SaleCounterRevenueYearly()
+                {
+                    SaleCounterId = counter.Id
+                };
+                saleCounterRevenueYearly.SaleCounterId = counter.Id;
+
+                foreach (var counterRevenue in counter.SaleCounterRevenue)
+                {
+                    if (counterRevenue == null)
+                    {
+                        total = 0;
+                    }
+                    else if (counterRevenue.Date.Year == year)
+                    {
+                        total += (int)counterRevenue.Revenue;
+                    }
+                }
+                saleCounterRevenueYearly.Revenue = total;
+
+                saleCounterRevenueYearly.SaleCounterName = counter.Name;
+
+                saleCounterRevenues.Add(saleCounterRevenueYearly);
+            }
+
+            return saleCounterRevenues;
         }
     }
 }

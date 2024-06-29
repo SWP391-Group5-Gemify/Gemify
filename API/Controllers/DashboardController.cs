@@ -51,7 +51,17 @@ namespace API.Controllers
         public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>>
             GetSaleCounterYearlyRevenuesAsync(int year)
         {
-            var revenues = await _saleRevenueService.GetSaleCounterYearlyRevenueAsync(year);
+            var revenues = await _saleRevenueService.GetSaleCounterRevenueYearlyAsync(year);
+            return Ok(revenues);
+        }
+
+        // Get counters revenue in month
+        [HttpGet("revenues/counters/{month}/{year}")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenueByMonth>>>
+            GetSaleCounterRevenueInMonthAsync(int month, int year)
+        {
+            var revenues = await _saleRevenueService.GetSaleCounterRevenueInMonthAsync(month,year);
             return Ok(revenues);
         }
     }

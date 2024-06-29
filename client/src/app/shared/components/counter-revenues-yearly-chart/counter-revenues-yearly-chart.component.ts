@@ -1,15 +1,15 @@
-// import { Component } from '@angular/core';
+// // import { Component } from '@angular/core';
 
-// @Component({
-//   selector: 'app-counter-revenues-yearly-chart',
-//   standalone: true,
-//   imports: [],
-//   templateUrl: './counter-revenues-yearly-chart.component.html',
-//   styleUrl: './counter-revenues-yearly-chart.component.scss'
-// })
-// export class CounterRevenuesYearlyChartComponent {
+// // @Component({
+// //   selector: 'app-counter-revenues-yearly-chart',
+// //   standalone: true,
+// //   imports: [],
+// //   templateUrl: './counter-revenues-yearly-chart.component.html',
+// //   styleUrl: './counter-revenues-yearly-chart.component.scss'
+// // })
+// // export class CounterRevenuesYearlyChartComponent {
 
-// }
+// // }
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';

@@ -118,7 +118,7 @@ export class CounterRevenuesChartComponent implements OnInit, OnDestroy {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0
               }).format(value);
-              
+
               // Thay thế dấu phẩy thành dấu chấm
               return formattedValue.replace(/,/g, '.');
             },
@@ -142,6 +142,86 @@ export class CounterRevenuesChartComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  // renderGroupedColumnChart(labelData: number[], realData: number[][]): void {
+  //   const chartId = 'columnchart';
+  //   const chartType = 'bar';
+
+  //   // Chuyển đổi dữ liệu để phù hợp với biểu đồ cột kề
+  //   const datasets = realData.map((data, index) => {
+  //     const counterNames = [
+  //       'Quầy nhẫn',
+  //       'Quầy dây chuyền',
+  //       'Quầy bông tai',
+  //       'Quầy lắc',
+  //       'Quầy mặt dây chuyền',
+  //       'Quầy vàng tài lộc'
+  //     ];
+  //     const colors = [
+  //       'rgba(255, 99, 132, 1)',
+  //       'rgba(54, 162, 235, 1)',
+  //       'rgba(255, 206, 86, 1)',
+  //       'rgba(75, 192, 192, 1)',
+  //       'rgba(153, 102, 255, 1)',
+  //       'rgba(255, 159, 64, 1)'
+  //     ];
+
+  //     return {
+  //       label: counterNames[index],
+  //       data: data,
+  //       backgroundColor: colors[index],
+  //       borderColor: colors[index],
+  //       borderWidth: 1
+  //     };
+  //   });
+
+  //   this.chart = new Chart(chartId, {
+  //     type: chartType,
+  //     data: {
+  //       labels: labelData,
+  //       datasets: datasets
+  //     },
+  //     options: {
+  //       responsive: true,
+  //       plugins: {
+  //         legend: {
+  //           position: 'top'
+  //         },
+  //         datalabels: {
+  //           color: 'white',
+  //           display: true,
+  //           formatter: (value: number) => {
+  //             // Định dạng số với dấu phân tách hàng nghìn
+  //             const formattedValue = new Intl.NumberFormat('en-US', {
+  //               minimumFractionDigits: 0,
+  //               maximumFractionDigits: 0
+  //             }).format(value);
+
+  //             // Thay thế dấu phẩy thành dấu chấm
+  //             return formattedValue.replace(/,/g, '.');
+  //           },
+  //           anchor: 'end',
+  //           align: 'top',
+  //           font: {
+  //             size: 10,
+  //             weight: 'bold'
+  //           }
+  //         }
+  //       },
+  //       scales: {
+  //         x: {
+  //           stacked: false,  // Không chồng cột
+  //           beginAtZero: true
+  //         },
+  //         y: {
+  //           stacked: false,  // Không chồng cột
+  //           beginAtZero: true
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
+
 
   clearChart(): void {
     if (this.chart) {

@@ -4,7 +4,7 @@ import { revenuesData } from '../../models/revenuesData.model';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
-import { MonthlyRevenue } from '../../../core/models/counter-revenue.model';
+import { MonthlyRevenue, SaleCounterRevenue} from '../../../core/models/counter-revenue.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +30,13 @@ export class DashboardService {
 
   getSpecificCounterRevenuesData(year: number): Observable<MonthlyRevenue[]> {
     return this.http.get<MonthlyRevenue[]>(`${this.baseDashboardUrl}/revenues/counters/${year}`);
+  }
+
+  getSpecificCounterYearlyRevenuesData(year: number): Observable<MonthlyRevenue[]> {
+    return this.http.get<MonthlyRevenue[]>(`${this.baseDashboardUrl}/revenues/counterYearlyRevenues/${year}`);
+  }
+
+  getSpecificCounterRevenuesInMonthData(year: number, month: number): Observable<SaleCounterRevenue[]> {
+    return this.http.get<SaleCounterRevenue[]>(`${this.baseDashboardUrl}/revenues/counters/${month}/${year}`);
   }
 }
