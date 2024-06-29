@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import { OrderService } from '../../../../core/services/order/order.service';
 import { CdkStepperModule } from '@angular/cdk/stepper';
@@ -11,12 +11,21 @@ import { CustomerModel } from '../../../../core/models/customer.model';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { BasketModel } from '../../../../core/models/basket.model';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @UntilDestroy()
 @Component({
   selector: 'app-checkout-payment',
   standalone: true,
-  imports: [CdkStepperModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    CdkStepperModule,
+  ],
   templateUrl: './checkout-payment.component.html',
   styleUrl: './checkout-payment.component.scss',
 })
