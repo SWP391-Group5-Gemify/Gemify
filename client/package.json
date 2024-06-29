@@ -23,6 +23,7 @@
     "@angular/router": "^17.3.0",
     "@ngneat/until-destroy": "^10.0.0",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@stripe/stripe-js": "^4.0.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "ngx-spinner": "^17.0.0",
