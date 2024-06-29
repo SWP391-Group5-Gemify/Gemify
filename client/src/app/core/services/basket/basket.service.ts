@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import {
   BasketBuybackItemModel,
   BasketItemModel,
@@ -20,6 +20,8 @@ export class BasketService {
   // == Fields
   // ====================
   private baseBasketUrl: string = environment.baseApiUrl.concat('/basket');
+  private basePaymentUrl: string = environment.baseApiUrl.concat('/payments');
+
   private readonly LOCAL_STORAGE_BASKET_ID: string = 'basket_id';
 
   // Create a singleton for the basket source, which will be accessed
@@ -37,6 +39,23 @@ export class BasketService {
   // ====================
 
   // ================================ FOR A SINGLE BASKET ============================
+
+  /**
+   * Create a payment intent
+   * @returns
+   */
+  public createPaymentIntent() {
+    return this.httpClient
+      .post<BasketModel>(
+        `${this.basePaymentUrl}/${this.getCurrentBasketValue()?.id}`,
+        {}
+      )
+      .pipe(
+        map((basket) => {
+          this._basketSource.next(basket);
+        })
+      );
+  }
 
   /**
    * Switching the target into current basket

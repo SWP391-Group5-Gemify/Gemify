@@ -7,8 +7,8 @@ export interface BasketModel {
   orderTypeId: number;
   phoneNumber: string;
   promotionId?: number;
-  clientSecret: string;
-  paymentIntentId: string;
+  clientSecret?: string;
+  paymentIntentId?: string;
   saleItems: BasketItemModel[];
   buybackItems: BasketBuybackItemModel[];
 }
@@ -37,9 +37,10 @@ export interface BasketsSearchingCriteriaModel {
   searchPhoneNumber: string | undefined;
 }
 
-// A default class for a basket
+// A default, orderTypeId is 1
 export class BasketModel implements BasketModel {
   id: string = createId();
+  orderTypeId: number = 1;
   saleItems: BasketItemModel[] = [];
   buybackItems: BasketBuybackItemModel[] = [];
 }
