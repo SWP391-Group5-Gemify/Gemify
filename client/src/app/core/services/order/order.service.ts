@@ -6,8 +6,9 @@ import {
   OrderParams,
   OrderTypeModel,
 } from '../../models/order.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
+import ImageUtils from '../../../shared/utils/ImageUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,16 @@ export class OrderService {
 
   getOrderById(id: number) {
     return this.http.get<OrderModel>(`${this.baseOrderUrl}/${id}`);
+
+    // .pipe(
+    //   map((order) => {
+    //     return order.orderItems.forEach((item) => {
+    //       item.image_Url = ImageUtils.concatLinkToTokenFirebase(
+    //         item.image_Url
+    //       );
+    //     });
+    //   })
+    // );
   }
 
   getOrderTypes() {
