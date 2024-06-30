@@ -13,6 +13,8 @@ namespace Core.Interfaces
         
         Task<int> UpdateSaleCounterRevenuesAsync();
         
-        Task<int> CountSaleCounterRevenuesAsync(ISpecification<SaleCounterRevenue> spec);        
+        Task<int> CountSaleCounterRevenuesAsync(ISpecification<SaleCounterRevenue> spec);
+
+        Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date);
     }
 }

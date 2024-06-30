@@ -19,5 +19,11 @@ namespace Core.Specifications.Counters
         {
 
         }
+
+        public SaleCounterRevenueSpecification(int year)
+            : base(x => x.Date.Year == year)
+        {
+
+        }
     }
 }
