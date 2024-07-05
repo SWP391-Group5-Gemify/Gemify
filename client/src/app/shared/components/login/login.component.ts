@@ -53,30 +53,41 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Redirect to corresponding dashboard if JWT is still valid
-    const token = this.authService.token;
-    if (token) {
-      const currentUserSession =
-        this.authService.getCurrentUserFromToken(token);
-      this.redirectToDashboardPath(currentUserSession?.role);
-    }
+    this.loadCurrentExistingUserSession();
 
     // SignIn Form
     this.signInForm = this.formBuilder.group({
       // required, min length is 6, max is 32, receive a to z, case insensitive
 
       userName: new FormControl(
-        ''
-        //   Validators.compose([
-        //     Validators.required,
-        //     Validators.minLength(4),
-        //     Validators.maxLength(32),
-        //     Validators.pattern(/^[a-z]{4,32}$/i),
-        //   ])
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(32),
+          Validators.pattern(/^[a-z]{4,32}$/i),
+        ])
       ),
 
       password: new FormControl(''),
     });
+  }
+
+  /**
+   * Load the current user if having the jwt token
+   */
+  loadCurrentExistingUserSession() {
+    if (this.authService.token) {
+      this.authService.loadCurrentUserProfile().subscribe({
+        next: (response: UserModel) => {
+          this.authService.currentUser.set(response as UserModel);
+          this.redirectToDashboardPath(this.authService.currentUser()?.role);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
   }
 
   // ============================
@@ -119,7 +130,6 @@ export class LoginComponent implements OnInit {
     if (this.signInForm.valid) {
       this.authService.login(this.signInForm.value).subscribe({
         next: (user: UserModel) => {
-          console.table(user);
           this.redirectToDashboardPath(user.role);
         },
         error: (error) => {

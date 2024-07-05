@@ -76,7 +76,7 @@ export class CardBasketComponent {
    * @returns
    */
   isUserCashier() {
-    return this.authService.currentUser?.role === RoleEnum.Cashier;
+    return this.authService.currentUser()?.role === RoleEnum.Cashier;
   }
 
   /**

@@ -29,48 +29,27 @@ const routes: Routes = [
       {
         path: 'products',
         loadChildren: () =>
-          import('../../routes/managements/products-routing.module').then(
+          import('../managements/products/products-routing.module').then(
             (m) => m.ProductsRoutingModule
           ),
       },
       {
         path: 'promotions',
         loadChildren: () =>
-          import('../../routes/managements/promotions-routing.module').then(
+          import('../managements/promotions-routing.module').then(
             (m) => m.PromotionsRoutingModule
           ),
       },
       {
-        path: 'exchange',
+        path: 'policy',
         loadChildren: () =>
-          import('../../routes/managements/exchange-routing.module').then(
-            (m) => m.ExchangeRoutingModule
-          ),
-      },
-      {
-        path: 'buyback',
-        loadChildren: () =>
-          import('../../routes/managements/buyback-routing.module').then(
-            (m) => m.BuybackRoutingModule
-          ),
-      },
-      {
-        path: 'warranty',
-        loadChildren: () =>
-          import('../../routes/managements/warranty-routing.module').then(
-            (m) => m.WarrantyRoutingModule
-          ),
-      },
-      {
-        path: 'checkout',
-        loadChildren: () =>
-          import('../managements/checkout-routing.module').then(
-            (m) => m.CheckoutRoutingModule
+          import('../managements/policy-routing.module').then(
+            (m) => m.PolicyRoutingModule
           ),
       },
       {
         path: '**',
-        redirectTo: 'orders',
+        redirectTo: 'baskets',
         pathMatch: 'full',
       },
     ],

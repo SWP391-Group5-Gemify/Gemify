@@ -34,6 +34,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'promotions',
+        loadChildren: () =>
+          import('../managements/promotions-routing.module').then(
+            (m) => m.PromotionsRoutingModule
+          ),
+      },
+      {
         path: 'customers',
         loadChildren: () =>
           import('../../routes/managements/customers-routing.module').then(
@@ -41,17 +48,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'promotions',
-        loadChildren: () =>
-          import('../../routes/managements/promotions-routing.module').then(
-            (m) => m.PromotionsRoutingModule
-          ),
-      },
-      {
         path: 'products-management',
         loadChildren: () =>
           import(
-            '../../routes/managements/products-management-routing.module'
+            '../managements/products/products-management-routing.module'
           ).then((m) => m.ProductsManagementRoutingModule),
       },
       {
@@ -62,17 +62,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'loyalty',
+        path: 'membership',
         loadChildren: () =>
-          import('../../routes/managements/loyalty-routing.module').then(
-            (m) => m.LoyaltyRoutingModule
-          ),
-      },
-      {
-        path: 'exchange',
-        loadChildren: () =>
-          import('../../routes/managements/exchange-routing.module').then(
-            (m) => m.ExchangeRoutingModule
+          import('../managements/membership-routing.module').then(
+            (m) => m.MembershipRoutingModule
           ),
       },
       {
@@ -83,17 +76,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'buyback',
+        path: 'policy',
         loadChildren: () =>
-          import('../../routes/managements/buyback-routing.module').then(
-            (m) => m.BuybackRoutingModule
-          ),
-      },
-      {
-        path: 'warranty',
-        loadChildren: () =>
-          import('../../routes/managements/warranty-routing.module').then(
-            (m) => m.WarrantyRoutingModule
+          import('../managements/policy-routing.module').then(
+            (m) => m.PolicyRoutingModule
           ),
       },
       {

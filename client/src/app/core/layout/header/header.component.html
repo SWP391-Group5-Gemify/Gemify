@@ -7,7 +7,7 @@
 
   <!-- A group of action buttons -->
   <nav class="header__actions">
-    @if (!(authService.isLoggedIn$ | async)) {
+    @if (!(authService.currentUser())) {
     <button class="btn btn--grad btn--with-icon"
             routerLink="{{navLinks.login.route}}"><mat-icon>{{navLinks.login.icon}}</mat-icon>{{navLinks.login.name}}</button>
     <button class="btn btn--primary-dark btn--with-icon"
@@ -17,7 +17,6 @@
             (click)="navLinks.showProfile.action()"><mat-icon>{{navLinks.showProfile.icon}}</mat-icon>{{navLinks.showProfile.name}}</button>
     <button class="btn btn--grad btn--with-icon"
             (click)="navLinks.logout.action()"><mat-icon>{{navLinks.logout.icon}}</mat-icon>{{navLinks.logout.name}}</button>
-
     }
   </nav>
 

@@ -5,6 +5,8 @@ import { HeaderComponent } from './core/layout/header/header.component';
 import { BasketService } from './core/services/basket/basket.service';
 import { AuthService } from './core/services/auth/auth.service';
 import { RoleEnum } from './core/models/role.model';
+import { tap } from 'rxjs';
+import { UserModel } from './core/models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,6 @@ export class AppComponent implements OnInit {
   // ==========================================
   // == Fields
   // ==========================================
-  title = 'client';
 
   // ==========================================
   // == Lifecycle
@@ -46,11 +47,11 @@ export class AppComponent implements OnInit {
       RoleEnum.Repurchaser,
     ];
 
-    let isAllowedToLoadBaskets: boolean =
-      allowedRoles.includes(this.authService.currentUser?.role as RoleEnum) &&
-      this.authService.token != null;
+    let isRoleAllowedToLoadBaskets: boolean = allowedRoles.includes(
+      this.authService.currentUser()?.role as RoleEnum
+    );
 
-    if (isAllowedToLoadBaskets) {
+    if (isRoleAllowedToLoadBaskets && this.authService.token != null) {
       const basketId = this.basketService.currentBasketIdLocalStorage;
       basketId && this.basketService.loadBasketById(basketId);
     }
