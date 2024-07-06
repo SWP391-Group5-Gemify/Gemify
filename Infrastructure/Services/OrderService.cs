@@ -1,4 +1,5 @@
 ﻿using Core.Enitities;
+using Core.Enitities.Identity;
 using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications;
@@ -64,8 +65,7 @@ namespace Infrastructure.Services
         {
             // get orderItem based on orderItemId in item
             var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
-                new OrderItemSpecification(item.Id));
-            if (orderItem == null) return null;
+                new OrderItemSpecification(item.Id)) ?? throw new Exception($"orderItem with ID {item.Id} not found.");
             var product = await _unitOfWork.Repository<Product>().GetEntityWithSpec(
                 new ProductSpecification(orderItem.ItemOrdered.ProductItemId));
 
@@ -98,6 +98,45 @@ namespace Infrastructure.Services
             // calculate purchase product price
             var purchaseProductPrice = (decimal)buyBackOrderItemGemList
                 .Aggregate(buyBackItemOrdered.GoldPrice * buyBackItemOrdered.GoldWeight, (acc, g) => acc + g.Price * g.Quantity);
+            // create buy-back order item
+            var buyBackOrderItem = new OrderItem(buyBackItemOrdered, purchaseProductPrice, item.Quantity, buyBackOrderItemGemList);
+
+            return buyBackOrderItem;
+        }
+
+        public async Task<OrderItem> CreateExchangeOrderItem(BasketBuybackItem item)
+        {
+            // get orderItem based on orderItemId in item
+            var orderItem = await _unitOfWork.Repository<OrderItem>().GetEntityWithSpec(
+                new OrderItemSpecification(item.Id)) ?? throw new Exception($"orderItem with ID {item.Id} not found.");
+
+            // create a list of buy-back order item gem
+            var buyBackOrderItemGemList = new List<OrderItemGem>();
+            if (orderItem.OrderItemGems != null && orderItem.OrderItemGems.Any())
+            {
+                foreach (var pg in orderItem.OrderItemGems)
+                {
+                    // create buy-back gem item ordered
+                    var gemItemOrdered = pg.GemsItemOrdered;
+                    var purchaseGemPrice = -gemItemOrdered.GemPrice;
+                    var buyBackGemsItemOrdered = new ProductGemsItemOrdered(gemItemOrdered.GemName, gemItemOrdered.GemColor,
+                        gemItemOrdered.GemWeight, purchaseGemPrice, gemItemOrdered.GemCarat, gemItemOrdered.GemClarity,
+                        gemItemOrdered.GemCertificateCode);
+
+                    // create buy-back order item gem
+                    var buyBackOrderItemGem = new OrderItemGem(buyBackGemsItemOrdered, purchaseGemPrice, pg.Quantity);
+
+                    buyBackOrderItemGemList.Add(buyBackOrderItemGem);
+                }
+            }
+            // create item ordered
+            var itemOrdered = orderItem.ItemOrdered;
+            var buyBackItemOrdered = new ProductItemOrdered(itemOrdered.ProductItemId, itemOrdered.ProductName, -itemOrdered.GoldPrice,
+            itemOrdered.GoldType, itemOrdered.GoldWeight, -itemOrdered.ProductLabour, itemOrdered.Unit,
+            itemOrdered.TotalWeight, itemOrdered.Image_Url, itemOrdered.SaleCounterId, itemOrdered.SaleCounterName);
+            // calculate purchase product price
+            var purchaseProductPrice = (decimal)buyBackOrderItemGemList
+                .Aggregate(buyBackItemOrdered.GoldPrice * buyBackItemOrdered.GoldWeight + buyBackItemOrdered.ProductLabour, (acc, g) => acc + g.Price * g.Quantity);
             // create buy-back order item
             var buyBackOrderItem = new OrderItem(buyBackItemOrdered, purchaseProductPrice, item.Quantity, buyBackOrderItemGemList);
 
@@ -169,11 +208,12 @@ namespace Infrastructure.Services
          *         CREATE BUYBACK ORDER
          * =================================
         **/
-        public async Task<Order> CreateBuyBackOrderAsync(string basketId, int customerId, int repurchaserId)
+        public async Task<Order> CreateBuyBackOrderAsync(string basketId, int customerId, int userId)
         {
             // get basket
-            var basket = await _basketRepo.GetBasketAsync(basketId);
-            if (basket == null) return null;
+            var basket = await _basketRepo.GetBasketAsync(basketId) ?? throw new Exception($"Basket with ID {basketId} not found.");
+            if (basket == null) throw new ArgumentNullException(nameof(basket));
+            basket.PromotionId = null;
 
             // create list of buy-back order items
             List<OrderItem> buybackItemList = new List<OrderItem>();
@@ -188,17 +228,7 @@ namespace Infrastructure.Services
             var buybackSubtotal = buybackItemList.Sum(oi => oi.Price * oi.Quantity);
 
             // create purchase order
-            var order = new Order(basket.OrderTypeId, buybackSubtotal, customerId, repurchaserId, null, null, null, buybackItemList);
-            _unitOfWork.Repository<Order>().Add(order);
-
-            // save to db
-            var result = await _unitOfWork.Complete();
-            if (result <= 0) return null;
-
-            // return order
-            var orderSpec = new OrdersSpecification(order.Id);
-            order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(orderSpec);
-            return order;
+            return await CreateOrderAsync(basket, customerId, userId, buybackSubtotal, buybackItemList);
         }        
 
         /**
@@ -209,24 +239,24 @@ namespace Infrastructure.Services
         public async Task<Order> CreateExchangeOrderAsync(string basketId, int customerId, int userId)
         {
             // get basket
-            var basket = await _basketRepo.GetBasketAsync(basketId);
-            if (basket == null) return null;
-           
+            var basket = await _basketRepo.GetBasketAsync(basketId) ?? throw new Exception($"Basket with ID {basketId} not found.");
+            basket.PromotionId = null;
+
             List<OrderItem> saleItemList = new List<OrderItem>();
 
-            List<OrderItem> buybackItemList = new List<OrderItem>();
+            List<OrderItem> exchangeItemList = new List<OrderItem>();
 
             List<OrderItem> orderItemList = new List<OrderItem>();
 
-            // create a list of buy-back order items           
+            // create a list of exchange order items           
             foreach (var item in basket.BuybackItems)
             {
-                var buybackOrderItem = await CreateBuybackOrderItem(item);
-                buybackItemList.Add(buybackOrderItem);                    
+                var exchangeOrderItem = await CreateExchangeOrderItem(item);
+                exchangeItemList.Add(exchangeOrderItem);                    
             }
 
-            // calculate subtotal of buyback item list
-            var buybackSubtotal = buybackItemList.Sum(oi => oi.Price * oi.Quantity);
+            // calculate subtotal of exchange item list
+            var exchangeSubtotal = exchangeItemList.Sum(oi => oi.Price * oi.Quantity);
 
             // create a list of sales order items
             foreach (var item in basket.SaleItems)
@@ -240,9 +270,12 @@ namespace Infrastructure.Services
             var saleSubtotal = saleItemList.Sum(oi => oi.Price * oi.Quantity);
 
             // calculate subtotal in exchange order
-            var subtotal = saleSubtotal + buybackSubtotal;
+            if (saleSubtotal < Math.Abs(exchangeSubtotal))
+                exchangeSubtotal /= 0.7m;
+            var subtotal = saleSubtotal + exchangeSubtotal;
+
             // create list of item in exchange order
-            orderItemList = buybackItemList.Concat(saleItemList).ToList();
+            orderItemList = exchangeItemList.Concat(saleItemList).ToList();
 
             // create exchange order
             return await CreateOrderAsync(basket, customerId, userId, subtotal, orderItemList);

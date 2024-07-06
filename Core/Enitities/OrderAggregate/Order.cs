@@ -52,9 +52,10 @@ namespace Core.Enitities.OrderAggregate
         public decimal GetTotal()
         {
             var totalDiscount = 0m;
-            if (MembershipId != null)
+            // Only sales order is applied membership discount and promotion
+            if (MembershipId != null && OrderType.Name == "Sales")
                 totalDiscount += Membership.Discount;
-            if (PromotionId != null)
+            if (PromotionId != null && OrderType.Name == "Sales")
                 totalDiscount += Promotion.Discount; 
             return SubTotal - (SubTotal * totalDiscount);
         }
