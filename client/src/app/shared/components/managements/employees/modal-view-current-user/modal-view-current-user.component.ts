@@ -68,7 +68,7 @@ export class ModalViewCurrentUserComponent implements OnInit {
    * Load the current user
    */
   loadCurrentUser() {
-    this.currentUserInfo = this.authService.loadCurrentUserProfile();
+    this.currentUserInfo = this.authService.getCurrentUserProfile();
   }
 
   /**

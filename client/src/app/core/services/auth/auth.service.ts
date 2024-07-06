@@ -45,6 +45,9 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_NAME);
   }
 
+  /**
+   * Set a value to a token if having it
+   */
   set token(value: string | null) {
     if (value) {
       localStorage.setItem(this.TOKEN_NAME, value);
@@ -72,6 +75,7 @@ export class AuthService {
   }
 
   /**
+   *
    * Logout of the system
    */
   public logout() {
@@ -82,7 +86,7 @@ export class AuthService {
   /**
    * Get the current user profile
    */
-  public loadCurrentUserProfile(): Observable<UserModel> {
+  public getCurrentUserProfile(): Observable<UserModel> {
     return this.http.get<UserModel>(this.baseAccountUrl).pipe(
       map((user) => {
         return {

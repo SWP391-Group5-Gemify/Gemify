@@ -1,1 +1,36 @@
-<app-upload-file-pdf></app-upload-file-pdf>
+<section class="policy">
+  <div class="policy__actions">
+    <app-file-selector (fileSelected)="handleFileSelected($event)"></app-file-selector>
+
+
+    <!-- Upload File -->
+    <button class="btn btn--primary btn--with-icon"
+            [disabled]="selectedFiles.length == 0"
+            (click)="uploadPolicyFile()">
+      <mat-icon>upload</mat-icon>Upload
+    </button>
+
+    <!-- List of the selected files -->
+    <mat-list>
+      <mat-list-item *ngFor="let file of selectedFiles">
+        File to upload: {{ file.name }}
+      </mat-list-item>
+    </mat-list>
+
+    <!-- Progress Bar -->
+    <mat-progress-bar *ngIf="uploadProgress | async as progress"
+                      mode="determinate"
+                      [value]="progress"></mat-progress-bar>
+  </div>
+
+  <!-- PDF Viewer -->
+  <div class="policy__actions">
+    @if(this.currentPdfSrc()) {
+    <pdf-viewer [src]="currentPdfSrc()"
+                [render-text]="true"
+                [original-size]="false"
+                style="width: 400px; height: 500px">
+    </pdf-viewer>
+    }
+  </div>
+</section>

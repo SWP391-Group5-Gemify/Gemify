@@ -7,7 +7,6 @@ import { PageErrorComponent } from './core/layout/page-error/page-error.componen
 export const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-
   {
     path: 'gold-chart',
     loadChildren: () =>

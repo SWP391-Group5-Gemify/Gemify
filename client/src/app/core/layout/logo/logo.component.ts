@@ -9,10 +9,15 @@ import { Component, Input } from '@angular/core';
   styleUrl: './logo.component.scss',
 })
 export class LogoComponent {
-  // Logo
+  // ========================
+  // == Fields
+  // ========================
   logo = { name: 'Gemify' };
   @Input() classLogoSize: string = '';
 
+  // ========================
+  // == Methods
+  // ========================
   preventDefault(event: Event) {
     event.preventDefault();
   }

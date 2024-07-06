@@ -16,6 +16,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { RoleEnum } from '../../../core/models/role.model';
 import { UserModel } from '../../../core/models/user.model';
+import { NotificationService } from '../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
@@ -69,7 +71,15 @@ export class LoginComponent implements OnInit {
         ])
       ),
 
-      password: new FormControl(''),
+      password: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(15),
+          Validators.pattern(/^(?=.*\d).{8,15}$/),
+        ])
+      ),
     });
   }
 
@@ -78,7 +88,7 @@ export class LoginComponent implements OnInit {
    */
   loadCurrentExistingUserSession() {
     if (this.authService.token) {
-      this.authService.loadCurrentUserProfile().subscribe({
+      this.authService.getCurrentUserProfile().subscribe({
         next: (response: UserModel) => {
           this.authService.currentUser.set(response as UserModel);
           this.redirectToDashboardPath(this.authService.currentUser()?.role);
@@ -103,15 +113,6 @@ export class LoginComponent implements OnInit {
       case control?.hasError('required'):
         errorMessage = 'This field is required';
         break;
-      case control?.hasError('minlength') || control?.hasError('maxLength'):
-        errorMessage = 'Must be between 4 and 32 characters long';
-        break;
-      case control?.hasError('pattern'):
-        if (controlName === 'userName') {
-          errorMessage =
-            'Username must contain only letters and between 4 and 32 characters long';
-        }
-        break;
     }
 
     return errorMessage;
@@ -133,8 +134,7 @@ export class LoginComponent implements OnInit {
           this.redirectToDashboardPath(user.role);
         },
         error: (error) => {
-          //TODO: Popup or redirect user to Error Page
-          console.error(error);
+          this.notificationService.show('Login Failed. Please try again!');
         },
       });
     }
