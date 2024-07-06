@@ -33,9 +33,8 @@
 
           <!-- Total of selling or buyback items -->
           @if (basket.saleItems.length !== 0) {
-          <li class="total-summary__item"><span>Tổng số tiền trước
-              thuế</span><span>{{calculateBasketTotalPrice(basket.saleItems) |
-              currency:"VND"}}</span>
+          <li class="total-summary__item"><span>Số tiền tạm
+              tính</span><span>{{this.basketService.basketTotalPrice().subTotal | currency:"VND"}}</span>
           </li>
           }
 
@@ -46,10 +45,10 @@
             </li>
             } -->
 
-          <li class="total-summary__item"><span>Khuyến Mãi</span><span>{{ 0 | currency: "VND"}}</span></li>
-          <li class="total-summary__item"><span>Tổng số tiền sau
-              thuế</span><span>{{calculateBasketTotalPrice(basket.saleItems) | currency:
-              "VND"}}</span></li>
+          <li class="total-summary__item"><span>Khuyến Mãi</span><span>{{
+              this.basketService.basketTotalPrice().promotionDiscount}} %</span></li>
+          <li class="total-summary__item"><span>Tổng số tiền</span><span>{{this.basketService.basketTotalPrice().total |
+              currency:"VND"}}</span></li>
         </ul>
       </div>
 

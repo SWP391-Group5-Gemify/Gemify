@@ -67,6 +67,7 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.basketService.calculateTotalBasketPrice();
     this.loadCustomerOnBasketIfExist();
   }
 
@@ -99,17 +100,6 @@ export class CheckoutComponent implements OnInit {
    */
   private patchCustomerPhoneToCheckout(phone: string = '') {
     this.checkoutForm.get('customerForm')?.get('phone')?.patchValue(phone);
-  }
-
-  /**
-   * Total Price of the Basket
-   * @param items
-   * @returns
-   */
-  public calculateBasketTotalPrice(items: BasketItemModel[]): number {
-    return items.reduce((acc, curr) => {
-      return acc + curr.price * curr.quantity;
-    }, 0);
   }
 
   /**

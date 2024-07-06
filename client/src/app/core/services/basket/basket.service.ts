@@ -49,17 +49,24 @@ export class BasketService {
   // ================================ FOR A SINGLE BASKET ============================
 
   /**
-   * Set Promotion for a basket
+   * Set PromotionId for a basket and basketTotalPrice
    * @param promotion
    */
   public setPromotionPrice(promotion?: PromotionModel) {
-    let promotionDiscount = promotion?.discount ?? 0;
-    this.basketTotalPrice.update((value) => ({
-      ...value,
-      promotionDiscount: promotionDiscount,
-    }));
+    const basket = this.getCurrentBasketValue();
 
-    this.calculateTotalBasketPrice();
+    if (basket) {
+      basket.promotionId = promotion?.id;
+      let promotionDiscount = promotion?.discount ?? 0;
+      this.basketTotalPrice.update((value) => ({
+        ...value,
+        promotionDiscount: promotionDiscount,
+      }));
+
+      // Calculate price and set the promotionId to the basket
+      this.calculateTotalBasketPrice();
+      this.setOrUpdateBasket(basket);
+    }
   }
 
   /**
@@ -71,6 +78,7 @@ export class BasketService {
       .post<BasketModel>(`${this.basePaymentUrl}/${basketId}`, {})
       .pipe(
         map((basket) => {
+          console.log(basket);
           this._basketSource.next(basket);
         })
       );
@@ -428,7 +436,7 @@ export class BasketService {
   /**
    * Calculate total price
    */
-  private calculateTotalBasketPrice() {
+  public calculateTotalBasketPrice() {
     const basket = this.getCurrentBasketValue();
     if (!basket) return;
 

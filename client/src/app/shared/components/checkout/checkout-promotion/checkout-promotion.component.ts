@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
 @UntilDestroy()
 @Component({
@@ -48,7 +49,8 @@ export class CheckoutPromotionComponent implements OnInit {
   // =========================
   constructor(
     private promotionService: PromotionService,
-    private basketService: BasketService
+    private basketService: BasketService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +62,6 @@ export class CheckoutPromotionComponent implements OnInit {
       ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((promotion) => {
         this.basketService.setPromotionPrice(promotion);
-        console.log(this.basketService.basketTotalPrice());
       });
   }
   // =========================
@@ -98,5 +99,20 @@ export class CheckoutPromotionComponent implements OnInit {
           throw error;
         })
       );
+  }
+
+  /**
+   * Create the payment intent with basket id
+   */
+  public createPaymentIntent() {
+    this.basketService
+      .createPaymentIntent(this.basketService.getCurrentBasketValue()?.id!)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: () => {
+          this.notificationService.show('Payment intent created');
+        },
+        error: (error) => this.notificationService.show(error.message),
+      });
   }
 }
