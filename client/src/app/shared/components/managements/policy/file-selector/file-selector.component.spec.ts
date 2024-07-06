@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadFilePdfComponent } from './upload-file-pdf.component';
+import { FileSelectorComponent } from './file-selector.component';
 
-describe('UploadFilePdfComponent', () => {
-  let component: UploadFilePdfComponent;
-  let fixture: ComponentFixture<UploadFilePdfComponent>;
+describe('FileSelectorComponent', () => {
+  let component: FileSelectorComponent;
+  let fixture: ComponentFixture<FileSelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UploadFilePdfComponent]
+      imports: [FileSelectorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(UploadFilePdfComponent);
+    fixture = TestBed.createComponent(FileSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

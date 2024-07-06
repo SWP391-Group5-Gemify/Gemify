@@ -66,6 +66,7 @@ export class GoldChartComponent implements OnInit {
       "details": true,
       "support_host": "https://www.tradingview.com"
     }`;
+    3;
     document
       .getElementById('id-gold-chart-tradingview-widget')
       ?.appendChild(script);

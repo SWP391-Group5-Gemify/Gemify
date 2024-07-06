@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NavItemsModel } from '../../../../core/models/nav-items.model';
 @Component({
   selector: 'app-store-owner',
@@ -17,6 +17,7 @@ import { NavItemsModel } from '../../../../core/models/nav-items.model';
     CommonModule,
     RouterLink,
     RouterOutlet,
+    RouterLinkActive,
   ],
   templateUrl: './store-owner.component.html',
   styleUrl: './store-owner.component.scss',
@@ -50,14 +51,9 @@ export class StoreOwnerComponent {
     },
     { name: 'Orders', icon: 'receipt', route: '/store-owner/orders' },
     {
-      name: 'Customer Loyalty Program',
+      name: 'Manage Customer Membership',
       icon: 'loyalty',
-      route: '/store-owner/loyalty',
-    },
-    {
-      name: 'Manage Exchange Policy',
-      icon: 'compare_arrows',
-      route: '/store-owner/exchange',
+      route: '/store-owner/membership',
     },
     {
       name: 'Manage Gold Bid-Ask Spread',
@@ -65,14 +61,9 @@ export class StoreOwnerComponent {
       route: '/store-owner/gold-bid-ask',
     },
     {
-      name: 'Manage Buy-back Policy',
-      icon: 'soap',
-      route: '/store-owner/buyback',
-    },
-    {
-      name: 'Manage Warranty',
+      name: 'Manage Policy',
       icon: 'verified_user',
-      route: '/store-owner/warranty',
+      route: '/store-owner/policy',
     },
   ];
 }

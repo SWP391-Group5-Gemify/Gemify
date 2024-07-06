@@ -8,7 +8,8 @@
       @for (item of navItems; track $index) {
       <a mat-list-item
          class="sidenav-content__item"
-         routerLink="{{item.route}}">
+         [routerLink]="item.route"
+         routerLinkActive="sidenav-content__item--active">
         <div class="sidenav-content__item-text">
           <mat-icon>{{item.icon}}</mat-icon>
           <span>{{item.name}}</span>

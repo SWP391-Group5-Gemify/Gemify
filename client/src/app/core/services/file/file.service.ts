@@ -6,7 +6,7 @@ import {
   listAll,
 } from 'firebase/storage';
 import { Storage } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
+import { from, mergeMap, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,13 +16,15 @@ export class FileService {
   // == Fields
   // ============================
 
-  // Base path for storing policy documents
-  private baseDocumentsPolicyPath = '/documents/policy';
-
-  /*
+  // ============================
+  // == Fields
+  // ============================
+  /**
    * Path for storing product img: '/images/products'
    * Path for storing user img: '/images/users'
+   * Path for storing policy files img: '/documents/policy'
    */
+  private baseDocumentsPolicyPath = '/documents/policy';
   private baseImagesPath = '/images';
 
   // ============================
@@ -81,7 +83,7 @@ export class FileService {
    * Download policy file, get the url from the firestore
    * @returns
    */
-  downloadPolicyFile(): Observable<string> {
+  getLatestPolicyFile(): Observable<string> {
     const filePath = this.baseDocumentsPolicyPath;
     const storageRef = ref(this.storage, filePath);
     const downloadTask = listAll(storageRef);
@@ -90,6 +92,7 @@ export class FileService {
       downloadTask
         .then((res) => {
           if (res.items.length > 0) {
+            // Get the first url file
             getDownloadURL(res.items[0])
               .then((url) => {
                 observer.next(url);

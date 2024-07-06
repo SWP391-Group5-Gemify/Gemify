@@ -15,7 +15,7 @@ const routes: Routes = [
       {
         path: 'products',
         loadChildren: () =>
-          import('../../routes/managements/products-routing.module').then(
+          import('../managements/products/products-routing.module').then(
             (m) => m.ProductsRoutingModule
           ),
       },
@@ -34,10 +34,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'warranty',
+        path: 'policy',
         loadChildren: () =>
-          import('../../routes/managements/warranty-routing.module').then(
-            (m) => m.WarrantyRoutingModule
+          import('../managements/policy-routing.module').then(
+            (m) => m.PolicyRoutingModule
           ),
       },
       {

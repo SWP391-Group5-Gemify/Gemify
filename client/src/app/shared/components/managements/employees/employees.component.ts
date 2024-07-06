@@ -21,6 +21,7 @@ import {
   ModalTitle,
 } from '../../../../core/models/modal.model';
 import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-employees',
@@ -43,6 +44,7 @@ export class EmployeesComponent implements OnInit {
   // ==========================================
   tableConfig = {
     columnsToDisplay: [
+      'image_Url',
       'id',
       'fullName',
       'email',
@@ -51,7 +53,6 @@ export class EmployeesComponent implements OnInit {
       'phoneNumber',
       'dateOfBirth',
       'status',
-      'image_Url',
       'address',
       'role',
       'actions',
@@ -69,7 +70,8 @@ export class EmployeesComponent implements OnInit {
   // ====================
   constructor(
     private employeeService: EmployeeService,
-    private createOrEditModal: MatDialog
+    private createOrEditModal: MatDialog,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
