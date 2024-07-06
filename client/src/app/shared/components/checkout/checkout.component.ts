@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CommonModule, Location } from '@angular/common';
 import { BasketItemModel } from '../../../core/models/basket.model';
@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnInit {
     }),
 
     promotionForm: this.fb.group({
-      promotionId: ['', Validators.required],
+      promotion: [undefined, Validators.required],
     }),
 
     paymentForm: this.fb.group({

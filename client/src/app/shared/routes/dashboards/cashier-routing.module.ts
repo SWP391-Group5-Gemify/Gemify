@@ -48,6 +48,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'checkout',
+        loadChildren: () =>
+          import('../managements/checkout-routing.module').then(
+            (m) => m.CheckoutRoutingModule
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'baskets',
         pathMatch: 'full',

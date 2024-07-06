@@ -7,7 +7,7 @@
 // Chart.register(...registerables);
 
 // @Component({
-//   selector: 'chart-mychart',
+//   selector: 'chart-store-revenues-yearly',
 //   standalone: true,
 //   imports: [CommonModule, FormsModule],
 //   templateUrl: './mychart.component.html',
@@ -112,20 +112,20 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { DashboardService } from '../../../../app/core/services/dashboard/dashboard.service';
-import { revenuesData } from '../../../core/models/revenuesData.model';
+import { DashboardService } from '../../../../../core/services/dashboard/dashboard.service';
+import { revenuesData } from '../../../../../core/models/revenuesData.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 Chart.register(...registerables);
 
 @Component({
-  selector: 'chart-mychart',
+  selector: 'chart-store-revenues-yearly',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './mychart.component.html',
-  styleUrls: ['./mychart.component.scss']
+  templateUrl: './store-revenues-yearly.component.html',
+  styleUrls: ['./store-revenues-yearly.component.scss'],
 })
-export class MychartComponent implements OnInit, OnDestroy {
+export class StoreRevenuesYearlyComponent implements OnInit, OnDestroy {
   chartdata: revenuesData[] = [];
   labeldata: number[] = [];
   realdata: number[] = [];
@@ -146,7 +146,7 @@ export class MychartComponent implements OnInit, OnDestroy {
 
   loadchartdata(year: number): void {
     this.service.getRevenuesData(year).subscribe(
-      item => {
+      (item) => {
         this.chartdata = item;
 
         if (!this.chartdata || this.chartdata.length === 0) {
@@ -157,7 +157,7 @@ export class MychartComponent implements OnInit, OnDestroy {
 
         this.labeldata = [];
         this.realdata = [];
-        this.chartdata.forEach(o => {
+        this.chartdata.forEach((o) => {
           this.labeldata.push(o.month);
           this.realdata.push(o.revenue);
         });
@@ -168,7 +168,7 @@ export class MychartComponent implements OnInit, OnDestroy {
         // Vẽ biểu đồ mới
         this.Renderlinechart(this.labeldata, this.realdata);
       },
-      error => {
+      (error) => {
         console.error('Error fetching data:', error);
         this.clearChart();
       }
@@ -179,7 +179,12 @@ export class MychartComponent implements OnInit, OnDestroy {
     this.Renderchart(labeldata, valuedata, 'linechart1', 'line');
   }
 
-  Renderchart(labeldata: any, valuedata: any, chartid: string, charttype: any): void {
+  Renderchart(
+    labeldata: any,
+    valuedata: any,
+    chartid: string,
+    charttype: any
+  ): void {
     // Xóa biểu đồ cũ nếu có trước khi tạo biểu đồ mới
     this.clearChart();
 
@@ -195,21 +200,21 @@ export class MychartComponent implements OnInit, OnDestroy {
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             fill: true,
-            tension: 0.1
-          }
-        ]
+            tension: 0.1,
+          },
+        ],
       },
       options: {
         plugins: {
           // Không sử dụng datalabels
-          datalabels: false
+          datalabels: false,
         },
         scales: {
           y: {
-            beginAtZero: true
-          }
-        }
-      }
+            beginAtZero: true,
+          },
+        },
+      },
     });
   }
 
@@ -225,8 +230,3 @@ export class MychartComponent implements OnInit, OnDestroy {
     this.clearChart();
   }
 }
-
-
-
-
-

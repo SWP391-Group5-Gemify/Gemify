@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { PromotionModel } from '../../../../core/models/promotion.model';
 
 @UntilDestroy()
 @Component({
@@ -51,18 +52,6 @@ export class CheckoutPaymentComponent {
   // =========================
 
   /**
-   * Create the Stripe payment intent for the basket
-   */
-  public createPaymentIntent() {
-    this.basketService.createPaymentIntent().subscribe({
-      next: () => {
-        this.notificationService.show('Payment intent created');
-      },
-      error: (error) => this.notificationService.show(error.message),
-    });
-  }
-
-  /**
    * Create a customer if not existed
    */
   private createCustomerInfo(): Observable<CustomerModel> {
@@ -88,16 +77,15 @@ export class CheckoutPaymentComponent {
    * - TODO: Promotion Id (optional)
    */
   public createOrder() {
-    // Payment Intent
-    this.createPaymentIntent();
-
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
       // Attach promotion id if having
       basket.promotionId =
-        this.checkoutForm?.get('promotionForm')?.get('promotionId')?.value ??
-        null;
+        (
+          this.checkoutForm?.get('promotionForm')?.get('promotion')
+            ?.value as PromotionModel
+        ).id ?? null;
 
       // Load customer, get customer's id
       this.createCustomerInfo()

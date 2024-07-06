@@ -43,7 +43,8 @@ export class CardBasketComponent {
   constructor(
     public basketService: BasketService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   // ======================
@@ -84,7 +85,23 @@ export class CardBasketComponent {
    * Go to checkout page
    */
   public onGoToCheckOutPage() {
+    this.createPaymentIntent();
     this.basketService.selectBasketBeCurrentBasket(this.basket);
     this.router.navigate(['/cashier/checkout']);
+  }
+
+  /**
+   * Create the payment intent with basket id
+   */
+  public createPaymentIntent() {
+    this.basketService
+      .createPaymentIntent(this.basket.id)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: () => {
+          this.notificationService.show('Payment intent created');
+        },
+        error: (error) => this.notificationService.show(error.message),
+      });
   }
 }

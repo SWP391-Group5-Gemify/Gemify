@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 
 import { CommonModule } from '@angular/common';
@@ -21,6 +21,7 @@ export class TableBasketItemsComponent {
   // ======================
   // == Fields
   // ======================
+  basketService = inject(BasketService);
 
   @Input() basketItems: any;
   public displayedColumns: string[] = [
@@ -28,7 +29,6 @@ export class TableBasketItemsComponent {
     'productName',
     'quantity',
     'price',
-    'remove',
   ];
 
   // ======================

@@ -11,7 +11,9 @@ import { NotificationService } from '../../../../core/services/notification/noti
 import ImageUtils from '../../../utils/ImageUtils';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../core/models/role.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-policy',
   standalone: true,
@@ -78,7 +80,8 @@ export class PolicyComponent {
           .pipe(
             tap((result) => {
               this.uploadProgress.next(result.progress);
-            })
+            }),
+            untilDestroyed(this)
           )
           .subscribe({
             next: (result) => {
@@ -102,15 +105,20 @@ export class PolicyComponent {
    * Download the PDF file
    */
   private loadLatestPolicyFile(): void {
-    this.fileService.getLatestPolicyFile().subscribe({
-      next: (latestUrl) => {
-        console.log(latestUrl);
-        this.currentPdfSrc.set(ImageUtils.concatLinkToTokenFirebase(latestUrl));
-      },
+    this.fileService
+      .getLatestPolicyFile()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (latestUrl) => {
+          console.log(latestUrl);
+          this.currentPdfSrc.set(
+            ImageUtils.concatLinkToTokenFirebase(latestUrl)
+          );
+        },
 
-      error: (err) => {
-        this.notificationService.show('Cannot get file. Please try again');
-      },
-    });
+        error: (err) => {
+          this.notificationService.show('Cannot get file. Please try again');
+        },
+      });
   }
 }

@@ -44,3 +44,10 @@ export class BasketModel implements BasketModel {
   saleItems: BasketItemModel[] = [];
   buybackItems: BasketBuybackItemModel[] = [];
 }
+
+// Model for Total money of Basket
+export interface BasketTotalsModel {
+  promotionDiscount?: number;
+  subTotal: number;
+  total: number;
+}

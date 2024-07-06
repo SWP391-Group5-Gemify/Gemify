@@ -9,7 +9,7 @@
 
     <!-- Promotions -->
     <mat-radio-group aria-label="Select your gender"
-                     formControlName="promotionId">
+                     formControlName="promotion">
 
       <!-- Default NONE radio button -->
       <mat-radio-button [value]="undefined"
@@ -23,7 +23,7 @@
       <div class="promotion-form__values">
         @for (promotion of promotions | async; track $index) {
         <mat-radio-button *ngIf="promotion.status === true"
-                          [value]="promotion.id">
+                          [value]="promotion">
           <div class="promotion-card">
             <p class="promotion-card__name">{{ promotion.name }}</p>
             <div class="promotion-card__details">
