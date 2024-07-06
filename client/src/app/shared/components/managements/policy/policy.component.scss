@@ -1,0 +1,36 @@
+@import "abstracts/variables";
+
+.policy {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: $gutter-layout;
+  height: 100%;
+
+  &__upload {
+    flex: 0 1;
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: $gutter-layout;
+    padding: $padding-layout;
+    background-color: $color-grey-light;
+    border-radius: $border-radius-general;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: row;
+    gap: $gutter-layout;
+  }
+
+  &__files {}
+
+  &__pdf {
+    flex: 1;
+    order: 1;
+    width: 80%;
+    height: 100%;
+  }
+}

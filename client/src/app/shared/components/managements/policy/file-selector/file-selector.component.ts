@@ -9,10 +9,17 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './file-selector.component.scss',
 })
 export class FileSelectorComponent {
+  // ===========================
+  // == Fields
+  // ===========================
   fileSelected = output<File[]>();
+  label = input<string>('Select Files');
 
+  // ===========================
+  // == Methods
+  // ===========================
   /**
-   * When user selects one or more files, capture the list of files and store within the * FileList
+   * Select multiple files as PDF only
    * @param event
    */
   onFileSelected(event: Event) {
@@ -20,7 +27,11 @@ export class FileSelectorComponent {
 
     // If select file, then push into the list of pre-uploaded file
     if (input.files) {
-      this.fileSelected.emit(Array.from(input.files));
+      this.fileSelected.emit(
+        Array.from(input.files).filter(
+          (file) => file.type === 'application/pdf'
+        )
+      );
     }
   }
 }

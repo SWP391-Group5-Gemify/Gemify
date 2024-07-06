@@ -1,10 +1,10 @@
 <input type="file"
        hidden
+       accept="application/pdf"
        (change)="onFileSelected($event)"
-       multiple
        #fileInput />
 
 <button class="btn btn--grad btn--with-icon"
         (click)="fileInput.click()">
-  <mat-icon>attach_file</mat-icon>Select Files
+  <mat-icon>attach_file</mat-icon>{{this.label()}}
 </button>
