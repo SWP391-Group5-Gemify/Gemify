@@ -73,7 +73,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.basketService.calculateTotalBasketPrice();
     this.loadCustomerOnBasketIfExist();
-    this.loadCurrentChoosingPromotionIfExist();
+    // this.loadCurrentChoosingPromotionIfExist();
   }
 
   // ======================
@@ -100,18 +100,18 @@ export class CheckoutComponent implements OnInit {
         });
   }
 
-  public loadCurrentChoosingPromotionIfExist() {
-    const basket = this.basketService.getCurrentBasketValue();
+  // public loadCurrentChoosingPromotionIfExist() {
+  //   const basket = this.basketService.getCurrentBasketValue();
 
-    console.log(basket?.promotionId);
+  //   console.log(basket?.promotionId);
 
-    if (basket && basket.promotionId) {
-      this.checkoutForm
-        .get('promotionForm')
-        ?.get('promotion')
-        ?.patchValue(basket.promotionId.toString());
-    }
-  }
+  //   if (basket && basket.promotionId) {
+  //     this.checkoutForm
+  //       .get('promotionForm')
+  //       ?.get('promotion')
+  //       ?.patchValue(basket.promotionId.toString());
+  //   }
+  // }
 
   /**
    * Patch temporary phone into the customer checkout form

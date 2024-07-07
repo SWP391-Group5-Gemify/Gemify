@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import { OrderService } from '../../../../core/services/order/order.service';
@@ -15,6 +15,13 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PromotionModel } from '../../../../core/models/promotion.model';
+import {
+  loadStripe,
+  Stripe,
+  StripeCardCvcElement,
+  StripeCardExpiryElement,
+  StripeCardNumberElement,
+} from '@stripe/stripe-js';
 
 @UntilDestroy()
 @Component({
@@ -30,11 +37,21 @@ import { PromotionModel } from '../../../../core/models/promotion.model';
   templateUrl: './checkout-payment.component.html',
   styleUrl: './checkout-payment.component.scss',
 })
-export class CheckoutPaymentComponent {
+export class CheckoutPaymentComponent implements OnInit {
   // =========================
   // == Fields
   // =========================
   @Input() checkoutForm?: FormGroup;
+  @ViewChild('cardNumber') cardNumberRef?: ElementRef;
+  @ViewChild('cardExpiry') cardExpiryRef?: ElementRef;
+  @ViewChild('cardCvc') cardCvcRef?: ElementRef;
+  stripe: Stripe | null = null;
+  cardNumber?: StripeCardNumberElement;
+  cardExpiry?: StripeCardExpiryElement;
+  cardCvc?: StripeCardCvcElement;
+  cardNumberError: string | null = null;
+  cardExpiryError: string | null = null;
+  cardCvcError: string | null = null;
 
   // =========================
   // == Life cycle
@@ -47,9 +64,44 @@ export class CheckoutPaymentComponent {
     private router: Router
   ) {}
 
+  ngOnInit(): void {
+    this.loadStripeElements();
+  }
+
   // =========================
   // == Methods
   // =========================
+
+  private loadStripeElements() {
+    loadStripe(
+      'pk_test_51PUK1yH4cqSp4VXJHybYeJtdBWnrg7bvtFNjPQUzXhSBuwZmftIXBGku1rmVixTa9TGhkl9vJV21fzWehS8036o300f6ruad85'
+    ).then((stripe) => {
+      this.stripe = stripe;
+      const elements = stripe?.elements();
+      if (elements) {
+        this.cardNumber = elements.create('cardNumber');
+        this.cardNumber.mount(this.cardNumberRef?.nativeElement);
+        this.cardNumber.on('change', (event) => {
+          if (event.error) this.cardNumberError = event.error.message;
+          else this.cardNumberError = null;
+        });
+
+        this.cardExpiry = elements.create('cardExpiry');
+        this.cardExpiry.mount(this.cardExpiryRef?.nativeElement);
+        this.cardExpiry.on('change', (event) => {
+          if (event.error) this.cardExpiryError = event.error.message;
+          else this.cardExpiryError = null;
+        });
+
+        this.cardCvc = elements.create('cardCvc');
+        this.cardCvc.mount(this.cardCvcRef?.nativeElement);
+        this.cardCvc.on('change', (event) => {
+          if (event.error) this.cardCvcError = event.error.message;
+          else this.cardCvcError = null;
+        });
+      }
+    });
+  }
 
   /**
    * Create a customer if not existed
