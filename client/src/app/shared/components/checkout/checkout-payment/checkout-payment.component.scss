@@ -46,3 +46,9 @@
   font-size: 1.4rem;
   color: $color-primary-dark;
 }
+
+.basket-summary-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

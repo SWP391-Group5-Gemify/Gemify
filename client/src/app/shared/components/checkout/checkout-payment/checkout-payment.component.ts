@@ -6,7 +6,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { PromotionService } from '../../../../core/services/promotion/promotion.service';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, switchMap } from 'rxjs';
+import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { BasketModel } from '../../../../core/models/basket.model';
@@ -22,6 +22,7 @@ import {
   StripeCardExpiryElement,
   StripeCardNumberElement,
 } from '@stripe/stripe-js';
+import { CreateUpdateDeleteResponseModel } from '../../../../core/models/response.model';
 
 @UntilDestroy()
 @Component({
@@ -52,6 +53,7 @@ export class CheckoutPaymentComponent implements OnInit {
   cardNumberError: string | null = null;
   cardExpiryError: string | null = null;
   cardCvcError: string | null = null;
+  isLoading: boolean = false;
 
   // =========================
   // == Life cycle
@@ -103,9 +105,52 @@ export class CheckoutPaymentComponent implements OnInit {
     });
   }
 
-  /**
-   * Create a customer if not existed
-   */
+  // /**
+  //  * Create a customer if not existed
+  //  * TODO: BACKEND PLEASE MODIFY THE API FOR CHECKING EXISTING CUSTOMER
+  //  */
+  // private handleCustomerInfo(): Observable<CustomerModel> {
+  //   const customerFormValue = this.checkoutForm?.get('customerForm')?.value;
+  //   const phone = customerFormValue.phone;
+
+  //   // If customer no exist, return phone
+  //   if (!phone) {
+  //     return of();
+  //   }
+
+  //   return this.customerService.getCustomerByPhone(phone).pipe(
+  //     switchMap((existingCustomer) => {
+  //       if (existingCustomer) {
+  //         // If having customer, update the customer
+  //         return this.customerService.updateCustomer({
+  //           ...existingCustomer,
+  //           ...customerFormValue,
+  //         });
+  //       } else {
+  //         // If not, create new customer
+  //         return this.customerService
+  //           .createCustomer(customerFormValue)
+  //           .pipe(
+  //             switchMap((_) => this.customerService.getCustomerByPhone(phone))
+  //           );
+  //       }
+  //     }),
+  //     catchError((error: CreateUpdateDeleteResponseModel) => {
+  //       if (error.statusCode === 404) {
+  //         // If not, create new customer
+  //         return this.customerService
+  //           .createCustomer(customerFormValue)
+  //           .pipe(
+  //             switchMap((_) => this.customerService.getCustomerByPhone(phone))
+  //           );
+  //       } else {
+  //         // Propagate other errors
+  //         return throwError(error);
+  //       }
+  //     })
+  //   );
+  // }
+
   private createCustomerInfo(): Observable<CustomerModel> {
     return this.customerService
       .createCustomer(this.checkoutForm?.get('customerForm')?.value)
@@ -129,6 +174,8 @@ export class CheckoutPaymentComponent implements OnInit {
    * - TODO: Promotion Id (optional)
    */
   public submitOrder() {
+    this.isLoading = true;
+
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
@@ -142,7 +189,7 @@ export class CheckoutPaymentComponent implements OnInit {
                 .createSaleOrder(basket.id, customer.id)
                 .subscribe({
                   next: (order) => {
-                    // Confirm Card payment from stripe
+                    // Confirm Card Payment from Stripe
                     this.stripe
                       ?.confirmCardPayment(basket.clientSecret!, {
                         payment_method: {
@@ -162,6 +209,8 @@ export class CheckoutPaymentComponent implements OnInit {
                           );
                           this.basketService.deleteBasket(basket.id);
                           this.router.navigate(['cashier/orders']);
+                        } else {
+                          this.notificationService.show(result.error.message!);
                         }
                       });
                   },

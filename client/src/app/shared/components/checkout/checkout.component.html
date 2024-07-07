@@ -54,8 +54,7 @@
 
       <!-- Stepper -->
       <div class="stepper">
-        <app-generic-stepper [linearModeSelected]="false"
-                             #appStepper>
+        <app-generic-stepper #appStepper>
 
           <!-- Customer -->
           <cdk-step [label]="'Khách hàng'"
@@ -64,14 +63,13 @@
           </cdk-step>
 
           <!-- Promotion -->
-          <cdk-step [label]="'Khuyến mãi'"
-                    [completed]="checkoutForm.get('promotionForm')?.valid">
+          <cdk-step [label]="'Khuyến mãi'">
             <app-checkout-promotion [checkoutForm]="checkoutForm"></app-checkout-promotion>
           </cdk-step>
 
           <!-- Payment -->
           <cdk-step [label]="'Thanh toán'"
-                    [completed]="checkoutForm.get('promotionForm')?.valid">
+                    [completed]="checkoutForm.get('paymentForm')?.valid">
             <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
           </cdk-step>
         </app-generic-stepper>
