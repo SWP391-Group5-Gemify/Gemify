@@ -66,12 +66,16 @@ namespace API.Controllers
         // add new customer
         [HttpPost]
         [Authorize(Roles = "StoreOwner,StoreManager,Cashier")]
-        public async Task<ActionResult> CreateCustomer(CustomerToAddDto customerDto)
+        public async Task<ActionResult<CustomerDto>> CreateCustomer(CustomerToAddDto customerDto)
         {
             var customer = _mapper.Map<Customer>(customerDto);
             _customerRepo.Add(customer);
             if (await _customerRepo.SaveAllAsync())
-                return Ok(new ApiResponse(200, "Successfully added!"));
+            {
+                var spec = new CustomerSpecification(customer.Id);
+                var customerToReturn = await _customerRepo.GetEntityWithSpec(spec);
+                return _mapper.Map<Customer, CustomerDto>(customerToReturn);
+            }
             return BadRequest(new ApiResponse(400, "Failed to add customer information"));
         }
 
@@ -82,8 +86,7 @@ namespace API.Controllers
         {
             var spec = new CustomerSpecification(phone);
             var customer = await _customerRepo.GetEntityWithSpec(spec);
-            if (customer == null) 
-                return NotFound(new ApiResponse(404, "This phone number does not exist!"));
+            if (customer == null) return null;
             return Ok(_mapper.Map<CustomerDto>(customer));
 
         }
