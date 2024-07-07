@@ -53,6 +53,9 @@ export class CheckoutPaymentComponent implements OnInit {
   cardNumberError: string | null = null;
   cardExpiryError: string | null = null;
   cardCvcError: string | null = null;
+  cardNumberComplete: boolean = false;
+  cardExpiryComplete: boolean = false;
+  cardCvcComplete: boolean = false;
   isLoading: boolean = false;
 
   // =========================
@@ -74,6 +77,9 @@ export class CheckoutPaymentComponent implements OnInit {
   // == Methods
   // =========================
 
+  /**
+   * Mouting the Stripe element with DOM
+   */
   private loadStripeElements() {
     loadStripe(
       'pk_test_51PUK1yH4cqSp4VXJHybYeJtdBWnrg7bvtFNjPQUzXhSBuwZmftIXBGku1rmVixTa9TGhkl9vJV21fzWehS8036o300f6ruad85'
@@ -81,23 +87,29 @@ export class CheckoutPaymentComponent implements OnInit {
       this.stripe = stripe;
       const elements = stripe?.elements();
       if (elements) {
+        // Card Number
         this.cardNumber = elements.create('cardNumber');
         this.cardNumber.mount(this.cardNumberRef?.nativeElement);
         this.cardNumber.on('change', (event) => {
+          this.cardNumberComplete = event.complete;
           if (event.error) this.cardNumberError = event.error.message;
           else this.cardNumberError = null;
         });
 
+        // Card Expiry
         this.cardExpiry = elements.create('cardExpiry');
         this.cardExpiry.mount(this.cardExpiryRef?.nativeElement);
         this.cardExpiry.on('change', (event) => {
+          this.cardExpiryComplete = event.complete;
           if (event.error) this.cardExpiryError = event.error.message;
           else this.cardExpiryError = null;
         });
 
+        // Card CVC
         this.cardCvc = elements.create('cardCvc');
         this.cardCvc.mount(this.cardCvcRef?.nativeElement);
         this.cardCvc.on('change', (event) => {
+          this.cardCvcComplete = event.complete;
           if (event.error) this.cardCvcError = event.error.message;
           else this.cardCvcError = null;
         });
@@ -151,6 +163,19 @@ export class CheckoutPaymentComponent implements OnInit {
   //   );
   // }
 
+  get paymentFromComplete() {
+    return (
+      this.checkoutForm?.get('paymentForm')?.valid
+      && this.cardNumberComplete
+      && this.cardCvcComplete
+      && this.cardExpiryComplete
+    );
+  }
+
+  /**
+   * Create a new Customer Info when typing to the form
+   * @returns
+   */
   private createCustomerInfo(): Observable<CustomerModel> {
     return this.customerService
       .createCustomer(this.checkoutForm?.get('customerForm')?.value)
@@ -171,7 +196,6 @@ export class CheckoutPaymentComponent implements OnInit {
    * - Payment Intent Id
    * - Basket Id
    * - Customer Id
-   * - TODO: Promotion Id (optional)
    */
   public submitOrder() {
     this.isLoading = true;
