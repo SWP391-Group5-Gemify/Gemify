@@ -128,7 +128,7 @@ export class CheckoutPaymentComponent implements OnInit {
    * - Customer Id
    * - TODO: Promotion Id (optional)
    */
-  public createOrder() {
+  public submitOrder() {
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
@@ -138,14 +138,32 @@ export class CheckoutPaymentComponent implements OnInit {
         .subscribe({
           next: (customer: CustomerModel) => {
             if (customer.id && basket.id) {
-              console.table(basket);
               this.orderService
                 .createSaleOrder(basket.id, customer.id)
                 .subscribe({
-                  next: (value) => {
-                    this.notificationService.show('Tạo hóa đơn thành công');
-                    this.basketService.deleteCurrentBasket();
-                    this.router.navigate(['cashier/orders']);
+                  next: (order) => {
+                    // Confirm Card payment from stripe
+                    this.stripe
+                      ?.confirmCardPayment(basket.clientSecret!, {
+                        payment_method: {
+                          card: this.cardNumber!,
+                          billing_details: {
+                            name: this.checkoutForm
+                              ?.get('paymentForm')
+                              ?.get('nameOnCard')?.value,
+                          },
+                        },
+                      })
+                      .then((result) => {
+                        console.log(result);
+                        if (result.paymentIntent) {
+                          this.notificationService.show(
+                            'Tạo hóa đơn thành công'
+                          );
+                          this.basketService.deleteBasket(basket.id);
+                          this.router.navigate(['cashier/orders']);
+                        }
+                      });
                   },
                 });
             }

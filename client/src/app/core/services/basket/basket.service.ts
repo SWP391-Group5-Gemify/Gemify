@@ -78,7 +78,7 @@ export class BasketService {
       .post<BasketModel>(`${this.basePaymentUrl}/${basketId}`, {})
       .pipe(
         map((basket) => {
-          console.log('Basket + PaymentIntent: ' + basket);
+          console.table(basket);
           this._basketSource.next(basket);
         })
       );
@@ -91,14 +91,6 @@ export class BasketService {
   public selectBasketBeCurrentBasket(basket: BasketModel) {
     this._basketSource.next(basket);
     localStorage.setItem(this.LOCAL_STORAGE_BASKET_ID, basket.id);
-  }
-
-  /**
-   * Delete the current basket
-   */
-  public deleteCurrentBasket() {
-    this._basketSource.next(null);
-    localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
   }
 
   /**
@@ -153,7 +145,7 @@ export class BasketService {
   }
 
   /**
-   * Remove a basket
+   * Delete a basket out from Redis
    * - If it's a current basket in the basket source, then set the current basket source to null
    * @param id
    * @returns
@@ -168,7 +160,7 @@ export class BasketService {
       })
       .pipe(
         tap(() => {
-          // Perform remove the current basket source if delete it
+          // Perform remove the current basket source and its localStorage
           if (this.getCurrentBasketValue()?.id === id) {
             this._basketSource.next(null);
             localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
