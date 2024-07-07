@@ -13,7 +13,7 @@ namespace API.Dtos
         public int? MembershipId { get; set; }
         public string ClientSecret { get; set; }
         public string PaymentIntentId { get; set; }
-        public List<BasketItem> SaleItems { get; set; }
-        public List<BasketBuybackItem> BuybackItems { get; set; }
+        public List<BasketItemDto> SaleItems { get; set; }
+        public List<BasketBuybackItemDto> BuybackItems { get; set; }
     }
 }

@@ -9,5 +9,8 @@ namespace Core.Enitities
 
         [EnumMember(Value = "Unavailable")]
         Unavailable,
+
+        [EnumMember(Value ="Old")]
+        Old,
     }
 }

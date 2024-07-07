@@ -5,6 +5,7 @@ using Core.Interfaces;
 using Core.Specifications;
 using Core.Specifications.Orders;
 using Core.Specifications.Products;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
@@ -45,7 +46,7 @@ namespace Infrastructure.Services
             {
                 var gem = productGem.GemType;
                 var gemItemOrdered = new ProductGemsItemOrdered(gem.Name, gem.Color, productGem.GemWeight,
-                    gem.LatestPrice, gem.Carat, gem.Clarity, productGem.CertificateCode);
+                    gem.LatestPrice, gem.Carat, gem.Clarity, productGem.CertificateCode, gem.IsProcurable);
                 var orderItemGem = new OrderItemGem(gemItemOrdered, gem.LatestPrice, productGem.Quantity);
                 orderItemGems.Add(orderItemGem);
             }
@@ -61,6 +62,33 @@ namespace Infrastructure.Services
             return orderItem;
         }
 
+        /**
+         * Create buy-back order item does not belong to the store
+         */
+        public async Task<OrderItem> CreateBuybackOrderItemNotBelongToStore(BasketBuybackItem item)
+        {
+            var oldProduct = new Product
+            {
+                Name = item.ProductName,
+                GoldTypeId = item.GoldTypeId,
+                GoldWeight = item.GoldWeight,
+                TotalWeight = item.GoldWeight,
+                Quantity = 1,
+                Status = ProductStatus.Old.GetEnumMemberValue(),
+                SubCategoryId = item.SubCategoryId,
+            };
+            _unitOfWork.Repository<Product>().Add(oldProduct);
+            await _unitOfWork.Complete();
+            oldProduct = await _unitOfWork.Repository<Product>().GetEntityWithSpec(new ProductSpecification(oldProduct.Id));
+
+            var itemOrdered = new ProductItemOrdered(oldProduct.Id, oldProduct.Name, -oldProduct.GoldType.LatestAskPrice, oldProduct.GoldType.Name,
+                oldProduct.GoldWeight, oldProduct.Labour, oldProduct.SubCategory.Unit, oldProduct.TotalWeight, oldProduct.ImageUrl, oldProduct.SaleCounterId, null);
+            return new OrderItem(itemOrdered, -oldProduct.CalculateGoldAskPrice(), item.Quantity, null);
+        }
+        
+        /**
+         * Create buy-back order item belongs to the store
+         */
         public async Task<OrderItem> CreateBuybackOrderItem(BasketBuybackItem item)
         {
             // get orderItem based on orderItemId in basketItem
@@ -72,23 +100,32 @@ namespace Infrastructure.Services
             var buyBackOrderItem = orderItem.Clone();
             if (buyBackOrderItem.OrderItemGems != null && buyBackOrderItem.OrderItemGems.Any())
             {
-                // calculate purchase gem price
-                foreach (var pg in buyBackOrderItem.OrderItemGems)
+                for (var i = 0; i < buyBackOrderItem.OrderItemGems.Count; i++)
                 {
-                    pg.GemsItemOrdered.GemPrice *= -0.7m;
-                    pg.Price *= -0.7m;
+                    var pg = buyBackOrderItem.OrderItemGems[i];
+                    if (pg.GemsItemOrdered.IsProcurable)
+                    {
+                        // calculate purchase gem price
+                        pg.GemsItemOrdered.GemPrice *= -0.7m;
+                        pg.Price *= -0.7m;
+                    }
+                    else
+                    {
+                        buyBackOrderItem.OrderItemGems.RemoveAt(i);
+                        i--;
+                    }
                 }
             }
             // labour = 0
             buyBackOrderItem.ItemOrdered.ProductLabour = 0;
             //calculate purchase gold price
             buyBackOrderItem.ItemOrdered.GoldPrice = -product.GoldType.LatestAskPrice;
+            // reset goldWeight
+            buyBackOrderItem.ItemOrdered.GoldWeight = item.GoldWeight;
             // calculate buy back item price
             buyBackOrderItem.Price = buyBackOrderItem.CalculateOrderItemPrice();
             // set quantity of buy-back item
             buyBackOrderItem.Quantity = item.Quantity;
-            // reset goldWeight
-            buyBackOrderItem.ItemOrdered.GoldWeight = item.GoldWeight;
 
             return buyBackOrderItem;
         }
@@ -110,8 +147,8 @@ namespace Infrastructure.Services
                 // calculate purchase gem price
                 foreach (var pg in exchangeOrderItem.OrderItemGems)
                 {
-                    pg.GemsItemOrdered.GemPrice *= -pg.GemsItemOrdered.GemPrice;
-                    pg.Price *= -pg.Price;
+                    pg.GemsItemOrdered.GemPrice = -pg.GemsItemOrdered.GemPrice;
+                    pg.Price = -pg.Price;
                 }
             }
             // labour 
@@ -205,7 +242,14 @@ namespace Infrastructure.Services
 
             foreach (var item in basket.BuybackItems)
             {
-                var buybackOrderItem = await CreateBuybackOrderItem(item);
+                OrderItem buybackOrderItem;
+                if (item.Id == 0)
+                {
+                    buybackOrderItem = await CreateBuybackOrderItemNotBelongToStore(item);
+                } else
+                {
+                    buybackOrderItem = await CreateBuybackOrderItem(item);
+                }               
                 buybackItemList.Add(buybackOrderItem);
             }
 

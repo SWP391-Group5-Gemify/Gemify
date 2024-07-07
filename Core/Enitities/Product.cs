@@ -12,7 +12,7 @@ namespace Core.Enitities
         public string Name { get; set; }
         [Column(TypeName = "nvarchar(1000)")]
         public string Description { get; set; }
-        public int? GoldTypeId { get; set; }
+        public int GoldTypeId { get; set; }
         public GoldType GoldType { get; set;}
         [Column(TypeName = "decimal(18,4)")]
         public decimal GoldWeight {  get; set; }
@@ -28,7 +28,7 @@ namespace Core.Enitities
         public string ImageUrl { get; set; }
         public int? SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
-        public int SaleCounterId { get; set; }
+        public int? SaleCounterId { get; set; }
         public SaleCounter SaleCounter { get; set; }
         public IReadOnlyList<ProductGem> ProductGems { get; set; }
         public IReadOnlyList<GemType> Gems { get; set; }
