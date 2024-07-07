@@ -80,20 +80,12 @@ export class CheckoutPaymentComponent {
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
-      // Attach promotion id if having
-      basket.promotionId =
-        (
-          this.checkoutForm?.get('promotionForm')?.get('promotion')
-            ?.value as PromotionModel
-        ).id ?? null;
-
       // Load customer, get customer's id
       this.createCustomerInfo()
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (customer: CustomerModel) => {
             if (customer.id && basket.id) {
-              console.log(customer.id, basket.id, basket.promotionId);
               console.table(basket);
               this.orderService
                 .createSaleOrder(basket.id, customer.id)

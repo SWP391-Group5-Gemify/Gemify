@@ -16,6 +16,9 @@ import { catchError, Observable, Subscription } from 'rxjs';
 import { CustomerModel } from '../../../core/models/customer.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OrderService } from '../../../core/services/order/order.service';
+import { isFakeTouchstartFromScreenReader } from '@angular/cdk/a11y';
+import { PromotionService } from '../../../core/services/promotion/promotion.service';
+import { PromotionModel } from '../../../core/models/promotion.model';
 
 @UntilDestroy()
 @Component({
@@ -48,7 +51,7 @@ export class CheckoutComponent implements OnInit {
     }),
 
     promotionForm: this.fb.group({
-      promotion: [undefined, Validators.required],
+      promotion: ['', Validators.required],
     }),
 
     paymentForm: this.fb.group({
@@ -63,12 +66,14 @@ export class CheckoutComponent implements OnInit {
     public basketService: BasketService,
     private location: Location,
     private fb: FormBuilder,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private promotionService: PromotionService
   ) {}
 
   ngOnInit(): void {
     this.basketService.calculateTotalBasketPrice();
     this.loadCustomerOnBasketIfExist();
+    this.loadCurrentChoosingPromotionIfExist();
   }
 
   // ======================
@@ -93,6 +98,19 @@ export class CheckoutComponent implements OnInit {
               this.checkoutForm.get('customerForm')?.patchValue(customer);
           },
         });
+  }
+
+  public loadCurrentChoosingPromotionIfExist() {
+    const basket = this.basketService.getCurrentBasketValue();
+
+    console.log(basket?.promotionId);
+
+    if (basket && basket.promotionId) {
+      this.checkoutForm
+        .get('promotionForm')
+        ?.get('promotion')
+        ?.patchValue(basket.promotionId.toString());
+    }
   }
 
   /**

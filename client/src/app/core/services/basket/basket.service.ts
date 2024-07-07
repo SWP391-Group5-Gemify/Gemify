@@ -52,12 +52,12 @@ export class BasketService {
    * Set PromotionId for a basket and basketTotalPrice
    * @param promotion
    */
-  public setPromotionPrice(promotion?: PromotionModel) {
+  public setPromotionPrice(promotion: PromotionModel | undefined) {
     const basket = this.getCurrentBasketValue();
 
     if (basket) {
-      basket.promotionId = promotion?.id;
-      let promotionDiscount = promotion?.discount ?? 0;
+      basket.promotionId = !promotion ? undefined : promotion.id;
+      let promotionDiscount = !promotion ? 0 : promotion.discount;
       this.basketTotalPrice.update((value) => ({
         ...value,
         promotionDiscount: promotionDiscount,
@@ -78,7 +78,7 @@ export class BasketService {
       .post<BasketModel>(`${this.basePaymentUrl}/${basketId}`, {})
       .pipe(
         map((basket) => {
-          console.log(basket);
+          console.log('Basket + PaymentIntent: ' + basket);
           this._basketSource.next(basket);
         })
       );
@@ -445,7 +445,7 @@ export class BasketService {
     }, 0);
 
     this.basketTotalPrice.update((value) => ({
-      ...value,
+      promotionDiscount: value.promotionDiscount,
       subTotal: subTotal,
       total: subTotal * (1 - (value.promotionDiscount ?? 0)),
     }));

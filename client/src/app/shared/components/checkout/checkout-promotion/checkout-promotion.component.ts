@@ -55,18 +55,14 @@ export class CheckoutPromotionComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPromotions();
-
-    this.checkoutForm
-      ?.get('promotionForm')
-      ?.get('promotion')
-      ?.valueChanges.pipe(untilDestroyed(this))
-      .subscribe((promotion) => {
-        this.basketService.setPromotionPrice(promotion);
-      });
   }
   // =========================
   // == Methods
   // =========================
+
+  public onChangePromotionRadioButton(promotion: PromotionModel | undefined) {
+    this.basketService.setPromotionPrice(promotion);
+  }
 
   /**
    * Apply paginator on changing a page
