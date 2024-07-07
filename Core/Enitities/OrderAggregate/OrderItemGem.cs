@@ -20,5 +20,10 @@ namespace Core.Enitities.OrderAggregate
         public decimal Price { get; set; }
 
         public int Quantity { get; set; }
+
+        public OrderItemGem Clone()
+        {
+            return new OrderItemGem (GemsItemOrdered.Clone(), Price, Quantity);
+        }
     }
 }

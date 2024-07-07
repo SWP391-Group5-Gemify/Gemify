@@ -30,5 +30,10 @@ namespace Core.Enitities.OrderAggregate
         public string GemClarity { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string GemCertificateCode { get; set; }
+
+        public ProductGemsItemOrdered Clone()
+        {
+            return new ProductGemsItemOrdered(GemName, GemColor, GemWeight, GemPrice, GemCarat, GemClarity, GemCertificateCode);
+        }
     }
 }

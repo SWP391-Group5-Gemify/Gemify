@@ -46,5 +46,11 @@ namespace Core.Enitities.OrderAggregate
         public int SaleCounterId { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string SaleCounterName { get; set; }
+
+        public ProductItemOrdered Clone ()
+        {
+            return new ProductItemOrdered(ProductItemId, ProductName, GoldPrice, GoldType, GoldWeight,
+                ProductLabour, Unit, TotalWeight, Image_Url, SaleCounterId, SaleCounterName);
+        }
     }
 }
