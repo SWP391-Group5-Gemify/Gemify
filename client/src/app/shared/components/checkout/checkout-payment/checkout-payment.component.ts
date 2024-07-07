@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import { OrderService } from '../../../../core/services/order/order.service';
@@ -6,7 +6,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { PromotionService } from '../../../../core/services/promotion/promotion.service';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, switchMap } from 'rxjs';
+import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { BasketModel } from '../../../../core/models/basket.model';
@@ -14,6 +14,15 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { PromotionModel } from '../../../../core/models/promotion.model';
+import {
+  loadStripe,
+  Stripe,
+  StripeCardCvcElement,
+  StripeCardExpiryElement,
+  StripeCardNumberElement,
+} from '@stripe/stripe-js';
+import { CreateUpdateDeleteResponseModel } from '../../../../core/models/response.model';
 
 @UntilDestroy()
 @Component({
@@ -29,11 +38,25 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './checkout-payment.component.html',
   styleUrl: './checkout-payment.component.scss',
 })
-export class CheckoutPaymentComponent {
+export class CheckoutPaymentComponent implements OnInit {
   // =========================
   // == Fields
   // =========================
   @Input() checkoutForm?: FormGroup;
+  @ViewChild('cardNumber') cardNumberRef?: ElementRef;
+  @ViewChild('cardExpiry') cardExpiryRef?: ElementRef;
+  @ViewChild('cardCvc') cardCvcRef?: ElementRef;
+  stripe: Stripe | null = null;
+  cardNumber?: StripeCardNumberElement;
+  cardExpiry?: StripeCardExpiryElement;
+  cardCvc?: StripeCardCvcElement;
+  cardNumberError: string | null = null;
+  cardExpiryError: string | null = null;
+  cardCvcError: string | null = null;
+  cardNumberComplete: boolean = false;
+  cardExpiryComplete: boolean = false;
+  cardCvcComplete: boolean = false;
+  isLoading: boolean = false;
 
   // =========================
   // == Life cycle
@@ -46,24 +69,112 @@ export class CheckoutPaymentComponent {
     private router: Router
   ) {}
 
+  ngOnInit(): void {
+    this.loadStripeElements();
+  }
+
   // =========================
   // == Methods
   // =========================
 
   /**
-   * Create the Stripe payment intent for the basket
+   * Mouting the Stripe element with DOM
    */
-  public createPaymentIntent() {
-    this.basketService.createPaymentIntent().subscribe({
-      next: () => {
-        this.notificationService.show('Payment intent created');
-      },
-      error: (error) => this.notificationService.show(error.message),
+  private loadStripeElements() {
+    loadStripe(
+      'pk_test_51PUK1yH4cqSp4VXJHybYeJtdBWnrg7bvtFNjPQUzXhSBuwZmftIXBGku1rmVixTa9TGhkl9vJV21fzWehS8036o300f6ruad85'
+    ).then((stripe) => {
+      this.stripe = stripe;
+      const elements = stripe?.elements();
+      if (elements) {
+        // Card Number
+        this.cardNumber = elements.create('cardNumber');
+        this.cardNumber.mount(this.cardNumberRef?.nativeElement);
+        this.cardNumber.on('change', (event) => {
+          this.cardNumberComplete = event.complete;
+          if (event.error) this.cardNumberError = event.error.message;
+          else this.cardNumberError = null;
+        });
+
+        // Card Expiry
+        this.cardExpiry = elements.create('cardExpiry');
+        this.cardExpiry.mount(this.cardExpiryRef?.nativeElement);
+        this.cardExpiry.on('change', (event) => {
+          this.cardExpiryComplete = event.complete;
+          if (event.error) this.cardExpiryError = event.error.message;
+          else this.cardExpiryError = null;
+        });
+
+        // Card CVC
+        this.cardCvc = elements.create('cardCvc');
+        this.cardCvc.mount(this.cardCvcRef?.nativeElement);
+        this.cardCvc.on('change', (event) => {
+          this.cardCvcComplete = event.complete;
+          if (event.error) this.cardCvcError = event.error.message;
+          else this.cardCvcError = null;
+        });
+      }
     });
   }
 
+  // /**
+  //  * Create a customer if not existed
+  //  * TODO: BACKEND PLEASE MODIFY THE API FOR CHECKING EXISTING CUSTOMER
+  //  */
+  // private handleCustomerInfo(): Observable<CustomerModel> {
+  //   const customerFormValue = this.checkoutForm?.get('customerForm')?.value;
+  //   const phone = customerFormValue.phone;
+
+  //   // If customer no exist, return phone
+  //   if (!phone) {
+  //     return of();
+  //   }
+
+  //   return this.customerService.getCustomerByPhone(phone).pipe(
+  //     switchMap((existingCustomer) => {
+  //       if (existingCustomer) {
+  //         // If having customer, update the customer
+  //         return this.customerService.updateCustomer({
+  //           ...existingCustomer,
+  //           ...customerFormValue,
+  //         });
+  //       } else {
+  //         // If not, create new customer
+  //         return this.customerService
+  //           .createCustomer(customerFormValue)
+  //           .pipe(
+  //             switchMap((_) => this.customerService.getCustomerByPhone(phone))
+  //           );
+  //       }
+  //     }),
+  //     catchError((error: CreateUpdateDeleteResponseModel) => {
+  //       if (error.statusCode === 404) {
+  //         // If not, create new customer
+  //         return this.customerService
+  //           .createCustomer(customerFormValue)
+  //           .pipe(
+  //             switchMap((_) => this.customerService.getCustomerByPhone(phone))
+  //           );
+  //       } else {
+  //         // Propagate other errors
+  //         return throwError(error);
+  //       }
+  //     })
+  //   );
+  // }
+
+  get paymentFromComplete() {
+    return (
+      this.checkoutForm?.get('paymentForm')?.valid
+      && this.cardNumberComplete
+      && this.cardCvcComplete
+      && this.cardExpiryComplete
+    );
+  }
+
   /**
-   * Create a customer if not existed
+   * Create a new Customer Info when typing to the form
+   * @returns
    */
   private createCustomerInfo(): Observable<CustomerModel> {
     return this.customerService
@@ -85,35 +196,47 @@ export class CheckoutPaymentComponent {
    * - Payment Intent Id
    * - Basket Id
    * - Customer Id
-   * - TODO: Promotion Id (optional)
    */
-  public createOrder() {
-    // Payment Intent
-    this.createPaymentIntent();
+  public submitOrder() {
+    this.isLoading = true;
 
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
-      // Attach promotion id if having
-      basket.promotionId =
-        this.checkoutForm?.get('promotionForm')?.get('promotionId')?.value ??
-        null;
-
       // Load customer, get customer's id
       this.createCustomerInfo()
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (customer: CustomerModel) => {
             if (customer.id && basket.id) {
-              console.log(customer.id, basket.id, basket.promotionId);
-              console.table(basket);
               this.orderService
                 .createSaleOrder(basket.id, customer.id)
                 .subscribe({
-                  next: (value) => {
-                    this.notificationService.show('Tạo hóa đơn thành công');
-                    this.basketService.deleteCurrentBasket();
-                    this.router.navigate(['cashier/orders']);
+                  next: (order) => {
+                    // Confirm Card Payment from Stripe
+                    this.stripe
+                      ?.confirmCardPayment(basket.clientSecret!, {
+                        payment_method: {
+                          card: this.cardNumber!,
+                          billing_details: {
+                            name: this.checkoutForm
+                              ?.get('paymentForm')
+                              ?.get('nameOnCard')?.value,
+                          },
+                        },
+                      })
+                      .then((result) => {
+                        console.log(result);
+                        if (result.paymentIntent) {
+                          this.notificationService.show(
+                            'Tạo hóa đơn thành công'
+                          );
+                          this.basketService.deleteBasket(basket.id);
+                          this.router.navigate(['cashier/orders']);
+                        } else {
+                          this.notificationService.show(result.error.message!);
+                        }
+                      });
                   },
                 });
             }

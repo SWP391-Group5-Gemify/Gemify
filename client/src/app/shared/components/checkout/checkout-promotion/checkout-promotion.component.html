@@ -9,11 +9,12 @@
 
     <!-- Promotions -->
     <mat-radio-group aria-label="Select your gender"
-                     formControlName="promotionId">
+                     formControlName="promotion">
 
       <!-- Default NONE radio button -->
       <mat-radio-button [value]="undefined"
-                        checked="true">
+                        checked="true"
+                        (change)="onChangePromotionRadioButton(undefined)">
         <div class="promotion-card u-margin-bottom-small">
           <p class="promotion-card__name promotion-card__name--none">NONE</p>
         </div>
@@ -23,7 +24,8 @@
       <div class="promotion-form__values">
         @for (promotion of promotions | async; track $index) {
         <mat-radio-button *ngIf="promotion.status === true"
-                          [value]="promotion.id">
+                          [value]="promotion.id"
+                          (change)="onChangePromotionRadioButton(promotion)">
           <div class="promotion-card">
             <p class="promotion-card__name">{{ promotion.name }}</p>
             <div class="promotion-card__details">
@@ -54,5 +56,6 @@
   <button class="btn btn--primary-light"
           cdkStepperPrevious>Quay trở lại khách hàng</button>
   <button class="btn btn--primary-dark"
+          (click)="createPaymentIntent()"
           cdkStepperNext>Đi tới thanh toán</button>
 </div>

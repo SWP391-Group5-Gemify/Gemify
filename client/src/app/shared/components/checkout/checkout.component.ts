@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CommonModule, Location } from '@angular/common';
 import { BasketItemModel } from '../../../core/models/basket.model';
@@ -16,6 +16,9 @@ import { catchError, Observable, Subscription } from 'rxjs';
 import { CustomerModel } from '../../../core/models/customer.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OrderService } from '../../../core/services/order/order.service';
+import { isFakeTouchstartFromScreenReader } from '@angular/cdk/a11y';
+import { PromotionService } from '../../../core/services/promotion/promotion.service';
+import { PromotionModel } from '../../../core/models/promotion.model';
 
 @UntilDestroy()
 @Component({
@@ -48,7 +51,7 @@ export class CheckoutComponent implements OnInit {
     }),
 
     promotionForm: this.fb.group({
-      promotionId: ['', Validators.required],
+      promotion: ['', Validators.required],
     }),
 
     paymentForm: this.fb.group({
@@ -63,11 +66,14 @@ export class CheckoutComponent implements OnInit {
     public basketService: BasketService,
     private location: Location,
     private fb: FormBuilder,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private promotionService: PromotionService
   ) {}
 
   ngOnInit(): void {
+    this.basketService.calculateTotalBasketPrice();
     this.loadCustomerOnBasketIfExist();
+    // this.loadCurrentChoosingPromotionIfExist();
   }
 
   // ======================
@@ -94,22 +100,24 @@ export class CheckoutComponent implements OnInit {
         });
   }
 
+  // public loadCurrentChoosingPromotionIfExist() {
+  //   const basket = this.basketService.getCurrentBasketValue();
+
+  //   console.log(basket?.promotionId);
+
+  //   if (basket && basket.promotionId) {
+  //     this.checkoutForm
+  //       .get('promotionForm')
+  //       ?.get('promotion')
+  //       ?.patchValue(basket.promotionId.toString());
+  //   }
+  // }
+
   /**
    * Patch temporary phone into the customer checkout form
    */
   private patchCustomerPhoneToCheckout(phone: string = '') {
     this.checkoutForm.get('customerForm')?.get('phone')?.patchValue(phone);
-  }
-
-  /**
-   * Total Price of the Basket
-   * @param items
-   * @returns
-   */
-  public calculateBasketTotalPrice(items: BasketItemModel[]): number {
-    return items.reduce((acc, curr) => {
-      return acc + curr.price * curr.quantity;
-    }, 0);
   }
 
   /**

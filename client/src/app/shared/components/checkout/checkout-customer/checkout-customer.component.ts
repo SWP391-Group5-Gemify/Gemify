@@ -36,8 +36,6 @@ export class CheckoutCustomerComponent implements OnInit {
   // =========================
   // == Life cycle
   // =========================
-  constructor(private customerService: CustomerService) {}
-
   ngOnInit(): void {
     this.loadGenderRadioButtons();
   }

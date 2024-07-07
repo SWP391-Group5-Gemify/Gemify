@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import {
   BasketBuybackItemModel,
   BasketItemModel,
   BasketModel,
+  BasketTotalsModel,
 } from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
 import { OrderItemModel } from '../../models/order.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { PromotionModel } from '../../models/promotion.model';
 
 @UntilDestroy()
 @Injectable({
@@ -29,6 +31,12 @@ export class BasketService {
   private _basketSource = new BehaviorSubject<BasketModel | null>(null);
   public basketSource$ = this._basketSource.asObservable();
 
+  // Calculate Total Basket Price
+  public basketTotalPrice = signal<BasketTotalsModel>({
+    subTotal: 0,
+    total: 0,
+    promotionDiscount: 0,
+  });
   // ====================
   // == Lifecycle
   // ====================
@@ -41,17 +49,36 @@ export class BasketService {
   // ================================ FOR A SINGLE BASKET ============================
 
   /**
+   * Set PromotionId for a basket and basketTotalPrice
+   * @param promotion
+   */
+  public setPromotionPrice(promotion: PromotionModel | undefined) {
+    const basket = this.getCurrentBasketValue();
+
+    if (basket) {
+      basket.promotionId = !promotion ? undefined : promotion.id;
+      let promotionDiscount = !promotion ? 0 : promotion.discount;
+      this.basketTotalPrice.update((value) => ({
+        ...value,
+        promotionDiscount: promotionDiscount,
+      }));
+
+      // Calculate price and set the promotionId to the basket
+      this.calculateTotalBasketPrice();
+      this.setOrUpdateBasket(basket);
+    }
+  }
+
+  /**
    * Create a payment intent
    * @returns
    */
-  public createPaymentIntent() {
+  public createPaymentIntent(basketId: number | string) {
     return this.httpClient
-      .post<BasketModel>(
-        `${this.basePaymentUrl}/${this.getCurrentBasketValue()?.id}`,
-        {}
-      )
+      .post<BasketModel>(`${this.basePaymentUrl}/${basketId}`, {})
       .pipe(
         map((basket) => {
+          console.table(basket);
           this._basketSource.next(basket);
         })
       );
@@ -64,14 +91,6 @@ export class BasketService {
   public selectBasketBeCurrentBasket(basket: BasketModel) {
     this._basketSource.next(basket);
     localStorage.setItem(this.LOCAL_STORAGE_BASKET_ID, basket.id);
-  }
-
-  /**
-   * Delete the current basket
-   */
-  public deleteCurrentBasket() {
-    this._basketSource.next(null);
-    localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
   }
 
   /**
@@ -111,8 +130,6 @@ export class BasketService {
    * @returns
    */
   public setOrUpdateBasket(updatedBasket: BasketModel) {
-    // If 2 basket object are exactly the same, dont need to add, update, or emit into basket source
-
     return this.httpClient
       .post<BasketModel>(this.baseBasketUrl, updatedBasket)
       .pipe(untilDestroyed(this))
@@ -128,7 +145,7 @@ export class BasketService {
   }
 
   /**
-   * Remove a basket
+   * Delete a basket out from Redis
    * - If it's a current basket in the basket source, then set the current basket source to null
    * @param id
    * @returns
@@ -143,7 +160,7 @@ export class BasketService {
       })
       .pipe(
         tap(() => {
-          // Perform remove the current basket source if delete it
+          // Perform remove the current basket source and its localStorage
           if (this.getCurrentBasketValue()?.id === id) {
             this._basketSource.next(null);
             localStorage.removeItem(this.LOCAL_STORAGE_BASKET_ID);
@@ -165,8 +182,14 @@ export class BasketService {
    * @param item
    * @param quantity
    */
-  public addItemToCurrentBasket(item: ProductModel, quantity = 1): void {
-    const basketItemToAdd = this.mapProductItemToBasketItem(item);
+  public addItemToCurrentBasket(
+    item: ProductModel | BasketItemModel,
+    quantity = 1
+  ): void {
+    // Check if ProductModel or BasketItemModel
+    if (this.isProduct(item)) {
+      item = this.mapProductItemToBasketItem(item);
+    }
 
     // Check the current basket
     let basket = this.getCurrentBasketValue() ?? this.createBasket();
@@ -174,7 +197,7 @@ export class BasketService {
     // Update the basket's items when add or update the item
     basket.saleItems = this.addOrUpdateBasketItem(
       basket?.saleItems,
-      basketItemToAdd,
+      item,
       quantity
     );
 
@@ -182,6 +205,34 @@ export class BasketService {
     // the basket source will get that value immediately when the addItemToBasket triggered
     this.setOrUpdateBasket(basket);
   }
+
+  /**
+   * TODO: Remove item from the basket
+   */
+  // public removeItemFromBasket(id: number, quantity = 1): void {
+  //   let basket = this.getCurrentBasketValue();
+
+  //   if (!basket) return;
+
+  //   const item = basket?.saleItems.find((x) => x.id === id);
+
+  //   // If having items
+  //   if (item) {
+  //     item.quantity -= quantity;
+
+  //     // if quantity = 0, then filter out that item
+  //     if (item.quantity === 0) {
+  //       basket.saleItems = basket.saleItems.filter((x) => x.id !== id);
+  //     }
+
+  //     // Set the basket's state back into the redis
+  //     if (basket.saleItems.length > 0) {
+  //       this.setOrUpdateBasket(basket);
+  //     } else {
+  //       this.deleteBasket(basket.id).subscribe();
+  //     }
+  //   }
+  // }
 
   /**
    * Check the current basket
@@ -233,6 +284,15 @@ export class BasketService {
     const newBasket: BasketModel = new BasketModel();
     newBasket.phoneNumber = phoneNumber;
     this.setOrUpdateBasket(newBasket);
+  }
+
+  /**
+   * By guarding the only property of ProductModel to determince if it's ProductModel or BasketItempModel
+   */
+  private isProduct(
+    item: ProductModel | BasketItemModel
+  ): item is ProductModel {
+    return (item as ProductModel).description != undefined;
   }
 
   /**
@@ -359,12 +419,27 @@ export class BasketService {
 
     // If having phone number
     if (phoneNumber) {
-      tempTicketId = tempTicketId
-        .concat('-')
-        .concat(phoneNumber[0])
-        .concat(phoneNumber[phoneNumber.length - 1]);
+      tempTicketId = tempTicketId.concat('-').concat(phoneNumber.slice(0, 4));
     }
 
     return tempTicketId;
+  }
+
+  /**
+   * Calculate total price
+   */
+  public calculateTotalBasketPrice() {
+    const basket = this.getCurrentBasketValue();
+    if (!basket) return;
+
+    const subTotal = basket.saleItems.reduce((acc, curr) => {
+      return acc + curr.price * curr.quantity;
+    }, 0);
+
+    this.basketTotalPrice.update((value) => ({
+      promotionDiscount: value.promotionDiscount,
+      subTotal: subTotal,
+      total: subTotal * (1 - (value.promotionDiscount ?? 0)),
+    }));
   }
 }

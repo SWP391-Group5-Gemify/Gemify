@@ -5,14 +5,18 @@ import {
   PromotionsSearchingCriteriaModel as PromotionParams,
 } from '../../../../core/models/promotion.model';
 import { PromotionService } from '../../../../core/services/promotion/promotion.service';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, filter, map, Observable } from 'rxjs';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { BasketService } from '../../../../core/services/basket/basket.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-checkout-promotion',
   standalone: true,
@@ -43,7 +47,11 @@ export class CheckoutPromotionComponent implements OnInit {
   // =========================
   // == Lifecycle
   // =========================
-  constructor(private promotionService: PromotionService) {}
+  constructor(
+    private promotionService: PromotionService,
+    private basketService: BasketService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadPromotions();
@@ -51,6 +59,10 @@ export class CheckoutPromotionComponent implements OnInit {
   // =========================
   // == Methods
   // =========================
+
+  public onChangePromotionRadioButton(promotion: PromotionModel | undefined) {
+    this.basketService.setPromotionPrice(promotion);
+  }
 
   /**
    * Apply paginator on changing a page
@@ -83,5 +95,20 @@ export class CheckoutPromotionComponent implements OnInit {
           throw error;
         })
       );
+  }
+
+  /**
+   * Create the payment intent with basket id
+   */
+  public createPaymentIntent() {
+    this.basketService
+      .createPaymentIntent(this.basketService.getCurrentBasketValue()?.id!)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: () => {
+          this.notificationService.show('Payment intent created');
+        },
+        error: (error) => this.notificationService.show(error.message),
+      });
   }
 }

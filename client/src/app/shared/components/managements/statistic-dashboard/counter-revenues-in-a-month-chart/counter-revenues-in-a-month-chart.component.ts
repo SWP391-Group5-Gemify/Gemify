@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { DashboardService } from '../../../../app/core/services/dashboard/dashboard.service';
-import { SaleCounterRevenue } from '../../../core/models/counter-revenue.model';
+import { DashboardService } from '../../../../../core/services/dashboard/dashboard.service';
+import { SaleCounterRevenue } from '../../../../../core/models/counter-revenue.model';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,16 +13,18 @@ Chart.register(...registerables, ChartDataLabels);
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './counter-revenues-in-a-month-chart.component.html',
-  styleUrls: ['./counter-revenues-in-a-month-chart.component.scss']
+  styleUrls: ['./counter-revenues-in-a-month-chart.component.scss'],
 })
-export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy {
+export class CounterRevenuesInAMonthChartComponent
+  implements OnInit, OnDestroy
+{
   chartData: SaleCounterRevenue[] = [];
   labelData: string[] = [];
   revenueData: number[] = [];
   selectedYear: number = 2024;
   selectedMonth: number = 1;
   years: number[] = [2024, 2025, 2026];
-  months: { value: number, label: string }[] = [
+  months: { value: number; label: string }[] = [
     { value: 1, label: 'January' },
     { value: 2, label: 'February' },
     { value: 3, label: 'March' },
@@ -34,11 +36,11 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
     { value: 9, label: 'September' },
     { value: 10, label: 'October' },
     { value: 11, label: 'November' },
-    { value: 12, label: 'December' }
+    { value: 12, label: 'December' },
   ];
   chart: Chart | null = null;
 
-  constructor(private service: DashboardService) { }
+  constructor(private service: DashboardService) {}
 
   ngOnInit(): void {
     this.loadChartData(this.selectedYear, this.selectedMonth);
@@ -56,26 +58,25 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
 
   loadChartData(year: number, month: number): void {
     this.service.getSpecificCounterRevenuesInMonthData(year, month).subscribe(
-      data => {
+      (data) => {
         if (!data || data.length === 0) {
           console.warn('No data available for the selected month and year.');
           this.clearChart();
           return;
         }
-  
-        this.labelData = data.map(item => item.saleCounterId.toString()); // Convert saleCounterId to string
-        this.revenueData = data.map(item => item.revenue);
-  
+
+        this.labelData = data.map((item) => item.saleCounterId.toString()); // Convert saleCounterId to string
+        this.revenueData = data.map((item) => item.revenue);
+
         this.clearChart();
         this.renderColumnChart(this.labelData, this.revenueData);
       },
-      error => {
+      (error) => {
         console.error('Error fetching data:', error);
         this.clearChart();
       }
     );
   }
-  
 
   renderColumnChart(labelData: string[], revenueData: number[]): void {
     const chartId = 'columnchart1';
@@ -85,33 +86,35 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
       type: chartType,
       data: {
         labels: labelData,
-        datasets: [{
-          label: 'Revenue',
-          data: revenueData,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            label: 'Revenue',
+            data: revenueData,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         responsive: true,
         plugins: {
           legend: {
-            display: false
+            display: false,
           },
           datalabels: {
             color: 'black',
@@ -119,7 +122,7 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
             formatter: (value: number) => {
               const formattedValue = new Intl.NumberFormat('en-US', {
                 minimumFractionDigits: 0,
-                maximumFractionDigits: 0
+                maximumFractionDigits: 0,
               }).format(value);
               return formattedValue.replace(/,/g, '.');
             },
@@ -127,13 +130,13 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
             align: 'top',
             font: {
               size: 12,
-              weight: 'bold'
-            }
-          }
+              weight: 'bold',
+            },
+          },
         },
         scales: {
           x: {
-            beginAtZero: true
+            beginAtZero: true,
           },
           y: {
             beginAtZero: true,
@@ -142,15 +145,17 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
                 if (typeof tickValue === 'number') {
                   return new Intl.NumberFormat('en-US', {
                     minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                  }).format(tickValue).replace(/,/g, '.');
+                    maximumFractionDigits: 0,
+                  })
+                    .format(tickValue)
+                    .replace(/,/g, '.');
                 }
                 return tickValue;
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
   }
 
@@ -165,4 +170,3 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
     this.clearChart();
   }
 }
-

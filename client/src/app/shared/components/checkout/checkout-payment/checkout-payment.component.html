@@ -4,7 +4,10 @@
          class="payment-form">
 
   <h3 class="payment-form__heading  u-margin-top-medium u-margin-bottom-medium">Thông tin thanh toán</h3>
-  <div class="payment-form__controls">
+
+  <div class="payment-form__controls"
+       formGroupName="paymentForm">
+
     <!-- Name On Card -->
     <mat-form-field appearance="outline">
       <mat-label>Tên chủ thẻ</mat-label>
@@ -14,28 +17,34 @@
              name="nameOnCard">
     </mat-form-field>
 
-    <!-- Card Number -->
+    <div class="stripe-form">
 
-    <div class="flex--3-cols">
-      <mat-form-field appearance="outline">
-        <mat-label>Số thẻ</mat-label>
-        <input matInput
-               type="text">
-      </mat-form-field>
+      <!-- Card Number -->
+      <div class="stripe-form__form-container">
+        <label class="stripe-form__label">Số thẻ</label>
+        <div class="stripe-form__control"
+             #cardNumber></div>
+        <span class="error-message"
+              *ngIf="cardNumberError">{{cardNumberError}}</span>
+      </div>
 
       <!-- Card Expiry -->
-      <mat-form-field appearance="outline">
-        <mat-label>Ngày hết hạn</mat-label>
-        <input matInput
-               type="date">
-      </mat-form-field>
+      <div class="stripe-form__form-container">
+        <label class="stripe-form__label">Ngày hết hạn</label>
+        <div class="stripe-form__control"
+             #cardExpiry></div>
+        <span class="error-message"
+              *ngIf="cardExpiryError">{{cardExpiryError}}</span>
+      </div>
 
       <!-- CVC -->
-      <mat-form-field appearance="outline">
-        <mat-label>CVC</mat-label>
-        <input matInput
-               type="text">
-      </mat-form-field>
+      <div class="stripe-form__form-container">
+        <label class="stripe-form__label">CVC</label>
+        <div class="stripe-form__control"
+             #cardCvc></div>
+        <span class="error-message"
+              *ngIf="cardCvcError">{{cardCvcError}}</span>
+      </div>
     </div>
   </div>
 </section>
@@ -45,6 +54,7 @@
   <button class="btn btn--primary-light"
           cdkStepperPrevious>Quay trở lại khuyến mãi</button>
   <button class="btn btn--primary-dark"
-          (click)="createOrder()"
+          (click)="submitOrder()"
+          [disabled]="!paymentFromComplete"
           cdkStepperNext>Xác nhận thanh toán</button>
 </div>
