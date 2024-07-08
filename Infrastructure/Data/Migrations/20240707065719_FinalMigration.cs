@@ -251,7 +251,7 @@ namespace Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", nullable: true),
-                    GoldTypeId = table.Column<int>(type: "int", nullable: true),
+                    GoldTypeId = table.Column<int>(type: "int", nullable: false),
                     GoldWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     TotalWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Labour = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
@@ -259,7 +259,7 @@ namespace Infrastructure.Data.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
                     SubCategoryId = table.Column<int>(type: "int", nullable: true),
-                    SaleCounterId = table.Column<int>(type: "int", nullable: false)
+                    SaleCounterId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -268,13 +268,13 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_Products_GoldTypes_GoldTypeId",
                         column: x => x.GoldTypeId,
                         principalTable: "GoldTypes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Products_SaleCounters_SaleCounterId",
                         column: x => x.SaleCounterId,
                         principalTable: "SaleCounters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Products_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
@@ -366,6 +366,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
                     ItemOrdered_ProductItemId = table.Column<int>(type: "int", nullable: true),
                     ItemOrdered_ProductName = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     ItemOrdered_GoldPrice = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
@@ -378,8 +379,7 @@ namespace Infrastructure.Data.Migrations
                     ItemOrdered_SaleCounterId = table.Column<int>(type: "int", nullable: true),
                     ItemOrdered_SaleCounterName = table.Column<string>(type: "varchar(50)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -388,7 +388,8 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_OrderItems_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -404,6 +405,7 @@ namespace Infrastructure.Data.Migrations
                     GemsItemOrdered_GemCarat = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
                     GemsItemOrdered_GemClarity = table.Column<string>(type: "varchar(10)", nullable: true),
                     GemsItemOrdered_GemCertificateCode = table.Column<string>(type: "varchar(50)", nullable: true),
+                    GemsItemOrdered_IsProcurable = table.Column<bool>(type: "bit", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderItemId = table.Column<int>(type: "int", nullable: true)

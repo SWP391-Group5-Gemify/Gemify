@@ -31,6 +31,6 @@ namespace Core.Enitities
         public string Shape { get; set; }
         [Column(TypeName = "decimal(18,0)"), Required]
         public decimal LatestPrice { get; set; }
-        public bool IsProcurable { get; set; } = true;
+        public bool IsProcurable { get; set; }
     }
 }
