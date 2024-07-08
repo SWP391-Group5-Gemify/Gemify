@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Core.Attributes;
 
 namespace Core.Enitities
 {
@@ -36,6 +37,7 @@ namespace Core.Enitities
         [Column(TypeName = "varchar(100)"), Required]
         public string Code { get; set; }
 
+        [PromotionStatus(ErrorMessage = "Invalid Promotion Status")]
         [Column(TypeName = "varchar(50)"), Required]
         public string Status { get; set; } = PromotionStatus.Active.GetEnumMemberValue();
     }
