@@ -49,7 +49,7 @@ namespace API.Controllers
         // Update customer information
         [HttpPut("{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager,Cashier")]
-        public async Task<ActionResult> UpdateCustomer (int id, CustomerDto customerDto)
+        public async Task<ActionResult<CustomerDto>> UpdateCustomer (int id, CustomerDto customerDto)
         {
             var spec = new CustomerSpecification(id);
             var existingCustomer = await _customerRepo.GetEntityWithSpec(spec);
@@ -59,7 +59,10 @@ namespace API.Controllers
             _mapper.Map(customerDto,existingCustomer);
             _customerRepo.Update(existingCustomer);
             if (await _customerRepo.SaveAllAsync())
-                return Ok(new ApiResponse(200, "Successfully updated!"));
+            {
+                return Ok(_mapper.Map<Customer, CustomerDto>(existingCustomer));
+            }
+                
             return BadRequest(new ApiResponse(400, "Failed to update customer information"));
         }
 
