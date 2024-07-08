@@ -117,63 +117,49 @@ export class CheckoutPaymentComponent implements OnInit {
     });
   }
 
-  // /**
-  //  * Create a customer if not existed
-  //  * TODO: BACKEND PLEASE MODIFY THE API FOR CHECKING EXISTING CUSTOMER
-  //  */
-  // private handleCustomerInfo(): Observable<CustomerModel> {
-  //   const customerFormValue = this.checkoutForm?.get('customerForm')?.value;
-  //   const phone = customerFormValue.phone;
-
-  //   // If customer no exist, return phone
-  //   if (!phone) {
-  //     return of();
-  //   }
-
-  //   return this.customerService.getCustomerByPhone(phone).pipe(
-  //     switchMap((existingCustomer) => {
-  //       if (existingCustomer) {
-  //         // If having customer, update the customer
-  //         return this.customerService.updateCustomer({
-  //           ...existingCustomer,
-  //           ...customerFormValue,
-  //         });
-  //       } else {
-  //         // If not, create new customer
-  //         return this.customerService
-  //           .createCustomer(customerFormValue)
-  //           .pipe(
-  //             switchMap((_) => this.customerService.getCustomerByPhone(phone))
-  //           );
-  //       }
-  //     }),
-  //     catchError((error: CreateUpdateDeleteResponseModel) => {
-  //       if (error.statusCode === 404) {
-  //         // If not, create new customer
-  //         return this.customerService
-  //           .createCustomer(customerFormValue)
-  //           .pipe(
-  //             switchMap((_) => this.customerService.getCustomerByPhone(phone))
-  //           );
-  //       } else {
-  //         // Propagate other errors
-  //         return throwError(error);
-  //       }
-  //     })
-  //   );
-  // }
-
-  get paymentFromComplete() {
+  // Check whether or not the payment is complete
+  get isPaymentFromComplete() {
     return (
-      this.checkoutForm?.get('paymentForm')?.valid
-      && this.cardNumberComplete
-      && this.cardCvcComplete
-      && this.cardExpiryComplete
+      this.checkoutForm?.get('paymentForm')?.valid &&
+      this.cardNumberComplete &&
+      this.cardCvcComplete &&
+      this.cardExpiryComplete
     );
   }
 
   /**
-   * Create a new Customer Info when typing to the form
+   * Create a customer if not existed
+   */
+  private handleCustomerInfo(): Observable<CustomerModel> {
+    const customerFormValue = this.checkoutForm?.get('customerForm')?.value;
+
+    console.table(customerFormValue);
+    const phone = customerFormValue.phone;
+
+    // If customer no exist, return phone
+    if (!phone) {
+      return of();
+    }
+
+    return this.customerService.getCustomerByPhone(phone).pipe(
+      untilDestroyed(this),
+      switchMap((existingCustomer) => {
+        if (existingCustomer) {
+          // If having customer, update the customer
+          return this.customerService.updateCustomer({
+            ...existingCustomer,
+            ...customerFormValue,
+          });
+        } else {
+          // If not, create new customer
+          return this.customerService.createCustomer(customerFormValue);
+        }
+      })
+    );
+  }
+
+  /**
+   * Create a new Customer Info when typing to the form, or update the info if already exist
    * @returns
    */
   private createCustomerInfo(): Observable<CustomerModel> {
@@ -204,16 +190,16 @@ export class CheckoutPaymentComponent implements OnInit {
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
       // Load customer, get customer's id
-      this.createCustomerInfo()
+      this.handleCustomerInfo()
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (customer: CustomerModel) => {
+            // Create order
             if (customer.id && basket.id) {
               this.orderService
                 .createSaleOrder(basket.id, customer.id)
                 .subscribe({
                   next: (order) => {
-                    // Confirm Card Payment from Stripe
                     this.stripe
                       ?.confirmCardPayment(basket.clientSecret!, {
                         payment_method: {
@@ -226,13 +212,20 @@ export class CheckoutPaymentComponent implements OnInit {
                         },
                       })
                       .then((result) => {
-                        console.log(result);
                         if (result.paymentIntent) {
                           this.notificationService.show(
                             'Tạo hóa đơn thành công'
                           );
-                          this.basketService.deleteBasket(basket.id);
-                          this.router.navigate(['cashier/orders']);
+                          this.basketService
+                            .deleteBasket(basket.id)
+                            .pipe(untilDestroyed(this))
+                            .subscribe({
+                              next: (response) => {
+                                if (response) {
+                                  this.router.navigate(['cashier/orders']);
+                                }
+                              },
+                            });
                         } else {
                           this.notificationService.show(result.error.message!);
                         }

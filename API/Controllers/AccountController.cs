@@ -15,8 +15,8 @@ namespace API.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(IUserService userRepo, 
-            SignInManager<User> signInManager, ITokenService tokenService) 
+        public AccountController(IUserService userRepo,
+            SignInManager<User> signInManager, ITokenService tokenService)
         {
             _userService = userRepo;
             _signInManager = signInManager;

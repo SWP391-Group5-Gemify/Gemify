@@ -145,7 +145,7 @@ export class BasketService {
   }
 
   /**
-   * Delete a basket out from Redis
+   * Delete a basket out from Redis and current Storage
    * - If it's a current basket in the basket source, then set the current basket source to null
    * @param id
    * @returns

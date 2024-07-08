@@ -86,8 +86,10 @@ export class CheckoutComponent implements OnInit {
   public loadCustomerOnBasketIfExist(): void {
     let phoneNumber =
       this.basketService.getCurrentBasketValue()?.phoneNumber ?? '';
+
     this.patchCustomerPhoneToCheckout(phoneNumber);
 
+    // If customer is already existed
     phoneNumber &&
       this.customerService
         .getCustomerByPhone(phoneNumber)
