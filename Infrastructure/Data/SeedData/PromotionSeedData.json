@@ -6,7 +6,7 @@
     "discount": 0.15,
     "code": "SUMMER10",
     "minValue": 50,
-    "status": true
+    "status": "Active"
   },
   {
     "name": "Ưu đãi 26/6",
@@ -15,7 +15,7 @@
     "discount": 0.15,
     "code": "JUNE06",
     "minValue": 100,
-    "status": true
+    "status": "Active"
   },
   {
     "name": "Ưu đãi cuối tuần",
@@ -24,6 +24,6 @@
     "discount": 0.2,
     "code": "WEEKEND20",
     "minValue": 25,
-    "status": false
+    "status": "Expired"
   }
 ]
