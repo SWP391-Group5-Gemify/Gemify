@@ -46,7 +46,7 @@
             } -->
 
           <li class="total-summary__item"><span>Khuyến Mãi</span><span>{{
-              this.basketService.basketTotalPrice().promotionDiscount}} %</span></li>
+              this.basketService.basketTotalPrice().promotionDiscount | percent}}</span></li>
           <li class="total-summary__item"><span>Tổng số tiền</span><span>{{this.basketService.basketTotalPrice().total |
               currency:"VND"}}</span></li>
         </ul>

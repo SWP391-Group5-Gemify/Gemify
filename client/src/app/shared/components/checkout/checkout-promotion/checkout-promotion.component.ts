@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   PromotionModel,
-  PromotionsSearchingCriteriaModel as PromotionParams,
+  PromotionParams,
 } from '../../../../core/models/promotion.model';
 import { PromotionService } from '../../../../core/services/promotion/promotion.service';
 import { catchError, filter, map, Observable } from 'rxjs';
@@ -36,11 +36,12 @@ export class CheckoutPromotionComponent implements OnInit {
   // == Fields
   // =========================
   @Input() checkoutForm?: FormGroup;
-  public promotions!: Observable<PromotionModel[]>;
+  public promotions$!: Observable<PromotionModel[]>;
   public promotionParams: PromotionParams = {
     pageSize: 4,
     pageIndex: 0,
     searchName: undefined,
+    status: undefined,
   };
   public totalPromotions: number = 0;
 
@@ -78,7 +79,7 @@ export class CheckoutPromotionComponent implements OnInit {
    * Load promotions based on pagination
    */
   loadPromotions() {
-    this.promotions = this.promotionService
+    this.promotions$ = this.promotionService
       .getPromotions({
         ...this.promotionParams,
         pageIndex: this.promotionParams.pageIndex + 1,

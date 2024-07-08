@@ -1,1 +1,44 @@
-<p>promotions works!</p>
+<section class="filter-controls u-margin-bottom-small mat-elevation-z2">
+
+  <div class="filter-controls__dropdowns">
+    <!-- Filter on Status -->
+    <app-generic-dropdown #promotionsStatusDropdownRef
+                          label="Trạng thái"
+                          [options]="promotionsStatusDropdown"
+                          (onSelectionChange)="onSelectChangeStatusFromParent($event)">
+    </app-generic-dropdown>
+  </div>
+
+  <div class="filter-controls__filter-and-reset">
+    <!-- Filter on Names -->
+    <app-generic-search #nameSearchInputRef
+                        label="Tìm kiếm theo tên"
+                        (onValueChanges)="onValueChangesNameFromParent($event)">
+    </app-generic-search>
+
+    <!-- Reset all input element -->
+    <button class="btn btn--primary-dark btn--with-icon"
+            (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
+  </div>
+</section>
+
+<!-- Paginator -->
+<mat-paginator [length]="totalPromotions"
+               [pageSize]="promotionParams.pageSize"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               (page)="onPageChange($event)"
+               style="background-color: #FAFAFA"
+               aria-label="Select page">
+</mat-paginator>
+
+<!-- List of promotions -->
+<section class="grid grid--responsive u-margin-top-small">
+  <div *ngIf="(promotions$ | async) === null">
+    <p>No data fits your search</p>
+  </div>
+
+  @for (promotion of promotions$ | async; track $index) {
+  <app-card-promotion [promotion]="promotion"
+                      (onDisablePromotion)="onDisablePromotionByIdFromParent($event)"></app-card-promotion>
+  }
+</section>
