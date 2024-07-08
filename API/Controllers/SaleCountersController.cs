@@ -8,6 +8,8 @@ using API.Errors;
 using Microsoft.AspNetCore.Authorization;
 using Core.Specifications.Counters;
 using API.Helpers;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -46,7 +48,10 @@ namespace API.Controllers
         {
             var spec = new SaleCounterSpecification(id);
             var saleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
-            if (saleCounter == null) { return NotFound(new ApiResponse(404)); }
+            if (saleCounter == null) 
+            { 
+                return NotFound(new ApiResponse(404, $"The counter with id {id} does not exist!")); 
+            }
             return _mapper.Map<SaleCounter, SaleCounterDto>(saleCounter);
         }
 
@@ -65,21 +70,33 @@ namespace API.Controllers
         }
 
         //Update sale counter
-        [HttpPut("{id}")]
+        [HttpPatch("assign/{id}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult> UpdateSaleCounter (int id, SaleCounterDto saleCounterDto)
+        public async Task<ActionResult<SaleCounterDto>> UpdateSaleCounter (int id, SaleCounterToAssignDto saleCounterDto)
         {
             var spec = new SaleCounterSpecification(id);
             var existingSaleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
             if (existingSaleCounter == null)
-                return NotFound();
+                return NotFound(new ApiResponse(404, $"The counter with id {id} does not exist!"));
 
-            _mapper.Map(saleCounterDto, existingSaleCounter);
-            _saleCountersRepo.Update(existingSaleCounter);
-
-            if (await _saleCountersRepo.SaveAllAsync()) 
-                return Ok(new ApiResponse(200, "Successfully updated"));
-            return BadRequest(new ApiResponse(400, "Fail to update sale counter!"));
+            try
+            {
+                _mapper.Map(saleCounterDto, existingSaleCounter);
+                _saleCountersRepo.Update(existingSaleCounter);
+                await _saleCountersRepo.SaveAllAsync();
+                existingSaleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
+                return Ok(_mapper.Map<SaleCounterDto>(existingSaleCounter));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                    return BadRequest(new ApiResponse(400, "Foreign key constraint violation. Check your input."));
+                return BadRequest(new ApiResponse(400, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(400, ex.Message));
+            }
         }
 
         //Delete counter
