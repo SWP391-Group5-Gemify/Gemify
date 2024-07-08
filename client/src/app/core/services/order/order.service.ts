@@ -47,22 +47,12 @@ export class OrderService {
     });
   }
 
-  getOrderById(id: number) {
+  getOrderById(id: number | string) {
     return this.http.get<OrderModel>(`${this.baseOrderUrl}/${id}`);
-
-    // .pipe(
-    //   map((order) => {
-    //     return order.orderItems.forEach((item) => {
-    //       item.image_Url = ImageUtils.concatLinkToTokenFirebase(
-    //         item.image_Url
-    //       );
-    //     });
-    //   })
-    // );
   }
 
   getOrderTypes() {
-    return this.http.get<OrderTypeModel[]>(`${this.baseOrderUrl}/sales`);
+    return this.http.get<OrderTypeModel[]>(`${this.baseOrderUrl}/types`);
   }
 
   getOrderParams() {
