@@ -1,5 +1,6 @@
 <section *ngIf="order">
   <div class="order">
+
     <!-- Order Page Header -->
     <div class="header">
       <div class="header__title">
@@ -20,10 +21,10 @@
             <strong>#{{order.userId}}</strong>
           </li>
         </ul>
-
       </div>
     </div>
 
+    <!-- Basket Dropdown -->
     <div class="basket-dropdown">
       <button class="btn btn--grad btn--with-icon"
               (click)="onOpenModalAndCreateBasketWithCustomerPhone()">
@@ -42,8 +43,10 @@
       <table mat-table
              [dataSource]="dataSource"
              multiTemplateDataRows>
+
         @for (column of columnsToDisplay; track column) {
         <ng-container matColumnDef="{{column}}">
+
           <th mat-header-cell
               *matHeaderCellDef>
             {{
@@ -52,12 +55,14 @@
             ? "Product" : column
             }}
           </th>
+
           <td mat-cell
               *matCellDef="let element">
             @if (column === "add") {
             <button class="btn btn--grad btn--with-icon"
                     (click)="onOpenModalAndChangeGoldWeight(element)"><mat-icon>add</mat-icon>Giỏ hàng</button>
             }
+
             @else if (column === "expand") {
             <button mat-icon-button
                     aria-label="expand row"
@@ -70,13 +75,16 @@
               }
             </button>
             }
+
             @else if (column === "image_Url" ) {
             <img class="product-image"
                  src="{{element['image_Url']}}">
             }
+
             @else if (column === "total") {
             {{element['price'] * element['quantity'] | currency:'VND'}}
             }
+
             @else {
             {{((column.toLowerCase().includes("price") || column.toLowerCase().includes("labour")))
             ? (element[column] | currency:'VND') : element[column]}}

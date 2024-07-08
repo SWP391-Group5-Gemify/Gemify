@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, input, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
   ProductModel,
@@ -13,13 +12,7 @@ import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-card-product',
   standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    CommonModule,
-    MatIconModule,
-    RouterLink,
-  ],
+  imports: [MatCardModule, CommonModule, MatIconModule, RouterLink],
   templateUrl: './card-product.component.html',
   styleUrl: './card-product.component.scss',
 })

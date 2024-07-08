@@ -5,7 +5,7 @@ import { PaginationModel } from '../../models/pagination.model';
 import {
   PromotionCreateModel,
   PromotionModel,
-  PromotionsSearchingCriteriaModel,
+  PromotionParams,
 } from '../../models/promotion.model';
 import { environment } from '../../../../environments/environment';
 import { ProductModel } from '../../models/product.model';
@@ -36,15 +36,20 @@ export class PromotionService {
    * @returns
    */
   public getPromotions(
-    promotionsSearchingCriteria: PromotionsSearchingCriteriaModel
+    promotionParams: PromotionParams
   ): Observable<PaginationModel<PromotionModel>> {
     let params = new HttpParams()
-      .set('pageIndex', promotionsSearchingCriteria.pageIndex)
-      .set('pageSize', promotionsSearchingCriteria.pageSize);
+      .set('pageIndex', promotionParams.pageIndex)
+      .set('pageSize', promotionParams.pageSize);
 
     // if having searchName
-    if (promotionsSearchingCriteria.searchName) {
-      params = params.set('search', promotionsSearchingCriteria.searchName);
+    if (promotionParams.searchName) {
+      params = params.set('search', promotionParams.searchName);
+    }
+
+    // if having status
+    if (promotionParams.status) {
+      params = params.set('status', promotionParams.status);
     }
 
     return this.httpClient.get<PaginationModel<PromotionModel>>(
@@ -68,9 +73,9 @@ export class PromotionService {
    * @returns
    */
   public getPromotionById(id: string | number): Observable<PromotionModel> {
-    return this.httpClient.get<PromotionModel>(
-      `${this.basePromotionUrl}/${id}`
-    );
+    const discountsBaseUrl = this.basePromotionUrl.concat('/discounts');
+
+    return this.httpClient.get<PromotionModel>(`${discountsBaseUrl}/${id}`);
   }
 
   /**

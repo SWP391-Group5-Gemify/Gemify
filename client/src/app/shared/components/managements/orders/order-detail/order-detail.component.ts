@@ -27,6 +27,7 @@ import { ModalChangeGoldWeightComponent } from './modal-change-gold-weight/modal
 import { ProductService } from '../../../../../core/services/product/product.service';
 import { ProductModel } from './../../../../../core/models/product.model';
 import { lastValueFrom, map } from 'rxjs';
+import ImageUtils from '../../../../utils/ImageUtils';
 
 @Component({
   selector: 'app-order-detail',
@@ -95,10 +96,17 @@ export class OrderDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     id &&
-      this.ordersService.getOrderById(+id).subscribe({
+      this.ordersService.getOrderById(id).subscribe({
         next: (order) => {
           this.order = order;
-          this.dataSource.data = order.orderItems;
+          this.dataSource.data = order.orderItems.map((orderItem) => {
+            return {
+              ...orderItem,
+              image_Url: ImageUtils.concatLinkToTokenFirebase(
+                orderItem.image_Url
+              ),
+            };
+          });
           this.dataSource._updateChangeSubscription();
         },
         error: (error) => console.log(error),

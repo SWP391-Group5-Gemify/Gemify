@@ -1,22 +1,28 @@
 export interface PromotionModel {
   id: number;
   name: string;
-  expDate: string;
-  effDate: string;
+  expDate: Date | string;
+  effDate: Date | string;
   discount: number;
   code: string;
-  status: boolean;
+  status: string;
 }
 
-export interface PromotionsSearchingCriteriaModel {
+export interface PromotionParams {
   pageSize: number;
   pageIndex: number;
-  searchName: string | undefined;
+  searchName?: string;
+  status?: string;
 }
 
 export interface PromotionCreateModel {
   code: string;
   discount: number;
   name: string;
-  expDate: string;
+  expDate: Date | string;
+}
+
+export enum PromotionStatusEnum {
+  Active = 'Active',
+  Expired = 'Expired',
 }
