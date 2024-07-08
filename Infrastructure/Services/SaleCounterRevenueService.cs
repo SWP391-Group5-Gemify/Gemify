@@ -57,7 +57,7 @@ namespace Infrastructure.Services
                         var saleCounterId = orderItem.ItemOrdered.SaleCounterId;
 
                         // Add total to sale counter revenue
-                        saleCounterRevenueMap[saleCounterId] += orderItemTotalPrice;
+                        saleCounterRevenueMap[(int)saleCounterId] += orderItemTotalPrice;
                     }
                 }
             }
