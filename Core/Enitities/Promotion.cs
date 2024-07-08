@@ -18,7 +18,7 @@ namespace Core.Enitities
             this.Discount = Discount;
             this.ExpDate = ExpDate;
             this.EffDate = DateOnly.FromDateTime(DateTime.UtcNow);
-            this.Status = true;
+            this.Status = PromotionStatus.Active.GetEnumMemberValue();
         }
         
         [Column(TypeName = "nvarchar(200)"), Required]
@@ -35,7 +35,9 @@ namespace Core.Enitities
 
         [Column(TypeName = "varchar(100)"), Required]
         public string Code { get; set; }
-        public bool Status { get; set; } = true;
+
+        [Column(TypeName = "varchar(50)"), Required]
+        public string Status { get; set; } = PromotionStatus.Active.GetEnumMemberValue();
     }
 
 }

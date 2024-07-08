@@ -11,7 +11,13 @@ namespace Core.Specifications.Promotions
             set => _pageSize = value > MaxPageSize ? MaxPageSize : value;
         }
 
-        public bool? Status;
+        private string _status;
+        public string Status {
+            get => _status;
+            set {
+                _status = value.ToLower();
+            }
+        }
         private string _search;
         public string Search
         {

@@ -11,10 +11,12 @@ namespace Core.Specifications.Promotions
         }
 
         public PromotionSpecification(PromotionParams promotionParams)
-            : base(x => string.IsNullOrEmpty(promotionParams.Search)
+            : base(x => (string.IsNullOrEmpty(promotionParams.Search)
             || x.Name.ToLower().Contains(promotionParams.Search)
-            || x.Code.ToLower().Contains(promotionParams.Search)
-            || x.Status == promotionParams.Status)
+            || x.Code.ToLower().Contains(promotionParams.Search))
+            && (string.IsNullOrEmpty(promotionParams.Status) 
+                || x.Status.ToLower().Equals(promotionParams.Status))
+            )
         {
             AddOrderByDescending(x => x.EffDate);
             ApplyPaging(promotionParams.PageSize * (promotionParams.PageIndex-1),promotionParams.PageSize);

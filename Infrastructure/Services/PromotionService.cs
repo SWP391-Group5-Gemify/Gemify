@@ -21,7 +21,7 @@ namespace Infrastructure.Services
             var promotions = await _unitOfWork.Repository<Promotion>().ListAsync(promotionSpec);
             foreach (var promotion in promotions)
             {
-                if(promotion.Status == true && CheckPromotionStatus(promotion) == false)
+                if(promotion.Status.Equals(PromotionStatus.Active.GetEnumMemberValue()) && CheckPromotionStatus(promotion) == false)
                 {
                     await UpdateExpiredPromotionAsync(promotion);
                 }
@@ -36,7 +36,7 @@ namespace Infrastructure.Services
             var spec = new PromotionSpecification(code);
             var promotion = await _unitOfWork.Repository<Promotion>().GetEntityWithSpec(spec);
             if(promotion == null) return null;
-            if(promotion.Status == true && CheckPromotionStatus(promotion) == true)
+            if(promotion.Status.Equals(PromotionStatus.Active.GetEnumMemberValue()) && CheckPromotionStatus(promotion) == true)
             {
                 return promotion;
             }
@@ -72,7 +72,7 @@ namespace Infrastructure.Services
         // Can be used to disable promotion status manually
         public async Task<int> UpdateExpiredPromotionAsync(Promotion promotion)
         {   
-            promotion.Status = false;
+            promotion.Status = PromotionStatus.Expired.GetEnumMemberValue();
             _unitOfWork.Repository<Promotion>().Update(promotion);
             return await _unitOfWork.Complete();
         }
@@ -82,7 +82,7 @@ namespace Infrastructure.Services
         public bool CheckPromotionStatus(Promotion promotion)
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
-            if(promotion.Status == true && today.CompareTo(promotion.ExpDate) > 0)
+            if(promotion.Status.Equals(PromotionStatus.Active.GetEnumMemberValue()) && today.CompareTo(promotion.ExpDate) > 0)
                 return false;
             else return true;
         }
