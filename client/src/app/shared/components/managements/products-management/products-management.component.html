@@ -42,8 +42,8 @@
 <!-- Table -->
 <app-generic-table-data-source [columnsToDisplay]="columnsToDisplay"
                                [dataSource]="dataSource"
-                               [pageSize]="productSearchCriteria.pageSize"
-                               [pageIndex]="productSearchCriteria.pageIndex"
+                               [pageSize]="productParams.pageSize"
+                               [pageIndex]="productParams.pageIndex"
                                [count]="totalProducts"
                                (onPageChangeFromChild)="onPageChange($event)"
                                (onFilterFromChild)="onValueChangesNameFromParent($event)"

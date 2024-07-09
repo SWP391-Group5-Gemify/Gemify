@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { DashboardService } from '../../../../../core/services/dashboard/dashboard.service';
-import { SaleCounterRevenue } from '../../../../../core/models/counter-revenue.model';
+import { RevenueSaleCounterModel } from '../../../../../core/models/counter-revenue.model';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +18,7 @@ Chart.register(...registerables, ChartDataLabels);
 export class CounterRevenuesInAMonthChartComponent
   implements OnInit, OnDestroy
 {
-  chartData: SaleCounterRevenue[] = [];
+  chartData: RevenueSaleCounterModel[] = [];
   labelData: string[] = [];
   revenueData: number[] = [];
   selectedYear: number = 2024;

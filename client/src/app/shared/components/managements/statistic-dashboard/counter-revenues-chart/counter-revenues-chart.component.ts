@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { DashboardService } from '../../../../../core/services/dashboard/dashboard.service';
-import { MonthlyRevenue } from '../../../../../core/models/counter-revenue.model';
+import { RevenueMonthlyModel } from '../../../../../core/models/counter-revenue.model';
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // Import the plugin
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ Chart.register(...registerables, ChartDataLabels); // Register the plugin
   styleUrls: ['./counter-revenues-chart.component.scss'],
 })
 export class CounterRevenuesChartComponent implements OnInit, OnDestroy {
-  chartData: MonthlyRevenue[] = [];
+  chartData: RevenueMonthlyModel[] = [];
   labelData: number[] = [];
   realData: number[][] = [[], [], [], [], [], []]; // Assuming 6 counters
   selectedYear: number = 2024;
