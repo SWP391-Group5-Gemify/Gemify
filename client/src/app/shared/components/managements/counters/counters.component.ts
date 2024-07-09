@@ -32,6 +32,7 @@ export class CountersComponent {
   public saleCounterParams: SaleCounterParams = {
     status: undefined,
     searchName: undefined,
+    revenueDate: undefined,
   };
 
   // ====================

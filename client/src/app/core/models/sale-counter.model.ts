@@ -17,4 +17,5 @@ export interface SaleCounterRevenueModel {
 export interface SaleCounterParams {
   searchName?: string;
   status?: boolean;
+  revenueDate?: Date;
 }
