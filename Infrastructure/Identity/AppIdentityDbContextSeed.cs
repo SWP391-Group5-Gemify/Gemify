@@ -66,7 +66,7 @@ namespace Infrastructure.Identity
                     (new User
                     {
                         FullName = "Cao Ngô Phương Khánh",
-                        Email = "khanh@test.com",
+                        Email = "khanhcnp@test.com",
                         UserName = "khanhcnp",
                         Gender = Gender.Female.GetEnumMemberValue(),
                         DateOfBirth = new DateOnly(2000, 2, 1),
