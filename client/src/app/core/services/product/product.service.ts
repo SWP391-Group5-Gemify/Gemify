@@ -16,54 +16,62 @@ import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
   providedIn: 'root',
 })
 export class ProductService {
+  // ========================
+  // == Fields
+  // ========================
   private baseProductUrl: string = environment.baseApiUrl.concat('/products');
 
+  // ========================
+  // == Constructors
+  // ========================
   constructor(private httpClient: HttpClient) {}
 
+  // ========================
+  // == Methods
+  // ========================
   /**
    * Get the list of products based on searching criteria
-   * @param productsSearchCriteria
+   * @param productsParams
    * @returns
    */
   getProducts(
-    productsSearchCriteria: ProductParams
+    productsParams: ProductParams
   ): Observable<PaginationModel<ProductModel>> {
     let params = new HttpParams()
-      .set('pageIndex', productsSearchCriteria.pageIndex.toString())
-      .set('pageSize', productsSearchCriteria.pageSize.toString());
+      .set('pageIndex', productsParams.pageIndex.toString())
+      .set('pageSize', productsParams.pageSize.toString());
 
     // Assign params if exists
-    if (productsSearchCriteria.searchName) {
-      params = params.set('search', productsSearchCriteria.searchName);
+    if (productsParams.searchName) {
+      params = params.set('search', productsParams.searchName);
     }
 
-    if (productsSearchCriteria.goldTypeId) {
-      params = params.set(
-        'goldTypeId',
-        productsSearchCriteria.goldTypeId.toString()
-      );
+    // If having goldType Id
+    if (productsParams.goldTypeId) {
+      params = params.set('goldTypeId', productsParams.goldTypeId.toString());
     }
 
-    if (productsSearchCriteria.subCategoryId) {
+    // If having subCategoryId
+    if (productsParams.subCategoryId) {
       params = params.set(
         'subcategoryId',
-        productsSearchCriteria.subCategoryId.toString()
+        productsParams.subCategoryId.toString()
       );
     }
 
-    if (productsSearchCriteria.categoryId) {
-      params = params.set(
-        'categoryId',
-        productsSearchCriteria.categoryId.toString()
-      );
+    // If having categoryId
+    if (productsParams.categoryId) {
+      params = params.set('categoryId', productsParams.categoryId.toString());
     }
 
-    if (productsSearchCriteria.status) {
-      params = params.set('status', productsSearchCriteria.status);
+    // If having status
+    if (productsParams.status) {
+      params = params.set('status', productsParams.status);
     }
 
-    if (productsSearchCriteria.sortQuantity) {
-      params = params.set('sort', productsSearchCriteria.sortQuantity);
+    // If having sort quantity
+    if (productsParams.sortQuantity) {
+      params = params.set('sort', productsParams.sortQuantity);
     }
 
     return this.httpClient

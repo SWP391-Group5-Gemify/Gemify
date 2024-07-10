@@ -41,13 +41,13 @@ export class EmployeeService {
     pageSize: number = 5,
     role?: RoleModel
   ): Observable<PaginationModel<EmployeeModel>> {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
     // if having roles
     if (role) {
-      params.set('roleId', role.id);
+      params = params.set('roleId', role.id);
     }
 
     return this.httpClient
