@@ -73,44 +73,64 @@ namespace Infrastructure.Services
             if (basket.BuybackItems.Any()) totalBuybackAmount = (long) basket.BuybackItems.Sum(i => i.Quantity * i.Price);
 
             // Exchange Service Fee
-            long totalAmount = 30000;
+            long totalAmount = 0;
 
             // If the customers buy more than what they sell, they will be responsible for the outstanding amount
-            if (totalBuybackAmount < totalSellAmount)
+            if (totalBuybackAmount != 0 && totalBuybackAmount < totalSellAmount)
             {
-                totalAmount = (long) (totalSellAmount) - (long) totalBuybackAmount;
-                totalAmount = (long) (totalAmount - (totalAmount * totalDiscount));
+                // If sell amount is greater than buyback amount the original price of the buyback item is calculated.
+                totalAmount = (long) totalSellAmount - (long) (totalBuybackAmount);
+            }
+            else if (totalBuybackAmount > totalSellAmount)
+            {
+                // If sell amount is smaller than buyback amount 70% price of the buyback item is calculated.
+                totalAmount = (long)(totalSellAmount) - (long)(totalBuybackAmount * 0.7m);
+            }
+            else if(totalBuybackAmount == 0)
+            {
+                // If this is a sale order (buyback price = 0), can apply coupons.
+                totalAmount = (long)totalSellAmount - (long)(totalBuybackAmount);
+                totalAmount = (long)(totalAmount - (totalAmount * totalDiscount));
             }
 
-            // If total amount > 99999999 stripe will return an error (Stripe allows maximum 8-digits)
-            if(totalAmount > 99999999)
+            /** 
+             * If total amount > 99999999 stripe will return an error (Stripe allows maximum 8-digits)
+             * If total amount < 50 cents (USD) stripe will also return an error.
+             * The customer won't have to pay if the total amount is less than or equal to 30000 VND
+            **/
+            if (totalAmount > 99999999)
             {
                 return null;
             }
-
-            // Create payment intent if the basket is new
-            if (string.IsNullOrEmpty(basket.PaymentIntentId))
+            
+            // The customer won't have to pay if the total amount is less than or equal to 30000 VND
+            // No payment intent created
+            if(totalAmount > 30000)
             {
-                var options = new PaymentIntentCreateOptions
+                // Create payment intent if the basket is new
+                if (string.IsNullOrEmpty(basket.PaymentIntentId))
                 {
-                    Amount = totalAmount,
-                    Currency = "vnd",
-                    PaymentMethodTypes = new List<string> { "card" }
-                };
+                    var options = new PaymentIntentCreateOptions
+                    {
+                        Amount = totalAmount,
+                        Currency = "vnd",
+                        PaymentMethodTypes = new List<string> { "card" }
+                    };
 
-                intent = await service.CreateAsync(options);
-                basket.PaymentIntentId = intent.Id;
-                basket.ClientSecret = intent.ClientSecret;
-            }
-            else
-            {
-                // Update payment intent if a payment intent already created
-                // with this basket and user decides to pick new items
-                var options = new PaymentIntentUpdateOptions
+                    intent = await service.CreateAsync(options);
+                    basket.PaymentIntentId = intent.Id;
+                    basket.ClientSecret = intent.ClientSecret;
+                }
+                else
                 {
-                    Amount = totalAmount
-                };
-                await service.UpdateAsync(basket.PaymentIntentId, options);
+                    // Update payment intent if a payment intent already created
+                    // with this basket and user decides to pick new items
+                    var options = new PaymentIntentUpdateOptions
+                    {
+                        Amount = totalAmount
+                    };
+                    await service.UpdateAsync(basket.PaymentIntentId, options);
+                }
             }
 
             await _basketRepository.UpdateBasketAsync(basket);
@@ -211,6 +231,7 @@ namespace Infrastructure.Services
             var memberships = await _unitOfWork.Repository<Membership>().ListAllAsync();
             var sortedMemberships = memberships.OrderBy(m => m.MinPoint);
 
+            // Find the next Membership status the customer achieved based on loyalty points.
             foreach (var membership in sortedMemberships)
             {
                 if (customer.Point >= membership.MinPoint)

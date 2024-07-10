@@ -32,7 +32,7 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Error while creating payment intent"));
             }
-            return await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+            return basket;
         }
 
         [HttpPost("webhook")]
