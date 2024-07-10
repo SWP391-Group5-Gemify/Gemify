@@ -71,9 +71,9 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.basketService.calculateTotalBasketPrice();
     this.loadCustomerOnBasketIfExist();
-    // this.loadCurrentChoosingPromotionIfExist();
+    this.loadPromotionOnBasketIfExist();
+    this.basketService.calculateTotalBasketPrice();
   }
 
   // ======================
@@ -89,31 +89,49 @@ export class CheckoutComponent implements OnInit {
 
     this.patchCustomerPhoneToCheckout(phoneNumber);
 
-    // If customer is already existed
+    // If customer is already existed, then set membershipId
     phoneNumber &&
       this.customerService
         .getCustomerByPhone(phoneNumber)
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (customer) => {
-            customer &&
+            if (customer) {
               this.checkoutForm.get('customerForm')?.patchValue(customer);
+            }
+
+            // if null, set default membershipId = 1, else set membersShipId from the existing customer
+            this.basketService.setMembershipId(customer);
           },
         });
   }
 
-  // public loadCurrentChoosingPromotionIfExist() {
-  //   const basket = this.basketService.getCurrentBasketValue();
+  /**
+   * Load the promotion on the basket if exist to set the initial price
+   */
+  public loadPromotionOnBasketIfExist(): void {
+    let promotionId = this.basketService.getCurrentBasketValue()?.promotionId;
 
-  //   console.log(basket?.promotionId);
-
-  //   if (basket && basket.promotionId) {
-  //     this.checkoutForm
-  //       .get('promotionForm')
-  //       ?.get('promotion')
-  //       ?.patchValue(basket.promotionId.toString());
-  //   }
-  // }
+    // If don't have promotionId, then set the discount = 0, else get the discount and set to the signal total price
+    if (!promotionId) {
+      this.basketService.basketTotalPrice.update((value) => ({
+        ...value,
+        promotionDiscount: 0,
+      }));
+    } else {
+      promotionId &&
+        this.promotionService
+          .getPromotionById(promotionId)
+          .pipe(untilDestroyed(this))
+          .subscribe({
+            next: (promotion) => {
+              if (promotion) {
+                this.basketService.setPromotionId(promotion);
+              }
+            },
+          });
+    }
+  }
 
   /**
    * Patch temporary phone into the customer checkout form

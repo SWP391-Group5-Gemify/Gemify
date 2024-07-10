@@ -8,6 +8,7 @@ export interface BasketModel {
   phoneNumber: string;
   promotionId?: number;
   clientSecret?: string;
+  membershipId?: number;
   paymentIntentId?: string;
   saleItems: BasketItemModel[];
   buybackItems: BasketBuybackItemModel[];
@@ -48,6 +49,7 @@ export class BasketModel implements BasketModel {
 // Model for Total money of Basket
 export interface BasketTotalsModel {
   promotionDiscount?: number;
+  membershipDiscount?: number;
   subTotal: number;
   total: number;
 }

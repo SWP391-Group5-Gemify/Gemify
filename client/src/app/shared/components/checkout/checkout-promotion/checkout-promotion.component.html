@@ -13,7 +13,7 @@
 
       <!-- Default NONE radio button -->
       <mat-radio-button [value]="undefined"
-                        checked="true"
+                        [checked]="this.basketService.getCurrentBasketValue()?.promotionId === null"
                         (change)="onChangePromotionRadioButton(undefined)">
         <div class="promotion-card u-margin-bottom-small">
           <p class="promotion-card__name promotion-card__name--none">NONE</p>
@@ -24,6 +24,7 @@
       <div class="promotion-form__values">
         @for (promotion of promotions$ | async; track $index) {
         <mat-radio-button [value]="promotion.id"
+                          [checked]="this.basketService.getCurrentBasketValue()?.promotionId == promotion.id"
                           (change)="onChangePromotionRadioButton(promotion)">
           <div class="promotion-card">
             <p class="promotion-card__name">{{ promotion.name }}</p>

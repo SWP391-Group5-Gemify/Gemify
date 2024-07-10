@@ -3,6 +3,7 @@ import {
   AssignEmployeeIdModel,
   SaleCounterModel,
 } from '../../../../../core/models/sale-counter.model';
+import { EmployeeService } from '../../../../../core/services/employee/employee.service';
 
 @Component({
   selector: 'app-card-sale-counter',
@@ -19,6 +20,11 @@ export class CardSaleCounterComponent {
   public onAssignEmployeeId = output<AssignEmployeeIdModel>();
 
   // ====================
+  // == Constructors
+  // ====================
+  constructor(employeeService: EmployeeService) {}
+
+  // ====================
   // == Methods
   // ====================
 
@@ -29,6 +35,8 @@ export class CardSaleCounterComponent {
   public isUnassigned(): boolean {
     return this.saleCounter().userId == undefined;
   }
+
+  public loadAllUnassignedSellersDropdown() {}
 
   /**
    * Assigning the employeeId to the counter

@@ -160,30 +160,12 @@ export class CheckoutPaymentComponent implements OnInit {
     );
   }
 
-  // /**
-  //  * Create a new Customer Info when typing to the form, or update the info if already exist
-  //  * @returns
-  //  */
-  // private createCustomerInfo(): Observable<CustomerModel> {
-  //   return this.customerService
-  //     .createCustomer(this.checkoutForm?.get('customerForm')?.value)
-  //     .pipe(
-  //       untilDestroyed(this),
-  //       switchMap(() => {
-  //         let phone = this.checkoutForm
-  //           ?.get('customerForm')
-  //           ?.get('phone')?.value;
-
-  //         return this.customerService.getCustomerByPhone(phone);
-  //       })
-  //     );
-  // }
-
   /**
    * Create order after having
    * - Payment Intent Id
    * - Basket Id
    * - Customer Id
+   * - Membership Id
    */
   public submitOrder() {
     this.isLoading = true;
