@@ -1,64 +1,49 @@
-// // import { Component } from '@angular/core';
-
-// // @Component({
-// //   selector: 'app-counter-revenues-yearly-chart',
-// //   standalone: true,
-// //   imports: [],
-// //   templateUrl: './counter-revenues-yearly-chart.component.html',
-// //   styleUrl: './counter-revenues-yearly-chart.component.scss'
-// // })
-// // export class CounterRevenuesYearlyChartComponent {
-
-// // }
-
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { HttpClient } from '@angular/common/http';
+import { Revenue } from './../../../core/models/counter-revenue.model'; // Import the Revenue model
+import { Subscription } from 'rxjs';
 
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
   selector: 'app-counter-revenues-yearly-chart',
   standalone: true,
-  imports:[CommonModule],
+  imports: [CommonModule],
   templateUrl: './counter-revenues-yearly-chart.component.html',
   styleUrls: ['./counter-revenues-yearly-chart.component.scss']
 })
 export class CounterRevenuesYearlyChartComponent implements OnInit, OnDestroy {
-  chart: Chart<'pie', number[], string> | null = null; // Xác định kiểu Chart phù hợp
+  chart: Chart<'pie', number[], string> | null = null;
+  private dataSubscription: Subscription | null = null;
+  private readonly apiUrl = 'https://localhost:5001/api/dashboard/revenues/counterYearlyRevenues/2024'; 
 
-  // Các dữ liệu ví dụ
-  saleCounterRevenues = [
-    { "revenue": 117000000, "saleCounterId": 1 },
-    { "revenue": 141600000, "saleCounterId": 2 },
-    { "revenue": 177800000, "saleCounterId": 3 },
-    { "revenue": 425600000, "saleCounterId": 4 },
-    { "revenue": 236800000, "saleCounterId": 5 },
-    { "revenue": 317700000, "saleCounterId": 6 }
-  ];
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.createPieChart();
+    this.fetchData();
   }
 
-  createPieChart(): void {
+  fetchData(): void {
+    this.dataSubscription = this.http.get<Revenue[]>(this.apiUrl).subscribe(
+      data => {
+        this.createPieChart(data);
+      },
+      error => {
+        console.error('Error fetching data:', error);
+      }
+    );
+  }
+
+  createPieChart(data: Revenue[]): void {
     const ctx = document.getElementById('pieChart') as HTMLCanvasElement;
 
     if (!ctx) {
       console.error("Canvas element with id 'pieChart' not found.");
       return;
     }
-
-    // Cấu hình dữ liệu biểu đồ
-    const counterNames = [
-      'Quầy nhẫn',
-      'Quầy dây chuyền',
-      'Quầy bông tai',
-      'Quầy lắc',
-      'Quầy mặt dây chuyền',
-      'Quầy vàng tài lộc'
-    ];
 
     const backgroundColors = [
       'rgba(255, 99, 132, 0.6)',
@@ -69,8 +54,8 @@ export class CounterRevenuesYearlyChartComponent implements OnInit, OnDestroy {
       'rgba(255, 159, 64, 0.6)'
     ];
 
-    const revenues = this.saleCounterRevenues.map(data => data.revenue);
-    const labels = this.saleCounterRevenues.map(data => counterNames[data.saleCounterId - 1]);
+    const revenues = data.map(item => item.revenue);
+    const labels = data.map(item => item.saleCounterName);
 
     const chartConfig: ChartConfiguration<'pie', number[], string> = {
       type: 'pie',
@@ -107,7 +92,7 @@ export class CounterRevenuesYearlyChartComponent implements OnInit, OnDestroy {
     };
 
     try {
-      this.chart = new Chart(ctx, chartConfig); // Khởi tạo biểu đồ
+      this.chart = new Chart(ctx, chartConfig);
     } catch (error) {
       console.error('Error creating chart:', error);
     }
@@ -115,7 +100,11 @@ export class CounterRevenuesYearlyChartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.chart) {
-      this.chart.destroy(); // Hủy biểu đồ khi component bị hủy
+      this.chart.destroy();
+    }
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
     }
   }
 }
+

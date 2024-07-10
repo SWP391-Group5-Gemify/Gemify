@@ -76,11 +76,10 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
     );
   }
   
-
-  renderColumnChart(labelData: string[], revenueData: number[]): void {
+renderColumnChart(labelData: string[], revenueData: number[]): void {
     const chartId = 'columnchart1';
     const chartType = 'bar';
-
+  
     this.chart = new Chart(chartId, {
       type: chartType,
       data: {
@@ -116,12 +115,13 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
           datalabels: {
             color: 'black',
             display: true,
-            formatter: (value: number) => {
+            formatter: (value: number, context: any) => {
+              const saleCounterLabel = labelData[context.dataIndex]; // Get sale counter label
               const formattedValue = new Intl.NumberFormat('en-US', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0
               }).format(value);
-              return formattedValue.replace(/,/g, '.');
+              return `${saleCounterLabel}: ${formattedValue.replace(/,/g, '.')}`; // Add label to value
             },
             anchor: 'end',
             align: 'top',
@@ -153,6 +153,7 @@ export class CounterRevenuesInAMonthChartComponent implements OnInit, OnDestroy 
       }
     });
   }
+  
 
   clearChart(): void {
     if (this.chart) {

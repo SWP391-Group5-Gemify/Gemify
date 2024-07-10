@@ -10,3 +10,10 @@ export interface MonthlyRevenue {
     month: number;
     saleCounterRevenueByMonths: SaleCounterRevenue[];
 }
+
+export interface Revenue {
+    revenue: number;
+    saleCounterId: number;
+    saleCounterName: string;
+  }
+  
