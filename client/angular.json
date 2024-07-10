@@ -26,9 +26,9 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "node_modules/ngx-spinner/animations/ball-clip-rotate.css",
               "src/styles/main.scss",
-              "node_modules/font-awesome/css/font-awesome.min.css",
-              "node_modules/ngx-spinner/animations/ball-clip-rotate-pulse.css"
+              "node_modules/font-awesome/css/font-awesome.min.css"
             ],
 
             "stylePreprocessorOptions": {
