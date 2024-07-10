@@ -113,9 +113,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { DashboardService } from '../../../../../core/services/dashboard/dashboard.service';
-import { revenuesData } from '../../../../../core/models/revenuesData.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RevenuesDataModel } from '../../../../../core/models/counter-revenue.model';
 Chart.register(...registerables);
 
 @Component({
@@ -126,7 +126,7 @@ Chart.register(...registerables);
   styleUrls: ['./store-revenues-yearly.component.scss'],
 })
 export class StoreRevenuesYearlyComponent implements OnInit, OnDestroy {
-  chartdata: revenuesData[] = [];
+  chartdata: RevenuesDataModel[] = [];
   labeldata: number[] = [];
   realdata: number[] = [];
   selectedYear: number = 2024; // Năm mặc định

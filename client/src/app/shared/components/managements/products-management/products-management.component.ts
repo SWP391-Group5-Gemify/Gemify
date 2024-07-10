@@ -42,7 +42,7 @@ export class ProductsManagementComponent implements OnInit {
     'actions',
   ];
 
-  public productSearchCriteria: ProductParams = {
+  public productParams: ProductParams = {
     pageSize: 10,
     pageIndex: 0,
     searchName: undefined,
@@ -96,8 +96,8 @@ export class ProductsManagementComponent implements OnInit {
   public loadProducts(): void {
     this.productService
       .getProducts({
-        ...this.productSearchCriteria,
-        pageIndex: this.productSearchCriteria.pageIndex + 1,
+        ...this.productParams,
+        pageIndex: this.productParams.pageIndex + 1,
       })
       .subscribe({
         next: (response) => {
@@ -189,8 +189,8 @@ export class ProductsManagementComponent implements OnInit {
    * @param event
    */
   public onPageChange(event: PageEvent) {
-    this.productSearchCriteria.pageIndex = event.pageIndex;
-    this.productSearchCriteria.pageSize = event.pageSize;
+    this.productParams.pageIndex = event.pageIndex;
+    this.productParams.pageSize = event.pageSize;
     this.loadProducts();
   }
 
@@ -200,7 +200,7 @@ export class ProductsManagementComponent implements OnInit {
    */
   public onValueChangesNameFromParent(event: Event) {
     const filteredValue = (event.target as HTMLInputElement)?.value;
-    this.productSearchCriteria.searchName = filteredValue;
+    this.productParams.searchName = filteredValue;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -210,7 +210,7 @@ export class ProductsManagementComponent implements OnInit {
    * @param event
    */
   public onSelectChangeSubCategoryIdFromParent(event: any) {
-    this.productSearchCriteria.subCategoryId = event?.value;
+    this.productParams.subCategoryId = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -220,7 +220,7 @@ export class ProductsManagementComponent implements OnInit {
    * @param event
    */
   public onSelectChangeCategoryIdFromParent(event: any) {
-    this.productSearchCriteria.categoryId = event?.value;
+    this.productParams.categoryId = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -230,7 +230,7 @@ export class ProductsManagementComponent implements OnInit {
    * @param event
    */
   public onSelectChangeStatusFromParent(event: any) {
-    this.productSearchCriteria.status = event?.value;
+    this.productParams.status = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -240,7 +240,7 @@ export class ProductsManagementComponent implements OnInit {
    * @param event
    */
   public onSelectChangeSortQuantityFromParent(event: any) {
-    this.productSearchCriteria.sortQuantity = event?.value;
+    this.productParams.sortQuantity = event?.value;
     this.onResetPaginatorToFirstPage();
     this.loadProducts();
   }
@@ -273,7 +273,7 @@ export class ProductsManagementComponent implements OnInit {
    * Reset paginator to the first page after filtering
    */
   public onResetPaginatorToFirstPage() {
-    this.productSearchCriteria.pageIndex = 0;
+    this.productParams.pageIndex = 0;
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -287,10 +287,10 @@ export class ProductsManagementComponent implements OnInit {
     this.categoriesDropdownRef.onClearSelection();
     this.sortsQuantityDropdownRef.onClearSelection();
     this.statusDropdownRef.onClearSelection();
-    this.productSearchCriteria.searchName = undefined;
-    this.productSearchCriteria.subCategoryId = undefined;
-    this.productSearchCriteria.categoryId = undefined;
-    this.productSearchCriteria.sortQuantity = undefined;
+    this.productParams.searchName = undefined;
+    this.productParams.subCategoryId = undefined;
+    this.productParams.categoryId = undefined;
+    this.productParams.sortQuantity = undefined;
     this.loadProducts();
   }
 }
