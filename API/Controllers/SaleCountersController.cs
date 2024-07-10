@@ -20,7 +20,7 @@ namespace API.Controllers
         private readonly ISaleCounterRevenueService _saleCounterRevenueService;
         private readonly IMapper _mapper;
 
-        public SaleCountersController (IGenericRepository<SaleCounter> saleCounterRepo, 
+        public SaleCountersController (IGenericRepository<SaleCounter> saleCounterRepo,
             ISaleCounterRevenueService saleCounterRevenueService, IMapper mapper)
         {
             _saleCountersRepo = saleCounterRepo;
@@ -48,9 +48,9 @@ namespace API.Controllers
         {
             var spec = new SaleCounterSpecification(id);
             var saleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
-            if (saleCounter == null) 
-            { 
-                return NotFound(new ApiResponse(404, $"The counter with id {id} does not exist!")); 
+            if (saleCounter == null)
+            {
+                return NotFound(new ApiResponse(404, $"The counter with id {id} does not exist!"));
             }
             return _mapper.Map<SaleCounter, SaleCounterDto>(saleCounter);
         }
@@ -63,8 +63,8 @@ namespace API.Controllers
             var saleCounter = _mapper.Map<SaleCounterDto, SaleCounter>(saleCounterDto);
             saleCounter.Status = true;
             _saleCountersRepo.Add(saleCounter);
-            if (await _saleCountersRepo.SaveAllAsync()) { 
-                return Ok(new ApiResponse(200, "Successfully created a new sale counter")); 
+            if (await _saleCountersRepo.SaveAllAsync()) {
+                return Ok(new ApiResponse(200, "Successfully created a new sale counter"));
             }
             return BadRequest(new ApiResponse(400, "Fail to create a new sale counter"));
         }
@@ -120,7 +120,7 @@ namespace API.Controllers
         // Get revenues of sale counter by id
         [HttpGet("{saleCounterId}/revenues")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>> 
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>>
             GetSaleCounterRevenuesById(int saleCounterId, [FromQuery] SaleCounterRevenueParams saleCounterRevenueParams)
         {
             saleCounterRevenueParams.saleCounterId = saleCounterId;

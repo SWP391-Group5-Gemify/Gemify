@@ -24,7 +24,8 @@
   @if (this.isDisablePromotionMode()) {
   <mat-card-actions class="card-promotion__actions">
     <button class="btn btn--grad btn--with-icon"
-            (click)="onDisablePromotionByIdFromChild()"><mat-icon>delete</mat-icon>Tắt khuyến mãi</button>
+            (click)="onDisablePromotionByIdFromChild(this.promotion().id)"><mat-icon>delete</mat-icon>Tắt khuyến
+      mãi</button>
   </mat-card-actions>
   }
 </mat-card>

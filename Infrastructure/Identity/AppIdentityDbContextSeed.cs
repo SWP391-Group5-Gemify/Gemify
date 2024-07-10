@@ -86,15 +86,13 @@ namespace Infrastructure.Identity
                         Address = "Hà Nội"
                     },"anh123456","Seller"),
                 };
-                
+
                 foreach (var account in userList)
                 {
                     await userManager.CreateAsync(account.user, account.password);
                     await userManager.AddToRoleAsync(account.user, account.role);
                 }
-                
             }
-
         }
     }
 }

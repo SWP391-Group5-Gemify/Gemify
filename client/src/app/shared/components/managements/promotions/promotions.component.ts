@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import {
@@ -20,7 +19,6 @@ import { PromotionService } from '../../../../core/services/promotion/promotion.
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
-import EnumUtils from '../../../utils/EnumUtils';
 import { CardPromotionComponent } from './card-promotion/card-promotion.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -33,7 +31,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   imports: [
     CommonModule,
     MatCardModule,
-    MatButtonModule,
     MatPaginatorModule,
     MatIcon,
     GenericSearchComponent,
@@ -130,7 +127,7 @@ export class PromotionsComponent {
   }
 
   /**
-   * Select the Sort by Quantity type
+   * Select the Sort by Promotion Status
    * @param event
    */
   public onSelectChangeStatusFromParent(event: any) {
@@ -160,7 +157,11 @@ export class PromotionsComponent {
     this.loadPromotions();
   }
 
-  public onDisablePromotionByIdFromParent(id: number) {
+  /**
+   * Disable the promotion by Id by set status = false
+   * @param id
+   */
+  public onDisablePromotionByIdFromParent(id: number | string) {
     this.promotionService
       .disablePromotion(id)
       .pipe(untilDestroyed(this))

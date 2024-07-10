@@ -51,11 +51,6 @@ export class StoreOwnerComponent {
     },
     { name: 'Orders', icon: 'receipt', route: '/store-owner/orders' },
     {
-      name: 'Manage Customer Membership',
-      icon: 'loyalty',
-      route: '/store-owner/membership',
-    },
-    {
       name: 'Manage Gold Bid-Ask Spread',
       icon: 'price_change',
       route: '/store-owner/gold-bid-ask',

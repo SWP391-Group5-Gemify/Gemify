@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
+  AssignEmployeeIdModel,
   SaleCounterModel,
   SaleCounterParams,
   SaleCounterRevenueModel,
 } from '../../models/sale-counter.model';
 import { Observable } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { PaginationModel } from '../../models/pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class CounterService {
   // ========================
   // == Constructors
   // ========================
-  constructor(private httpClient: HttpClient, private datePipe: DatePipe) {}
+  constructor(private httpClient: HttpClient) {}
 
   // ========================
   // == Methods
@@ -70,14 +71,13 @@ export class CounterService {
    * @returns An Observable of the updated SaleCounterModel data.
    */
   public assignEmployeeIdToCounter(
-    userId: string | number,
-    counterId: string | number
+    assignObject: AssignEmployeeIdModel
   ): Observable<SaleCounterModel> {
     const assignUrl = this.baseSaleCounterUrl.concat('/assign');
 
     return this.httpClient.patch<SaleCounterModel>(
-      `${assignUrl}/${counterId}`,
-      { userId: userId }
+      `${assignUrl}/${assignObject.id}`,
+      { userId: assignObject.employeeId }
     );
   }
 
@@ -104,17 +104,42 @@ export class CounterService {
 
     // If having revenueDate
     if (saleCounterParams.revenueDate) {
-      const formattedDate = this.datePipe.transform(
-        saleCounterParams.revenueDate,
-        'yyyy-MM-dd'
-      );
+      // const formattedDate = this.datePipe.transform(
+      //   saleCounterParams.revenueDate,
+      //   'yyyy-MM-dd'
+      // );
 
-      if (formattedDate) {
-        params = params.set('revenueDate', formattedDate);
-      }
+      params = params.set(
+        'revenueDate',
+        saleCounterParams.revenueDate.toString()
+      );
     }
 
     // Return the HTTP GET observable
     return this.httpClient.get<SaleCounterRevenueModel>(byDateUrl, { params });
+  }
+
+  /**
+   * Get the revenue of 1 sale counter by id
+   * @param id
+   * @param saleCounterParams
+   * @returns
+   */
+  public getSaleCounterRevenueById(
+    id: number | string,
+    saleCounterParams: SaleCounterParams
+  ): Observable<PaginationModel<SaleCounterRevenueModel>> {
+    let params = new HttpParams();
+
+    // If having both pageIndex and pageSize
+    if (saleCounterParams.pageIndex && saleCounterParams.pageSize) {
+      params = params.set('pageIndex', saleCounterParams.pageIndex);
+      params = params.set('pageSize', saleCounterParams.pageSize);
+    }
+
+    return this.httpClient.get<PaginationModel<SaleCounterRevenueModel>>(
+      `${this.baseSaleCounterUrl}/${id}/revenues`,
+      { params: params }
+    );
   }
 }
