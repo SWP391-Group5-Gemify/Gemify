@@ -70,6 +70,9 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized(new ApiResponse(401));
 
+            // If account is closed then return unauthorized response
+            if (user.Status.Equals(UserStatus.Closed.ToString())) return Unauthorized(new ApiResponse(401));
+
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
