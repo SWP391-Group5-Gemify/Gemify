@@ -4,7 +4,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   listAll,
-  getMetadata
+  getMetadata,
 } from 'firebase/storage';
 import { Storage } from '@angular/fire/storage';
 import { from, mergeMap, Observable } from 'rxjs';
@@ -94,15 +94,17 @@ export class FileService {
         .then(async (res) => {
           if (res.items.length > 0) {
             // Fetch metadata and sort by updated time
-          const sortedItems = await Promise.all(
-            res.items.map(async (item) => {
-              const metadata = await getMetadata(item);
-              return { item, updated: new Date(metadata.updated) };
-            })
-          ).then(itemsWithMetadata => 
-            itemsWithMetadata.sort((a, b) => b.updated.getTime() - a.updated.getTime())
-          );
-  
+            const sortedItems = await Promise.all(
+              res.items.map(async (item) => {
+                const metadata = await getMetadata(item);
+                return { item, updated: new Date(metadata.updated) };
+              })
+            ).then((itemsWithMetadata) =>
+              itemsWithMetadata.sort(
+                (a, b) => b.updated.getTime() - a.updated.getTime()
+              )
+            );
+
             // Get the URL of the latest file
             const latestItem = sortedItems[0].item;
             getDownloadURL(latestItem)

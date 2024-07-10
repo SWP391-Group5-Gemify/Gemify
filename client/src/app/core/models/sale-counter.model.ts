@@ -15,7 +15,14 @@ export interface SaleCounterRevenueModel {
 }
 
 export interface SaleCounterParams {
+  pageIndex?: number;
+  pageSize?: number;
   searchName?: string;
   status?: boolean;
   revenueDate?: Date;
+}
+
+export interface AssignEmployeeIdModel {
+  id: string | number;
+  employeeId?: string | number | null;
 }

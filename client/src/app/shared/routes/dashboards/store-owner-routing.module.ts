@@ -62,13 +62,6 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'membership',
-        loadChildren: () =>
-          import('../managements/membership-routing.module').then(
-            (m) => m.MembershipRoutingModule
-          ),
-      },
-      {
         path: 'gold-bid-ask',
         loadChildren: () =>
           import('../../routes/managements/gold-bid-ask-routing.module').then(
