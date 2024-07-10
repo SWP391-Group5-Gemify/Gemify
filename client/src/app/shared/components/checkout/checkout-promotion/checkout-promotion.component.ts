@@ -50,7 +50,7 @@ export class CheckoutPromotionComponent implements OnInit {
   // =========================
   constructor(
     private promotionService: PromotionService,
-    private basketService: BasketService,
+    public basketService: BasketService,
     private notificationService: NotificationService
   ) {}
 
@@ -62,7 +62,7 @@ export class CheckoutPromotionComponent implements OnInit {
   // =========================
 
   public onChangePromotionRadioButton(promotion: PromotionModel | undefined) {
-    this.basketService.setPromotionPrice(promotion);
+    this.basketService.setPromotionId(promotion);
   }
 
   /**

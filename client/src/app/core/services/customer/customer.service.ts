@@ -69,7 +69,9 @@ export class CustomerService {
    * @param phone
    * @returns
    */
-  getCustomerByPhone(phone: number | string): Observable<CustomerModel> {
+  getCustomerByPhone(
+    phone: number | string
+  ): Observable<CustomerModel | undefined> {
     return this.httpClient.get<CustomerModel>(
       `${this.baseCustomerUrl}/phone/${phone}`
     );
