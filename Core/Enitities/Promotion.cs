@@ -38,7 +38,7 @@ namespace Core.Enitities
         public string Code { get; set; }
 
         [PromotionStatus(ErrorMessage = "Invalid Promotion Status")]
-        [Column(TypeName = "varchar(50)"), Required]
+        [Column(TypeName = "nvarchar(50)"), Required]
         public string Status { get; set; } = PromotionStatus.Active.GetEnumMemberValue();
     }
 

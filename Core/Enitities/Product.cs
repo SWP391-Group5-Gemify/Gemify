@@ -21,7 +21,7 @@ namespace Core.Enitities
         [Column(TypeName = "decimal(18,0)")]
         public decimal Labour {  get; set; }
         [ProductStatus(ErrorMessage = "Invalid Product Status")]
-        [Column(TypeName = "varchar(50)"), Required]
+        [Column(TypeName = "nvarchar(50)"), Required]
         public string Status { get; set; } = ProductStatus.Available.GetEnumMemberValue();
         public int Quantity { get; set; }
         [Column(TypeName = "varchar(200)")]

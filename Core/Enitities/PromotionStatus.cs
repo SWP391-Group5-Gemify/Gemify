@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,10 +9,10 @@ namespace Core.Enitities
 {
     public enum PromotionStatus
     {
-        [EnumMember(Value = "Active")]
+        [EnumMember(Value = "Còn Hiệu Lực")]
         Active,
 
-        [EnumMember(Value = "Expired")]
+        [EnumMember(Value = "Hết Hạn")]
         Expired
     }
 }
