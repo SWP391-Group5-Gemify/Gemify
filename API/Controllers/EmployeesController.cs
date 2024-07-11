@@ -106,5 +106,13 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<IReadOnlyList<IdentityRole<int>>, IReadOnlyList<RoleDto>>(roles));
         }
+
+        [HttpGet("seller")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<EmployeeDto>>> GetAllSellers()
+        {
+            var employees = await _userService.GetUsersInRoleAsync("Seller");
+            return Ok(_mapper.Map<IReadOnlyList<User>, IReadOnlyList<EmployeeDto>>((IReadOnlyList<User>)employees));
+        }
     }
 }
