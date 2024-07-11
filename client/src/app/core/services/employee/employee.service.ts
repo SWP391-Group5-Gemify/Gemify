@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
 import { EmployeeModel } from '../../models/employee.model';
 import { AuthService } from '../auth/auth.service';
@@ -82,6 +82,15 @@ export class EmployeeService {
    */
   getEmployeeRoles(): Observable<RoleModel[]> {
     return this.httpClient.get<RoleModel[]>(`${this.baseEmployeeUrl}/roles`);
+  }
+
+  /**
+   * Get the list of all sellers
+   * @returns
+   */
+  getAllSellers(): Observable<EmployeeModel[]> {
+    // return this.httpClient.get<EmployeeModel[]>()
+    return of();
   }
 
   /**

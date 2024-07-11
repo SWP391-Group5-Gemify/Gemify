@@ -12,6 +12,8 @@ import { ProductModel } from '../../models/product.model';
 import { OrderItemModel } from '../../models/order.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PromotionModel } from '../../models/promotion.model';
+import { CustomerModel } from '../../models/customer.model';
+import { MembershipService } from '../membership/membership.service';
 
 @UntilDestroy()
 @Injectable({
@@ -36,11 +38,16 @@ export class BasketService {
     subTotal: 0,
     total: 0,
     promotionDiscount: 0,
+    membershipDiscount: 0,
   });
+
   // ====================
   // == Lifecycle
   // ====================
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private membershipService: MembershipService
+  ) {}
 
   // ====================
   // == Methods
@@ -52,7 +59,7 @@ export class BasketService {
    * Set PromotionId for a basket and basketTotalPrice
    * @param promotion
    */
-  public setPromotionPrice(promotion: PromotionModel | undefined) {
+  public setPromotionId(promotion: PromotionModel | undefined) {
     const basket = this.getCurrentBasketValue();
 
     if (basket) {
@@ -66,6 +73,37 @@ export class BasketService {
       // Calculate price and set the promotionId to the basket
       this.calculateTotalBasketPrice();
       this.setOrUpdateBasket(basket);
+    }
+  }
+
+  /**
+   * Set the membershipId and its discount on passed in customer
+   * @param customer
+   */
+  public setMembershipId(customer: CustomerModel | undefined) {
+    const basket = this.getCurrentBasketValue();
+
+    // always set to 1 by default
+
+    if (basket) {
+      basket.membershipId = !customer ? 1 : customer.membershipId;
+
+      // Get discount value
+      this.membershipService
+        .getMembershipById(basket.membershipId)
+        .pipe(untilDestroyed(this))
+        .subscribe((membership) => {
+          let membershipDiscount = membership.discount;
+
+          this.basketTotalPrice.update((value) => ({
+            ...value,
+            membershipDiscount: membershipDiscount,
+          }));
+
+          // Calculate price and set the membershipId to the basket
+          this.calculateTotalBasketPrice();
+          this.setOrUpdateBasket(basket);
+        });
     }
   }
 
@@ -438,8 +476,11 @@ export class BasketService {
 
     this.basketTotalPrice.update((value) => ({
       promotionDiscount: value.promotionDiscount,
+      membershipDiscount: value.membershipDiscount,
       subTotal: subTotal,
-      total: subTotal * (1 - (value.promotionDiscount ?? 0)),
+      total:
+        subTotal *
+        (1 - (value.promotionDiscount ?? 0) - (value.membershipDiscount ?? 0)),
     }));
   }
 }
