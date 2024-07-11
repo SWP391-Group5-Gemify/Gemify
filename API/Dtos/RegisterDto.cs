@@ -27,7 +27,7 @@ namespace API.Dtos
         public DateOnly DateOfBirth { get; set; }
 
         [UserStatus(ErrorMessage = "Invalid User Status")]
-        public string Status { get; set; } = "Active";
+        public string Status { get; set; } = UserStatus.Active.GetEnumMemberValue();
         public string Image_Url { get; set; }
         public string Address { get; set; }
 
