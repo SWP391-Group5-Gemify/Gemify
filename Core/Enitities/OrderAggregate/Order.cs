@@ -53,9 +53,9 @@ namespace Core.Enitities.OrderAggregate
         {
             var totalDiscount = 0m;
             // Only sales order is applied membership discount and promotion
-            if (MembershipId != null && OrderType.Id == 1)
+            if (MembershipId != null && OrderType.Name.Equals("Bán"))
                 totalDiscount += Membership.Discount;
-            if (PromotionId != null && OrderType.Id == 1)
+            if (PromotionId != null && OrderType.Name.Equals("Bán"))
                 totalDiscount += Promotion.Discount; 
             return SubTotal - (SubTotal * totalDiscount);
         }

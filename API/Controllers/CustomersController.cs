@@ -91,7 +91,6 @@ namespace API.Controllers
             var customer = await _customerRepo.GetEntityWithSpec(spec);
             if (customer == null) return null;
             return Ok(_mapper.Map<CustomerDto>(customer));
-
         }
     }
 }
