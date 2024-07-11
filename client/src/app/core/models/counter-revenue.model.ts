@@ -14,3 +14,10 @@ export interface RevenuesDataModel {
   month: number;
   year: number;
 }
+
+export interface Revenue {
+    revenue: number;
+    saleCounterId: number;
+    saleCounterName: string;
+  }
+  
