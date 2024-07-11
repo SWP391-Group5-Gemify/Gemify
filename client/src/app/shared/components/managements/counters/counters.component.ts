@@ -14,6 +14,8 @@ import {
 } from '../../../../core/models/sale-counter.model';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { CardSaleCounterComponent } from './card-sale-counter/card-sale-counter.component';
+import { EmployeeModel } from '../../../../core/models/employee.model';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @UntilDestroy()
 @Component({
@@ -40,7 +42,7 @@ export class CountersComponent implements OnInit {
   public saleCounterParams: SaleCounterParams = {
     pageSize: 5,
     pageIndex: 0,
-    status: undefined,
+    status: true,
     searchName: undefined,
     revenueDate: undefined,
   };
@@ -96,7 +98,7 @@ export class CountersComponent implements OnInit {
    * @param event
    */
   public onSelectChangeStatusFromParent(event: any) {
-    this.saleCounterParams.status = event?.status;
+    this.saleCounterParams.status = event?.value;
     this.loadSaleCounters();
   }
 
@@ -115,6 +117,8 @@ export class CountersComponent implements OnInit {
   public onResetFilters() {
     this.saleCountersStatusDropdownRef.onClearSelection();
     this.nameSearchInputRef.onClearInputFilter();
+    this.saleCounterParams.searchName = undefined;
+    this.saleCounterParams.status = undefined;
     this.loadSaleCounters();
   }
 

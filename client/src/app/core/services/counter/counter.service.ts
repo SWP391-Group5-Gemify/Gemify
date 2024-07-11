@@ -54,7 +54,10 @@ export class CounterService {
     }
 
     // If having status
-    if (saleCounterParams.status) {
+    if (
+      saleCounterParams.status === true ||
+      saleCounterParams.status === false
+    ) {
       params = params.set('status', saleCounterParams.status);
     }
 

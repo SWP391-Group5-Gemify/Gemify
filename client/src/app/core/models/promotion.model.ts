@@ -23,6 +23,6 @@ export interface PromotionCreateModel {
 }
 
 export enum PromotionStatusEnum {
-  Active = 'Active',
-  Expired = 'Expired',
+  Active = 'Còn Hiệu Lực',
+  Expired = 'Hết Hạn',
 }

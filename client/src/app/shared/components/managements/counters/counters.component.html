@@ -33,9 +33,6 @@
   </div>
 
   @for (saleCounter of saleCounters$ | async; track $index) {
-  <!-- <app-card-promotion [promotion]="promotion"
-                      (onDisablePromotion)="onDisablePromotionByIdFromParent($event)"></app-card-promotion> --> -->
-
   <app-card-sale-counter [saleCounter]="saleCounter"
                          (onAssignEmployeeId)="onAssignEmployeeIdFromParent($event)"></app-card-sale-counter>
   }

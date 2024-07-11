@@ -89,8 +89,9 @@ export class EmployeeService {
    * @returns
    */
   getAllSellers(): Observable<EmployeeModel[]> {
-    // return this.httpClient.get<EmployeeModel[]>()
-    return of();
+    return this.httpClient.get<EmployeeModel[]>(
+      `${this.baseEmployeeUrl}/seller`
+    );
   }
 
   /**
