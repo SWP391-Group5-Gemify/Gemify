@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240711053245_FinalMigration")]
+    [Migration("20240711054847_FinalMigration")]
     partial class FinalMigration
     {
         /// <inheritdoc />
@@ -344,7 +344,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("SubTotal")
                         .HasColumnType("decimal(18, 0)");

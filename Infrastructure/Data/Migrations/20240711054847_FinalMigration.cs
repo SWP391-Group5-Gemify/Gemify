@@ -289,7 +289,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Status = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(50)", nullable: true),
                     OrderTypeId = table.Column<int>(type: "int", nullable: false),
                     SubTotal = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
