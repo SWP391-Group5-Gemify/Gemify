@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatDialogModule
   ],
   templateUrl: './modal-change-gold-weight.component.html',
   styleUrl: './modal-change-gold-weight.component.scss',
@@ -42,8 +43,8 @@ export class ModalChangeGoldWeightComponent {
     this.goldForm = this.fb.group({
       goldWeight: [
         '',
-        Validators.required,
-        Validators.pattern(this.decimalPattern),
+        [Validators.required,
+        Validators.pattern(this.decimalPattern)]
       ],
     });
   }

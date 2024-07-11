@@ -10,7 +10,7 @@ namespace Core.Enitities
             this.GoldTypeId = GoldTypeId;
             this.BidPrice = BidPrice;
             this.AskPrice = AskPrice;
-            this.DateTime = DateTime.UtcNow;
+            this.DateTime = DateTime.Now;
         }
 
         [Required]
@@ -21,6 +21,6 @@ namespace Core.Enitities
         [Column(TypeName = "decimal(18,0)"), Required]
         public decimal AskPrice { get; set; }
         [Required]
-        public DateTime DateTime { get; set; } = DateTime.UtcNow;
+        public DateTime DateTime { get; set; } = DateTime.Now;
     }
 }
