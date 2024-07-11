@@ -15,7 +15,7 @@ namespace API.Controllers
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentsController> _logger;
 
-        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger, 
+        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger,
             IConfiguration config)
         {
             _paymentService = paymentService;
@@ -32,7 +32,7 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Error while creating payment intent"));
             }
-            return await _paymentService.CreateOrUpdatePaymentIntent(basketId);
+            return basket;
         }
 
         [HttpPost("webhook")]

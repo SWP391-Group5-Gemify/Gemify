@@ -9,15 +9,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'exchange',
+        redirectTo: 'orders',
         pathMatch: 'full',
-      },
-      {
-        path: 'exchange',
-        loadChildren: () =>
-          import('../../routes/managements/exchange-routing.module').then(
-            (m) => m.ExchangeRoutingModule
-          ),
       },
       {
         path: 'orders',
@@ -27,25 +20,16 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'products',
+        path: 'policy',
         loadChildren: () =>
-          import('../../routes/managements/products-routing.module').then(
-            (m) => m.ProductsRoutingModule
+          import('../managements/policy-routing.module').then(
+            (m) => m.PolicyRoutingModule
           ),
       },
       {
-        path: 'buyback',
-        loadChildren: () =>
-          import('../../routes/managements/buyback-routing.module').then(
-            (m) => m.BuybackRoutingModule
-          ),
-      },
-      {
-        path: 'warranty',
-        loadChildren: () =>
-          import('../../routes/managements/warranty-routing.module').then(
-            (m) => m.WarrantyRoutingModule
-          ),
+        path: '**',
+        redirectTo: 'orders',
+        pathMatch: 'full',
       },
     ],
   },

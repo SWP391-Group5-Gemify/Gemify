@@ -26,7 +26,7 @@ namespace Core.Enitities.OrderAggregate
         [Column(TypeName = "datetime")]
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         [OrderStatus(ErrorMessage = "Invalid Order Status")]
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "nvarchar(50)")]
         public string Status { get; set; } = OrderStatus.Pending.GetEnumMemberValue();
         [Required]
         public int OrderTypeId { get; set; }
@@ -52,9 +52,10 @@ namespace Core.Enitities.OrderAggregate
         public decimal GetTotal()
         {
             var totalDiscount = 0m;
-            if (MembershipId != null)
+            // Only sales order is applied membership discount and promotion
+            if (MembershipId != null && OrderType.Name.Equals("Bán"))
                 totalDiscount += Membership.Discount;
-            if (PromotionId != null)
+            if (PromotionId != null && OrderType.Name.Equals("Bán"))
                 totalDiscount += Promotion.Discount; 
             return SubTotal - (SubTotal * totalDiscount);
         }

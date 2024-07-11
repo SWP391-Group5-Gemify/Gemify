@@ -3,6 +3,16 @@
 
   @include paddingHorizon($padding-layout);
 
+  // When a link is active
+  &__item--active &__item-text {
+    color: $color-primary-dark;
+    transform: scale(1.04) translateX(0.2rem);
+  }
+
+  &__item--active {
+    background-color: $color-grey-light-2 !important;
+  }
+
   &__item-text {
     display: flex;
     align-items: center;

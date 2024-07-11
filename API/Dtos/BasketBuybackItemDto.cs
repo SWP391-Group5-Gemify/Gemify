@@ -17,5 +17,7 @@ namespace API.Dtos
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Gold Weight must be at least 0")]
         public decimal GoldWeight { get; set; }
+        public int GoldTypeId { get; set; }
+        public int? SubCategoryId { get; set; }
     }
 }

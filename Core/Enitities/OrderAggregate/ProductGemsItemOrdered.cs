@@ -6,7 +6,7 @@ namespace Core.Enitities.OrderAggregate
     {
         ProductGemsItemOrdered() { }
         public ProductGemsItemOrdered(string gemName, string gemColor, decimal gemWeight,
-            decimal gemPrice, decimal gemCarat, string gemClarity, string gemCertificateCode)
+            decimal gemPrice, decimal gemCarat, string gemClarity, string gemCertificateCode, bool isProcurable)
         {
             GemName = gemName;
             GemColor = gemColor;
@@ -15,6 +15,7 @@ namespace Core.Enitities.OrderAggregate
             GemCarat = gemCarat;
             GemClarity = gemClarity;
             GemCertificateCode = gemCertificateCode;
+            IsProcurable = isProcurable;
         }
         [Column(TypeName = "nvarchar(100)")]
         public string GemName { get; set; }
@@ -30,5 +31,10 @@ namespace Core.Enitities.OrderAggregate
         public string GemClarity { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string GemCertificateCode { get; set; }
+        public bool IsProcurable { get; set; }
+        public ProductGemsItemOrdered Clone()
+        {
+            return new ProductGemsItemOrdered(GemName, GemColor, GemWeight, GemPrice, GemCarat, GemClarity, GemCertificateCode, IsProcurable);
+        }
     }
 }

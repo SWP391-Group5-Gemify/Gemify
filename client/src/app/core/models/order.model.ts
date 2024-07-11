@@ -44,7 +44,7 @@ export interface OrderItemGemModel {
 }
 
 export class OrderParams {
-  search = "";
+  search = '';
   pageIndex = 1;
   pageSize = 10;
   orderTypeId = 0;

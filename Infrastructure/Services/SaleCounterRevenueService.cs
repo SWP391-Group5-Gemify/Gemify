@@ -33,6 +33,18 @@ namespace Infrastructure.Services
         // Add daily revenue entries for each counter
         public async Task<int> UpdateSaleCounterRevenuesAsync()
         {
+            DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
+
+            // Check for existing revenue entries of today
+            var dateSpec = new SaleCounterRevenueSpecification(today);
+            var existRevenuesToday = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(dateSpec);
+            if(existRevenuesToday.Any()){
+                foreach (var revenue in existRevenuesToday)
+                {
+                    _unitOfWork.Repository<SaleCounterRevenue>().Delete(revenue);
+                }
+            }
+            
             // HashMap of sale counter id and daily revenue
             var saleCounters = await _unitOfWork.Repository<SaleCounter>().ListAllAsync();
             Dictionary<int, decimal> saleCounterRevenueMap = new Dictionary<int, decimal>();
@@ -42,7 +54,6 @@ namespace Infrastructure.Services
             }
 
             // Get successful sales orders of current date
-            DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
             var orderSpec = new OrdersSpecification(today);
             var ordersToday = await _unitOfWork.Repository<Order>().ListAsync(orderSpec);
             if(ordersToday != null)
@@ -57,7 +68,7 @@ namespace Infrastructure.Services
                         var saleCounterId = orderItem.ItemOrdered.SaleCounterId;
 
                         // Add total to sale counter revenue
-                        saleCounterRevenueMap[saleCounterId] += orderItemTotalPrice;
+                        saleCounterRevenueMap[(int)saleCounterId] += orderItemTotalPrice;
                     }
                 }
             }

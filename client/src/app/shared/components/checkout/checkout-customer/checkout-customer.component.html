@@ -45,9 +45,8 @@
 </section>
 
 <!-- Go previous or Go forward -->
-<div class="basket-summary-actions u-margin-top-medium">
-  <button class="btn btn--primary-light"
-          cdkStepperPrevious>Quay trở lại giỏ hàng</button>
+<div class="basket-summary-actions basket-summary-actions--one-action u-margin-top-medium">
   <button class="btn btn--primary-dark"
+          [disabled]="checkoutForm?.get('customerForm')?.invalid"
           cdkStepperNext>Đi tới khuyến mãi</button>
 </div>

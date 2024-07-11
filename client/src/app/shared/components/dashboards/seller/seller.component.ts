@@ -31,19 +31,9 @@ export class SellerComponent {
     { name: 'Orders', icon: 'receipt', route: '/seller/orders' },
     { name: 'Baskets', icon: 'shopping_cart', route: '/seller/baskets' },
     {
-      name: 'Check Exchange Policy',
-      icon: 'compare_arrows',
-      route: '/seller/exchange',
-    },
-    {
-      name: 'Check Buy-back Policy',
+      name: 'View Policy',
       icon: 'soap',
       route: '/seller/buyback',
-    },
-    {
-      name: 'Check Warranty',
-      icon: 'verified_user',
-      route: '/seller/warranty',
     },
   ];
   // ===========================

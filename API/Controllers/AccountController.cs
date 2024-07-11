@@ -15,8 +15,8 @@ namespace API.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public AccountController(IUserService userRepo, 
-            SignInManager<User> signInManager, ITokenService tokenService) 
+        public AccountController(IUserService userRepo,
+            SignInManager<User> signInManager, ITokenService tokenService)
         {
             _userService = userRepo;
             _signInManager = signInManager;
@@ -69,6 +69,9 @@ namespace API.Controllers
             var user = await _userService.GetUserByUserNameAsync(loginDto.UserName);
 
             if (user == null) return Unauthorized(new ApiResponse(401));
+
+            // If account is closed then return unauthorized response
+            if (user.Status.Equals(UserStatus.Closed.GetEnumMemberValue())) return Unauthorized(new ApiResponse(401));
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 

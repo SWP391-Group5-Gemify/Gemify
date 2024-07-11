@@ -3,9 +3,9 @@
     <li class="nav__item"
         *ngFor="let step of steps; let i = index">
       <button (click)="selectStepByIndex(i)"
+              [disabled]="true"
               [class.btn-square--active]="selectedIndex === i"
               class="btn-square btn-square--primary-light">{{step.label}}
-        -{{step.completed}}
       </button>
     </li>
   </ul>

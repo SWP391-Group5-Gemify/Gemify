@@ -1,1 +1,42 @@
-<p>counters works!</p>
+<!-- Search Product, Filter Product Name,  Categories, Subcategory -->
+<section class="filter-controls u-margin-bottom-small mat-elevation-z2">
+
+  <div class="filter-controls__dropdowns">
+
+    <!-- Filter on Status -->
+    <app-generic-dropdown #saleCountersStatusDropdownRef
+                          label="Chọn hiện trạng"
+                          [options]="saleCountersStatusDropdown"
+                          (onSelectionChange)="onSelectChangeStatusFromParent($event)">
+    </app-generic-dropdown>
+
+    <!-- Searching and Reset Button -->
+    <div class="filter-controls__filter-and-reset">
+
+      <!-- Filter on Names -->
+      <app-generic-search #nameSearchInputRef
+                          label="Tìm kiếm theo tên"
+                          (onValueChanges)="onValueChangesNameFromParent($event)">
+      </app-generic-search>
+
+      <!-- Reset all input element -->
+      <button class="btn btn--primary-dark btn--with-icon"
+              (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
+    </div>
+  </div>
+</section>
+
+<!-- List of counters -->
+<section class="grid grid--responsive u-margin-top-small">
+  <div *ngIf="(saleCounters$ | async) === null">
+    <p>No data fits your search</p>
+  </div>
+
+  @for (saleCounter of saleCounters$ | async; track $index) {
+  <!-- <app-card-promotion [promotion]="promotion"
+                      (onDisablePromotion)="onDisablePromotionByIdFromParent($event)"></app-card-promotion> --> -->
+
+  <app-card-sale-counter [saleCounter]="saleCounter"
+                         (onAssignEmployeeId)="onAssignEmployeeIdFromParent($event)"></app-card-sale-counter>
+  }
+</section>

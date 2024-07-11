@@ -16,6 +16,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { RoleEnum } from '../../../core/models/role.model';
 import { UserModel } from '../../../core/models/user.model';
+import { NotificationService } from '../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -49,34 +50,54 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Redirect to corresponding dashboard if JWT is still valid
-    const token = this.authService.token;
-    if (token) {
-      const currentUserSession =
-        this.authService.getCurrentUserFromToken(token);
-      this.redirectToDashboardPath(currentUserSession?.role);
-    }
+    this.loadCurrentExistingUserSession();
 
     // SignIn Form
     this.signInForm = this.formBuilder.group({
       // required, min length is 6, max is 32, receive a to z, case insensitive
 
       userName: new FormControl(
-        ''
-        //   Validators.compose([
-        //     Validators.required,
-        //     Validators.minLength(4),
-        //     Validators.maxLength(32),
-        //     Validators.pattern(/^[a-z]{4,32}$/i),
-        //   ])
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(32),
+          Validators.pattern(/^[a-z]{4,32}$/i),
+        ])
       ),
 
-      password: new FormControl(''),
+      password: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(15),
+          Validators.pattern(/^(?=.*\d).{8,15}$/),
+        ])
+      ),
     });
+  }
+
+  /**
+   * Load the current user if having the jwt token
+   */
+  loadCurrentExistingUserSession() {
+    if (this.authService.token) {
+      this.authService.getCurrentUserProfile().subscribe({
+        next: (response: UserModel) => {
+          this.authService.currentUser.set(response as UserModel);
+          this.redirectToDashboardPath(this.authService.currentUser()?.role);
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    }
   }
 
   // ============================
@@ -91,15 +112,6 @@ export class LoginComponent implements OnInit {
     switch (true) {
       case control?.hasError('required'):
         errorMessage = 'This field is required';
-        break;
-      case control?.hasError('minlength') || control?.hasError('maxLength'):
-        errorMessage = 'Must be between 4 and 32 characters long';
-        break;
-      case control?.hasError('pattern'):
-        if (controlName === 'userName') {
-          errorMessage =
-            'Username must contain only letters and between 4 and 32 characters long';
-        }
         break;
     }
 
@@ -119,12 +131,10 @@ export class LoginComponent implements OnInit {
     if (this.signInForm.valid) {
       this.authService.login(this.signInForm.value).subscribe({
         next: (user: UserModel) => {
-          console.table(user);
           this.redirectToDashboardPath(user.role);
         },
         error: (error) => {
-          //TODO: Popup or redirect user to Error Page
-          console.error(error);
+          this.notificationService.show('Login Failed. Please try again!');
         },
       });
     }

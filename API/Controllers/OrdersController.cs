@@ -12,6 +12,8 @@ using System.Security.Claims;
 using Infrastructure.Services;
 using Core.Specifications.Customers;
 using Core.Enitities.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace API.Controllers
 {
@@ -75,17 +77,36 @@ namespace API.Controllers
             // get userId whose create order
 
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            if (user == null) return Unauthorized(new ApiResponse(401));
             var userId = user.Id;
-
-            // create buy back order
-            var buyBackOrder = await _orderService.CreateBuyBackOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
-
-            if (buyBackOrder == null)
+           
+            // validate orderDto
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new ApiResponse(400, "Problem creating buyback order"));
+                return BadRequest(ModelState);
             }
 
-            return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
+            try
+            {
+                // create buy back order
+                var buyBackOrder = await _orderService.CreateBuyBackOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
+
+                if (buyBackOrder == null)
+                {
+                    return BadRequest(new ApiResponse(400, "Problem creating buyback order"));
+                }
+
+                return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
+            } catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                    return BadRequest(new ApiResponse(400, "Foreign key constraint violation. Check your input."));
+                return BadRequest(new ApiResponse(400, ex.Message));
+            } catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(400, ex.Message));
+            }
+
         }
 
         [Authorize(Roles = "Cashier")]
@@ -94,17 +115,36 @@ namespace API.Controllers
         {
             // get userId whose create order
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
+            if (user == null) return Unauthorized(new ApiResponse(401));
             var userId = user.Id;
 
-            // create exchange order
-            var exchangeOrder = await _orderService.CreateExchangeOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
-
-            if (exchangeOrder == null)
+            // validate orderDto
+            if (!ModelState.IsValid)
             {
-                return BadRequest(new ApiResponse(400, "Problem creating exchange order"));
+                return BadRequest(ModelState);
             }
 
-            return Ok(_mapper.Map<Order, OrderToReturnDto>(exchangeOrder));
+            // create exchange order
+            try
+            {
+                var exchangeOrder = await _orderService.CreateExchangeOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
+
+                if (exchangeOrder == null)
+                {
+                    return BadRequest(new ApiResponse(400, "Problem creating exchange order"));
+                }
+
+                return Ok(_mapper.Map<Order, OrderToReturnDto>(exchangeOrder));
+            } catch (DbUpdateException ex) 
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 547)
+                    return BadRequest (new ApiResponse(400, "Foreign key constraint violation. Check your input."));
+                return BadRequest(new ApiResponse(400, ex.Message));
+            } catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(400, ex.Message));
+            } 
+            
         }
 
 

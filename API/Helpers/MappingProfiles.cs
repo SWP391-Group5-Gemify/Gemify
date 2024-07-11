@@ -11,10 +11,9 @@ namespace API.Helpers
     {
         public MappingProfiles() {
             CreateMap<SaleCounter, SaleCounterDto>()
-                .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.User.FullName))
-                .ForMember(d => d.EmployeeId, o => o.MapFrom(s => s.UserId));
-            CreateMap<SaleCounterDto, SaleCounter>()
-                .ForMember(d => d.UserId, o => o.MapFrom(s => s.EmployeeId));
+                .ForMember(d => d.UserName, o => o.MapFrom(s => s.User.FullName));
+            CreateMap<SaleCounterDto, SaleCounter>();
+            CreateMap<SaleCounterToAssignDto, SaleCounter>();
 
             CreateMap<Customer, CustomerDto>()
                 .ForMember(d => d.MembershipRate, o => o.MapFrom(s => s.Membership.Name));

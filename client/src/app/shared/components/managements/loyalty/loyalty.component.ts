@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './loyalty.component.html',
-  styleUrl: './loyalty.component.scss'
+  styleUrl: './loyalty.component.scss',
 })
-export class LoyaltyComponent {
-
-}
+export class MembershipComponent {}

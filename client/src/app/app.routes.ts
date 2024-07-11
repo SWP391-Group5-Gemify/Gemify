@@ -7,7 +7,6 @@ import { PageErrorComponent } from './core/layout/page-error/page-error.componen
 export const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-
   {
     path: 'gold-chart',
     loadChildren: () =>
@@ -37,18 +36,6 @@ export const routes: Routes = [
     data: { statusCode: 401, msg: 'You are not authorized' },
   },
   // ===========================================================
-
-  {
-    path: 'store-manager',
-    loadChildren: () =>
-      import('./shared/routes/dashboards/store-manager-routing.module').then(
-        (m) => m.StoreManagerRoutingModule
-      ),
-    canActivate: [authGuard, roleGuard],
-    data: {
-      role: [RoleEnum.StoreManager],
-    },
-  },
   {
     path: 'store-owner',
     loadChildren: () =>
@@ -58,6 +45,17 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard],
     data: {
       role: [RoleEnum.StoreOwner],
+    },
+  },
+  {
+    path: 'store-manager',
+    loadChildren: () =>
+      import('./shared/routes/dashboards/store-manager-routing.module').then(
+        (m) => m.StoreManagerRoutingModule
+      ),
+    canActivate: [authGuard, roleGuard],
+    data: {
+      role: [RoleEnum.StoreManager],
     },
   },
   {

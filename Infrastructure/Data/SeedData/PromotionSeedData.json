@@ -3,27 +3,24 @@
     "name": "Ưu đãi mùa hè",
     "expDate": "2024-07-31",
     "effDate": "2024-06-01",
-    "discount": 0.15,
+    "discount": 0.07,
     "code": "SUMMER10",
-    "minValue": 50,
-    "status": true
+    "status": "Còn Hiệu Lực"
   },
   {
     "name": "Ưu đãi 26/6",
     "expDate": "2024-06-30",
     "effDate": "2024-06-26",
-    "discount": 0.15,
+    "discount": 0.05,
     "code": "JUNE06",
-    "minValue": 100,
-    "status": true
+    "status": "Còn Hiệu Lực"
   },
   {
     "name": "Ưu đãi cuối tuần",
     "expDate": "2024-06-16",
     "effDate": "2024-06-14",
-    "discount": 0.2,
+    "discount": 0.03,
     "code": "WEEKEND20",
-    "minValue": 25,
-    "status": false
+    "status": "Hết Hạn"
   }
 ]

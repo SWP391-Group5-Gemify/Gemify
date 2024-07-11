@@ -40,7 +40,7 @@ namespace Core.Specifications.Orders
         public OrdersSpecification(DateOnly today)
             : base(o => DateOnly.FromDateTime(o.OrderDate).CompareTo(today) == 0
                 && o.OrderTypeId == 1
-                && o.Status.Equals("PaymentReceived"))
+                && o.Status.Equals(OrderStatus.PaymentReceived.GetEnumMemberValue()))
         {
             AddInclude(o => o.Promotion);
             AddInclude(o => o.Membership);

@@ -6,8 +6,9 @@ import {
   OrderParams,
   OrderTypeModel,
 } from '../../models/order.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
+import ImageUtils from '../../../shared/utils/ImageUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -46,12 +47,12 @@ export class OrderService {
     });
   }
 
-  getOrderById(id: number) {
+  getOrderById(id: number | string) {
     return this.http.get<OrderModel>(`${this.baseOrderUrl}/${id}`);
   }
 
   getOrderTypes() {
-    return this.http.get<OrderTypeModel[]>(`${this.baseOrderUrl}/sales`);
+    return this.http.get<OrderTypeModel[]>(`${this.baseOrderUrl}/types`);
   }
 
   getOrderParams() {

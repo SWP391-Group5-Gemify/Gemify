@@ -9,11 +9,12 @@
 
     <!-- Promotions -->
     <mat-radio-group aria-label="Select your gender"
-                     formControlName="promotionId">
+                     formControlName="promotion">
 
       <!-- Default NONE radio button -->
       <mat-radio-button [value]="undefined"
-                        checked="true">
+                        [checked]="this.basketService.getCurrentBasketValue()?.promotionId === null"
+                        (change)="onChangePromotionRadioButton(undefined)">
         <div class="promotion-card u-margin-bottom-small">
           <p class="promotion-card__name promotion-card__name--none">NONE</p>
         </div>
@@ -21,15 +22,16 @@
 
       <!-- Available choices -->
       <div class="promotion-form__values">
-        @for (promotion of promotions | async; track $index) {
-        <mat-radio-button *ngIf="promotion.status === true"
-                          [value]="promotion.id">
+        @for (promotion of promotions$ | async; track $index) {
+        <mat-radio-button [value]="promotion.id"
+                          [checked]="this.basketService.getCurrentBasketValue()?.promotionId == promotion.id"
+                          (change)="onChangePromotionRadioButton(promotion)">
           <div class="promotion-card">
             <p class="promotion-card__name">{{ promotion.name }}</p>
             <div class="promotion-card__details">
               <p>Hết hạn vào: {{ promotion.expDate }}</p>
               <p>Có hiệu lực từ: {{ promotion.effDate }}</p>
-              <p>Giảm giá: {{ promotion.discount }}%</p>
+              <p>Giảm giá: {{ promotion.discount | percent }}</p>
               <p>Mã: {{ promotion.code }}</p>
             </div>
           </div>
@@ -54,5 +56,6 @@
   <button class="btn btn--primary-light"
           cdkStepperPrevious>Quay trở lại khách hàng</button>
   <button class="btn btn--primary-dark"
+          (click)="createPaymentIntent()"
           cdkStepperNext>Đi tới thanh toán</button>
 </div>

@@ -1,7 +1,8 @@
 <section class="orders">
   <app-stats-total-rows [label]="'Total Orders'"
                         [count]="totalOrders"
-                        [icon]="'receipt'"></app-stats-total-rows>
+                        [icon]="'receipt'">
+  </app-stats-total-rows>
 
   <!-- Filter based on Order Types -->
   <div class="type-dropdown">
@@ -12,6 +13,7 @@
     </app-generic-dropdown>
   </div>
 
+  <!-- Table Data Source -->
   <app-generic-table-data-source [columnsToDisplay]="columnsToDisplay"
                                  [dataSource]="dataSource"
                                  [pageSize]="orderParams.pageSize"

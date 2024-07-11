@@ -43,3 +43,6 @@ Thumbs.db
 
 ssl/
 src/environments/
+
+# Firebase configuration
+cors.json

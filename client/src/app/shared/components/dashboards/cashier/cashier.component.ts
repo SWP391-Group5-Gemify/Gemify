@@ -27,23 +27,18 @@ export class CashierComponent {
   // == Fields
   // ===========================
   navItems: NavItemsModel[] = [
-    { name: 'Products', icon: 'shopping_bag', route: '/cashier/products' },
-    { name: 'Orders', icon: 'receipt', route: '/cashier/orders' },
     { name: 'Baskets', icon: 'shopping_cart', route: '/cashier/baskets' },
+    { name: 'Orders', icon: 'receipt', route: '/cashier/orders' },
+    { name: 'Products', icon: 'shopping_bag', route: '/cashier/products' },
     {
-      name: 'Check Exchange Policy',
-      icon: 'compare_arrows',
-      route: '/cashier/exchange',
+      name: 'Promotions',
+      icon: 'card_giftcard',
+      route: '/cashier/promotions',
     },
     {
-      name: 'Check Buy-back Policy',
-      icon: 'soap',
-      route: '/cashier/buyback',
-    },
-    {
-      name: 'Check Warranty',
+      name: 'View Policy',
       icon: 'verified_user',
-      route: '/cashier/warranty',
+      route: '/cashier/policy',
     },
   ];
   // ===========================

@@ -1,0 +1,47 @@
+<section class="policy">
+
+  <!-- Upload Actions -->
+  @if (this.isPdfUploadMode()) {
+  <div class="policy__upload mat-elevation-z2">
+    <div class="policy__controls">
+      <app-file-selector label="Chọn file"
+                         (fileSelected)="handleFileSelected($event)"></app-file-selector>
+
+      <!-- Upload File -->
+      <button class="btn btn--primary btn--with-icon"
+              [disabled]="selectedFiles.length == 0"
+              (click)="uploadPolicyFile()">
+        <mat-icon>upload</mat-icon>Tải lên
+      </button>
+    </div>
+
+    @if (selectedFiles.length !== 0) {
+    <div class="policy__files">
+      <!-- List of the selected files -->
+      <mat-list>
+        <mat-list-item *ngFor="let file of selectedFiles">File đã chọn : {{ file.name }}
+        </mat-list-item>
+      </mat-list>
+
+      <!-- Progress Bar -->
+      <mat-progress-bar *ngIf="uploadProgress | async as progress"
+                        mode="determinate"
+                        [value]="progress"></mat-progress-bar>
+    </div>
+    }
+  </div>
+  }
+
+  <!-- PDF Viewer -->
+  @if(this.currentPdfSrc()) {
+  <pdf-viewer [src]="currentPdfSrc()"
+              [render-text]="true"
+              [render-text-mode]="2"
+              [original-size]="false"
+              [show-all]="true"
+              [show-borders]="false"
+              [zoom-scale]="'page-fit'"
+              class="policy__pdf">
+  </pdf-viewer>
+  }
+</section>

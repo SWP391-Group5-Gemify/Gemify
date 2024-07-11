@@ -37,16 +37,13 @@
               (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
     </div>
   </div>
-
-
-
 </section>
 
 <!-- Table -->
 <app-generic-table-data-source [columnsToDisplay]="columnsToDisplay"
                                [dataSource]="dataSource"
-                               [pageSize]="productSearchCriteria.pageSize"
-                               [pageIndex]="productSearchCriteria.pageIndex"
+                               [pageSize]="productParams.pageSize"
+                               [pageIndex]="productParams.pageIndex"
                                [count]="totalProducts"
                                (onPageChangeFromChild)="onPageChange($event)"
                                (onFilterFromChild)="onValueChangesNameFromParent($event)"

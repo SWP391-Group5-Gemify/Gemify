@@ -341,7 +341,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("SubTotal")
                         .HasColumnType("decimal(18, 0)");
@@ -372,7 +372,7 @@ namespace Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -439,7 +439,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int?>("GoldTypeId")
+                    b.Property<int>("GoldTypeId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("GoldWeight")
@@ -458,12 +458,12 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SaleCounterId")
+                    b.Property<int?>("SaleCounterId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
@@ -539,8 +539,9 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -701,7 +702,9 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("Core.Enitities.OrderAggregate.Order", null)
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("Core.Enitities.OrderAggregate.ProductItemOrdered", "ItemOrdered", b1 =>
                         {
@@ -714,7 +717,7 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<string>("GoldType")
                                 .HasColumnType("nvarchar(100)");
 
-                            b1.Property<decimal?>("GoldWeight")
+                            b1.Property<decimal>("GoldWeight")
                                 .HasColumnType("decimal(18, 4)");
 
                             b1.Property<string>("Image_Url")
@@ -723,20 +726,20 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<int>("ProductItemId")
                                 .HasColumnType("int");
 
-                            b1.Property<decimal?>("ProductLabour")
+                            b1.Property<decimal>("ProductLabour")
                                 .HasColumnType("decimal(18, 0)");
 
                             b1.Property<string>("ProductName")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(200)");
 
-                            b1.Property<int>("SaleCounterId")
+                            b1.Property<int?>("SaleCounterId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("SaleCounterName")
                                 .HasColumnType("varchar(50)");
 
-                            b1.Property<decimal?>("TotalWeight")
+                            b1.Property<decimal>("TotalWeight")
                                 .HasColumnType("decimal(18,4)");
 
                             b1.Property<string>("Unit")
@@ -785,6 +788,9 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<decimal>("GemWeight")
                                 .HasColumnType("decimal(18, 4)");
 
+                            b1.Property<bool>("IsProcurable")
+                                .HasColumnType("bit");
+
                             b1.HasKey("OrderItemGemId");
 
                             b1.ToTable("OrderItemGems");
@@ -800,13 +806,13 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("Core.Enitities.GoldType", "GoldType")
                         .WithMany()
-                        .HasForeignKey("GoldTypeId");
+                        .HasForeignKey("GoldTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Core.Enitities.SaleCounter", "SaleCounter")
                         .WithMany()
-                        .HasForeignKey("SaleCounterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SaleCounterId");
 
                     b.HasOne("Core.Enitities.SubCategory", "SubCategory")
                         .WithMany()

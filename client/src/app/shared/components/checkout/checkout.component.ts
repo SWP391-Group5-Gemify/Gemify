@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CommonModule, Location } from '@angular/common';
 import { BasketItemModel } from '../../../core/models/basket.model';
@@ -16,6 +16,9 @@ import { catchError, Observable, Subscription } from 'rxjs';
 import { CustomerModel } from '../../../core/models/customer.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OrderService } from '../../../core/services/order/order.service';
+import { isFakeTouchstartFromScreenReader } from '@angular/cdk/a11y';
+import { PromotionService } from '../../../core/services/promotion/promotion.service';
+import { PromotionModel } from '../../../core/models/promotion.model';
 
 @UntilDestroy()
 @Component({
@@ -48,7 +51,7 @@ export class CheckoutComponent implements OnInit {
     }),
 
     promotionForm: this.fb.group({
-      promotionId: ['', Validators.required],
+      promotion: ['', Validators.required],
     }),
 
     paymentForm: this.fb.group({
@@ -63,11 +66,14 @@ export class CheckoutComponent implements OnInit {
     public basketService: BasketService,
     private location: Location,
     private fb: FormBuilder,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private promotionService: PromotionService
   ) {}
 
   ngOnInit(): void {
     this.loadCustomerOnBasketIfExist();
+    this.loadPromotionOnBasketIfExist();
+    this.basketService.calculateTotalBasketPrice();
   }
 
   // ======================
@@ -80,18 +86,51 @@ export class CheckoutComponent implements OnInit {
   public loadCustomerOnBasketIfExist(): void {
     let phoneNumber =
       this.basketService.getCurrentBasketValue()?.phoneNumber ?? '';
+
     this.patchCustomerPhoneToCheckout(phoneNumber);
 
+    // If customer is already existed, then set membershipId
     phoneNumber &&
       this.customerService
         .getCustomerByPhone(phoneNumber)
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (customer) => {
-            customer &&
+            if (customer) {
               this.checkoutForm.get('customerForm')?.patchValue(customer);
+            }
+
+            // if null, set default membershipId = 1, else set membersShipId from the existing customer
+            this.basketService.setMembershipId(customer);
           },
         });
+  }
+
+  /**
+   * Load the promotion on the basket if exist to set the initial price
+   */
+  public loadPromotionOnBasketIfExist(): void {
+    let promotionId = this.basketService.getCurrentBasketValue()?.promotionId;
+
+    // If don't have promotionId, then set the discount = 0, else get the discount and set to the signal total price
+    if (!promotionId) {
+      this.basketService.basketTotalPrice.update((value) => ({
+        ...value,
+        promotionDiscount: 0,
+      }));
+    } else {
+      promotionId &&
+        this.promotionService
+          .getPromotionById(promotionId)
+          .pipe(untilDestroyed(this))
+          .subscribe({
+            next: (promotion) => {
+              if (promotion) {
+                this.basketService.setPromotionId(promotion);
+              }
+            },
+          });
+    }
   }
 
   /**
@@ -99,17 +138,6 @@ export class CheckoutComponent implements OnInit {
    */
   private patchCustomerPhoneToCheckout(phone: string = '') {
     this.checkoutForm.get('customerForm')?.get('phone')?.patchValue(phone);
-  }
-
-  /**
-   * Total Price of the Basket
-   * @param items
-   * @returns
-   */
-  public calculateBasketTotalPrice(items: BasketItemModel[]): number {
-    return items.reduce((acc, curr) => {
-      return acc + curr.price * curr.quantity;
-    }, 0);
   }
 
   /**

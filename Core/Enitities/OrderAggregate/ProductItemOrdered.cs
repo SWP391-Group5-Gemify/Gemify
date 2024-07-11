@@ -7,8 +7,8 @@ namespace Core.Enitities.OrderAggregate
     {
         public ProductItemOrdered() { }
         public ProductItemOrdered(int productItemId, string productName, decimal goldPrice,
-            string goldType, decimal? goldWeight, decimal? productLabour, string unit, decimal? totalWeight, 
-            string image_Url, int saleCounterId, string saleCounterName)
+            string goldType, decimal goldWeight, decimal productLabour, string unit, decimal totalWeight, 
+            string image_Url, int? saleCounterId, string saleCounterName)
         {
             ProductItemId = productItemId;
             ProductName = productName;
@@ -32,19 +32,25 @@ namespace Core.Enitities.OrderAggregate
         [Column(TypeName = "nvarchar(100)")]
         public string GoldType { get; set; }
         [Column(TypeName = "decimal(18, 4)")]
-        public decimal? GoldWeight { get; set; }
+        public decimal GoldWeight { get; set; }
         [Column(TypeName = "decimal(18, 0)")]
-        public decimal? ProductLabour {  get; set; }
+        public decimal ProductLabour {  get; set; }
         [Column(TypeName = "nvarchar(20)")]
         public string Unit {  get; set; }
 
         [Column(TypeName = "decimal(18,4)")]
-        public decimal? TotalWeight { get; set; }
+        public decimal TotalWeight { get; set; }
 
         [Column(TypeName = "varchar(200)")]
         public string Image_Url { get; set; }
-        public int SaleCounterId { get; set; }
+        public int? SaleCounterId { get; set; }
         [Column(TypeName = "varchar(50)")]
         public string SaleCounterName { get; set; }
+
+        public ProductItemOrdered Clone ()
+        {
+            return new ProductItemOrdered(ProductItemId, ProductName, GoldPrice, GoldType, GoldWeight,
+                ProductLabour, Unit, TotalWeight, Image_Url, SaleCounterId, SaleCounterName);
+        }
     }
 }

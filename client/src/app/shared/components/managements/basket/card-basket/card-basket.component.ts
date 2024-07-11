@@ -43,7 +43,8 @@ export class CardBasketComponent {
   constructor(
     public basketService: BasketService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   // ======================
@@ -76,7 +77,7 @@ export class CardBasketComponent {
    * @returns
    */
   isUserCashier() {
-    return this.authService.currentUser?.role === RoleEnum.Cashier;
+    return this.authService.currentUser()?.role === RoleEnum.Cashier;
   }
 
   /**

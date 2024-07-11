@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
 import { EmployeeModel } from '../../models/employee.model';
 import { AuthService } from '../auth/auth.service';
-import { RoleEnum, RoleModel } from '../../models/role.model';
+import { RoleModel } from '../../models/role.model';
 import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
+import ImageUtils from '../../../shared/utils/ImageUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,10 @@ export class EmployeeService {
   // ====================
   // == Life Cycle
   // ====================
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService
+  ) {}
 
   // ====================
   // == Methods
@@ -37,18 +41,30 @@ export class EmployeeService {
     pageSize: number = 5,
     role?: RoleModel
   ): Observable<PaginationModel<EmployeeModel>> {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
     // if having roles
     if (role) {
-      params.set('roleId', role.id);
+      params = params.set('roleId', role.id);
     }
 
-    return this.http.get<PaginationModel<EmployeeModel>>(this.baseEmployeeUrl, {
-      params: params,
-    });
+    return this.httpClient
+      .get<PaginationModel<EmployeeModel>>(this.baseEmployeeUrl, {
+        params: params,
+      })
+      .pipe(
+        map((paginationModel) => {
+          // Transform each product's imageUrl using ImageUtils.concatLinkToTokenFirebase
+          paginationModel.data.forEach((employee) => {
+            employee.image_Url = ImageUtils.concatLinkToTokenFirebase(
+              employee.image_Url
+            );
+          });
+          return paginationModel;
+        })
+      );
   }
 
   /**
@@ -57,7 +73,7 @@ export class EmployeeService {
    * @returns
    */
   getEmployeeById(id: number): Observable<EmployeeModel> {
-    return this.http.get<EmployeeModel>(`${this.baseEmployeeUrl}/${id}`);
+    return this.httpClient.get<EmployeeModel>(`${this.baseEmployeeUrl}/${id}`);
   }
 
   /**
@@ -65,7 +81,16 @@ export class EmployeeService {
    * @returns
    */
   getEmployeeRoles(): Observable<RoleModel[]> {
-    return this.http.get<RoleModel[]>(`${this.baseEmployeeUrl}/roles`);
+    return this.httpClient.get<RoleModel[]>(`${this.baseEmployeeUrl}/roles`);
+  }
+
+  /**
+   * Get the list of all sellers
+   * @returns
+   */
+  getAllSellers(): Observable<EmployeeModel[]> {
+    // return this.httpClient.get<EmployeeModel[]>()
+    return of();
   }
 
   /**
@@ -74,7 +99,7 @@ export class EmployeeService {
    * @returns
    */
   updateEmployee(employee: EmployeeModel): Observable<EmployeeModel> {
-    return this.http.put<EmployeeModel>(
+    return this.httpClient.put<EmployeeModel>(
       `${this.baseEmployeeUrl}/${employee.id}`,
       employee
     );
@@ -85,7 +110,7 @@ export class EmployeeService {
    * @param id
    */
   disableEmployee(id: number): Observable<CreateUpdateDeleteResponseModel> {
-    return this.http.delete<CreateUpdateDeleteResponseModel>(
+    return this.httpClient.delete<CreateUpdateDeleteResponseModel>(
       `${this.baseEmployeeUrl}/${id}`
     );
   }

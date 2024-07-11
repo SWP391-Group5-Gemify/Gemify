@@ -51,8 +51,8 @@ export class ModalViewCurrentUserComponent implements OnInit {
   // == Life cycle
   // =========================
   constructor(
-    private modalRef: MatDialogRef<ModalViewCurrentUserComponent>,
     @Inject(MAT_DIALOG_DATA) public modalConfigFromParent: ModalConfigModel,
+    private modalRef: MatDialogRef<ModalViewCurrentUserComponent>,
     private authService: AuthService
   ) {}
 
@@ -69,9 +69,6 @@ export class ModalViewCurrentUserComponent implements OnInit {
    */
   loadCurrentUser() {
     this.currentUserInfo = this.authService.getCurrentUserProfile();
-    // .subscribe((user: UserModel) => {
-    //   // console.table(user);
-    // });
   }
 
   /**

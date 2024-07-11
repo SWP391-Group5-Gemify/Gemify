@@ -1,0 +1,75 @@
+@import "abstracts/variables";
+
+.card-promotion {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  &__header {
+    padding: $padding-layout;
+    background-color: $color-grey-light;
+    border-bottom: 1px solid $color-grey-light-2;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__name {
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 2.8rem;
+  }
+
+  &__discount {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: $color-primary;
+  }
+
+  &__content {
+    padding: $padding-layout;
+    display: flex;
+    flex-direction: column;
+    gap: $gutter-layout;
+  }
+
+  &__expDate,
+  &__effDate {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.8rem;
+
+    span {
+      font-weight: 900;
+      font-size: 2.0rem;
+      color: $color-primary;
+    }
+  }
+
+  &__status {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    padding: 1.2rem;
+    font-weight: 900;
+    justify-self: stretch;
+    text-align: center;
+    box-shadow: 0 1px 4px 2px rgba($color: #000000, $alpha: 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: $color-grey-light;
+    letter-spacing: 1.05px;
+
+    &--active {
+      color: $color-primary-dark;
+    }
+
+    &--expired {
+      color: $color-black;
+    }
+  }
+
+  // Actions
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: $padding-layout;
+    padding-top: 0;
+  }
+}

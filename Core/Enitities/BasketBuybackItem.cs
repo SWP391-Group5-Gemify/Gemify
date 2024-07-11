@@ -13,5 +13,7 @@ namespace Core.Enitities
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public decimal GoldWeight { get; set; }
+        public int GoldTypeId { get; set; }
+        public int? SubCategoryId { get; set; }
     }
 }

@@ -69,7 +69,9 @@ export class CustomerService {
    * @param phone
    * @returns
    */
-  getCustomerByPhone(phone: number | string): Observable<CustomerModel> {
+  getCustomerByPhone(
+    phone: number | string
+  ): Observable<CustomerModel | undefined> {
     return this.httpClient.get<CustomerModel>(
       `${this.baseCustomerUrl}/phone/${phone}`
     );
@@ -80,10 +82,8 @@ export class CustomerService {
    * @param customer
    * @returns
    */
-  updateCustomer(
-    customer: CustomerModel
-  ): Observable<CreateUpdateDeleteResponseModel> {
-    return this.httpClient.put<CreateUpdateDeleteResponseModel>(
+  updateCustomer(customer: CustomerModel): Observable<CustomerModel> {
+    return this.httpClient.put<CustomerModel>(
       `${this.baseCustomerUrl}/${customer.id}`,
       customer
     );
@@ -94,8 +94,10 @@ export class CustomerService {
    * @param customerCreateModel
    * @returns statusCode and message
    */
-  createCustomer(customerCreateModel: CustomerCreateModel) {
-    return this.httpClient.post<CreateUpdateDeleteResponseModel>(
+  createCustomer(
+    customerCreateModel: CustomerCreateModel
+  ): Observable<CustomerModel> {
+    return this.httpClient.post<CustomerModel>(
       this.baseCustomerUrl,
       customerCreateModel
     );
