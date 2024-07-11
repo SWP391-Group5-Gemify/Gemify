@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240707065719_FinalMigration")]
+    [Migration("20240711053245_FinalMigration")]
     partial class FinalMigration
     {
         /// <inheritdoc />
@@ -466,7 +466,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
@@ -543,7 +543,8 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Status")
-                        .HasColumnType("varchar(50)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

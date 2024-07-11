@@ -106,7 +106,7 @@ namespace Infrastructure.Data.Migrations
                     EffDate = table.Column<DateOnly>(type: "Date", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     Code = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Status = table.Column<string>(type: "varchar(50)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -255,7 +255,7 @@ namespace Infrastructure.Data.Migrations
                     GoldWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     TotalWeight = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Labour = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Status = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
                     SubCategoryId = table.Column<int>(type: "int", nullable: true),

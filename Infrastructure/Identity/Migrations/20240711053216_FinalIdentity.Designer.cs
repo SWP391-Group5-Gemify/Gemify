@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20240627090535_FinalIdentity")]
+    [Migration("20240711053216_FinalIdentity")]
     partial class FinalIdentity
     {
         /// <inheritdoc />

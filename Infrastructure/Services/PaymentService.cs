@@ -253,7 +253,7 @@ namespace Infrastructure.Services
 
                 if (product.Quantity == 0)
                 {
-                    product.Status = ProductStatus.Unavailable.ToString();
+                    product.Status = ProductStatus.Unavailable.GetEnumMemberValue();
                 }
             }
         }
