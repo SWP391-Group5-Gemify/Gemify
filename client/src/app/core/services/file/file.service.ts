@@ -8,6 +8,7 @@ import {
 } from 'firebase/storage';
 import { Storage } from '@angular/fire/storage';
 import { from, mergeMap, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,7 @@ export class FileService {
   // ============================
   // == Constructors
   // ============================
-  constructor(private storage: Storage) {}
+  constructor(private storage: Storage, private httpClient: HttpClient) {}
 
   // ============================
   // == Methods
@@ -41,7 +42,7 @@ export class FileService {
    * @param file
    * @returns
    */
-  uploadPolicyFile(
+  uploadFile(
     file: File
   ): Observable<{ progress: number; downloadUrl?: string }> {
     const filePath = `${this.baseDocumentsPolicyPath}/${file.name}`;
@@ -81,10 +82,10 @@ export class FileService {
   }
 
   /**
-   * Download policy file, get the url from the firestore
+   * Get the latest file, get the url from the firestore
    * @returns
    */
-  getLatestPolicyFile(): Observable<string> {
+  getLatestFile(): Observable<string> {
     const filePath = this.baseDocumentsPolicyPath;
     const storageRef = ref(this.storage, filePath);
     const downloadTask = listAll(storageRef);
@@ -107,6 +108,7 @@ export class FileService {
 
             // Get the URL of the latest file
             const latestItem = sortedItems[0].item;
+
             getDownloadURL(latestItem)
               .then((url) => {
                 observer.next(url);

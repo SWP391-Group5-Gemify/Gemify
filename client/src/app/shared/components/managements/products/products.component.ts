@@ -8,7 +8,7 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import { MatIcon } from '@angular/material/icon';
-import { catchError, map, mergeMap, Observable } from 'rxjs';
+import { catchError, combineLatest, map, mergeMap, Observable } from 'rxjs';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
 import {
@@ -316,13 +316,18 @@ export class ProductsComponent implements OnInit {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.basketService.createEmptyBasketWithPhoneNumber(result.phoneNumber);
-      }
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((result) => {
+        if (result) {
+          this.basketService.createEmptyBasketWithPhoneNumber(
+            result.phoneNumber
+          );
+        }
 
-      // Reload the basket dropdown for new added basket
-      this.loadBasketIdAndPhoneDropdown();
-    });
+        // Reload the basket dropdown for new added basket
+        this.loadBasketIdAndPhoneDropdown();
+      });
   }
 }
