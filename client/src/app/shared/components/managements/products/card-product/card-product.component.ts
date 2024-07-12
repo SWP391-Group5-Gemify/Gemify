@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { BasketService } from '../../../../../core/services/basket/basket.service';
 import { Router, RouterLink } from '@angular/router';
+import { NotificationService } from '../../../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-card-product',
@@ -26,7 +27,11 @@ export class CardProductComponent {
   // ======================================
   // == Life Cycle
   // ======================================
-  constructor(private basketService: BasketService, private router: Router) {}
+  constructor(
+    private basketService: BasketService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   // ======================================
   // == Methods
@@ -35,8 +40,10 @@ export class CardProductComponent {
    * Add a product item to the cart
    */
   addProductItemToBasket() {
-    this.product &&
-      this.basketService.addProductItemToCurrentSellBasket(this.product, 1);
+    this.basketService.addProductItemToCurrentSellBasket(this.product, 1);
+    this.notificationService.show(
+      `Thêm sản phẩm ${this.product.name} vào giỏ hàng thành công.`
+    );
   }
 
   /**

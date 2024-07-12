@@ -275,5 +275,8 @@ export class OrderDetailComponent implements OnInit {
   public addOrderItemToCartForExchangeFromParent($event: any) {
     const orderItem = $event as OrderItemModel;
     this.basketService.addOrderItemToCurrentExchangeBasket(orderItem, 1);
+    this.notificationService.show(
+      `Thêm sản phẩm ${orderItem.productName} vào giỏ hàng trao đổi thành công.`
+    );
   }
 }

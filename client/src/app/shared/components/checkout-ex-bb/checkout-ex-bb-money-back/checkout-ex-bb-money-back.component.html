@@ -1,1 +1,8 @@
-<p>checkout-ex-bb-money-back works!</p>
+<!-- Go previous or Go forward -->
+<div class="basket-summary-actions u-margin-top-medium">
+  <button class="btn btn--primary-light"
+          cdkStepperPrevious>Quay trở lại khách hàng</button>
+  <button class="btn btn--primary-dark"
+          (click)="obSubmitMoneyBack()"
+          cdkStepperNext>Xác nhận hoàn tiền</button>
+</div>

@@ -41,7 +41,7 @@ export class PolicyComponent {
   // ============================
   // == Fields
   // ============================
-  public fileName: string = 'WarranyAndPolicy';
+  public fileName: string = 'WarrantyAndPolicy';
   public selectedFiles: File[] = [];
   public currentPdfSrc = signal<string>('');
   public uploadProgress: Subject<number> = new Subject<number>();

@@ -43,7 +43,7 @@
         <ul class="total-summary__list">
 
           <!-- EXCHANGES -->
-          @if (basket.saleItems.length !== 0 && basket.buybackItems.length !== 0) {
+          @if (basket.orderTypeId === OrderTypeEnum.EXCHANGE) {
           <li class="total-summary__item">
             <span>Số tiền khách mua hàng</span>
             <span>{{this.basketService.basketExchangeTotalPrice().totalSells| currency:"VND"}}</span>
@@ -55,11 +55,15 @@
 
           <!-- Total Money -->
           <li class="total-summary__item">
-            @if (this.basketService.basketExchangeTotalPrice().total > 0) {
+
+            <!-- Sells more than Buy Back -->
+            @if (this.basketService.basketExchangeTotalPrice().totalSells >
+            this.basketService.basketExchangeTotalPrice().totalBuyBacks ) {
             <span>Tổng tiền khách trả</span><span>{{this.basketService.basketExchangeTotalPrice().total
               |currency:"VND"}}</span>
-            }
-            @else {
+            } @else {
+
+            <!-- Buyback more than sale -->
             <span>Tổng tiền cửa hàng trả lại</span><span>{{this.basketService.basketExchangeTotalPrice().total
               |currency:"VND"}}</span>
             }
@@ -67,7 +71,7 @@
           }
 
           <!-- BUY BACK -->
-          @if (basket.saleItems.length === 0 && basket.buybackItems.length !== 0) {
+          @if (basket.orderTypeId === OrderTypeEnum.BUYBACK) {
           <li class="total-summary__item">
             <span>Cửa hàng thâu lại</span>
             <span>{{this.basketService.basketBuybackTotalPrice().total| currency:"VND"}}</span>
@@ -90,23 +94,22 @@
             <app-checkout-ex-bb-customer [checkoutForm]="checkoutForm"></app-checkout-ex-bb-customer>
           </cdk-step>
 
-          <!-- Exchange (Positive Total Only) -->
+          <!-- Exchange (Sells > BuyBacks) -->
           @if (this.basket.orderTypeId === this.OrderTypeEnum.EXCHANGE &&
-          this.basketService.basketExchangeTotalPrice().total
-          > 0) {
+          this.basketService.basketExchangeTotalPrice().totalSells >
+          this.basketService.basketExchangeTotalPrice().totalBuyBacks) {
           <!-- Payment -->
           <cdk-step [label]="'Thanh toán'"
                     [completed]="checkoutForm.get('paymentForm')?.valid">
             <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
           </cdk-step>
-          }
-
+          } @else {
           <!-- Money Back -->
           <cdk-step [label]="'Hoàn tiền'"
                     [completed]="checkoutForm.get('customerForm')?.valid">
             <app-checkout-ex-bb-money-back [checkoutForm]="checkoutForm"></app-checkout-ex-bb-money-back>
           </cdk-step>
-
+          }
         </app-generic-stepper>
       </div>
     </div>

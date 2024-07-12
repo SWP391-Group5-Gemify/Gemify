@@ -18,9 +18,10 @@ import { NotificationService } from '../../../../core/services/notification/noti
 import { Router } from '@angular/router';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { Observable, of, switchMap } from 'rxjs';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BasketModel } from '../../../../core/models/basket.model';
 
+@UntilDestroy()
 @Component({
   selector: 'app-checkout-ex-bb-payment',
   standalone: true,
@@ -52,7 +53,6 @@ export class CheckoutExBbPaymentComponent {
   cardNumberComplete: boolean = false;
   cardExpiryComplete: boolean = false;
   cardCvcComplete: boolean = false;
-  isLoading: boolean = false;
 
   // =========================
   // == Life cycle
@@ -163,9 +163,7 @@ export class CheckoutExBbPaymentComponent {
    * - Customer Id
    * - Membership Id
    */
-  public submitOrder() {
-    this.isLoading = true;
-
+  public onSubmitOrder() {
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
