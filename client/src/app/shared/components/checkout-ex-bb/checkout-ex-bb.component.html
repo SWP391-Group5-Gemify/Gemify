@@ -55,7 +55,7 @@
 
           <!-- Total Money -->
           <li class="total-summary__item">
-            @if (this.basketService.basketExchangeTotalPrice().total >= 0) {
+            @if (this.basketService.basketExchangeTotalPrice().total > 0) {
             <span>Tổng tiền khách trả</span><span>{{this.basketService.basketExchangeTotalPrice().total
               |currency:"VND"}}</span>
             }
@@ -90,23 +90,23 @@
             <app-checkout-ex-bb-customer [checkoutForm]="checkoutForm"></app-checkout-ex-bb-customer>
           </cdk-step>
 
+          <!-- Exchange (Positive Total Only) -->
+          @if (this.basket.orderTypeId === this.OrderTypeEnum.EXCHANGE &&
+          this.basketService.basketExchangeTotalPrice().total
+          > 0) {
           <!-- Payment -->
           <cdk-step [label]="'Thanh toán'"
                     [completed]="checkoutForm.get('paymentForm')?.valid">
             <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
+          </cdk-step>
+          }
+
+          <!-- Money Back -->
+          <cdk-step [label]="'Hoàn tiền'"
+                    [completed]="checkoutForm.get('customerForm')?.valid">
+            <app-checkout-ex-bb-money-back [checkoutForm]="checkoutForm"></app-checkout-ex-bb-money-back>
           </cdk-step>
 
-          <!-- Payment -->
-          <cdk-step [label]="'Thanh toán'"
-                    [completed]="checkoutForm.get('paymentForm')?.valid">
-            <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
-          </cdk-step>
-
-          <!-- Payment -->
-          <cdk-step [label]="'Thanh toán'"
-                    [completed]="checkoutForm.get('paymentForm')?.valid">
-            <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
-          </cdk-step>
         </app-generic-stepper>
       </div>
     </div>

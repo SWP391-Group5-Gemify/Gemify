@@ -4,14 +4,14 @@ import { TableBasketItemsSummaryComponent } from '../checkout/table-basket-items
 import { MatIconModule } from '@angular/material/icon';
 import { GenericStepperComponent } from '../generic-stepper/generic-stepper.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
-import { CheckoutPaymentComponent } from '../checkout/checkout-payment/checkout-payment.component';
-import { CheckoutCustomerComponent } from '../checkout/checkout-customer/checkout-customer.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CustomerService } from '../../../core/services/customer/customer.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CheckoutExBbCustomerComponent } from './checkout-ex-bb-customer/checkout-ex-bb-customer.component';
 import { CheckoutExBbPaymentComponent } from './checkout-ex-bb-payment/checkout-ex-bb-payment.component';
+import { CheckoutExBbMoneyBackComponent } from './checkout-ex-bb-money-back/checkout-ex-bb-money-back.component';
+import { OrderTypeEnum } from '../../../core/models/order.model';
 
 @UntilDestroy()
 @Component({
@@ -25,6 +25,7 @@ import { CheckoutExBbPaymentComponent } from './checkout-ex-bb-payment/checkout-
     CdkStepperModule,
     CheckoutExBbCustomerComponent,
     CheckoutExBbPaymentComponent,
+    CheckoutExBbMoneyBackComponent,
   ],
   templateUrl: './checkout-ex-bb.component.html',
   styleUrl: './checkout-ex-bb.component.scss',
@@ -33,6 +34,8 @@ export class CheckoutExBbComponent {
   // ======================-
   // == Fields
   // ======================
+
+  public OrderTypeEnum = OrderTypeEnum;
 
   public checkoutForm = this.fb.group({
     customerForm: this.fb.group({
