@@ -458,21 +458,23 @@ export class BasketService {
 
     switch (basket.orderTypeId) {
       case OrderTypeEnum.SELL: {
-        tempTicketId = tempTicketId.concat('SE-');
+        tempTicketId = tempTicketId.concat('SE');
         break;
       }
       case OrderTypeEnum.BUYBACK: {
-        tempTicketId = tempTicketId.concat('BB-');
+        tempTicketId = tempTicketId.concat('BB');
         break;
       }
       case OrderTypeEnum.EXCHANGE: {
-        tempTicketId = tempTicketId.concat('EX-');
+        tempTicketId = tempTicketId.concat('EX');
         break;
       }
     }
 
     // Appending basketId
-    tempTicketId = tempTicketId.concat(basket.id.slice(0, 6));
+    tempTicketId = tempTicketId
+      .concat('.')
+      .concat(basket.id.slice(0, 3).toUpperCase());
 
     return tempTicketId;
   }
