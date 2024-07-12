@@ -314,6 +314,31 @@ export class BasketService {
     this.setOrUpdateBasket(basket);
   }
 
+  public addExchangeItemToCurrentBasket(
+    item: OrderItemModel,
+    price: number,
+    quantity = 1
+  ): void {
+    const buybackBasketItemToAdd = this.mapOrderItemToBasketExchangeItem(
+      item,
+      price,
+    );
+
+    // Check the current basket
+    let basket = this.getCurrentBasketValue() ?? this.createBasket();
+
+    // Update the basket's buyback items when add or update the item
+    basket.buybackItems = this.addOrUpdateBuybackBasketItem(
+      basket?.buybackItems,
+      buybackBasketItemToAdd,
+      quantity
+    );
+
+    // Update the basket into the basket source
+    // the basket source will get that value immediately when the addBuybackItemToBasket triggered
+    this.setOrUpdateBasket(basket);
+  }
+
   /**
    * Create an empty basket with phoneNumber
    * @param phoneNumber
@@ -416,7 +441,7 @@ export class BasketService {
   }
 
   /**
-   * Map the product item properties into the buyback asket item properties
+   * Map the product item properties into the buyback basket item properties
    * @param orderItem
    * @param buybackPrice
    * @param goldWeight
@@ -434,6 +459,26 @@ export class BasketService {
       quantity: 0,
       pictureUrl: orderItem.image_Url,
       goldWeight: goldWeight,
+    };
+  }
+
+  /**
+   * Map the product item properties into the buyback basket item properties
+   * @param orderItem
+   * @param buybackPrice
+   * @returns BasketBuybackItemModel
+   */
+  private mapOrderItemToBasketExchangeItem(
+    orderItem: OrderItemModel,
+    buybackPrice: number,
+  ): BasketBuybackItemModel {
+    return {
+      id: orderItem.id,
+      price: buybackPrice,
+      productName: orderItem.productName,
+      quantity: 0,
+      pictureUrl: orderItem.image_Url,
+      goldWeight: 0,
     };
   }
 

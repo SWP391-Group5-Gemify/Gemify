@@ -28,32 +28,31 @@ export class StoreManagerComponent {
   // ===========================
   navItems: any = [
     {
-      name: 'Statistic Dashboard',
+      name: 'Bảng Thống Kê',
       icon: 'home',
       route: '/store-manager/statistic-dashboard',
     },
-    { name: 'Employees', icon: 'work', route: '/store-manager/employees' },
     {
-      name: 'Counters',
+      name: 'Quản Lý Quầy Hàng',
       icon: 'attach_money',
       route: '/store-manager/counters',
     },
     {
-      name: 'Customers',
+      name: 'Quản Lý Khách Hàng',
       icon: 'family_restroom',
       route: '/store-manager/customers',
     },
     {
-      name: 'Promotions',
+      name: 'Quản Lý Ưu Đãi',
       icon: 'card_giftcard',
       route: '/store-manager/promotions',
     },
     {
-      name: 'Products',
+      name: 'Quản Lý Trang Sức',
       icon: 'shopping_bag',
       route: '/store-manager/products-management',
     },
-    { name: 'Orders', icon: 'receipt', route: '/store-manager/orders' },
+    { name: 'Đơn Hàng', icon: 'receipt', route: '/store-manager/orders' },
   ];
 
   // ===========================

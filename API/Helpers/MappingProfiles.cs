@@ -79,7 +79,8 @@ namespace API.Helpers
                 .ForMember(d => d.GemWeight, o => o.MapFrom(s => s.GemsItemOrdered.GemWeight))
                 .ForMember(d => d.GemCarat, o => o.MapFrom(s => s.GemsItemOrdered.GemCarat))
                 .ForMember(d => d.GemClarity, o => o.MapFrom(s => s.GemsItemOrdered.GemClarity))
-                .ForMember(d => d.GemCertificateCode, o => o.MapFrom(s => s.GemsItemOrdered.GemCertificateCode));
+                .ForMember(d => d.GemCertificateCode, o => o.MapFrom(s => s.GemsItemOrdered.GemCertificateCode))
+                .ForMember(d => d.IsProcurable, o => o.MapFrom(s => s.GemsItemOrdered.IsProcurable));
 
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(d => d.ProductItemId, o => o.MapFrom(s => s.ItemOrdered.ProductItemId))

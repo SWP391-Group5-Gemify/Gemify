@@ -8,6 +8,7 @@ namespace API.Dtos
         public decimal GemCarat {  get; set; }
         public string GemClarity { get; set; }
         public string GemCertificateCode { get; set; }
+        public bool IsProcurable { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
     }

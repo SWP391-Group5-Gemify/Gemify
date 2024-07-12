@@ -18,7 +18,7 @@ namespace Core.Enitities
             this.Name = Name;
             this.Discount = Discount;
             this.ExpDate = ExpDate;
-            this.EffDate = DateOnly.FromDateTime(DateTime.UtcNow);
+            this.EffDate = DateOnly.FromDateTime(DateTime.Now);
             this.Status = PromotionStatus.Active.GetEnumMemberValue();
         }
         
