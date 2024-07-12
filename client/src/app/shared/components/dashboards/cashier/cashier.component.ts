@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { BarcodeScannerComponent } from "../../../../barcode-scanner/barcode-scanner.component";
 
 @Component({
   selector: 'app-cashier',
@@ -18,7 +19,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     CommonModule,
     RouterLink,
     RouterOutlet,
-  ],
+    BarcodeScannerComponent
+],
   templateUrl: './cashier.component.html',
   styleUrl: './cashier.component.scss',
 })
