@@ -28,6 +28,10 @@ export class OrderService {
   // =============================================
   // == Methods
   // =============================================
+  /**
+   * Get orders by Parans
+   * @returns
+   */
   getOrders(): Observable<PaginationModel<OrderModel>> {
     let params = new HttpParams();
 
@@ -79,6 +83,12 @@ export class OrderService {
   // == Create Sales, Buyback, Exchange orders
   // =============================================
 
+  /**
+   * Create Sale Order
+   * @param basketId
+   * @param customerId
+   * @returns
+   */
   createSaleOrder(basketId: number | string, customerId: number | string) {
     return this.http.post<{
       basketId: number | String;
@@ -89,6 +99,12 @@ export class OrderService {
     });
   }
 
+  /**
+   * Create Buyback Order
+   * @param basketId
+   * @param customerId
+   * @returns
+   */
   createBuybackOrder(basketId: number | string, customerId: number | string) {
     return this.http.post<{
       basketId: number | String;
@@ -99,6 +115,12 @@ export class OrderService {
     });
   }
 
+  /**
+   * Create Exchange Order
+   * @param basketId
+   * @param customerId
+   * @returns
+   */
   createExchangeOrder(basketId: number | string, customerId: number | string) {
     return this.http.post<{
       basketId: number | String;

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { BasketItemModel } from '../../../../core/models/basket.model';
+import { BasketItemSellModel } from '../../../../core/models/basket.model';
 
 @Component({
   selector: 'app-table-basket-items-summary',
@@ -33,7 +33,7 @@ export class TableBasketItemsSummaryComponent {
    * @param item
    * @returns
    */
-  public calculatePerItemTotalPrice(item: BasketItemModel): number {
+  public calculatePerItemTotalPrice(item: BasketItemSellModel): number {
     return item.price * item.quantity;
   }
 }

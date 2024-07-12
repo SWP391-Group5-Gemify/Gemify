@@ -12,6 +12,7 @@ import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../../core/models/role.model';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { OrderTypeEnum } from '../../../../../core/models/order.model';
 
 @UntilDestroy()
 @Component({
@@ -86,6 +87,20 @@ export class CardBasketComponent {
    */
   public onGoToCheckOutPage() {
     this.basketService.selectBasketBeCurrentBasket(this.basket);
-    this.router.navigate(['/cashier/checkout']);
+
+    switch (this.basket.orderTypeId) {
+      case OrderTypeEnum.SELL: {
+        this.router.navigate(['/cashier/checkout']);
+        return;
+      }
+      case OrderTypeEnum.BUYBACK: {
+        this.router.navigate(['/cashier/checkout']);
+        return;
+      }
+      case OrderTypeEnum.EXCHANGE: {
+        this.router.navigate(['/cashier/checkout-exchange']);
+        return;
+      }
+    }
   }
 }

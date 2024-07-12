@@ -27,12 +27,13 @@ import { GenericSearchComponent } from '../../generic-search/generic-search.comp
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import {
-  BasketItemModel,
+  BasketItemSellModel,
   BasketModel,
 } from '../../../../core/models/basket.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-create-new-basket.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { OrderTypeEnum } from '../../../../core/models/order.model';
 
 @UntilDestroy()
 @Component({
@@ -272,10 +273,7 @@ export class ProductsComponent implements OnInit {
       map((baskets: BasketModel[]) => {
         return baskets.map((basket: BasketModel) => ({
           value: basket.id,
-          name: this.basketService.generateTempTicketId(
-            basket.id,
-            basket.phoneNumber
-          ),
+          name: this.basketService.generateTempTicketId(basket),
         }));
       })
     );
@@ -300,7 +298,7 @@ export class ProductsComponent implements OnInit {
    * @param items
    * @returns
    */
-  public getCountTotalItemsAddedInToBasketSource(items: BasketItemModel[]) {
+  public getCountTotalItemsAddedInToBasketSource(items: BasketItemSellModel[]) {
     return items.reduce((acc, curr) => {
       return acc + curr.quantity;
     }, 0);
@@ -322,7 +320,8 @@ export class ProductsComponent implements OnInit {
       .subscribe((result) => {
         if (result) {
           this.basketService.createEmptyBasketWithPhoneNumber(
-            result.phoneNumber
+            result.phoneNumber,
+            OrderTypeEnum.SELL
           );
         }
 

@@ -3,10 +3,11 @@ import {
   OrderModel,
   OrderItemModel,
   OrderItemGemModel,
+  OrderTypeEnum,
 } from '../../../../../core/models/order.model';
 import { OrderService } from '../../../../../core/services/order/order.service';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import {
   animate,
   state,
@@ -25,7 +26,6 @@ import { DropdownModel } from '../../../../../core/models/dropdown.model';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { ModalChangeGoldWeightComponent } from './modal-change-gold-weight/modal-change-gold-weight.component';
 import { ProductService } from '../../../../../core/services/product/product.service';
-import { ProductModel } from './../../../../../core/models/product.model';
 import { lastValueFrom, map } from 'rxjs';
 import ImageUtils from '../../../../utils/ImageUtils';
 
@@ -53,6 +53,9 @@ import ImageUtils from '../../../../utils/ImageUtils';
   styleUrl: './order-detail.component.scss',
 })
 export class OrderDetailComponent implements OnInit {
+  // ====================
+  // == Fields
+  // ====================
   order?: OrderModel;
   dataSource = new MatTableDataSource<OrderItemModel>([]);
   expandedElement?: OrderItemModel | null;
@@ -85,11 +88,15 @@ export class OrderDetailComponent implements OnInit {
     'total',
   ];
 
+  // ====================
+  // == Lifecycle
+  // ====================
   constructor(
     private ordersService: OrderService,
     private route: ActivatedRoute,
     private basketService: BasketService,
     private dialog: MatDialog,
+    private location: Location,
     private productService: ProductService
   ) {}
 
@@ -114,6 +121,21 @@ export class OrderDetailComponent implements OnInit {
     this.loadBasketIdAndPhoneDropdown();
   }
 
+  // ====================
+  // == Methods
+  // ====================
+
+  /**
+   * Go back to the previous page
+   */
+  onGoBackToOrders() {
+    this.location.back();
+  }
+
+  /**
+   * Expand rows
+   * @param element
+   */
   toggleRow(element: OrderItemModel) {
     element.orderItemGems && element.orderItemGems.length > 0
       ? (this.expandedElement =
@@ -124,16 +146,12 @@ export class OrderDetailComponent implements OnInit {
   /**
    * Loads the dropdown options for basket ID and phone number.
    * Maps baskets to dropdown model.
-   * TODO: Handle error when load failed
    */
   public loadBasketIdAndPhoneDropdown() {
     this.basketService.getBaskets().subscribe((baskets: BasketModel[]) => {
       this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
         value: basket.id,
-        name: this.basketService.generateTempTicketId(
-          basket.id,
-          basket.phoneNumber
-        ),
+        name: this.basketService.generateTempTicketId(basket),
       }));
     });
   }
@@ -162,41 +180,44 @@ export class OrderDetailComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.basketService.createEmptyBasketWithPhoneNumber(result.phoneNumber);
+        this.basketService.createEmptyBasketWithPhoneNumber(
+          result.phoneNumber,
+          OrderTypeEnum.BUYBACK
+        );
       }
     });
   }
 
-  /**
-   * Create new modal, add new gold weight after inspection
-   */
-  public onOpenModalAndChangeGoldWeight($event: any) {
-    const dialogRef = this.dialog.open(ModalChangeGoldWeightComponent, {
-      width: '80%',
-      height: '50%',
-    });
+  // /**
+  //  * Create new modal, add new gold weight after inspection
+  //  */
+  // public onOpenModalAndChangeGoldWeight($event: any) {
+  //   const dialogRef = this.dialog.open(ModalChangeGoldWeightComponent, {
+  //     width: '80%',
+  //     height: '50%',
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.addOrderItemToCartFromChild($event, result.goldWeight);
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.addOrderItemToCartFromChild($event, result.goldWeight);
+  //     }
+  //   });
+  // }
 
-  // Add order item to cart as buyback item
-  private async addOrderItemToCartFromChild(
-    orderItem: OrderItemModel,
-    newGoldWeight: number
-  ) {
-    const price = await lastValueFrom(
-      this.calculateBuybackProductsPrice(orderItem, newGoldWeight)
-    );
-    this.basketService.addBuybackItemToCurrentBasket(
-      orderItem,
-      price,
-      newGoldWeight
-    );
-  }
+  // // Add order item to cart as buyback item
+  // private async addOrderItemToCartFromChild(
+  //   orderItem: OrderItemModel,
+  //   newGoldWeight: number
+  // ) {
+  //   const price = await lastValueFrom(
+  //     this.calculateBuybackProductsPrice(orderItem, newGoldWeight)
+  //   );
+  //   this.basketService.addBuybackItemToCurrentBasket(
+  //     orderItem,
+  //     price,
+  //     newGoldWeight
+  //   );
+  // }
 
   // Calculate buyback item price
   private calculateBuybackProductsPrice(

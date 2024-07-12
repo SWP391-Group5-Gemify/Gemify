@@ -4,7 +4,7 @@
 
   <!-- Header -->
   <mat-expansion-panel-header class="card-basket__header">
-    <mat-panel-title>{{basketService.generateTempTicketId(basket.id, basket.phoneNumber)}}</mat-panel-title>
+    <mat-panel-title>{{basketService.generateTempTicketId(basket)}}</mat-panel-title>
     <mat-panel-description>
       <p>Customer Number: <span>{{basket.phoneNumber || "NONE"}}</span></p>
       <mat-icon>shopping_basket</mat-icon>

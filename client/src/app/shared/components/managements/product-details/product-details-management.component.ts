@@ -42,7 +42,6 @@ export class ProductDetailsManagementComponent implements OnInit {
 
   /**
    * Go back to the products management page
-   * TODO: Error on going back
    */
   onGoBackToProductsManagement() {
     this.location.back();

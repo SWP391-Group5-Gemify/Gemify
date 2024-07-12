@@ -12,7 +12,7 @@ import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { HttpClient } from '@angular/common/http';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import {
-  BasketItemModel,
+  BasketItemSellModel,
   BasketModel,
   BasketsSearchingCriteriaModel,
 } from '../../../../core/models/basket.model';
@@ -114,10 +114,7 @@ export class BasketComponent implements OnInit {
       .subscribe((baskets: BasketModel[]) => {
         this.basketIdAndPhoneDropdown = baskets.map((basket) => ({
           value: basket.id,
-          name: this.basketService.generateTempTicketId(
-            basket.id,
-            basket.phoneNumber
-          ),
+          name: this.basketService.generateTempTicketId(basket),
         }));
       });
   }

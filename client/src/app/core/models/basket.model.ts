@@ -1,21 +1,21 @@
 import { createId } from '@paralleldrive/cuid2';
-import { BasketService } from '../services/basket/basket.service';
+import { OrderTypeEnum } from './order.model';
 
 // For the basket_id, using CUID2 for security awareness
 export interface BasketModel {
   id: string;
-  orderTypeId: number;
+  orderTypeId: number | OrderTypeEnum;
   phoneNumber: string;
   promotionId?: number;
   clientSecret?: string;
   membershipId?: number;
   paymentIntentId?: string;
-  saleItems: BasketItemModel[];
-  buybackItems: BasketBuybackItemModel[];
+  saleItems: BasketItemSellModel[];
+  buybackItems: BasketItemBuybackModel[];
 }
 
 // Represents for the product id as a DTO
-export interface BasketItemModel {
+export interface BasketItemSellModel {
   id: number;
   pictureUrl: string;
   productName: string;
@@ -24,13 +24,15 @@ export interface BasketItemModel {
 }
 
 // Buyback item in basket
-export interface BasketBuybackItemModel {
+export interface BasketItemBuybackModel {
   id: number;
   pictureUrl: string;
   productName: string;
   price: number;
   quantity: number;
   goldWeight: number;
+  goldTypeId?: number;
+  subCategoryId?: number;
 }
 
 export interface BasketsSearchingCriteriaModel {
@@ -41,15 +43,24 @@ export interface BasketsSearchingCriteriaModel {
 // A default, orderTypeId is 1
 export class BasketModel implements BasketModel {
   id: string = createId();
-  orderTypeId: number = 1;
-  saleItems: BasketItemModel[] = [];
-  buybackItems: BasketBuybackItemModel[] = [];
+  orderTypeId: OrderTypeEnum | number = 1;
+  saleItems: BasketItemSellModel[] = [];
+  buybackItems: BasketItemBuybackModel[] = [];
 }
 
 // Model for Total money of Basket
-export interface BasketTotalsModel {
+export interface BasketSellTotalsModel {
   promotionDiscount?: number;
   membershipDiscount?: number;
+  subTotal: number;
+  total: number;
+}
+
+export interface BasketBuybackTotalsModel {
+  goldWeight: number;
+  askPrice: number;
+  totalNormalGem: number;
+  totalRareGem: number;
   subTotal: number;
   total: number;
 }
