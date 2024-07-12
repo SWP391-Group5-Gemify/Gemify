@@ -48,8 +48,7 @@ import { BarcodeScannerComponent } from '../../../../barcode-scanner/barcode-sca
     MatIcon,
     CardProductComponent,
     GenericDropdownComponent,
-    GenericSearchComponent,
-    BarcodeScannerComponent
+    GenericSearchComponent
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
