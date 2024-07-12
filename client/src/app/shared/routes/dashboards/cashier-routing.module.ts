@@ -55,10 +55,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'checkout-exchange',
+        path: 'checkout-ex-bb',
         loadChildren: () =>
-          import('../managements/checkout-exchange-routing.module').then(
-            (m) => m.CheckoutExchangeRoutingModule
+          import('../managements/checkout-ex-bb-routing.module').then(
+            (m) => m.CheckoutExBbRoutingModule
           ),
       },
       {

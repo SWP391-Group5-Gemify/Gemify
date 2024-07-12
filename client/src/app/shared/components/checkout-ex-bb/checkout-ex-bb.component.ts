@@ -10,12 +10,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CustomerService } from '../../../core/services/customer/customer.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { CheckoutExchangeCustomerComponent } from './checkout-exchange-customer/checkout-exchange-customer.component';
-import { CheckoutExchangePaymentComponent } from './checkout-exchange-payment/checkout-exchange-payment.component';
+import { CheckoutExBbCustomerComponent } from './checkout-ex-bb-customer/checkout-ex-bb-customer.component';
+import { CheckoutExBbPaymentComponent } from './checkout-ex-bb-payment/checkout-ex-bb-payment.component';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-checkout-exchange',
+  selector: 'app-checkout-ex-bb',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,13 +23,13 @@ import { CheckoutExchangePaymentComponent } from './checkout-exchange-payment/ch
     MatIconModule,
     GenericStepperComponent,
     CdkStepperModule,
-    CheckoutExchangeCustomerComponent,
-    CheckoutExchangePaymentComponent,
+    CheckoutExBbCustomerComponent,
+    CheckoutExBbPaymentComponent,
   ],
-  templateUrl: './checkout-exchange.component.html',
-  styleUrl: './checkout-exchange.component.scss',
+  templateUrl: './checkout-ex-bb.component.html',
+  styleUrl: './checkout-ex-bb.component.scss',
 })
-export class CheckoutExchangeComponent {
+export class CheckoutExBbComponent {
   // ======================-
   // == Fields
   // ======================

@@ -10,7 +10,6 @@
   <ng-container *ngIf="basketService.basketSource$ | async as basket">
     <div class="checkout__basket-summary">
 
-
       <!-- SALE -->
       <ng-container *ngIf="basket.saleItems.length !== 0">
         <div class="checkout__title u-margin-top-small">
@@ -18,7 +17,6 @@
         </div>
         <app-table-basket-items-summary [basketItems]="basket.saleItems"></app-table-basket-items-summary>
       </ng-container>
-
 
       <!-- BUY BACK -->
       <ng-container *ngIf="basket.buybackItems.length !== 0">
@@ -86,17 +84,28 @@
       <!-- Stepper -->
       <div class="stepper">
         <app-generic-stepper #appStepper>
-
           <!-- Customer -->
           <cdk-step [label]="'Khách hàng'"
                     [completed]="checkoutForm.get('customerForm')?.valid">
-            <app-checkout-exchange-customer [checkoutForm]="checkoutForm"></app-checkout-exchange-customer>
+            <app-checkout-ex-bb-customer [checkoutForm]="checkoutForm"></app-checkout-ex-bb-customer>
           </cdk-step>
 
           <!-- Payment -->
           <cdk-step [label]="'Thanh toán'"
                     [completed]="checkoutForm.get('paymentForm')?.valid">
-            <app-checkout-exchange-payment [checkoutForm]="checkoutForm"></app-checkout-exchange-payment>
+            <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
+          </cdk-step>
+
+          <!-- Payment -->
+          <cdk-step [label]="'Thanh toán'"
+                    [completed]="checkoutForm.get('paymentForm')?.valid">
+            <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
+          </cdk-step>
+
+          <!-- Payment -->
+          <cdk-step [label]="'Thanh toán'"
+                    [completed]="checkoutForm.get('paymentForm')?.valid">
+            <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
           </cdk-step>
         </app-generic-stepper>
       </div>

@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @Component({
-  selector: 'app-checkout-exchange-customer',
+  selector: 'app-checkout-ex-bb-customer',
   standalone: true,
   imports: [
     CommonModule,
@@ -19,10 +19,10 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
     MatRadioModule,
     CdkStepperModule,
   ],
-  templateUrl: './checkout-exchange-customer.component.html',
-  styleUrl: './checkout-exchange-customer.component.scss'
+  templateUrl: './checkout-ex-bb-customer.component.html',
+  styleUrl: './checkout-ex-bb-customer.component.scss'
 })
-export class CheckoutExchangeCustomerComponent {
+export class CheckoutExBbCustomerComponent {
   // =========================
   // == Fields
   // =========================

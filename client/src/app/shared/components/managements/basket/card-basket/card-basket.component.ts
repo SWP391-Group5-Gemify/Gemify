@@ -94,11 +94,11 @@ export class CardBasketComponent {
         return;
       }
       case OrderTypeEnum.BUYBACK: {
-        this.router.navigate(['/cashier/checkout-exchange']);
+        this.router.navigate(['/cashier/checkout-ex-bb']);
         return;
       }
       case OrderTypeEnum.EXCHANGE: {
-        this.router.navigate(['/cashier/checkout-exchange']);
+        this.router.navigate(['/cashier/checkout-ex-bb']);
         return;
       }
     }

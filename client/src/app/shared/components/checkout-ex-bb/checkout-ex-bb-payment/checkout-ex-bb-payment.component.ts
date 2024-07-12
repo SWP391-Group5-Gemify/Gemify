@@ -22,7 +22,7 @@ import { untilDestroyed } from '@ngneat/until-destroy';
 import { BasketModel } from '../../../../core/models/basket.model';
 
 @Component({
-  selector: 'app-checkout-exchange-payment',
+  selector: 'app-checkout-ex-bb-payment',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,10 +31,10 @@ import { BasketModel } from '../../../../core/models/basket.model';
     MatInputModule,
     CdkStepperModule,
   ],
-  templateUrl: './checkout-exchange-payment.component.html',
-  styleUrl: './checkout-exchange-payment.component.scss',
+  templateUrl: './checkout-ex-bb-payment.component.html',
+  styleUrl: './checkout-ex-bb-payment.component.scss',
 })
-export class CheckoutExchangePaymentComponent {
+export class CheckoutExBbPaymentComponent {
   // =========================
   // == Fields
   // =========================
