@@ -307,6 +307,15 @@ namespace Infrastructure.Services
             // create list of item in exchange order
             orderItemList = exchangeItemList.Concat(saleItemList).ToList();
 
+            // If subtotal <= 30000 payment is not necessary, therefore order's payment succeeded
+            if (subtotal <= 30000) {
+                var order = await CreateOrderAsync(basket, customerId, userId, subtotal, orderItemList);
+                order.Status = OrderStatus.PaymentReceived.GetEnumMemberValue();
+                _unitOfWork.Repository<Order>().Update(order);
+                await _unitOfWork.Complete();
+                return order;
+            }
+
             // create exchange order
             return await CreateOrderAsync(basket, customerId, userId, subtotal, orderItemList);
         }

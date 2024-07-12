@@ -30,8 +30,13 @@
     <!-- Basket Dropdown -->
     <div class="basket-dropdown">
       <button class="btn btn--grad btn--with-icon"
-              (click)="onOpenModalAndCreateBasketWithCustomerPhone()">
-        <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng mới
+              (click)="onOpenModalAndCreateBuybackBasketWithCustomerPhone()">
+        <mat-icon>shopping_basket</mat-icon>Tạo giỏ mua lại
+      </button>
+
+      <button class="btn btn--grad btn--with-icon"
+              (click)="onOpenModalAndCreateExchangeBasketWithCustomerPhone()">
+        <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng đổi trả
       </button>
 
       <app-generic-dropdown #chooseExistingBasket
@@ -64,10 +69,8 @@
             @if (column === "add") {
             <!-- <button class="btn btn--grad btn--with-icon"
                     (click)="onOpenModalAndChangeGoldWeight(element)"><mat-icon>add</mat-icon>Mua Lại</button> -->
-            <!-- <button class="btn btn--grad btn--with-icon"
-                    (click)="onOpenModalAndChangeGoldWeight(element)"><mat-icon>add</mat-icon>Mua Lại</button>
-            <button class="btn btn--grad btn--with-icon"
-                    (click)="addOrderItemToCartFromChildForExchange(element)"><mat-icon>add</mat-icon>Đổi Trả</button> -->
+            <button class="btn btn--grad btn--with-icon" 
+                    (click)="addOrderItemToCartFromChildForExchange(element)"><mat-icon>add</mat-icon>Đổi Trả</button> 
             }
 
             @else if (column === "expand") {

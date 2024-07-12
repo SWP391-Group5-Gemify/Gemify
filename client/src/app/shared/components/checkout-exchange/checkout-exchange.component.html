@@ -1,1 +1,80 @@
-<p>checkout-exchange works!</p>
+<button class="btn btn--grad btn--with-icon"
+        (click)="onGoBackToBasketsPage()"><mat-icon>arrow_back</mat-icon>Back to Baskets</button>
+
+<section class="checkout u-margin-top-medium">
+
+  <!-- Heading -->
+  <h3 class="checkout__heading u-margin-bottom-small">Tổng kết giỏ hàng</h3>
+
+  <!-- Basket Summary -->
+  <ng-container *ngIf="basketService.basketSource$ | async as basket">
+    <div class="checkout__basket-summary">
+      <div class="checkout__basket-summary__title">
+        Sell Items
+      </div>
+      <!-- If the basket having buyback items or sale items -->
+      <ng-container *ngIf="basket.saleItems.length !== 0">
+        <app-table-basket-items-summary [basketItems]="basket.saleItems"></app-table-basket-items-summary>
+      </ng-container>
+      <div class="checkout__basket-summary__title">
+        Exchange Items
+      </div>
+      <!-- TODO: BUYBACK -->
+      <ng-container *ngIf="basket.buybackItems.length !== 0">
+        <app-table-basket-items-summary [basketItems]="basket.buybackItems"></app-table-basket-items-summary>
+      </ng-container> 
+    </div>
+
+    <!-- Divider -->
+    <span class="divider u-margin-top-small"></span>
+
+    <!-- Basket Stepper for Checkout -->
+    <div class="flex u-margin-top-small">
+
+      <!-- Total Summary -->
+      <div class="total-summary">
+        <h4 class="total-summary__heading">Tổng hóa đơn</h4>
+        <ul class="total-summary__list">
+
+          <!-- Total of selling or buyback items -->
+          @if (basket.saleItems.length !== 0) {
+          <li class="total-summary__item"><span>Số tiền tạm
+              tính</span><span>{{this.basketService.basketSellTotalPrice().subTotal | currency:"VND"}}</span>
+          </li>
+          }
+
+          <!-- TODO: BUYBACK -->
+          <!-- @else {
+            <li><span>Tổng số tiền sau thuế</span><span>{{calculateBasketTotalPrice(basket.buybackItems) | currency:
+                "VND"}}</span>
+            </li>
+            } -->
+          <li class="total-summary__item"><span>Tổng số
+              tiền</span><span>{{this.basketService.basketSellTotalPrice().total |
+              currency:"VND"}}</span></li>
+        </ul>
+      </div>
+
+      <!-- Stepper -->
+      <div class="stepper">
+        <app-generic-stepper #appStepper>
+
+          <!-- Customer -->
+          <cdk-step [label]="'Khách hàng'"
+                    [completed]="checkoutForm.get('customerForm')?.valid">
+            <app-checkout-exchange-customer [checkoutForm]="checkoutForm"></app-checkout-exchange-customer>
+          </cdk-step>
+
+          <!-- Payment -->
+          <cdk-step [label]="'Thanh toán'"
+                    [completed]="checkoutForm.get('paymentForm')?.valid">
+            <app-checkout-exchange-payment [checkoutForm]="checkoutForm"></app-checkout-exchange-payment>
+          </cdk-step>
+        </app-generic-stepper>
+      </div>
+    </div>
+  </ng-container>
+
+
+
+</section>

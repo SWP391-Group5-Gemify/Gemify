@@ -1,0 +1,60 @@
+<!-- Stripe Inputs Form -->
+<section *ngIf="checkoutForm"
+         [formGroup]="checkoutForm"
+         class="payment-form">
+
+  <h3 class="payment-form__heading  u-margin-top-medium u-margin-bottom-medium">Thông tin thanh toán</h3>
+
+  <div class="payment-form__controls"
+       formGroupName="paymentForm">
+
+    <!-- Name On Card -->
+    <mat-form-field appearance="outline">
+      <mat-label>Tên chủ thẻ</mat-label>
+      <input matInput
+             type="text"
+             formControlName="nameOnCard"
+             name="nameOnCard">
+    </mat-form-field>
+
+    <div class="stripe-form">
+
+      <!-- Card Number -->
+      <div class="stripe-form__form-container">
+        <label class="stripe-form__label">Số thẻ</label>
+        <div class="stripe-form__control"
+             #cardNumber></div>
+        <span class="error-message"
+              *ngIf="cardNumberError">{{cardNumberError}}</span>
+      </div>
+
+      <!-- Card Expiry -->
+      <div class="stripe-form__form-container">
+        <label class="stripe-form__label">Ngày hết hạn</label>
+        <div class="stripe-form__control"
+             #cardExpiry></div>
+        <span class="error-message"
+              *ngIf="cardExpiryError">{{cardExpiryError}}</span>
+      </div>
+
+      <!-- CVC -->
+      <div class="stripe-form__form-container">
+        <label class="stripe-form__label">CVC</label>
+        <div class="stripe-form__control"
+             #cardCvc></div>
+        <span class="error-message"
+              *ngIf="cardCvcError">{{cardCvcError}}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Go previous or Go forward -->
+<div class="basket-summary-actions u-margin-top-medium">
+  <button class="btn btn--primary-light"
+          cdkStepperPrevious>Quay trở lại khách hàng</button>
+  <button class="btn btn--primary-dark"
+          (click)="submitOrder()"
+          [disabled]="!isPaymentFromComplete"
+          cdkStepperNext>Xác nhận thanh toán</button>
+</div>

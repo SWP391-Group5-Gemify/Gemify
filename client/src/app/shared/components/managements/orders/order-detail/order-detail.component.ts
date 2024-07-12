@@ -172,7 +172,7 @@ export class OrderDetailComponent implements OnInit {
   /**
    * Create new modal, adding customer phone and create new basket
    */
-  public onOpenModalAndCreateBasketWithCustomerPhone() {
+  public onOpenModalAndCreateBuybackBasketWithCustomerPhone() {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
       width: '80%',
       height: '50%',
@@ -183,6 +183,25 @@ export class OrderDetailComponent implements OnInit {
         this.basketService.createEmptyBasketWithPhoneNumber(
           result.phoneNumber,
           OrderTypeEnum.BUYBACK
+        );
+      }
+    });
+  }
+
+  /**
+   * Create new modal, adding customer phone and create new basket
+   */
+  public onOpenModalAndCreateExchangeBasketWithCustomerPhone() {
+    const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
+      width: '80%',
+      height: '50%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.basketService.createEmptyBasketWithPhoneNumber(
+          result.phoneNumber,
+          OrderTypeEnum.EXCHANGE
         );
       }
     });
@@ -220,14 +239,14 @@ export class OrderDetailComponent implements OnInit {
   // }
 
   // Add order item to cart as exchange item
-  // public addOrderItemToCartFromChildForExchange($event: any) {
-  //   const orderItem: OrderItemModel = $event;
-  //   const price = this.calculateExchangeProductsPrice(orderItem);
-  //   this.basketService.addExchangeItemToCurrentBasket(
-  //     orderItem,
-  //     price
-  //   );
-  // }
+  public addOrderItemToCartFromChildForExchange($event: any) {
+    const orderItem: OrderItemModel = $event;
+    const price = this.calculateExchangeProductsPrice(orderItem);
+    this.basketService.addOrderItemToCurrentBasket(
+      orderItem, 1, price, 0, 0
+    );
+    
+  }
 
   // Calculate buyback item price
   private calculateBuybackProductsPrice(
