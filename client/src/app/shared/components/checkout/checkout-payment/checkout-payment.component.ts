@@ -22,7 +22,6 @@ import {
   StripeCardExpiryElement,
   StripeCardNumberElement,
 } from '@stripe/stripe-js';
-import { CreateUpdateDeleteResponseModel } from '../../../../core/models/response.model';
 
 @UntilDestroy()
 @Component({
@@ -56,7 +55,6 @@ export class CheckoutPaymentComponent implements OnInit {
   cardNumberComplete: boolean = false;
   cardExpiryComplete: boolean = false;
   cardCvcComplete: boolean = false;
-  isLoading: boolean = false;
 
   // =========================
   // == Life cycle
@@ -167,9 +165,7 @@ export class CheckoutPaymentComponent implements OnInit {
    * - Customer Id
    * - Membership Id
    */
-  public submitOrder() {
-    this.isLoading = true;
-
+  public onSubmitOrder() {
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {

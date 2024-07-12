@@ -22,7 +22,9 @@ import {
 } from '../../../../core/models/modal.model';
 import { ModalEditCreateEmployeeComponent } from './modal-edit-create-employee/modal-edit-create-employee.component';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-employees',
   standalone: true,
@@ -148,11 +150,14 @@ export class EmployeesComponent implements OnInit {
    * @param employee
    */
   onDisableEmployee(employee: EmployeeModel) {
-    this.employeeService.disableEmployee(employee.id).subscribe({
-      next: (response) => {
-        this.loadEmployees();
-      },
-    });
+    this.employeeService
+      .disableEmployee(employee.id)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (response) => {
+          this.loadEmployees();
+        },
+      });
   }
 
   /**
@@ -182,12 +187,16 @@ export class EmployeesComponent implements OnInit {
         data: modalDataFromParent,
       })
       .beforeClosed()
+      .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.loadEmployees();
       });
   }
 
-  onCreateNewEmployee() {
+  /**
+   * Open modal and create new employee
+   */
+  onOpenCreateNewEmployee() {
     const modalDataFromParent: ModalConfigModel = {
       title: ModalTitle.CreateEmployeeTitle,
       mode: ModalModeEnum.Create,
@@ -206,6 +215,7 @@ export class EmployeesComponent implements OnInit {
         data: modalDataFromParent,
       })
       .beforeClosed()
+      .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.loadEmployees();
       });

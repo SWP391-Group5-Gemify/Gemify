@@ -53,36 +53,8 @@ export class GoldService {
    * @param id
    * @returns
    */
-  getGoldById(id: number | string) {
+  getGoldById(id: number | string): Observable<GoldModel> {
     return this.httpClient.get<GoldModel>(`${this.baseGoldChartUrl}/${id}`);
-  }
-
-  /**
-   * Get Gold Prices based on Gold Id
-   * @param goldTypeId
-   * @param goldsSearchingCriteria
-   * @returns
-   */
-  getGoldPricesOnGoldTypeId(
-    goldTypeId: number | string,
-    goldsSearchingCriteria: GoldsSearchingCriteriaModel
-  ): Observable<PaginationModel<GoldPricesModel>> {
-    let params = new HttpParams()
-      .set('pageIndex', goldsSearchingCriteria.pageIndex)
-      .set('pageSize', goldsSearchingCriteria.pageSize);
-
-    // Assign params if exists
-    if (goldsSearchingCriteria.dateTime) {
-      params = params.set(
-        'dateTime',
-        goldsSearchingCriteria.dateTime.toString()
-      );
-    }
-
-    return this.httpClient.get<PaginationModel<GoldPricesModel>>(
-      `${this.baseGoldChartUrl}/prices?goldTypeId=${goldTypeId}`,
-      { params: params }
-    );
   }
 
   /**

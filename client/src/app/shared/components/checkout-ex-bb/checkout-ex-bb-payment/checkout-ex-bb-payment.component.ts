@@ -4,7 +4,13 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { loadStripe, Stripe, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement } from '@stripe/stripe-js';
+import {
+  loadStripe,
+  Stripe,
+  StripeCardCvcElement,
+  StripeCardExpiryElement,
+  StripeCardNumberElement,
+} from '@stripe/stripe-js';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import { OrderService } from '../../../../core/services/order/order.service';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
@@ -12,23 +18,24 @@ import { NotificationService } from '../../../../core/services/notification/noti
 import { Router } from '@angular/router';
 import { CustomerModel } from '../../../../core/models/customer.model';
 import { Observable, of, switchMap } from 'rxjs';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BasketModel } from '../../../../core/models/basket.model';
 
+@UntilDestroy()
 @Component({
-  selector: 'app-checkout-exchange-payment',
+  selector: 'app-checkout-ex-bb-payment',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    CdkStepperModule
+    CdkStepperModule,
   ],
-  templateUrl: './checkout-exchange-payment.component.html',
-  styleUrl: './checkout-exchange-payment.component.scss'
+  templateUrl: './checkout-ex-bb-payment.component.html',
+  styleUrl: './checkout-ex-bb-payment.component.scss',
 })
-export class CheckoutExchangePaymentComponent {
+export class CheckoutExBbPaymentComponent {
   // =========================
   // == Fields
   // =========================
@@ -46,7 +53,6 @@ export class CheckoutExchangePaymentComponent {
   cardNumberComplete: boolean = false;
   cardExpiryComplete: boolean = false;
   cardCvcComplete: boolean = false;
-  isLoading: boolean = false;
 
   // =========================
   // == Life cycle
@@ -157,9 +163,7 @@ export class CheckoutExchangePaymentComponent {
    * - Customer Id
    * - Membership Id
    */
-  public submitOrder() {
-    this.isLoading = true;
-
+  public onSubmitOrder() {
     // Basket Id
     let basket: BasketModel | null = this.basketService.getCurrentBasketValue();
     if (basket) {
@@ -171,7 +175,7 @@ export class CheckoutExchangePaymentComponent {
             // Create order
             if (customer.id && basket.id) {
               this.orderService
-                .createSaleOrder(basket.id, customer.id)
+                .createExchangeOrder(basket.id, customer.id)
                 .subscribe({
                   next: (order) => {
                     this.stripe

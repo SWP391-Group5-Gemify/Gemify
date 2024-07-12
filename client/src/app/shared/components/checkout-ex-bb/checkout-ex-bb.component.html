@@ -1,0 +1,120 @@
+<button class="btn btn--grad btn--with-icon"
+        (click)="onGoBackToBasketsPage()"><mat-icon>arrow_back</mat-icon>Quay trở lại giỏ hàng</button>
+
+<section class="checkout u-margin-top-medium">
+
+  <!-- Heading -->
+  <h3 class="checkout__heading u-margin-bottom-small">Tổng kết giỏ hàng</h3>
+
+  <!-- Basket Summary -->
+  <ng-container *ngIf="basketService.basketSource$ | async as basket">
+    <div class="checkout__basket-summary">
+
+      <!-- SALE -->
+      <ng-container *ngIf="basket.saleItems.length !== 0">
+        <div class="checkout__title u-margin-top-small">
+          Hàng mua
+        </div>
+        <app-table-basket-items-summary [basketItems]="basket.saleItems"></app-table-basket-items-summary>
+      </ng-container>
+
+      <!-- BUY BACK -->
+      <ng-container *ngIf="basket.buybackItems.length !== 0">
+        <div class="checkout__title u-margin-top-small">
+          @if (basket.buybackItems.length !== 0 && basket.saleItems.length === 0) {
+          Hàng mua lại
+          } @else {
+          Hàng trao đổi
+          }
+        </div>
+        <app-table-basket-items-summary [basketItems]="basket.buybackItems"></app-table-basket-items-summary>
+      </ng-container>
+    </div>
+
+    <!-- Divider -->
+    <span class="divider u-margin-top-small"></span>
+
+    <!-- Basket Stepper for Checkout -->
+    <div class="flex u-margin-top-small">
+
+      <!-- Total Summary -->
+      <div class="total-summary">
+        <h4 class="total-summary__heading">Tổng hóa đơn</h4>
+        <ul class="total-summary__list">
+
+          <!-- EXCHANGES -->
+          @if (basket.orderTypeId === OrderTypeEnum.EXCHANGE) {
+          <li class="total-summary__item">
+            <span>Số tiền khách mua hàng</span>
+            <span>{{this.basketService.basketExchangeTotalPrice().totalSells| currency:"VND"}}</span>
+          </li>
+          <li class="total-summary__item">
+            <span>Cửa hàng thâu lại</span>
+            <span>{{this.basketService.basketExchangeTotalPrice().totalBuyBacks| currency:"VND"}}</span>
+          </li>
+
+          <!-- Total Money -->
+          <li class="total-summary__item">
+
+            <!-- Sells more than Buy Back -->
+            @if (this.basketService.basketExchangeTotalPrice().totalSells >
+            this.basketService.basketExchangeTotalPrice().totalBuyBacks ) {
+            <span>Tổng tiền khách trả</span><span>{{this.basketService.basketExchangeTotalPrice().total
+              |currency:"VND"}}</span>
+            } @else {
+
+            <!-- Buyback more than sale -->
+            <span>Tổng tiền cửa hàng trả lại</span><span>{{this.basketService.basketExchangeTotalPrice().total
+              |currency:"VND"}}</span>
+            }
+          </li>
+          }
+
+          <!-- BUY BACK -->
+          @if (basket.orderTypeId === OrderTypeEnum.BUYBACK) {
+          <li class="total-summary__item">
+            <span>Cửa hàng thâu lại</span>
+            <span>{{this.basketService.basketBuybackTotalPrice().total| currency:"VND"}}</span>
+          </li>
+
+          <!-- Total Money -->
+          <li class="total-summary__item"><span>Tổng tiền cửa hàng trả
+              lại</span><span>{{this.basketService.basketBuybackTotalPrice().total|
+              currency:"VND"}}</span></li>
+          }
+        </ul>
+      </div>
+
+      <!-- Stepper -->
+      <div class="stepper">
+        <app-generic-stepper #appStepper>
+          <!-- Customer -->
+          <cdk-step [label]="'Khách hàng'"
+                    [completed]="checkoutForm.get('customerForm')?.valid">
+            <app-checkout-ex-bb-customer [checkoutForm]="checkoutForm"></app-checkout-ex-bb-customer>
+          </cdk-step>
+
+          <!-- Exchange (Sells > BuyBacks) -->
+          @if (this.basket.orderTypeId === this.OrderTypeEnum.EXCHANGE &&
+          this.basketService.basketExchangeTotalPrice().totalSells >
+          this.basketService.basketExchangeTotalPrice().totalBuyBacks) {
+          <!-- Payment -->
+          <cdk-step [label]="'Thanh toán'"
+                    [completed]="checkoutForm.get('paymentForm')?.valid">
+            <app-checkout-ex-bb-payment [checkoutForm]="checkoutForm"></app-checkout-ex-bb-payment>
+          </cdk-step>
+          } @else {
+          <!-- Money Back -->
+          <cdk-step [label]="'Hoàn tiền'"
+                    [completed]="checkoutForm.get('customerForm')?.valid">
+            <app-checkout-ex-bb-money-back [checkoutForm]="checkoutForm"></app-checkout-ex-bb-money-back>
+          </cdk-step>
+          }
+        </app-generic-stepper>
+      </div>
+    </div>
+  </ng-container>
+
+
+
+</section>

@@ -6,7 +6,7 @@
   <mat-expansion-panel-header class="card-basket__header">
     <mat-panel-title>{{basketService.generateTempTicketId(basket)}}</mat-panel-title>
     <mat-panel-description>
-      <p>Customer Number: <span>{{basket.phoneNumber || "NONE"}}</span></p>
+      <p>Số điện thoại khách: <span>{{basket.phoneNumber || "NONE"}}</span></p>
       <mat-icon>shopping_basket</mat-icon>
     </mat-panel-description>
   </mat-expansion-panel-header>
@@ -30,15 +30,19 @@
   <!-- Basket Items  -->
   <div matExpansionPanelContent>
     <!-- Items -->
-    <div class="item-type">Sell Items</div>
+    @if (this.basket.saleItems.length !== 0) {
+    <p class="card-basket__type u-margin-bottom-small">Hàng khách mua</p>
     <div class="card-basket__items">
       <app-table-basket-items [basketItems]="basket.saleItems"></app-table-basket-items>
     </div>
-    <div class="item-type">Buyback Items</div>
+    }
+
     <!-- Buyback Items -->
+    @if (this.basket.buybackItems.length !== 0) {
+    <p class="card-basket__type u-margin-top-small u-margin-bottom-small">Cửa hàng thâu lại</p>
     <div class="card-basket__items">
       <app-table-basket-items [basketItems]="basket.buybackItems"></app-table-basket-items>
-    </div> 
+    </div>
+    }
   </div>
-
 </mat-expansion-panel>

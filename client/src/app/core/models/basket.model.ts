@@ -35,9 +35,10 @@ export interface BasketItemBuybackModel {
   subCategoryId?: number;
 }
 
-export interface BasketsSearchingCriteriaModel {
+export interface BasketParams {
   id: string | undefined;
-  searchPhoneNumber: string | undefined;
+  searchPhoneNumber?: string;
+  orderTypeId?: number;
 }
 
 // A default, orderTypeId is 1
@@ -56,9 +57,15 @@ export interface BasketSellTotalsModel {
   total: number;
 }
 
-export interface BasketBuybackTotalsModel {
+export interface BasketBuyBackTotalsModel {
   totalGoldsWeight: number;
   totalGoldsPrice: number;
   totalRareGemsPrice: number;
+  total: number;
+}
+
+export interface BasketExchangeTotalsModel {
+  totalSells: number;
+  totalBuyBacks: number;
   total: number;
 }

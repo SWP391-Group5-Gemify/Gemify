@@ -46,7 +46,21 @@
 
 <!-- Go previous or Go forward -->
 <div class="basket-summary-actions basket-summary-actions--one-action u-margin-top-medium">
+
+  <!-- Exchange (Sells > BuyBacks) -->
+  @if(this.basketService.getCurrentBasketValue()?.orderTypeId === OrderTypeEnum.EXCHANGE
+  && this.basketService.basketExchangeTotalPrice().totalSells >
+  this.basketService.basketExchangeTotalPrice().totalBuyBacks) {
+
+  <!-- Go ToPayment -->
   <button class="btn btn--primary-dark"
           [disabled]="checkoutForm?.get('customerForm')?.invalid"
+          (click)="createPaymentIntent()"
           cdkStepperNext>Đi tới thanh toán</button>
+  } @else {
+  <!-- Go To Money Back -->
+  <button class="btn btn--primary-dark"
+          [disabled]="checkoutForm?.get('customerForm')?.invalid"
+          cdkStepperNext>Đi tới hoàn tiền</button>
+  }
 </div>

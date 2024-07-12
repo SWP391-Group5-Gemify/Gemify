@@ -4,18 +4,18 @@ import { TableBasketItemsSummaryComponent } from '../checkout/table-basket-items
 import { MatIconModule } from '@angular/material/icon';
 import { GenericStepperComponent } from '../generic-stepper/generic-stepper.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
-import { CheckoutPaymentComponent } from '../checkout/checkout-payment/checkout-payment.component';
-import { CheckoutCustomerComponent } from '../checkout/checkout-customer/checkout-customer.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CustomerService } from '../../../core/services/customer/customer.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { CheckoutExchangeCustomerComponent } from './checkout-exchange-customer/checkout-exchange-customer.component';
-import { CheckoutExchangePaymentComponent } from './checkout-exchange-payment/checkout-exchange-payment.component';
+import { CheckoutExBbCustomerComponent } from './checkout-ex-bb-customer/checkout-ex-bb-customer.component';
+import { CheckoutExBbPaymentComponent } from './checkout-ex-bb-payment/checkout-ex-bb-payment.component';
+import { CheckoutExBbMoneyBackComponent } from './checkout-ex-bb-money-back/checkout-ex-bb-money-back.component';
+import { OrderTypeEnum } from '../../../core/models/order.model';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-checkout-exchange',
+  selector: 'app-checkout-ex-bb',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,16 +23,19 @@ import { CheckoutExchangePaymentComponent } from './checkout-exchange-payment/ch
     MatIconModule,
     GenericStepperComponent,
     CdkStepperModule,
-    CheckoutExchangeCustomerComponent,
-    CheckoutExchangePaymentComponent
+    CheckoutExBbCustomerComponent,
+    CheckoutExBbPaymentComponent,
+    CheckoutExBbMoneyBackComponent,
   ],
-  templateUrl: './checkout-exchange.component.html',
-  styleUrl: './checkout-exchange.component.scss'
+  templateUrl: './checkout-ex-bb.component.html',
+  styleUrl: './checkout-ex-bb.component.scss',
 })
-export class CheckoutExchangeComponent {
+export class CheckoutExBbComponent {
   // ======================-
   // == Fields
   // ======================
+
+  public OrderTypeEnum = OrderTypeEnum;
 
   public checkoutForm = this.fb.group({
     customerForm: this.fb.group({
@@ -54,11 +57,12 @@ export class CheckoutExchangeComponent {
     public basketService: BasketService,
     private location: Location,
     private fb: FormBuilder,
-    private customerService: CustomerService,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
     this.loadCustomerOnBasketIfExist();
+    this.basketService.calculateBasketExchangeTotalPrice();
   }
 
   // ======================
@@ -87,7 +91,6 @@ export class CheckoutExchangeComponent {
           },
         });
   }
-
 
   /**
    * Patch temporary phone into the customer checkout form

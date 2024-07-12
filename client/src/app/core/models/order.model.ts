@@ -21,6 +21,7 @@ export interface OrderItemModel {
   id: number;
   productItemId: number;
   productName: string;
+  goldTypeId: number;
   goldPrice: number;
   goldType: string;
   goldWeight: number;

@@ -11,12 +11,14 @@
     letter-spacing: 1.3px;
   }
 
-  &__basket-summary {
-    &__title {
-        font-size: 30px;
-        font-weight: bold;
-        color: rgba(0,0,0,0.8);
-    }
+  &__title {
+    color: $color-grey-light;
+    font-size: 1.6rem;
+    padding: 1.2rem;
+    letter-spacing: 1.9px;
+    text-transform: capitalize;
+    background-color: $color-black;
+    text-align: center;
   }
 }
 

@@ -117,3 +117,20 @@ th {
     font-size: 15px;
   }
 }
+
+.products-table__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+}
+
+.basket-dropdown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8rem;
+
+  button {
+    align-self: flex-start;
+  }
+}

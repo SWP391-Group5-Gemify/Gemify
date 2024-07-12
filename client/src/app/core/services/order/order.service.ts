@@ -55,7 +55,7 @@ export class OrderService {
     return this.http.get<OrderModel>(`${this.baseOrderUrl}/${id}`);
   }
 
-  getOrderTypes() {
+  getOrderTypes(): Observable<OrderTypeModel[]> {
     return this.http.get<OrderTypeModel[]>(`${this.baseOrderUrl}/types`);
   }
 

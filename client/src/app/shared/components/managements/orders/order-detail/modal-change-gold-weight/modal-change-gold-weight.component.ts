@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -50,6 +50,13 @@ export class ModalChangeGoldWeightComponent {
   // ==========================================
   // == Methods
   // ==========================================
+
+  preventEnterKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+
   getErrorMessage(controlName: string): string {
     const control = this.goldForm.get(controlName);
     if (control?.hasError('required')) {
@@ -65,6 +72,7 @@ export class ModalChangeGoldWeightComponent {
   }
 
   onSubmit(): void {
+    console.log(this.goldForm.value);
     if (this.goldForm.valid) {
       this.dialogRef.close(this.goldForm.value);
     }

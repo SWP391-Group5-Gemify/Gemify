@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CheckoutExchangeComponent } from '../../components/checkout-exchange/checkout-exchange.component';
+import { CheckoutExBbComponent } from '../../components/checkout-ex-bb/checkout-ex-bb.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CheckoutExchangeComponent,
+    component: CheckoutExBbComponent,
   },
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CheckoutExchangeRoutingModule {}
+export class CheckoutExBbRoutingModule {}

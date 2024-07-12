@@ -7,7 +7,7 @@ import {
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { UserModel } from '../../../../../core/models/user.model';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -30,6 +30,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
+    FormsModule,
     MatInputModule,
     ReactiveFormsModule,
     MatRadioModule,

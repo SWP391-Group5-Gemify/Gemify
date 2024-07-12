@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable, of } from 'rxjs';
 import { PaginationModel } from '../../models/pagination.model';
-import { EmployeeModel } from '../../models/employee.model';
+import { EmployeeModel, EmployeeStatusEnum } from '../../models/employee.model';
 import { AuthService } from '../auth/auth.service';
 import { RoleModel } from '../../models/role.model';
 import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
@@ -123,6 +123,9 @@ export class EmployeeService {
   registerNewEmployee(
     employee: EmployeeModel
   ): Observable<CreateUpdateDeleteResponseModel> {
-    return this.authService.registerNewUser(employee);
+    return this.authService.registerNewUser({
+      ...employee,
+      status: EmployeeStatusEnum.Active,
+    });
   }
 }

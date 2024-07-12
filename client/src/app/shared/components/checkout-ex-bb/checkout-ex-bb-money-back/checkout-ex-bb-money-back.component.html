@@ -1,0 +1,20 @@
+<!-- <section *ngIf="checkoutForm"
+         [formGroup]="checkoutForm"
+         class="money-back-form">
+
+  <h3 class="money-back-form__heading  u-margin-top-medium u-margin-bottom-medium">Hoàn tiền</h3>
+
+  <div class="customer-form__controls"
+       formGroupName="customerForm">
+
+  </div>
+</section> -->
+
+<!-- Go previous or Go forward -->
+<div class="basket-summary-actions u-margin-top-medium">
+  <button class="btn btn--primary-light"
+          cdkStepperPrevious>Quay trở lại khách hàng</button>
+  <button class="btn btn--primary-dark"
+          (click)="obSubmitMoneyBack()"
+          cdkStepperNext>Xác nhận hoàn tiền</button>
+</div>
