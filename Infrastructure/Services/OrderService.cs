@@ -257,8 +257,12 @@ namespace Infrastructure.Services
             // calculate subtotal of buyback item list
             var buybackSubtotal = buybackItemList.Sum(oi => oi.Price * oi.Quantity);
 
-            // create purchase order
-            return await CreateOrderAsync(basket, customerId, userId, buybackSubtotal, buybackItemList);
+            // create buyback order
+            var order = await CreateOrderAsync(basket, customerId, userId, buybackSubtotal, buybackItemList);
+            order.Status = OrderStatus.PaymentReceived.GetEnumMemberValue();
+            _unitOfWork.Repository<Order>().Update(order);
+            await _unitOfWork.Complete();
+            return order;
         }        
 
         /**
