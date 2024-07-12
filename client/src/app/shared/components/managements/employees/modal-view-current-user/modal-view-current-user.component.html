@@ -1,4 +1,5 @@
-<form class="form--modal modal-profile">
+<form class="form--modal modal-profile"
+      (ngSubmit)="onCloseModal()">
 
   <!-- Title -->
   <h2 class="form--modal__title"
@@ -15,7 +16,7 @@
 
       <p class="modal-profile__fullName">{{user.fullName}}</p>
       <p class="modal-profile__userName">{{user.userName}}</p>
-      <p class="modal-profile__status mat-elevation-z2">Status: {{user.status}}</p>
+      <p class="modal-profile__status mat-elevation-z2">Đang {{user.status}}</p>
 
       <ul class="grid grid--responsive modal-profile__infors">
         <li>
@@ -42,7 +43,7 @@
 
   <!-- Action to Close -->
   <mat-dialog-actions class="form--modal__controls">
-    <button class="btn btn--grad btn--with-icon"
-            (click)="onCloseModal()"><mat-icon>cancel</mat-icon>{{modalConfigFromParent.closeButtonLabel}}</button>
+    <button class="btn btn--grad btn--with-icon">
+      <mat-icon>cancel</mat-icon>{{modalConfigFromParent.closeButtonLabel}}</button>
   </mat-dialog-actions>
 </form>

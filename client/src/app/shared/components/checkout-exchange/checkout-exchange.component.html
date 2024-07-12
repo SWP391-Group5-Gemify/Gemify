@@ -1,5 +1,5 @@
 <button class="btn btn--grad btn--with-icon"
-        (click)="onGoBackToBasketsPage()"><mat-icon>arrow_back</mat-icon>Back to Baskets</button>
+        (click)="onGoBackToBasketsPage()"><mat-icon>arrow_back</mat-icon>Quay trở lại giỏ hàng</button>
 
 <section class="checkout u-margin-top-medium">
 
@@ -13,7 +13,7 @@
 
       <!-- SALE -->
       <ng-container *ngIf="basket.saleItems.length !== 0">
-        <div class="checkout__basket-summary__title u-margin-top-small">
+        <div class="checkout__title u-margin-top-small">
           Hàng mua
         </div>
         <app-table-basket-items-summary [basketItems]="basket.saleItems"></app-table-basket-items-summary>
@@ -22,11 +22,11 @@
 
       <!-- BUY BACK -->
       <ng-container *ngIf="basket.buybackItems.length !== 0">
-        <div class="checkout__basket-summary__title u-margin-top-small">
+        <div class="checkout__title u-margin-top-small">
           @if (basket.buybackItems.length !== 0 && basket.saleItems.length === 0) {
           Hàng mua lại
           } @else {
-          Hàng cần chuyển đổi
+          Hàng trao đổi
           }
         </div>
         <app-table-basket-items-summary [basketItems]="basket.buybackItems"></app-table-basket-items-summary>
@@ -47,11 +47,11 @@
           <!-- EXCHANGES -->
           @if (basket.saleItems.length !== 0 && basket.buybackItems.length !== 0) {
           <li class="total-summary__item">
-            <span>Số tiền mua hàng</span>
+            <span>Số tiền khách mua hàng</span>
             <span>{{this.basketService.basketExchangeTotalPrice().totalSells| currency:"VND"}}</span>
           </li>
           <li class="total-summary__item">
-            <span>Số tiền mua lại</span>
+            <span>Cửa hàng thâu lại</span>
             <span>{{this.basketService.basketExchangeTotalPrice().totalBuyBacks| currency:"VND"}}</span>
           </li>
 
@@ -71,16 +71,15 @@
           <!-- BUY BACK -->
           @if (basket.saleItems.length === 0 && basket.buybackItems.length !== 0) {
           <li class="total-summary__item">
-            <span>Số tiền mua lại</span>
+            <span>Cửa hàng thâu lại</span>
             <span>{{this.basketService.basketBuybackTotalPrice().total| currency:"VND"}}</span>
           </li>
+
           <!-- Total Money -->
-          <li class="total-summary__item"><span>Tổng số
-              tiền</span><span>{{this.basketService.basketExchangeTotalPrice().total|
+          <li class="total-summary__item"><span>Tổng tiền cửa hàng trả
+              lại</span><span>{{this.basketService.basketBuybackTotalPrice().total|
               currency:"VND"}}</span></li>
           }
-
-
         </ul>
       </div>
 

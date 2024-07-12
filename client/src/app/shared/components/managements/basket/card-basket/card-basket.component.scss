@@ -47,14 +47,17 @@
     }
   }
 
+  &__type {
+    color: $color-grey-light;
+    font-size: 1.6rem;
+    padding: 1.2rem;
+    letter-spacing: 1.9px;
+    text-transform: capitalize;
+    background-color: $color-black;
+    text-align: center;
+  }
+
   &__actions {
     gap: $gutter-multiple-actions;
   }
-}
-
-.item-type {
-  color: black; 
-  font-size: x-large; 
-  font-weight: bold; 
-  padding: 10px
 }

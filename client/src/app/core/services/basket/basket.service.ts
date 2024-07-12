@@ -634,7 +634,7 @@ export class BasketService {
 
     // Total Prices
     const totalPrices = basket.buybackItems.reduce((acc, curr) => {
-      return (acc += curr.price);
+      return (acc += curr.price * curr.quantity);
     }, 0);
 
     this.basketBuybackTotalPrice.update((value) => ({

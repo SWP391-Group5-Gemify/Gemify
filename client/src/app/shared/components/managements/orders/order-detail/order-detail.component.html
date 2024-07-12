@@ -1,5 +1,5 @@
 <button class="btn btn--grad btn--with-icon"
-        (click)="onGoBackToOrders()"><mat-icon>arrow_back</mat-icon>Back to Orders</button>
+        (click)="onGoBackToOrders()"><mat-icon>arrow_back</mat-icon>Quay trở lại tổng hóa đơn</button>
 
 <section *ngIf="order">
   <div class="order">
@@ -68,9 +68,10 @@
             @if (column === "add") {
             <div class="products-table__actions">
               <button class="btn btn--grad btn--with-icon"
-                      (click)="onOpenModalAndChangeGoldWeight(orderItem)"><mat-icon>add</mat-icon>Mua Lại</button>
+                      (click)="onOpenModalAndChangeGoldWeight(orderItem); $event.stopPropagation()"><mat-icon>add</mat-icon>Mua
+                Lại</button>
               <button class="btn btn--grad btn--with-icon"
-                      (click)="addOrderItemToCartForExchangeFromParent(orderItem)"><mat-icon>add</mat-icon>Đổi
+                      (click)="addOrderItemToCartForExchangeFromParent(orderItem); $event.stopPropagation()"><mat-icon>add</mat-icon>Đổi
                 Trả</button>
             </div>
             }

@@ -51,6 +51,12 @@ export class ModalChangeGoldWeightComponent {
   // == Methods
   // ==========================================
 
+  preventEnterKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+
   getErrorMessage(controlName: string): string {
     const control = this.goldForm.get(controlName);
     if (control?.hasError('required')) {
