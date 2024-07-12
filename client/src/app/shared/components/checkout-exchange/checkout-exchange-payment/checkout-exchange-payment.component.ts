@@ -4,7 +4,13 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { loadStripe, Stripe, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement } from '@stripe/stripe-js';
+import {
+  loadStripe,
+  Stripe,
+  StripeCardCvcElement,
+  StripeCardExpiryElement,
+  StripeCardNumberElement,
+} from '@stripe/stripe-js';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import { OrderService } from '../../../../core/services/order/order.service';
 import { CustomerService } from '../../../../core/services/customer/customer.service';
@@ -23,10 +29,10 @@ import { BasketModel } from '../../../../core/models/basket.model';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    CdkStepperModule
+    CdkStepperModule,
   ],
   templateUrl: './checkout-exchange-payment.component.html',
-  styleUrl: './checkout-exchange-payment.component.scss'
+  styleUrl: './checkout-exchange-payment.component.scss',
 })
 export class CheckoutExchangePaymentComponent {
   // =========================
@@ -171,7 +177,7 @@ export class CheckoutExchangePaymentComponent {
             // Create order
             if (customer.id && basket.id) {
               this.orderService
-                .createSaleOrder(basket.id, customer.id)
+                .createExchangeOrder(basket.id, customer.id)
                 .subscribe({
                   next: (order) => {
                     this.stripe

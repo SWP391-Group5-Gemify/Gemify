@@ -59,6 +59,7 @@ export class CheckoutExchangeComponent {
 
   ngOnInit(): void {
     this.loadCustomerOnBasketIfExist();
+    this.basketService.calculateBasketExchangeTotalPrice();
   }
 
   // ======================

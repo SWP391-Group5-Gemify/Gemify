@@ -70,7 +70,7 @@ export class OrderDetailComponent implements OnInit {
     'image_Url',
     'productName',
     'goldPrice',
-    'goldType',
+    'goldTypeName',
     'goldWeight',
     'productLabour',
     'unit',
@@ -180,8 +180,8 @@ export class OrderDetailComponent implements OnInit {
    */
   public async onOpenModalAndCreateBuybackBasketWithCustomerPhone() {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
-      width: '80%',
-      height: '50%',
+      width: '30rem',
+      height: '30rem',
     });
 
     dialogRef
@@ -244,7 +244,7 @@ export class OrderDetailComponent implements OnInit {
             .getGoldById(orderItem.goldTypeId)
             .pipe(
               tap((gold: GoldModel) => {
-                this.basketService.addOrderItemToCurrentBasket(
+                this.basketService.addOrderItemToCurrentBuyBackBasket(
                   orderItem,
                   1,
                   Number.parseFloat(result.goldWeight),
@@ -268,20 +268,12 @@ export class OrderDetailComponent implements OnInit {
       });
   }
 
-  // Calculate exchange item price
-  private calculateExchangeProductsPrice(orderItem: OrderItemModel) {
-    return (
-      orderItem.goldPrice * orderItem.goldWeight +
-      orderItem.productLabour +
-      this.calculateExchangeGemsPrice(orderItem.orderItemGems)
-    );
-  }
-
-  // Calculate gem prices of the exchange item
-  private calculateExchangeGemsPrice(orderItemGems: OrderItemGemModel[]) {
-    return orderItemGems.reduce(
-      (acc, curr) => acc + curr.price * curr.quantity,
-      0
-    );
+  /**
+   * Add order item as an exchange product to the
+   * @param $event
+   */
+  public addOrderItemToCartForExchangeFromParent($event: any) {
+    const orderItem = $event as OrderItemModel;
+    this.basketService.addOrderItemToCurrentExchangeBasket(orderItem, 1);
   }
 }

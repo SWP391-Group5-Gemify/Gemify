@@ -9,20 +9,28 @@
   <!-- Basket Summary -->
   <ng-container *ngIf="basketService.basketSource$ | async as basket">
     <div class="checkout__basket-summary">
-      <div class="checkout__basket-summary__title">
-        Sell Items
-      </div>
-      <!-- If the basket having buyback items or sale items -->
+
+
+      <!-- SALE -->
       <ng-container *ngIf="basket.saleItems.length !== 0">
+        <div class="checkout__basket-summary__title u-margin-top-small">
+          Hàng mua
+        </div>
         <app-table-basket-items-summary [basketItems]="basket.saleItems"></app-table-basket-items-summary>
       </ng-container>
-      <div class="checkout__basket-summary__title">
-        Exchange Items
-      </div>
-      <!-- TODO: BUYBACK -->
+
+
+      <!-- BUY BACK -->
       <ng-container *ngIf="basket.buybackItems.length !== 0">
+        <div class="checkout__basket-summary__title u-margin-top-small">
+          @if (basket.buybackItems.length !== 0 && basket.saleItems.length === 0) {
+          Hàng mua lại
+          } @else {
+          Hàng cần chuyển đổi
+          }
+        </div>
         <app-table-basket-items-summary [basketItems]="basket.buybackItems"></app-table-basket-items-summary>
-      </ng-container> 
+      </ng-container>
     </div>
 
     <!-- Divider -->
@@ -36,22 +44,43 @@
         <h4 class="total-summary__heading">Tổng hóa đơn</h4>
         <ul class="total-summary__list">
 
-          <!-- Total of selling or buyback items -->
-          @if (basket.saleItems.length !== 0) {
-          <li class="total-summary__item"><span>Số tiền tạm
-              tính</span><span>{{this.basketService.basketSellTotalPrice().subTotal | currency:"VND"}}</span>
+          <!-- EXCHANGES -->
+          @if (basket.saleItems.length !== 0 && basket.buybackItems.length !== 0) {
+          <li class="total-summary__item">
+            <span>Số tiền mua hàng</span>
+            <span>{{this.basketService.basketExchangeTotalPrice().totalSells| currency:"VND"}}</span>
+          </li>
+          <li class="total-summary__item">
+            <span>Số tiền mua lại</span>
+            <span>{{this.basketService.basketExchangeTotalPrice().totalBuyBacks| currency:"VND"}}</span>
+          </li>
+
+          <!-- Total Money -->
+          <li class="total-summary__item">
+            @if (this.basketService.basketExchangeTotalPrice().total >= 0) {
+            <span>Tổng tiền khách trả</span><span>{{this.basketService.basketExchangeTotalPrice().total
+              |currency:"VND"}}</span>
+            }
+            @else {
+            <span>Tổng tiền cửa hàng trả lại</span><span>{{this.basketService.basketExchangeTotalPrice().total
+              |currency:"VND"}}</span>
+            }
           </li>
           }
 
-          <!-- TODO: BUYBACK -->
-          <!-- @else {
-            <li><span>Tổng số tiền sau thuế</span><span>{{calculateBasketTotalPrice(basket.buybackItems) | currency:
-                "VND"}}</span>
-            </li>
-            } -->
+          <!-- BUY BACK -->
+          @if (basket.saleItems.length === 0 && basket.buybackItems.length !== 0) {
+          <li class="total-summary__item">
+            <span>Số tiền mua lại</span>
+            <span>{{this.basketService.basketBuybackTotalPrice().total| currency:"VND"}}</span>
+          </li>
+          <!-- Total Money -->
           <li class="total-summary__item"><span>Tổng số
-              tiền</span><span>{{this.basketService.basketSellTotalPrice().total |
+              tiền</span><span>{{this.basketService.basketExchangeTotalPrice().total|
               currency:"VND"}}</span></li>
+          }
+
+
         </ul>
       </div>
 

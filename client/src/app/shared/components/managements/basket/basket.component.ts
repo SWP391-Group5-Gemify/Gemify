@@ -14,13 +14,16 @@ import { BasketService } from '../../../../core/services/basket/basket.service';
 import {
   BasketItemSellModel,
   BasketModel,
-  BasketsSearchingCriteriaModel,
+  BasketParams as BasketsParams,
 } from '../../../../core/models/basket.model';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { filter, map, Observable, Subscription, tap } from 'rxjs';
 import { CardBasketComponent } from './card-basket/card-basket.component';
 import { TableBasketItemsComponent } from './table-basket-items/table-basket-items.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MatDividerModule } from '@angular/material/divider';
+import { OrderService } from '../../../../core/services/order/order.service';
+import { OrderTypeModel } from '../../../../core/models/order.model';
 
 @UntilDestroy()
 @Component({
@@ -39,6 +42,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
     MatTableModule,
     CardBasketComponent,
     TableBasketItemsComponent,
+    MatDividerModule,
   ],
 })
 export class BasketComponent implements OnInit {
@@ -46,25 +50,33 @@ export class BasketComponent implements OnInit {
   // == Fields
   // ==========================================
   public basketIdAndPhoneDropdown!: DropdownModel[];
+  public orderTypeDropdown!: DropdownModel[];
   public baskets$!: Observable<BasketModel[]>;
-  public basketSearchCriteria: BasketsSearchingCriteriaModel = {
+  public basketsParams: BasketsParams = {
     id: undefined,
     searchPhoneNumber: undefined,
+    orderTypeId: undefined,
   };
 
   @ViewChild('phoneSearchInputRef')
   phoneSearchInputRef!: GenericSearchComponent;
   @ViewChild('basketIdAndPhoneDropdownRef')
   basketIdAndPhoneDropdownRef!: GenericDropdownComponent;
+  @ViewChild('orderTypeDropdownRef')
+  orderTypeDropdownRef!: GenericDropdownComponent;
 
   // ==========================================
   // == Life Cycle
   // ==========================================
-  constructor(private basketService: BasketService) {}
+  constructor(
+    private basketService: BasketService,
+    private orderService: OrderService
+  ) {}
 
   ngOnInit(): void {
     this.loadBaskets();
     this.loadBasketIdAndPhoneDropdown();
+    this.loadOrderTypesDropdown();
   }
 
   // ==========================================
@@ -81,20 +93,25 @@ export class BasketComponent implements OnInit {
         let filteredBaskets = baskets;
 
         // filter on id
-        if (this.basketSearchCriteria.id) {
+        if (this.basketsParams.id) {
           filteredBaskets = filteredBaskets.filter(
-            (basket) => basket.id === this.basketSearchCriteria.id
+            (basket) => basket.id === this.basketsParams.id
           );
         }
 
         // If the phone number is not null, then filter it on phone number
-        if (this.basketSearchCriteria.searchPhoneNumber) {
+        if (this.basketsParams.searchPhoneNumber) {
           filteredBaskets = filteredBaskets.filter(
             (basket) =>
               basket.phoneNumber &&
-              basket.phoneNumber.includes(
-                this.basketSearchCriteria.searchPhoneNumber!
-              )
+              basket.phoneNumber.includes(this.basketsParams.searchPhoneNumber!)
+          );
+        }
+
+        // If the phone number is not null, then filter it on phone number
+        if (this.basketsParams.orderTypeId) {
+          filteredBaskets = filteredBaskets.filter(
+            (basket) => basket.orderTypeId === this.basketsParams.orderTypeId
           );
         }
 
@@ -120,12 +137,38 @@ export class BasketComponent implements OnInit {
   }
 
   /**
+   * Loads the dropdown options for Order Type.
+   * Maps baskets to dropdown model.
+   */
+  public loadOrderTypesDropdown() {
+    this.orderService
+      .getOrderTypes()
+      .pipe(untilDestroyed(this))
+      .subscribe((orderTypes: OrderTypeModel[]) => {
+        this.orderTypeDropdown = orderTypes.map((orderType) => ({
+          value: orderType.id,
+          name: orderType.name,
+        }));
+      });
+  }
+
+  /**
    * Handles selection change in basket ID and phone number dropdown.
    * Updates search criteria and reloads baskets.
    * @param event$ Event containing selected value.
    */
   public onSelectChangeBasketIdAndPhoneFromParent(event: any) {
-    this.basketSearchCriteria.id = event?.value;
+    this.basketsParams.id = event?.value;
+    this.loadBaskets();
+  }
+
+  /**
+   * Handles selection change in basket ID and phone number dropdown.
+   * Updates search criteria and reloads baskets.
+   * @param event$ Event containing selected value.
+   */
+  public onSelectChangeOrderTypesFromParent(event: any) {
+    this.basketsParams.orderTypeId = event?.value;
     this.loadBaskets();
   }
 
@@ -135,7 +178,7 @@ export class BasketComponent implements OnInit {
    * @param valueChanged New value entered in the search input.
    */
   public onValueChangesPhoneFromParent(valueChanged: any) {
-    this.basketSearchCriteria.searchPhoneNumber = valueChanged;
+    this.basketsParams.searchPhoneNumber = valueChanged;
     this.loadBaskets();
   }
 
@@ -146,8 +189,10 @@ export class BasketComponent implements OnInit {
   public onResetFilters() {
     this.basketIdAndPhoneDropdownRef.onClearSelection();
     this.phoneSearchInputRef.onClearInputFilter();
-    this.basketSearchCriteria.id = undefined;
-    this.basketSearchCriteria.searchPhoneNumber = undefined;
+    this.orderTypeDropdownRef.onClearSelection();
+    this.basketsParams.id = undefined;
+    this.basketsParams.searchPhoneNumber = undefined;
+    this.basketsParams.orderTypeId = undefined;
     this.loadBaskets();
   }
 

@@ -2,12 +2,13 @@ import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import {
-  BasketItemBuybackModel,
+  BasketItemBuybackModel as BasketItemBuyBackModel,
   BasketItemSellModel as BasketSellItemModel,
   BasketModel,
   BasketSellTotalsModel,
   BasketItemSellModel,
-  BasketBuybackTotalsModel,
+  BasketBuyBackTotalsModel,
+  BasketExchangeTotalsModel,
 } from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
@@ -49,10 +50,17 @@ export class BasketService {
   });
 
   // Calculate Total BuyBack Basket Price
-  public basketBuybackTotalPrice = signal<BasketBuybackTotalsModel>({
+  public basketBuybackTotalPrice = signal<BasketBuyBackTotalsModel>({
     totalGoldsWeight: 0,
     totalGoldsPrice: 0,
     totalRareGemsPrice: 0,
+    total: 0,
+  });
+
+  // Calculate Total Exchange Basket Price
+  public basketExchangeTotalPrice = signal<BasketExchangeTotalsModel>({
+    totalBuyBacks: 0,
+    totalSells: 0,
     total: 0,
   });
 
@@ -340,7 +348,7 @@ export class BasketService {
    * @param item
    * @param quantity
    */
-  public addItemToCurrentBasket(
+  public addProductItemToCurrentSellBasket(
     item: ProductModel | BasketItemSellModel,
     quantity = 1
   ): void {
@@ -368,19 +376,77 @@ export class BasketService {
   // ================================ FOR A LIST OF BUY BACK BASKET ============================
 
   /**
+   * Check the current basket
+   * - If having basket, then add item to it
+   * - if don't have basket, then create new basket with random id = cuid2
+   *
+   * Add or Update Buyback Item to Basket
+   * - Scenario 1: item is existed, then update the quantity
+   * - Scenario 2: item is not existed, then add to the list of basket, and set to basket
+   *
+   * @param item
+   * @param price
+   * @param goldWeight
+   * @param quantity
+   * @param goldTypeId
+   * @param subCategoryId
+   */
+  public addOrderItemToCurrentBuyBackBasket(
+    orderItem: OrderItemModel,
+    quantity = 1,
+    goldWeightAfter: number,
+    latestAskPrice: number,
+    goldTypeId?: number,
+    subCategoryId?: number
+  ): void {
+    // Calculate Buyback Price After
+
+    const buybackPriceAfter = this.calculateOrderItemForBuyBackItemPrice(
+      orderItem,
+      latestAskPrice,
+      goldWeightAfter
+    );
+
+    // Mapping OrderItem to BasketItemBuyBack
+    const buybackBasketItemToAdd = this.mapOrderItemToBasketItemBuyBack(
+      orderItem,
+      buybackPriceAfter,
+      goldWeightAfter,
+      goldTypeId ?? 0,
+      subCategoryId
+    );
+
+    // Check the current basket
+    let basket =
+      this.getCurrentBasketValue() ??
+      this.createEmptyBasketWithPhoneNumber(undefined, OrderTypeEnum.BUYBACK);
+
+    // Update the basket's buyback items when add or update the item
+    basket.buybackItems = this.addOrUpdateBasketItem<BasketItemBuyBackModel>(
+      basket?.buybackItems,
+      buybackBasketItemToAdd,
+      quantity
+    );
+
+    // Update the basket into the basket source
+    // the basket source will get that value immediately when the addBuybackItemToBasket triggered
+    this.setOrUpdateBasket(basket);
+  }
+
+  /**
    * Map the product item properties into the buyback basket item properties
    * @param orderItem
    * @param buybackPrice
    * @param goldWeight
    * @returns BasketBuybackItemModel
    */
-  private mapOrderItemToBasketItemBuyback(
+  private mapOrderItemToBasketItemBuyBack(
     orderItem: OrderItemModel,
     buybackPriceAfter: number,
     goldWeightAfter: number,
     goldTypeId?: number,
     subCategoryId?: number
-  ): BasketItemBuybackModel {
+  ): BasketItemBuyBackModel {
     return {
       id: orderItem.id,
       productName: orderItem.productName,
@@ -392,6 +458,7 @@ export class BasketService {
       subCategoryId: subCategoryId,
     };
   }
+  // ================================ FOR A LIST OF EXCHANGE BASKET ============================
 
   /**
    * Check the current basket
@@ -409,26 +476,17 @@ export class BasketService {
    * @param goldTypeId
    * @param subCategoryId
    */
-  public addOrderItemToCurrentBasket(
+  public addOrderItemToCurrentExchangeBasket(
     orderItem: OrderItemModel,
     quantity = 1,
-    goldWeightAfter: number,
-    latestAskPrice: number,
     goldTypeId?: number,
     subCategoryId?: number
   ): void {
-    // Calculate Buyback Price After
-    const buybackPriceAfter = this.calculateOrderItemForBuyBackItemPrice(
+    // Mapping OrderItem to BasketItemBuyBack For Exchange
+    const buybackBasketItemToAdd = this.mapOrderItemToBasketItemBuyBack(
       orderItem,
-      latestAskPrice,
-      goldWeightAfter
-    );
-
-    // Mapping OrderItem to BasketItemBuyBack
-    const buybackBasketItemToAdd = this.mapOrderItemToBasketItemBuyback(
-      orderItem,
-      buybackPriceAfter,
-      goldWeightAfter,
+      orderItem.price,
+      orderItem.goldWeight,
       goldTypeId ?? 0,
       subCategoryId
     );
@@ -436,10 +494,10 @@ export class BasketService {
     // Check the current basket
     let basket =
       this.getCurrentBasketValue() ??
-      this.createEmptyBasketWithPhoneNumber(undefined, OrderTypeEnum.BUYBACK);
+      this.createEmptyBasketWithPhoneNumber(undefined, OrderTypeEnum.EXCHANGE);
 
     // Update the basket's buyback items when add or update the item
-    basket.buybackItems = this.addOrUpdateBasketItem<BasketItemBuybackModel>(
+    basket.buybackItems = this.addOrUpdateBasketItem<BasketItemBuyBackModel>(
       basket?.buybackItems,
       buybackBasketItemToAdd,
       quantity
@@ -515,6 +573,33 @@ export class BasketService {
       .concat(basket.phoneNumber.slice(0, 4).toUpperCase());
 
     return tempTicketId;
+  }
+
+  /**
+   * Calculate the basket exchange total price
+   */
+  public calculateBasketExchangeTotalPrice() {
+    this.calculateBasketSellTotalPrice();
+    this.calculateBasketBuyBackTotalPrice();
+
+    let totalSells: number = this.basketSellTotalPrice().total;
+    let totalBuyBacks: number = this.basketBuybackTotalPrice().total;
+
+    // Set the price for total exchange
+    // + sell >= buybacks => total = sell - buy back * 1.0
+    // + sell < buybacks => total = buyback * 0.7 - sell
+    let total = 0;
+    if (totalSells >= totalBuyBacks) {
+      total = totalSells - totalBuyBacks * 1.0;
+    } else {
+      total = totalBuyBacks * 0.7 - totalSells;
+    }
+
+    this.basketExchangeTotalPrice.set({
+      totalSells: totalSells,
+      totalBuyBacks: totalBuyBacks,
+      total: total,
+    });
   }
 
   /**
