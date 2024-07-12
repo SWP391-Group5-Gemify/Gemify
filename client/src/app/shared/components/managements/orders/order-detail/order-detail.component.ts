@@ -28,7 +28,9 @@ import { ModalChangeGoldWeightComponent } from './modal-change-gold-weight/modal
 import { ProductService } from '../../../../../core/services/product/product.service';
 import { lastValueFrom, map } from 'rxjs';
 import ImageUtils from '../../../../utils/ImageUtils';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-order-detail',
   standalone: true,
@@ -178,14 +180,19 @@ export class OrderDetailComponent implements OnInit {
       height: '50%',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.basketService.createEmptyBasketWithPhoneNumber(
-          result.phoneNumber,
-          OrderTypeEnum.BUYBACK
-        );
-      }
-    });
+    dialogRef
+      .beforeClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((result) => {
+        if (result) {
+          this.basketService.createEmptyBasketWithPhoneNumber(
+            result.phoneNumber,
+            OrderTypeEnum.BUYBACK
+          );
+
+          this.loadBasketIdAndPhoneDropdown();
+        }
+      });
   }
 
   /**
@@ -197,81 +204,44 @@ export class OrderDetailComponent implements OnInit {
       height: '50%',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.basketService.createEmptyBasketWithPhoneNumber(
-          result.phoneNumber,
-          OrderTypeEnum.EXCHANGE
-        );
-      }
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((result) => {
+        if (result) {
+          this.basketService.createEmptyBasketWithPhoneNumber(
+            result.phoneNumber,
+            OrderTypeEnum.EXCHANGE
+          );
+
+          this.loadBasketIdAndPhoneDropdown();
+        }
+      });
+  }
+
+  /**
+   * Create new modal, add new gold weight after inspection
+   */
+  public onOpenModalAndChangeGoldWeight($event: any) {
+    const dialogRef = this.dialog.open(ModalChangeGoldWeightComponent, {
+      width: '80%',
+      height: '50%',
     });
-  }
 
-  // /**
-  //  * Create new modal, add new gold weight after inspection
-  //  */
-  // public onOpenModalAndChangeGoldWeight($event: any) {
-  //   const dialogRef = this.dialog.open(ModalChangeGoldWeightComponent, {
-  //     width: '80%',
-  //     height: '50%',
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       this.addOrderItemToCartFromChild($event, result.goldWeight);
-  //     }
-  //   });
-  // }
-
-  // // Add order item to cart as buyback item
-  // private async addOrderItemToCartFromChild(
-  //   orderItem: OrderItemModel,
-  //   newGoldWeight: number
-  // ) {
-  //   const price = await lastValueFrom(
-  //     this.calculateBuybackProductsPrice(orderItem, newGoldWeight)
-  //   );
-  //   this.basketService.addBuybackItemToCurrentBasket(
-  //     orderItem,
-  //     price,
-  //     newGoldWeight
-  //   );
-  // }
-
-  // Add order item to cart as exchange item
-  public addOrderItemToCartFromChildForExchange($event: any) {
-    const orderItem: OrderItemModel = $event;
-    const price = this.calculateExchangeProductsPrice(orderItem);
-    this.basketService.addOrderItemToCurrentBasket(
-      orderItem, 1, price, 0, 0
-    );
-    
-  }
-
-  // Calculate buyback item price
-  private calculateBuybackProductsPrice(
-    orderItem: OrderItemModel,
-    newGoldWeight: number
-  ) {
-    return this.productService.getProductById(orderItem.productItemId).pipe(
-      map((product) => {
-        const price =
-          product.latestAskPrice * newGoldWeight +
-          this.calculateBuybackGemsPrice(orderItem.orderItemGems);
-        return price;
-      })
-    );
-  }
-
-  // Calculate gem prices of the buyback item
-  private calculateBuybackGemsPrice(orderItemGems: OrderItemGemModel[]) {
-    return orderItemGems.reduce((acc, curr) => {
-      let gemPrice = 0;
-      if (curr.isProcurable) {
-        gemPrice = curr.price * 0.7 * curr.quantity;
-      }
-      return acc + gemPrice;
-    }, 0);
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((result) => {
+        if (result) {
+          // Convert orderItem to buyback item, calculate the total basket price
+          this.basketService.addOrderItemToCurrentBasket(
+            $event,
+            1,
+            result.goldWeight,
+            1
+          );
+        }
+      });
   }
 
   // Calculate exchange item price

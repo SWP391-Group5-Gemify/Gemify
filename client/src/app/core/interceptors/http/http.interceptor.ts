@@ -16,8 +16,8 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
     headersConfig['Authorization'] = `Bearer ${token}`;
   }
 
-  // PUT method, then send the JSON content-type
-  if (req.method === 'PUT') {
+  // PUT or POST method, then send the JSON content-type
+  if (req.method === 'PUT' || req.method === 'POST' || req.method === 'PATCH') {
     headersConfig['Content-Type'] = 'application/json';
   }
 
