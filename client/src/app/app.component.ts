@@ -5,8 +5,6 @@ import { HeaderComponent } from './core/layout/header/header.component';
 import { BasketService } from './core/services/basket/basket.service';
 import { AuthService } from './core/services/auth/auth.service';
 import { RoleEnum } from './core/models/role.model';
-import { tap } from 'rxjs';
-import { UserModel } from './core/models/user.model';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
@@ -15,7 +13,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [RouterOutlet, HeaderComponent, FooterComponent, NgxSpinnerModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent implements OnInit {
   // ==========================================

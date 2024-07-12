@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BasketService } from '../../../../../core/services/basket/basket.service';
 import {
-  BasketItemModel,
+  BasketItemSellModel,
   BasketModel,
 } from '../../../../../core/models/basket.model';
 

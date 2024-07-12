@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { BasketService } from '../../../core/services/basket/basket.service';
 import { CommonModule, Location } from '@angular/common';
-import { BasketItemModel } from '../../../core/models/basket.model';
+import { BasketItemSellModel } from '../../../core/models/basket.model';
 import { TableBasketItemsSummaryComponent } from './table-basket-items-summary/table-basket-items-summary.component';
 import { MatIconModule } from '@angular/material/icon';
 import { GenericStepperComponent } from '../generic-stepper/generic-stepper.component';
@@ -73,7 +73,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.loadCustomerOnBasketIfExist();
     this.loadPromotionOnBasketIfExist();
-    this.basketService.calculateTotalBasketPrice();
+    this.basketService.calculateTotalBasketSellPrice();
   }
 
   // ======================
@@ -114,7 +114,7 @@ export class CheckoutComponent implements OnInit {
 
     // If don't have promotionId, then set the discount = 0, else get the discount and set to the signal total price
     if (!promotionId) {
-      this.basketService.basketTotalPrice.update((value) => ({
+      this.basketService.basketSellTotalPrice.update((value) => ({
         ...value,
         promotionDiscount: 0,
       }));

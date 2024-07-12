@@ -1,1 +1,31 @@
-<p>card-counter works!</p>
+<mat-card class="card-sale-counter"
+          [ngClass]="{
+            'card-sale-counter--unassigned': isUnassigned(),
+            'card-sale-counter--assigned': !isUnassigned(),
+          }"
+          appearance="outlined">
+
+  <!-- Name  -->
+  <mat-card-header class="card-sale-counter__header">
+    <mat-card-title class="card-sale-countern__name">{{saleCounter().name}}</mat-card-title>
+  </mat-card-header>
+
+  <!-- Icon and Quantity -->
+  <mat-card-content class="card-sale-counter__content">
+    <mat-icon>chair_alt</mat-icon>
+    <p class="card-sale-counter__quantity u-margin-top-small">Tổng số hàng
+      {{saleCounter().productQuantity}}</p>
+  </mat-card-content>
+
+  <!-- Actions -->
+  <mat-card-actions class="card-promotion__actions">
+    <div>
+      <p class="card-sale-counter__quantity u-margin-top-small">Tổng số hàng
+        {{saleCounter().userName}}</p>
+    </div>
+    <app-generic-dropdown #allSellersDropdownRef
+                          label="Chọn Nhân viên"
+                          [options]="allSellersDropdown"
+                          (onSelectionChange)="onAssignEmployeeIdFromChild($event)"></app-generic-dropdown>
+  </mat-card-actions>
+</mat-card>

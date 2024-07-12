@@ -30,6 +30,19 @@
     </div>
     }
   </div>
+  } @else {
+  <div class="policy__upload mat-elevation-z2">
+    <div class="policy__controls">
+      <!-- Download File -->
+      <button fileSaver
+              [method]="'GET'"
+              [fileName]="fileName"
+              [url]="this.currentPdfSrc()"
+              class="btn btn--primary btn--with-icon">
+        <mat-icon>download</mat-icon>Tải xuống
+      </button>
+    </div>
+  </div>
   }
 
   <!-- PDF Viewer -->
@@ -44,4 +57,5 @@
               class="policy__pdf">
   </pdf-viewer>
   }
+
 </section>

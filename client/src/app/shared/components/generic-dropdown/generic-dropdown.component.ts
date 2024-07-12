@@ -1,4 +1,11 @@
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { DropdownModel } from '../../../core/models/dropdown.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,13 +22,13 @@ export class GenericDropdownComponent {
   // == Fields
   // ===========================================
 
-  @Input() label: string | undefined;
+  @Input() label?: string;
   @Input() options!: DropdownModel[] | null;
   @Output() onSelectionChange = new EventEmitter<string | number>();
 
   // 2-way binding on the current selected value
   // using for reset function
-  selectedValue: string | number | undefined;
+  selectedValue?: string | number;
 
   // ===========================================
   // == Methods

@@ -1,5 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
+import { PdfViewerModule, PdfViewerComponent } from 'ng2-pdf-viewer';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -12,6 +19,7 @@ import ImageUtils from '../../../utils/ImageUtils';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../core/models/role.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { FileSaverModule, FileSaverService } from 'ngx-filesaver';
 
 @UntilDestroy()
 @Component({
@@ -24,6 +32,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
     MatListModule,
     MatProgressBarModule,
     FileSelectorComponent,
+    FileSaverModule,
   ],
   templateUrl: './policy.component.html',
   styleUrl: './policy.component.scss',
@@ -32,9 +41,13 @@ export class PolicyComponent {
   // ============================
   // == Fields
   // ============================
-  selectedFiles: File[] = [];
-  currentPdfSrc = signal<string>('');
-  uploadProgress: Subject<number> = new Subject<number>();
+  public fileName: string = 'WarranyAndPolicy';
+  public selectedFiles: File[] = [];
+  public currentPdfSrc = signal<string>('');
+  public uploadProgress: Subject<number> = new Subject<number>();
+
+  pdfSrc: string = '';
+  @ViewChild('pdfViewer') pdfViewer!: ElementRef;
   // ============================
   // == Constructors
   // ============================
@@ -76,7 +89,7 @@ export class PolicyComponent {
     if (this.selectedFiles) {
       this.selectedFiles.forEach((file: File) => {
         this.fileService
-          .uploadPolicyFile(file)
+          .uploadFile(file)
           .pipe(
             tap((result) => {
               this.uploadProgress.next(result.progress);
@@ -106,7 +119,7 @@ export class PolicyComponent {
    */
   private loadLatestPolicyFile(): void {
     this.fileService
-      .getLatestPolicyFile()
+      .getLatestFile()
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (latestUrl) => {
@@ -114,6 +127,7 @@ export class PolicyComponent {
           this.currentPdfSrc.set(
             ImageUtils.concatLinkToTokenFirebase(latestUrl)
           );
+          this.pdfSrc = latestUrl;
         },
 
         error: (err) => {
