@@ -81,7 +81,7 @@ namespace Infrastructure.Services
         // indate = true, expired = false
         public bool CheckPromotionStatus(Promotion promotion)
         {
-            DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             if(promotion.Status.Equals(PromotionStatus.Active.GetEnumMemberValue()) && today.CompareTo(promotion.ExpDate) > 0)
                 return false;
             else return true;

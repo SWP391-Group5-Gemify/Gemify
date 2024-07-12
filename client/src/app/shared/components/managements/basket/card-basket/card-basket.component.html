@@ -30,14 +30,15 @@
   <!-- Basket Items  -->
   <div matExpansionPanelContent>
     <!-- Items -->
+    <div class="item-type">Sell Items</div>
     <div class="card-basket__items">
       <app-table-basket-items [basketItems]="basket.saleItems"></app-table-basket-items>
     </div>
-
+    <div class="item-type">Buyback Items</div>
     <!-- Buyback Items -->
-    <!-- <div class="card-basket__items">
+    <div class="card-basket__items">
       <app-table-basket-items [basketItems]="basket.buybackItems"></app-table-basket-items>
-    </div> -->
+    </div> 
   </div>
 
 </mat-expansion-panel>

@@ -29,12 +29,12 @@ export class RepurchaserComponent {
   // ===========================
   navItems: NavItemsModel[] = [
     {
-      name: 'Orders',
+      name: 'Đơn Hàng',
       icon: 'receipt',
       route: '/repurchaser/orders',
     },
     {
-      name: 'View Policy',
+      name: 'Chính Sách & Điều Khoản',
       icon: 'verified_user',
       route: '/repurchaser/policy',
     },

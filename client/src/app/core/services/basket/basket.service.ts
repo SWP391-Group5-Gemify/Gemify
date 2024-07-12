@@ -365,7 +365,7 @@ export class BasketService {
   // ================================ FOR A LIST OF BUY BACK BASKET ============================
 
   /**
-   * Map the product item properties into the buyback asket item properties
+   * Map the product item properties into the buyback basket item properties
    * @param orderItem
    * @param buybackPrice
    * @param goldWeight

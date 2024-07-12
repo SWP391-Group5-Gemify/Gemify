@@ -45,11 +45,11 @@ export class PromotionsComponent {
   public promotions$!: Observable<PromotionModel[]>;
   public promotionsStatusDropdown: DropdownModel[] = [
     {
-      name: 'Còn hoạt động',
+      name: 'Còn Hiệu Lực',
       value: PromotionStatusEnum.Active,
     },
     {
-      name: 'Không hoạt động',
+      name: 'Đã Hết Hạn',
       value: PromotionStatusEnum.Expired,
     },
   ];

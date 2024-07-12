@@ -24,7 +24,7 @@ namespace Core.Enitities.OrderAggregate
             OrderItems = orderItems;
         }
         [Column(TypeName = "datetime")]
-        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public DateTime OrderDate { get; set; } = DateTime.Now;
         [OrderStatus(ErrorMessage = "Invalid Order Status")]
         [Column(TypeName = "nvarchar(50)")]
         public string Status { get; set; } = OrderStatus.Pending.GetEnumMemberValue();

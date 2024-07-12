@@ -15,6 +15,6 @@ namespace Core.Enitities
         public decimal Revenue { get; set; }
         public int SaleCounterId {  get; set; }
         [Column(TypeName = "date")]
-        public DateOnly Date {  get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+        public DateOnly Date {  get; set; } = DateOnly.FromDateTime(DateTime.Now);
     }
 }

@@ -33,7 +33,7 @@ namespace Infrastructure.Services
         // Add daily revenue entries for each counter
         public async Task<int> UpdateSaleCounterRevenuesAsync()
         {
-            DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
 
             // Check for existing revenue entries of today
             var dateSpec = new SaleCounterRevenueSpecification(today);

@@ -28,35 +28,35 @@ export class StoreOwnerComponent {
   // ===========================
   navItems: NavItemsModel[] = [
     {
-      name: 'Statistic Dashboard',
+      name: 'Bảng Thống Kê',
       icon: 'home',
       route: '/store-owner/statistic-dashboard',
     },
-    { name: 'Employees', icon: 'work', route: '/store-owner/employees' },
-    { name: 'Counters', icon: 'attach_money', route: '/store-owner/counters' },
+    { name: 'Quản Lý Nhân Viên', icon: 'work', route: '/store-owner/employees' },
+    { name: 'Quản Lý Quầy', icon: 'attach_money', route: '/store-owner/counters' },
     {
-      name: 'Customers',
+      name: 'Quản Lý Khách Hàng',
       icon: 'family_restroom',
       route: '/store-owner/customers',
     },
     {
-      name: 'Promotions',
+      name: 'Quản Lý Ưu Đãi',
       icon: 'card_giftcard',
       route: '/store-owner/promotions',
     },
     {
-      name: 'Products',
+      name: 'Quản Lý Trang Sức',
       icon: 'shopping_bag',
       route: '/store-owner/products-management',
     },
-    { name: 'Orders', icon: 'receipt', route: '/store-owner/orders' },
+    { name: 'Đơn Hàng', icon: 'receipt', route: '/store-owner/orders' },
     {
-      name: 'Manage Gold Bid-Ask Spread',
+      name: 'Cập Nhật Giá Vàng',
       icon: 'price_change',
       route: '/store-owner/gold-bid-ask',
     },
     {
-      name: 'Manage Policy',
+      name: 'Quản Lý Chính Sách & Điều Khoản',
       icon: 'verified_user',
       route: '/store-owner/policy',
     },

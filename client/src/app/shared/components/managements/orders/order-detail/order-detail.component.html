@@ -7,20 +7,20 @@
     <!-- Order Page Header -->
     <div class="header">
       <div class="header__title">
-        <strong>#{{order.id}} - {{order.orderType}} - {{order.status}}</strong>
+        <strong>#{{order.id}} - Hóa Đơn {{order.orderType}} - {{order.status}}</strong>
       </div>
       <div class="header__content mat-elevation-z3">
         <ul class="header__list">
           <li class="header__info">
-            <strong class="header__text">Customer:</strong>
+            <strong class="header__text">Khách Hàng:</strong>
             <strong>{{order.name}}</strong>
           </li>
           <li class="header__info">
-            <strong class="header__text">Customer's Phone:</strong>
+            <strong class="header__text">SĐT Khách Hàng:</strong>
             <strong>{{order.phone}}</strong>
           </li>
           <li class="header__info">
-            <strong class="header__text">Staff's ID:</strong>
+            <strong class="header__text">Mã Nhân Viên:</strong>
             <strong>#{{order.userId}}</strong>
           </li>
         </ul>
@@ -64,6 +64,10 @@
             @if (column === "add") {
             <!-- <button class="btn btn--grad btn--with-icon"
                     (click)="onOpenModalAndChangeGoldWeight(element)"><mat-icon>add</mat-icon>Mua Lại</button> -->
+            <!-- <button class="btn btn--grad btn--with-icon"
+                    (click)="onOpenModalAndChangeGoldWeight(element)"><mat-icon>add</mat-icon>Mua Lại</button>
+            <button class="btn btn--grad btn--with-icon"
+                    (click)="addOrderItemToCartFromChildForExchange(element)"><mat-icon>add</mat-icon>Đổi Trả</button> -->
             }
 
             @else if (column === "expand") {
@@ -106,7 +110,7 @@
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div class="inner-table mat-elevation-z8"
                    *ngIf="expandedElement">
-                <div class="inner-table__title">GEMS</div>
+                <div class="inner-table__title">ĐÁ</div>
                 <table mat-table
                        [dataSource]="element.orderItemGems">
                   <ng-container matColumnDef="{{innerColumn}}"
@@ -149,19 +153,19 @@
 
     <!-- Order Page Order Summary -->
     <div class="order-summary">
-      <div class="order-summary__title">Order summary</div>
+      <div class="order-summary__title">Chi Tiết Hóa Đơn</div>
       <div class="order-summary__content">
         <ul class="order-summary__list">
           <li class="order-summary__item">
-            <strong>Order subtotal</strong>
+            <strong>Tổng Giá Sản Phẩm</strong>
             <strong>{{order.subTotal | currency:'VND'}}</strong>
           </li>
           <li class="order-summary__item">
-            <strong>Membership</strong>
+            <strong>Thành Viên</strong>
             <strong>{{order.membershipName}}</strong>
           </li>
           <li class="order-summary__item">
-            <strong>Promotion Code</strong>
+            <strong>Mã Ưu Đãi Giảm Giá</strong>
             @if (order.promotionCode) {
             <strong>{{order.promotionCode}}</strong>
             }
@@ -171,15 +175,15 @@
 
           </li>
           <li class="order-summary__item">
-            <strong>Membership Discount</strong>
+            <strong>Ưu Đãi Thành Viên</strong>
             <strong>{{order.membershipDiscount | percent}}</strong>
           </li>
           <li class="order-summary__item">
-            <strong>Promotion Discount</strong>
+            <strong>Ưu Đãi Giảm Giá</strong>
             <strong>{{order.promotionDiscount | percent}}</strong>
           </li>
           <li class="order-summary__item">
-            <strong>Total</strong>
+            <strong>Tổng Tiền</strong>
             <strong>{{order.total | currency:'VND'}}</strong>
           </li>
         </ul>

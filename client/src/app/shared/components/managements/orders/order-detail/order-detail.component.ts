@@ -219,6 +219,16 @@ export class OrderDetailComponent implements OnInit {
   //   );
   // }
 
+  // Add order item to cart as exchange item
+  // public addOrderItemToCartFromChildForExchange($event: any) {
+  //   const orderItem: OrderItemModel = $event;
+  //   const price = this.calculateExchangeProductsPrice(orderItem);
+  //   this.basketService.addExchangeItemToCurrentBasket(
+  //     orderItem,
+  //     price
+  //   );
+  // }
+
   // Calculate buyback item price
   private calculateBuybackProductsPrice(
     orderItem: OrderItemModel,
@@ -226,10 +236,9 @@ export class OrderDetailComponent implements OnInit {
   ) {
     return this.productService.getProductById(orderItem.productItemId).pipe(
       map((product) => {
-        const price = -(
+        const price =
           product.latestAskPrice * newGoldWeight +
-          this.calculateBuybackGemsPrice(orderItem.orderItemGems)
-        );
+          this.calculateBuybackGemsPrice(orderItem.orderItemGems);
         return price;
       })
     );
@@ -237,8 +246,28 @@ export class OrderDetailComponent implements OnInit {
 
   // Calculate gem prices of the buyback item
   private calculateBuybackGemsPrice(orderItemGems: OrderItemGemModel[]) {
+    return orderItemGems.reduce((acc, curr) => {
+      let gemPrice = 0;
+      if (curr.isProcurable) {
+        gemPrice = curr.price * 0.7 * curr.quantity;
+      }
+      return acc + gemPrice;
+    }, 0);
+  }
+
+  // Calculate exchange item price
+  private calculateExchangeProductsPrice(orderItem: OrderItemModel) {
+    return (
+      orderItem.goldPrice * orderItem.goldWeight +
+      orderItem.productLabour +
+      this.calculateExchangeGemsPrice(orderItem.orderItemGems)
+    );
+  }
+
+  // Calculate gem prices of the exchange item
+  private calculateExchangeGemsPrice(orderItemGems: OrderItemGemModel[]) {
     return orderItemGems.reduce(
-      (acc, curr) => acc + curr.price * 0.7 * curr.quantity,
+      (acc, curr) => acc + curr.price * curr.quantity,
       0
     );
   }
