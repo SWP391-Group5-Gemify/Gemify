@@ -39,6 +39,7 @@ export interface OrderItemGemModel {
   gemCarat: number;
   gemClarity: string;
   gemCertificateCode?: any;
+  isProcurable: boolean;
   price: number;
   quantity: number;
 }

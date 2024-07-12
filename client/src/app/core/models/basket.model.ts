@@ -1,5 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
-import { OrderTypeEnum } from './order.model';
+import { OrderItemGemModel, OrderTypeEnum } from './order.model';
 
 // For the basket_id, using CUID2 for security awareness
 export interface BasketModel {
@@ -33,6 +33,7 @@ export interface BasketItemBuybackModel {
   goldWeight: number;
   goldTypeId?: number;
   subCategoryId?: number;
+  gems: OrderItemGemModel[];
 }
 
 export interface BasketsSearchingCriteriaModel {
@@ -43,7 +44,7 @@ export interface BasketsSearchingCriteriaModel {
 // A default, orderTypeId is 1
 export class BasketModel implements BasketModel {
   id: string = createId();
-  orderTypeId: OrderTypeEnum | number = 1;
+  orderTypeId: OrderTypeEnum | number = OrderTypeEnum.SELL;
   saleItems: BasketItemSellModel[] = [];
   buybackItems: BasketItemBuybackModel[] = [];
 }
@@ -59,8 +60,7 @@ export interface BasketSellTotalsModel {
 export interface BasketBuybackTotalsModel {
   goldWeight: number;
   askPrice: number;
-  totalNormalGem: number;
-  totalRareGem: number;
-  subTotal: number;
+  totalNormalGem?: number;
+  totalRareGem?: number;
   total: number;
 }

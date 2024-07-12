@@ -7,6 +7,7 @@ import {
   BasketModel,
   BasketSellTotalsModel,
   BasketItemSellModel,
+  BasketBuybackTotalsModel,
 } from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
@@ -43,12 +44,13 @@ export class BasketService {
     membershipDiscount: 0,
   });
 
-  // Calculate Total Sell Basket Price
-  public basketBuybackTotalPrice = signal<BasketSellTotalsModel>({
-    subTotal: 0,
+  // Calculate Total BuyBack Basket Price
+  public basketBuybackTotalPrice = signal<BasketBuybackTotalsModel>({
+    askPrice: 0,
+    goldWeight: 0,
+    totalNormalGem: 0,
+    totalRareGem: 0,
     total: 0,
-    promotionDiscount: 0,
-    membershipDiscount: 0,
   });
 
   // ====================
@@ -373,8 +375,8 @@ export class BasketService {
     orderItem: OrderItemModel,
     buybackPriceAfter: number,
     goldWeightAfter: number,
-    goldTypeId: number,
-    subCategoryId: number
+    goldTypeId?: number,
+    subCategoryId?: number
   ): BasketItemBuybackModel {
     return {
       id: orderItem.id,
@@ -385,6 +387,7 @@ export class BasketService {
       goldWeight: goldWeightAfter,
       goldTypeId: goldTypeId,
       subCategoryId: subCategoryId,
+      gems: orderItem.orderItemGems,
     };
   }
 
@@ -409,14 +412,14 @@ export class BasketService {
     quantity = 1,
     buybackPriceAfter: number,
     goldWeightAfter: number,
-    goldTypeId: number,
-    subCategoryId: number
+    goldTypeId?: number,
+    subCategoryId?: number
   ): void {
     const buybackBasketItemToAdd = this.mapOrderItemToBasketItemBuyback(
       item,
       buybackPriceAfter,
       goldWeightAfter,
-      goldTypeId,
+      goldTypeId ?? 0,
       subCategoryId
     );
 
@@ -455,7 +458,7 @@ export class BasketService {
 
     switch (basket.orderTypeId) {
       case OrderTypeEnum.SELL: {
-        tempTicketId = tempTicketId.concat('S-');
+        tempTicketId = tempTicketId.concat('SE-');
         break;
       }
       case OrderTypeEnum.BUYBACK: {
@@ -468,8 +471,8 @@ export class BasketService {
       }
     }
 
-    // Appending phone slicing from 0th to 4th
-    tempTicketId = tempTicketId.concat(basket.phoneNumber.slice(0, 4));
+    // Appending basketId
+    tempTicketId = tempTicketId.concat(basket.id.slice(0, 6));
 
     return tempTicketId;
   }
@@ -493,5 +496,23 @@ export class BasketService {
         subTotal *
         (1 - (value.promotionDiscount ?? 0) - (value.membershipDiscount ?? 0)),
     }));
+  }
+
+  /**
+   * Calculate total buyback price
+   */
+  public calculateTotalBasketBuyBackPrice() {
+    // const basket = this.getCurrentBasketValue();
+    // if (!basket) return;
+    // const totalNormalGemPrice = basket.buybackItems.reduce((acc, curr) => {});
+    // this.basketBuybackTotalPrice.update((value) => {});
+    // this.basketSellTotalPrice.update((value) => ({
+    //   promotionDiscount: value.promotionDiscount,
+    //   membershipDiscount: value.membershipDiscount,
+    //   subTotal: subTotal,
+    //   total:
+    //     subTotal *
+    //     (1 - (value.promotionDiscount ?? 0) - (value.membershipDiscount ?? 0)),
+    // }));
   }
 }
