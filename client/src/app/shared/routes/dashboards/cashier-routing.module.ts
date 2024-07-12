@@ -55,6 +55,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'checkout-exchange',
+        loadChildren: () =>
+          import('../managements/checkout-exchange-routing.module').then(
+            (m) => m.CheckoutExchangeRoutingModule
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'baskets',
         pathMatch: 'full',
