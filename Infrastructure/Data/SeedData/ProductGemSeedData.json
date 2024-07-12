@@ -47,5 +47,41 @@
     "GemTypeId": 2,
     "GemWeight": 0.5,
     "Quantity": 5
-  }
+  },
+  {
+    "ProductId": 16,
+    "GemTypeId": 9,
+    "GemWeight": 0.3,
+    "Quantity": 1
+  },
+  {
+    "ProductId": 17,
+    "GemTypeId": 7,
+    "GemWeight": 0.08,
+    "Quantity": 5
+  },
+  {
+    "ProductId": 23,
+    "GemTypeId": 7,
+    "GemWeight": 0.5,
+    "Quantity": 1
+  },
+  {
+    "ProductId": 24,
+    "GemTypeId": 8,
+    "GemWeight": 0.5,
+    "Quantity": 1
+  },
+  {
+    "ProductId": 30,
+    "GemTypeId": 7,
+    "GemWeight": 0.05,
+    "Quantity": 8
+  },
+  {
+    "ProductId": 32,
+    "GemTypeId": 2,
+    "GemWeight": 0.2,
+    "Quantity": 4
+  }  
 ]

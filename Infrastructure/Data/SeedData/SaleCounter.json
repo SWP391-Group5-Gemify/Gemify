@@ -1,32 +1,32 @@
 [
   {
     "Name": "Quầy nhẫn",
-    "ProductQuantity": 15,
+    "ProductQuantity": 97,
     "status": true
   },
   {
     "Name": "Quầy dây chuyền",
-    "ProductQuantity": 22,
+    "ProductQuantity": 85,
     "status": true
   },
   {
     "Name": "Quầy bông tai",
-    "ProductQuantity": 22,
+    "ProductQuantity": 93,
     "status": true
   },
   {
     "Name": "Quầy lắc",
-    "ProductQuantity": 41,
+    "ProductQuantity": 95,
     "status": true
   },
   {
     "Name": "Quầy mặt dây chuyền",
-    "ProductQuantity": 13,
+    "ProductQuantity": 74,
     "status": true
   },
   {
     "Name": "Quầy vàng tài lộc",
-    "ProductQuantity": 13,
+    "ProductQuantity": 69,
     "status": true
   }
 ]
