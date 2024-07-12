@@ -52,7 +52,7 @@ namespace Infrastructure.Services
                 var payload = new
                 {
                     to = phones,
-                    content = Uri.EscapeDataString(content),
+                    content = Uri.EscapeDataString("Mã giỏ hàng của bạn là: " + content),
                     type = type,
                     sender = _sender
                 };
