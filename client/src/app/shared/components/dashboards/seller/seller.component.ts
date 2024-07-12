@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { BarcodeScannerComponent } from '../../../../barcode-scanner/barcode-scanner.component';
+import { BarcodeScannerComponent } from '../../barcode-scanner/barcode-scanner.component';
 
 @Component({
   selector: 'app-seller',
@@ -19,7 +19,7 @@ import { BarcodeScannerComponent } from '../../../../barcode-scanner/barcode-sca
     CommonModule,
     RouterLink,
     RouterOutlet,
-    BarcodeScannerComponent
+    BarcodeScannerComponent,
   ],
   templateUrl: './seller.component.html',
   styleUrl: './seller.component.scss',
@@ -35,7 +35,7 @@ export class SellerComponent {
     {
       name: 'Chính Sách & Điều Khoản',
       icon: 'soap',
-      route: '/seller/buyback',
+      route: '/seller/policy',
     },
   ];
   // ===========================

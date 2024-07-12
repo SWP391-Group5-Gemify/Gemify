@@ -13,6 +13,6 @@ export class EmployeeModel implements EmployeeModel, UserLoginModel {
 }
 
 export enum EmployeeStatusEnum {
-  Active = 'Active',
-  Closed = 'Closed',
+  Active = 'Hoạt Động',
+  Closed = 'Đã Đóng',
 }

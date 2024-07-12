@@ -151,7 +151,6 @@ export class ProductsManagementComponent implements OnInit {
 
   /**
    * Load all SubCategories, and map to the the key - value pair of * the dropdown component
-   * TODO: Handle error when load failed
    */
   public loadCategoriesDropdown() {
     this.productService.getCategories().subscribe({
@@ -266,6 +265,14 @@ export class ProductsManagementComponent implements OnInit {
         this.loadProducts();
       },
     });
+  }
+
+  /**
+   * Edit Employee
+   * @param product
+   */
+  public onEditProduct(product: ProductModel) {
+    this.notificationService.show('Tính năng hiện đang bảo trì.');
   }
 
   /**

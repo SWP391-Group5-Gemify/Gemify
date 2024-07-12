@@ -35,6 +35,9 @@ import { MatDividerModule } from '@angular/material/divider';
   styleUrl: './gold-bid-ask.component.scss',
 })
 export class GoldBidAskComponent implements OnInit {
+  // ====================
+  // == Fields
+  // ====================
   goldTypes: GoldModel[] = [];
   goldsDropdown!: DropdownModel[];
   currentGoldPrice?: number;
@@ -56,7 +59,9 @@ export class GoldBidAskComponent implements OnInit {
       [Validators.required, Validators.pattern(this.decimalPattern)],
     ],
   });
-
+  // ====================
+  // == Lifecycle
+  // ====================
   constructor(
     private goldService: GoldService,
     private formBuilder: FormBuilder,
@@ -66,6 +71,9 @@ export class GoldBidAskComponent implements OnInit {
   ngOnInit(): void {
     this.loadGoldsDropdown();
   }
+  // ====================
+  // == Methods
+  // ====================
 
   /**
    * Load GoldTypes

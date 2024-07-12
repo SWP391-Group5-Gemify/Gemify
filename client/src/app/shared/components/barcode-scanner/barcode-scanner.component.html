@@ -1,14 +1,12 @@
 <div class="barcode-scanner">
   <h1 class="title">Quét Bar Code</h1>
   <!-- ngx-scanner-qrcode -->
-  <ngx-scanner-qrcode
-    #action="scanner"
-    [config]="config"
-    (event)="onEvent($event, action)"
-  >
+  <ngx-scanner-qrcode #action="scanner"
+                      [config]="config"
+                      (event)="onEvent($event, action)">
   </ngx-scanner-qrcode>
   <button class="btn btn--grad btn--with-icon"
           (click)="action.isStart ? action.stop() : action.start()"><mat-icon>add</mat-icon>
-          {{action.isStart ? 'Dừng Quét Mã' : 'Bắt Đầu Quét Mã'}}
+    {{action.isStart ? 'Dừng Quét Mã' : 'Bắt Đầu Quét Mã'}}
   </button>
 </div>

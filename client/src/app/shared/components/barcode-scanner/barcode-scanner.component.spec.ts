@@ -8,10 +8,9 @@ describe('BarcodeScannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BarcodeScannerComponent]
-    })
-    .compileComponents();
-    
+      imports: [BarcodeScannerComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(BarcodeScannerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

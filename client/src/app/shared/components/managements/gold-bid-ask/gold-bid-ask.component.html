@@ -7,7 +7,8 @@
 
     <div class="gold-form__current">
       <button class="btn btn--grad btn--with-icon"
-              (click)="getWorldGoldPrice()"><mat-icon>attach_money</mat-icon>Lấy giá vàng thế giới (VND/Chi)
+              (click)="getWorldGoldPrice(); $event.preventDefault()"><mat-icon>attach_money</mat-icon>Lấy giá vàng thế
+        giới (VND/Chi)
       </button>
       <div *ngIf="currentGoldPrice"
            class="gold-form__current-price">

@@ -34,7 +34,9 @@ import { MatIcon } from '@angular/material/icon';
 import { NotificationService } from '../../../../../core/services/notification/notification.service';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../../core/models/dropdown.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-modal-edit-create-employee',
   standalone: true,
@@ -117,12 +119,15 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
    * - Due to the inconsistency on API, I have to key must be a name to update the employee
    */
   loadRoles() {
-    this.employeeService.getEmployeeRoles().subscribe((roles: RoleModel[]) => {
-      this.roleOptions = roles.map((role) => ({
-        value: role.name,
-        name: role.name,
-      }));
-    });
+    this.employeeService
+      .getEmployeeRoles()
+      .pipe(untilDestroyed(this))
+      .subscribe((roles: RoleModel[]) => {
+        this.roleOptions = roles.map((role) => ({
+          value: role.name,
+          name: role.name,
+        }));
+      });
   }
 
   /**
@@ -217,28 +222,46 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
     }
   }
 
+  /**
+   * Edit Employee
+   * @param updatedEmployee
+   */
   editEmployee(updatedEmployee: EmployeeModel) {
-    this.employeeService.updateEmployee(updatedEmployee).subscribe({
-      next: (response: any) => {
-        this.notificationService.show(
-          `Employee with ID = ${this.employee?.id} updated successfully`
-        );
-      },
+    this.employeeService
+      .updateEmployee(updatedEmployee)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (response: any) => {
+          this.notificationService.show(
+            `Employee with ID = ${this.employee?.id} updated successfully`
+          );
+        },
 
-      error: (err) => {
-        console.error(err);
-        this.notificationService.show('Error updating employee', 'Retry', 5000);
-      },
-    });
+        error: (err) => {
+          console.error(err);
+          this.notificationService.show(
+            'Error updating employee',
+            'Retry',
+            5000
+          );
+        },
+      });
   }
 
+  /**
+   * Create Employee
+   * @param newEmployee
+   */
   createEmployee(newEmployee: EmployeeModel) {
     console.log(newEmployee);
 
-    this.employeeService.registerNewEmployee(newEmployee).subscribe({
-      next: (response: any) => {
-        this.notificationService.show(`Create new account for `);
-      },
-    });
+    this.employeeService
+      .registerNewEmployee(newEmployee)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (response: any) => {
+          this.notificationService.show('Create new account successfully');
+        },
+      });
   }
 }
