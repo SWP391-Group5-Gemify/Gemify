@@ -1,0 +1,54 @@
+@import "abstracts/variables";
+
+.payment-form {
+
+  &__heading {
+    font-size: 2.4rem;
+    color: $color-black;
+    text-transform: uppercase;
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: $gutter-layout;
+  }
+
+  .stripe-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: $gutter-layout;
+
+    &__form-container {
+      flex: 1;
+    }
+
+    &__label {
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      font-size: 1.6rem;
+      color: #757575;
+    }
+
+    &__control {
+      border: 1px solid $color-grey-dark;
+      padding: 1.4rem;
+      border-radius: 4px;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.error-message {
+  font-weight: 900;
+  margin-top: 0.8rem;
+  font-size: 1.4rem;
+  color: $color-primary-dark;
+}
+
+.basket-summary-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

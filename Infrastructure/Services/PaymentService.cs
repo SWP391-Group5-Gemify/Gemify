@@ -3,6 +3,7 @@ using Core.Enitities.OrderAggregate;
 using Core.Interfaces;
 using Core.Specifications.Orders;
 using Core.Specifications.Products;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Stripe;
@@ -79,21 +80,19 @@ namespace Infrastructure.Services
             if (totalBuybackAmount != 0 && totalBuybackAmount < totalSellAmount)
             {
                 // If sell amount is greater than buyback amount the original price of the buyback item is calculated.
-                totalAmount = (long) totalSellAmount - (long) (totalBuybackAmount);
+                totalAmount = (long) totalSellAmount - (long) totalBuybackAmount;
             }
             else if (totalBuybackAmount > totalSellAmount)
             {
                 // If sell amount is smaller than buyback amount 70% price of the buyback item is calculated.
-                totalAmount = (long)(totalSellAmount) - (long)(totalBuybackAmount * 0.7m);
+                totalAmount = (long) totalSellAmount - (long)(totalBuybackAmount * 0.7m);
             }
-            else if(totalBuybackAmount == 0)
+            else if(basket.OrderTypeId == 1)
             {
                 // If this is a sale order (buyback price = 0), can apply coupons.
-                totalAmount = (long)totalSellAmount - (long)(totalBuybackAmount);
-                totalAmount = (long)(totalAmount - (totalAmount * totalDiscount));
-            }
-
-            /** 
+                totalAmount = (long) totalSellAmount - (long) totalBuybackAmount;
+                totalAmount = (long) (totalAmount - (totalAmount * totalDiscount));
+            }            /** 
              * If total amount > 99999999 stripe will return an error (Stripe allows maximum 8-digits)
              * If total amount < 50 cents (USD) stripe will also return an error.
              * The customer won't have to pay if the total amount is less than or equal to 30000 VND

@@ -30,8 +30,13 @@
     <!-- Basket Dropdown -->
     <div class="basket-dropdown">
       <button class="btn btn--grad btn--with-icon"
-              (click)="onOpenModalAndCreateBasketWithCustomerPhone()">
-        <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng mới
+              (click)="onOpenModalAndCreateBuybackBasketWithCustomerPhone()">
+        <mat-icon>shopping_basket</mat-icon>Tạo giỏ mua lại
+      </button>
+
+      <button class="btn btn--grad btn--with-icon"
+              (click)="onOpenModalAndCreateExchangeBasketWithCustomerPhone()">
+        <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng đổi trả
       </button>
 
       <app-generic-dropdown #chooseExistingBasket

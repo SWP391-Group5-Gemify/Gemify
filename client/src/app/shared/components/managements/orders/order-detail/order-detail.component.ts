@@ -174,7 +174,7 @@ export class OrderDetailComponent implements OnInit {
   /**
    * Create new modal, adding customer phone and create new basket
    */
-  public onOpenModalAndCreateBasketWithCustomerPhone() {
+  public onOpenModalAndCreateBuybackBasketWithCustomerPhone() {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
       width: '80%',
       height: '50%',
@@ -188,6 +188,30 @@ export class OrderDetailComponent implements OnInit {
           this.basketService.createEmptyBasketWithPhoneNumber(
             result.phoneNumber,
             OrderTypeEnum.BUYBACK
+          );
+
+          this.loadBasketIdAndPhoneDropdown();
+        }
+      });
+  }
+
+  /**
+   * Create new modal, adding customer phone and create new basket
+   */
+  public onOpenModalAndCreateExchangeBasketWithCustomerPhone() {
+    const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
+      width: '80%',
+      height: '50%',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((result) => {
+        if (result) {
+          this.basketService.createEmptyBasketWithPhoneNumber(
+            result.phoneNumber,
+            OrderTypeEnum.EXCHANGE
           );
 
           this.loadBasketIdAndPhoneDropdown();

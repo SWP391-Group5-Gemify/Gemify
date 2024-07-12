@@ -1,0 +1,52 @@
+<section *ngIf="checkoutForm"
+         [formGroup]="checkoutForm"
+         class="customer-form">
+
+  <h3 class="customer-form__heading  u-margin-top-medium u-margin-bottom-medium">Thông tin khách hàng</h3>
+
+  <div class="customer-form__controls"
+       formGroupName="customerForm">
+
+    <!-- Gender -->
+    <mat-radio-group aria-label="Select your gender"
+                     formControlName="gender"
+                     name="gender">
+      @for (gender of genderOptions; track $index) {
+      <mat-radio-button value="{{gender.id}}"><span>{{gender.name}}</span></mat-radio-button>
+      }
+    </mat-radio-group>
+
+    <!-- Name -->
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput
+             type="text"
+             formControlName="name"
+             name="name">
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput
+             type="text"
+             formControlName="phone"
+             name="phone">
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <textarea matInput
+                formControlName="address"
+                name="address"></textarea>
+    </mat-form-field>
+  </div>
+</section>
+
+<!-- Go previous or Go forward -->
+<div class="basket-summary-actions basket-summary-actions--one-action u-margin-top-medium">
+  <button class="btn btn--primary-dark"
+          [disabled]="checkoutForm?.get('customerForm')?.invalid"
+          cdkStepperNext>Đi tới thanh toán</button>
+</div>
