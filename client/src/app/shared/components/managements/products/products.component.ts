@@ -266,7 +266,6 @@ export class ProductsComponent implements OnInit {
   /**
    * Loads the dropdown options for basket ID and phone number.
    * Maps baskets to dropdown model.
-   * TODO: Handle error when load failed
    */
   public loadBasketIdAndPhoneDropdown() {
     this.basketIdAndPhoneDropdown$ = this.basketService.getBaskets().pipe(
@@ -315,7 +314,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef
-      .afterClosed()
+      .beforeClosed()
       .pipe(untilDestroyed(this))
       .subscribe((result) => {
         if (result) {
@@ -323,10 +322,10 @@ export class ProductsComponent implements OnInit {
             result.phoneNumber,
             OrderTypeEnum.SELL
           );
-        }
 
-        // Reload the basket dropdown for new added basket
-        this.loadBasketIdAndPhoneDropdown();
+          // Reload the basket dropdown for new added basket
+          this.loadBasketIdAndPhoneDropdown();
+        }
       });
   }
 }

@@ -33,7 +33,6 @@ export interface BasketItemBuybackModel {
   goldWeight: number;
   goldTypeId?: number;
   subCategoryId?: number;
-  gems: OrderItemGemModel[];
 }
 
 export interface BasketsSearchingCriteriaModel {
@@ -58,9 +57,8 @@ export interface BasketSellTotalsModel {
 }
 
 export interface BasketBuybackTotalsModel {
-  goldWeight: number;
-  askPrice: number;
-  totalNormalGem?: number;
-  totalRareGem?: number;
+  totalGoldsWeight: number;
+  totalGoldsPrice: number;
+  totalRareGemsPrice: number;
   total: number;
 }

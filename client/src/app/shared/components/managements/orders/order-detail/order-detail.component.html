@@ -60,22 +60,21 @@
           </th>
 
           <td mat-cell
-              *matCellDef="let element">
+              *matCellDef="let orderItem">
             @if (column === "add") {
-            <!-- <button class="btn btn--grad btn--with-icon"
-                    (click)="onOpenModalAndChangeGoldWeight(element)"><mat-icon>add</mat-icon>Mua Lại</button> -->
-            <!-- <button class="btn btn--grad btn--with-icon"
-                    (click)="onOpenModalAndChangeGoldWeight(element)"><mat-icon>add</mat-icon>Mua Lại</button>
+
             <button class="btn btn--grad btn--with-icon"
+                    (click)="onOpenModalAndChangeGoldWeight(orderItem)"><mat-icon>add</mat-icon>Mua Lại</button>
+            <!-- <button class="btn btn--grad btn--with-icon"
                     (click)="addOrderItemToCartFromChildForExchange(element)"><mat-icon>add</mat-icon>Đổi Trả</button> -->
             }
 
             @else if (column === "expand") {
             <button mat-icon-button
                     aria-label="expand row"
-                    (click)="(expandedElement = expandedElement === element ? null : element);
+                    (click)="(expandedElement = expandedElement === orderItem ? null : orderItem);
                                 $event.stopPropagation()">
-              @if (expandedElement === element) {
+              @if (expandedElement === orderItem) {
               <mat-icon>keyboard_arrow_up</mat-icon>
               } @else {
               <mat-icon>keyboard_arrow_down</mat-icon>
@@ -85,16 +84,16 @@
 
             @else if (column === "image_Url" ) {
             <img class="product-image"
-                 src="{{element['image_Url']}}">
+                 src="{{orderItem['image_Url']}}">
             }
 
             @else if (column === "total") {
-            {{element['price'] * element['quantity'] | currency:'VND'}}
+            {{orderItem['price'] * orderItem['quantity'] | currency:'VND'}}
             }
 
             @else {
             {{((column.toLowerCase().includes("price") || column.toLowerCase().includes("labour")))
-            ? (element[column] | currency:'VND') : element[column]}}
+            ? (orderItem[column] | currency:'VND') : orderItem[column]}}
             }
           </td>
         </ng-container>

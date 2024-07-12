@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './modal-change-gold-weight.component.html',
   styleUrl: './modal-change-gold-weight.component.scss',
@@ -30,24 +30,22 @@ export class ModalChangeGoldWeightComponent {
   goldForm!: FormGroup;
 
   // ==========================================
-  // == Constructors
+  // == Lifecycle
   // ==========================================
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<ModalChangeGoldWeightComponent>
-  ) {}
-
-  decimalPattern = /^\d+(\.\d+)?$/;
 
   ngOnInit(): void {
     this.goldForm = this.fb.group({
       goldWeight: [
         '',
-        [Validators.required,
-        Validators.pattern(this.decimalPattern)]
+        [Validators.required, Validators.pattern('^\\d+.\\d*$')],
       ],
     });
   }
+
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<ModalChangeGoldWeightComponent>
+  ) {}
 
   // ==========================================
   // == Methods

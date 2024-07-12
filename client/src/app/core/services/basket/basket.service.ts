@@ -11,7 +11,11 @@ import {
 } from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductModel } from '../../models/product.model';
-import { OrderItemModel, OrderTypeEnum } from '../../models/order.model';
+import {
+  OrderItemGemModel,
+  OrderItemModel,
+  OrderTypeEnum,
+} from '../../models/order.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PromotionModel } from '../../models/promotion.model';
 import { CustomerModel } from '../../models/customer.model';
@@ -46,10 +50,9 @@ export class BasketService {
 
   // Calculate Total BuyBack Basket Price
   public basketBuybackTotalPrice = signal<BasketBuybackTotalsModel>({
-    askPrice: 0,
-    goldWeight: 0,
-    totalNormalGem: 0,
-    totalRareGem: 0,
+    totalGoldsWeight: 0,
+    totalGoldsPrice: 0,
+    totalRareGemsPrice: 0,
     total: 0,
   });
 
@@ -248,17 +251,25 @@ export class BasketService {
   // }
 
   /**
-   * Create an empty basket with phoneNumber
+   * Create an empty basket with phoneNumber or the entire empty basket
    * @param phoneNumber
    */
   public createEmptyBasketWithPhoneNumber(
-    phoneNumber: string,
+    phoneNumber?: string,
     orderTypeId?: OrderTypeEnum | number
-  ): void {
+  ): BasketModel {
     const newBasket: BasketModel = new BasketModel();
-    newBasket.phoneNumber = phoneNumber;
+
+    // If having phone number
+    if (phoneNumber) {
+      newBasket.phoneNumber = phoneNumber;
+    }
     newBasket.orderTypeId = orderTypeId ?? OrderTypeEnum.SELL;
+
+    // Update to RAM
     this.setOrUpdateBasket(newBasket);
+
+    return newBasket;
   }
 
   /**
@@ -288,16 +299,6 @@ export class BasketService {
    */
   public getCurrentBasketValue(): BasketModel | null {
     return this._basketSource.getValue();
-  }
-
-  /**
-   * Create a new basket with default basket_id = cuid2
-   * Set it into the basket_id
-   */
-  private createBasket(): BasketModel {
-    const basket = new BasketModel();
-    localStorage.setItem('basket_id', basket.id);
-    return basket;
   }
 
   // ================================ FOR A LIST OF SELL BASKET ============================
@@ -349,7 +350,9 @@ export class BasketService {
     }
 
     // Check the current basket
-    let basket = this.getCurrentBasketValue() ?? this.createBasket();
+    let basket =
+      this.getCurrentBasketValue() ??
+      this.createEmptyBasketWithPhoneNumber(undefined, OrderTypeEnum.SELL);
 
     // Update the basket's items when add or update the item
     basket.saleItems = this.addOrUpdateBasketItem<BasketItemSellModel>(
@@ -387,7 +390,6 @@ export class BasketService {
       goldWeight: goldWeightAfter,
       goldTypeId: goldTypeId,
       subCategoryId: subCategoryId,
-      gems: orderItem.orderItemGems,
     };
   }
 
@@ -408,15 +410,23 @@ export class BasketService {
    * @param subCategoryId
    */
   public addOrderItemToCurrentBasket(
-    item: OrderItemModel,
+    orderItem: OrderItemModel,
     quantity = 1,
-    buybackPriceAfter: number,
     goldWeightAfter: number,
+    latestAskPrice: number,
     goldTypeId?: number,
     subCategoryId?: number
   ): void {
+    // Calculate Buyback Price After
+    const buybackPriceAfter = this.calculateOrderItemForBuyBackItemPrice(
+      orderItem,
+      latestAskPrice,
+      goldWeightAfter
+    );
+
+    // Mapping OrderItem to BasketItemBuyBack
     const buybackBasketItemToAdd = this.mapOrderItemToBasketItemBuyback(
-      item,
+      orderItem,
       buybackPriceAfter,
       goldWeightAfter,
       goldTypeId ?? 0,
@@ -424,7 +434,9 @@ export class BasketService {
     );
 
     // Check the current basket
-    let basket = this.getCurrentBasketValue() ?? this.createBasket();
+    let basket =
+      this.getCurrentBasketValue() ??
+      this.createEmptyBasketWithPhoneNumber(undefined, OrderTypeEnum.BUYBACK);
 
     // Update the basket's buyback items when add or update the item
     basket.buybackItems = this.addOrUpdateBasketItem<BasketItemBuybackModel>(
@@ -480,7 +492,7 @@ export class BasketService {
   }
 
   /**
-   * Calculate total price
+   * Calculate total price of the sell basket
    */
   public calculateTotalBasketSellPrice() {
     const basket = this.getCurrentBasketValue();
@@ -501,20 +513,47 @@ export class BasketService {
   }
 
   /**
-   * Calculate total buyback price
+   * Calculates the buyback price of single item
+   *
+   * @param orderItem - The order item model containing details about the product.
+   * @param latestAskPrice - The latest ask price of gold.
+   * @param goldWeightAfter - The weight of the gold after processing.
+   * @returns The calculated buyback price for the basket item.
    */
-  public calculateTotalBasketBuyBackPrice() {
-    // const basket = this.getCurrentBasketValue();
-    // if (!basket) return;
-    // const totalNormalGemPrice = basket.buybackItems.reduce((acc, curr) => {});
-    // this.basketBuybackTotalPrice.update((value) => {});
-    // this.basketSellTotalPrice.update((value) => ({
-    //   promotionDiscount: value.promotionDiscount,
-    //   membershipDiscount: value.membershipDiscount,
-    //   subTotal: subTotal,
-    //   total:
-    //     subTotal *
-    //     (1 - (value.promotionDiscount ?? 0) - (value.membershipDiscount ?? 0)),
-    // }));
+  public calculateOrderItemForBuyBackItemPrice(
+    orderItem: OrderItemModel,
+    latestAskPrice: number,
+    goldWeightAfter: number
+  ): number {
+    let totalRareGemPrices = 0;
+
+    // If product having gem
+    if (orderItem.orderItemGems.length > 0) {
+      totalRareGemPrices = orderItem.orderItemGems.reduce((acc, curr) => {
+        if (!curr.isProcurable) {
+          return (acc += curr.price * 0.7 * curr.quantity);
+        }
+        return acc;
+      }, 0);
+    }
+
+    // Gold: New Gold Weight * Current Ask Price
+    // Rare Gems: quantity * price (1 unit)
+    // Normal Gems: 0
+    // total = Gold + Rare Gems
+    const basketItemBuyBackPrice =
+      goldWeightAfter * latestAskPrice + totalRareGemPrices;
+
+    // Update a basket buyback total price
+    this.basketBuybackTotalPrice.update((value) => ({
+      totalGoldsWeight: value.totalGoldsWeight + goldWeightAfter,
+      totalGoldsPrice: value.totalGoldsPrice + goldWeightAfter * latestAskPrice,
+      totalRareGemsPrice: value.totalRareGemsPrice + totalRareGemPrices,
+      total: value.total + basketItemBuyBackPrice,
+    }));
+
+    console.table(this.basketBuybackTotalPrice());
+
+    return basketItemBuyBackPrice;
   }
 }
