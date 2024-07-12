@@ -34,6 +34,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-create-new-basket.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OrderTypeEnum } from '../../../../core/models/order.model';
+import { BarcodeScannerComponent } from '../../../../barcode-scanner/barcode-scanner.component';
 
 @UntilDestroy()
 @Component({
@@ -48,6 +49,7 @@ import { OrderTypeEnum } from '../../../../core/models/order.model';
     CardProductComponent,
     GenericDropdownComponent,
     GenericSearchComponent,
+    BarcodeScannerComponent
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',

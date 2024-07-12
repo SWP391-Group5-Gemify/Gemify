@@ -1,1 +1,13 @@
-<p>barcode-scanner works!</p>
+<div>
+  <h1>ngx-scanner-qrcode</h1>
+
+  <!-- ngx-scanner-qrcode -->
+  <ngx-scanner-qrcode
+    #action="scanner"
+    [config]="config"
+    (event)="onEvent($event, action)"
+  >
+  </ngx-scanner-qrcode>
+  <p *ngIf="scannedValue">{{scannedValue}}</p>
+  <button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button>
+</div>
