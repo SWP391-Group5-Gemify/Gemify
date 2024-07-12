@@ -73,7 +73,7 @@
       <tr class="mat-row table-data-source__no-data-row"
           *matNoDataRow>
         <td class="mat-cell"
-            colspan="4">No data matching the filter "{{input.value}}"</td>
+            colspan="4">Không tìm thấy</td>
       </tr>
     </table>
     <!-- Pagination -->
@@ -83,7 +83,7 @@
                    [pageIndex]="pageIndex"
                    (page)="pageEvent($event)"
                    [pageSizeOptions]="[5, 10, 25, 100]"
-                   aria-label="Select items per page">
+                   aria-label="Chọn kích cỡ trang">
     </mat-paginator>
   </div>
 </div>

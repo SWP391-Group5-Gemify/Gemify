@@ -27,11 +27,11 @@ export class SellerComponent {
   // == Fields
   // ===========================
   navItems: NavItemsModel[] = [
-    { name: 'Products', icon: 'shopping_bag', route: '/seller/products' },
-    { name: 'Orders', icon: 'receipt', route: '/seller/orders' },
-    { name: 'Baskets', icon: 'shopping_cart', route: '/seller/baskets' },
+    { name: 'Trang Sức', icon: 'shopping_bag', route: '/seller/products' },
+    { name: 'Đơn Hàng', icon: 'receipt', route: '/seller/orders' },
+    { name: 'Giỏ Hàng', icon: 'shopping_cart', route: '/seller/baskets' },
     {
-      name: 'View Policy',
+      name: 'Chính Sách & Điều Khoản',
       icon: 'soap',
       route: '/seller/buyback',
     },

@@ -27,16 +27,16 @@ export class CashierComponent {
   // == Fields
   // ===========================
   navItems: NavItemsModel[] = [
-    { name: 'Baskets', icon: 'shopping_cart', route: '/cashier/baskets' },
-    { name: 'Orders', icon: 'receipt', route: '/cashier/orders' },
-    { name: 'Products', icon: 'shopping_bag', route: '/cashier/products' },
+    { name: 'Giỏ Hàng', icon: 'shopping_cart', route: '/cashier/baskets' },
+    { name: 'Đơn Hàng', icon: 'receipt', route: '/cashier/orders' },
+    { name: 'Trang Sức', icon: 'shopping_bag', route: '/cashier/products' },
     {
-      name: 'Promotions',
+      name: 'Ưu Đãi',
       icon: 'card_giftcard',
       route: '/cashier/promotions',
     },
     {
-      name: 'View Policy',
+      name: 'Chính Sách & Điều Khoản',
       icon: 'verified_user',
       route: '/cashier/policy',
     },
