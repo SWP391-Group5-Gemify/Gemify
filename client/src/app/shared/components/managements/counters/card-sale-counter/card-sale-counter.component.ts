@@ -92,4 +92,16 @@ export class CardSaleCounterComponent implements OnInit {
 
     this.onAssignEmployeeId.emit(assignedObject);
   }
+
+  /**
+   * Unassign any employee from thsi counter
+   */
+  public onUnassignEmployeeFromCounter() {
+    const assignedObject: AssignEmployeeIdModel = {
+      employeeId: null,
+      id: this.saleCounter().id,
+    };
+
+    this.onAssignEmployeeId.emit(assignedObject);
+  }
 }

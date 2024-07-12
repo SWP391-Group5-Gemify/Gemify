@@ -80,7 +80,8 @@
 
     <div class="gold-form__calculated">
       <button class="btn btn--grad btn--with-icon gold-form__calculated__button"
-              (click)="calculateGoldPrice()"><mat-icon>attach_money</mat-icon>Tính giá bán/mua (VND/chi)
+              (click)="calculateGoldPrice(); $event.preventDefault()"><mat-icon>attach_money</mat-icon>Tính giá bán/mua
+        (VND/chi)
       </button>
 
       <div *ngIf="newBidPrice"
@@ -98,9 +99,9 @@
 
     <div class="gold-form__buttons">
       <button class="btn btn--grad btn--with-icon gold-form__buttons__reset"
-              (click)="onReset()"><mat-icon>restore</mat-icon>Đặt Lại</button>
+              (click)="onReset(); $event.preventDefault()"><mat-icon>restore</mat-icon>Đặt Lại</button>
       <button class="btn btn--primary btn--with-icon gold-form__buttons__submit"
-              (click)="onSubmit()"
+              (click)="onSubmit(); $event.preventDefault()"
               [disabled]="!goldRateForm.valid || newBidPrice == undefined
               || newAskPrice == undefined || selectedGold == undefined">
         <mat-icon>update</mat-icon>Cập Nhật</button>
