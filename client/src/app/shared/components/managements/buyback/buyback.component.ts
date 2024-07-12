@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './buyback.component.html',
-  styleUrl: './buyback.component.scss'
+  styleUrl: './buyback.component.scss',
 })
-export class BuybackComponent {
-
-}
+export class BuybackComponent {}

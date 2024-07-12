@@ -45,13 +45,19 @@ export interface OrderItemGemModel {
 }
 
 export class OrderParams {
-  search = '';
+  search: string | undefined = '';
   pageIndex = 1;
   pageSize = 10;
-  orderTypeId = 0;
+  orderTypeId: number | OrderTypeEnum = 0;
 }
 
 export interface OrderTypeModel {
   id: number;
   name: string;
+}
+
+export enum OrderTypeEnum {
+  SELL = 1,
+  BUYBACK = 2,
+  EXCHANGE = 3,
 }

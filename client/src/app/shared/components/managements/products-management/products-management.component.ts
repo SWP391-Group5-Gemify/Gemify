@@ -126,7 +126,6 @@ export class ProductsManagementComponent implements OnInit {
 
   /**
    * Load all SubCategories, and map to the the key - value pair of * the dropdown component
-   * TODO: Handle error when load failed
    */
   public loadSubCategoriesDropdown() {
     this.productService

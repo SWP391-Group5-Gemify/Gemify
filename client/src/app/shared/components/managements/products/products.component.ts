@@ -8,7 +8,7 @@ import {
   PageEvent,
 } from '@angular/material/paginator';
 import { MatIcon } from '@angular/material/icon';
-import { catchError, map, mergeMap, Observable } from 'rxjs';
+import { catchError, combineLatest, map, mergeMap, Observable } from 'rxjs';
 import { PaginationModel } from '../../../../core/models/pagination.model';
 import { ProductService } from '../../../../core/services/product/product.service';
 import {
@@ -27,12 +27,13 @@ import { GenericSearchComponent } from '../../generic-search/generic-search.comp
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import {
-  BasketItemModel,
+  BasketItemSellModel,
   BasketModel,
 } from '../../../../core/models/basket.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-create-new-basket.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { OrderTypeEnum } from '../../../../core/models/order.model';
 
 @UntilDestroy()
 @Component({
@@ -272,10 +273,7 @@ export class ProductsComponent implements OnInit {
       map((baskets: BasketModel[]) => {
         return baskets.map((basket: BasketModel) => ({
           value: basket.id,
-          name: this.basketService.generateTempTicketId(
-            basket.id,
-            basket.phoneNumber
-          ),
+          name: this.basketService.generateTempTicketId(basket),
         }));
       })
     );
@@ -300,7 +298,7 @@ export class ProductsComponent implements OnInit {
    * @param items
    * @returns
    */
-  public getCountTotalItemsAddedInToBasketSource(items: BasketItemModel[]) {
+  public getCountTotalItemsAddedInToBasketSource(items: BasketItemSellModel[]) {
     return items.reduce((acc, curr) => {
       return acc + curr.quantity;
     }, 0);
@@ -316,13 +314,19 @@ export class ProductsComponent implements OnInit {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.basketService.createEmptyBasketWithPhoneNumber(result.phoneNumber);
-      }
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((result) => {
+        if (result) {
+          this.basketService.createEmptyBasketWithPhoneNumber(
+            result.phoneNumber,
+            OrderTypeEnum.SELL
+          );
+        }
 
-      // Reload the basket dropdown for new added basket
-      this.loadBasketIdAndPhoneDropdown();
-    });
+        // Reload the basket dropdown for new added basket
+        this.loadBasketIdAndPhoneDropdown();
+      });
   }
 }

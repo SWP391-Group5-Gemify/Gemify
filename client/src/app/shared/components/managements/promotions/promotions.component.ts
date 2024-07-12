@@ -152,7 +152,7 @@ export class PromotionsComponent {
   public onResetFilters() {
     this.promotionsStatusDropdownRef.onClearSelection();
     this.nameSearchInputRef.onClearInputFilter();
-    this.promotionParams.searchName;
+    this.promotionParams.searchName = undefined;
     this.promotionParams.status = undefined;
     this.loadPromotions();
   }
