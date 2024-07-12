@@ -35,6 +35,7 @@ namespace API.Extensions
             services.AddScoped<IPromotionService, PromotionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ISpeedSMSAPIService, SpeedSMSAPIService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
