@@ -1,5 +1,6 @@
 <!-- Form -->
 <form [formGroup]="basketForm"
+      (keydown)="preventEnterKey($event)"
       (ngSubmit)="onSubmit()"
       class="form--modal">
 

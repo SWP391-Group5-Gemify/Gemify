@@ -24,10 +24,10 @@ import { CheckoutExchangePaymentComponent } from './checkout-exchange-payment/ch
     GenericStepperComponent,
     CdkStepperModule,
     CheckoutExchangeCustomerComponent,
-    CheckoutExchangePaymentComponent
+    CheckoutExchangePaymentComponent,
   ],
   templateUrl: './checkout-exchange.component.html',
-  styleUrl: './checkout-exchange.component.scss'
+  styleUrl: './checkout-exchange.component.scss',
 })
 export class CheckoutExchangeComponent {
   // ======================-
@@ -54,7 +54,7 @@ export class CheckoutExchangeComponent {
     public basketService: BasketService,
     private location: Location,
     private fb: FormBuilder,
-    private customerService: CustomerService,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +87,6 @@ export class CheckoutExchangeComponent {
           },
         });
   }
-
 
   /**
    * Patch temporary phone into the customer checkout form

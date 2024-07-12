@@ -26,9 +26,12 @@ import { DropdownModel } from '../../../../../core/models/dropdown.model';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { ModalChangeGoldWeightComponent } from './modal-change-gold-weight/modal-change-gold-weight.component';
 import { ProductService } from '../../../../../core/services/product/product.service';
-import { lastValueFrom, map } from 'rxjs';
+import { lastValueFrom, map, tap } from 'rxjs';
 import ImageUtils from '../../../../utils/ImageUtils';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { GoldService } from '../../../../../core/services/gold/gold.service';
+import { GoldModel } from '../../../../../core/models/gold.model';
+import { NotificationService } from '../../../../../core/services/notification/notification.service';
 
 @UntilDestroy()
 @Component({
@@ -58,9 +61,9 @@ export class OrderDetailComponent implements OnInit {
   // ====================
   // == Fields
   // ====================
-  order?: OrderModel;
-  dataSource = new MatTableDataSource<OrderItemModel>([]);
-  expandedElement?: OrderItemModel | null;
+  public order?: OrderModel;
+  public dataSource = new MatTableDataSource<OrderItemModel>([]);
+  public expandedElement?: OrderItemModel | null;
   public basketIdAndPhoneDropdown!: DropdownModel[];
 
   columnsToDisplay = [
@@ -99,7 +102,8 @@ export class OrderDetailComponent implements OnInit {
     private basketService: BasketService,
     private dialog: MatDialog,
     private location: Location,
-    private productService: ProductService
+    private goldService: GoldService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -174,7 +178,7 @@ export class OrderDetailComponent implements OnInit {
   /**
    * Create new modal, adding customer phone and create new basket
    */
-  public onOpenModalAndCreateBuybackBasketWithCustomerPhone() {
+  public async onOpenModalAndCreateBuybackBasketWithCustomerPhone() {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
       width: '80%',
       height: '50%',
@@ -200,8 +204,8 @@ export class OrderDetailComponent implements OnInit {
    */
   public onOpenModalAndCreateExchangeBasketWithCustomerPhone() {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
-      width: '80%',
-      height: '50%',
+      width: '30rem',
+      height: '30rem',
     });
 
     dialogRef
@@ -223,9 +227,11 @@ export class OrderDetailComponent implements OnInit {
    * Create new modal, add new gold weight after inspection
    */
   public onOpenModalAndChangeGoldWeight($event: any) {
+    const orderItem = $event as OrderItemModel;
+
     const dialogRef = this.dialog.open(ModalChangeGoldWeightComponent, {
-      width: '80%',
-      height: '50%',
+      width: '30rem',
+      height: '30rem',
     });
 
     dialogRef
@@ -234,12 +240,30 @@ export class OrderDetailComponent implements OnInit {
       .subscribe((result) => {
         if (result) {
           // Convert orderItem to buyback item, calculate the total basket price
-          this.basketService.addOrderItemToCurrentBasket(
-            $event,
-            1,
-            result.goldWeight,
-            1
-          );
+          this.goldService
+            .getGoldById(orderItem.goldTypeId)
+            .pipe(
+              tap((gold: GoldModel) => {
+                this.basketService.addOrderItemToCurrentBasket(
+                  orderItem,
+                  1,
+                  Number.parseFloat(result.goldWeight),
+                  gold.latestAskPrice
+                );
+              })
+            )
+            .subscribe({
+              next: (value) => {
+                this.notificationService.show(
+                  `Bỏ sản phẩm ${orderItem?.productName} thành công.`
+                );
+              },
+              error: (err) => {
+                this.notificationService.show(
+                  `Bỏ sản phẩm ${orderItem?.productName} thất bại.`
+                );
+              },
+            });
         }
       });
   }

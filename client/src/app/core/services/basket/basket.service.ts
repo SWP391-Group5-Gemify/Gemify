@@ -86,7 +86,7 @@ export class BasketService {
       }));
 
       // Calculate price and set the promotionId to the basket
-      this.calculateTotalBasketSellPrice();
+      this.calculateBasketSellTotalPrice();
       this.setOrUpdateBasket(basket);
     }
   }
@@ -116,7 +116,7 @@ export class BasketService {
           }));
 
           // Calculate price and set the membershipId to the basket
-          this.calculateTotalBasketSellPrice();
+          this.calculateBasketSellTotalPrice();
           this.setOrUpdateBasket(basket);
         });
     }
@@ -461,6 +461,32 @@ export class BasketService {
   }
 
   /**
+   * Resets the basketSellTotalPrice to its initial values.
+   * This method sets all properties of basketSellTotalPrice to 0.
+   */
+  public resetBasketSellTotalPrice() {
+    this.basketSellTotalPrice.set({
+      subTotal: 0,
+      total: 0,
+      membershipDiscount: 0,
+      promotionDiscount: 0,
+    });
+  }
+
+  /**
+   * Resets the basketBuybackTotalPrice to its initial values.
+   * This method sets all properties of basketBuybackTotalPrice to 0.
+   */
+  public resetBasketBuyBackTotalPrice() {
+    this.basketBuybackTotalPrice.set({
+      totalGoldsPrice: 0,
+      total: 0,
+      totalGoldsWeight: 0,
+      totalRareGemsPrice: 0,
+    });
+  }
+
+  /**
    * Generate Temp ticket id For customer preference in store
    * @param customerName
    * @returns
@@ -486,7 +512,7 @@ export class BasketService {
     // Appending basketId
     tempTicketId = tempTicketId
       .concat('.')
-      .concat(basket.id.slice(0, 3).toUpperCase());
+      .concat(basket.phoneNumber.slice(0, 4).toUpperCase());
 
     return tempTicketId;
   }
@@ -494,10 +520,11 @@ export class BasketService {
   /**
    * Calculate total price of the sell basket
    */
-  public calculateTotalBasketSellPrice() {
+  public calculateBasketSellTotalPrice() {
     const basket = this.getCurrentBasketValue();
     if (!basket) return;
 
+    // Sub Total
     const subTotal = basket.saleItems.reduce((acc, curr) => {
       return acc + curr.price * curr.quantity;
     }, 0);
@@ -509,6 +536,25 @@ export class BasketService {
       total:
         subTotal *
         (1 - (value.promotionDiscount ?? 0) - (value.membershipDiscount ?? 0)),
+    }));
+  }
+
+  /**
+   * TODO: Limitation due to the lack of list of Gems at eachb BuybackItem in Backend API
+   * @returns
+   */
+  public calculateBasketBuyBackTotalPrice() {
+    const basket = this.getCurrentBasketValue();
+    if (!basket) return;
+
+    // Total Prices
+    const totalPrices = basket.buybackItems.reduce((acc, curr) => {
+      return (acc += curr.price);
+    }, 0);
+
+    this.basketBuybackTotalPrice.update((value) => ({
+      ...value,
+      total: totalPrices,
     }));
   }
 
@@ -551,8 +597,6 @@ export class BasketService {
       totalRareGemsPrice: value.totalRareGemsPrice + totalRareGemPrices,
       total: value.total + basketItemBuyBackPrice,
     }));
-
-    console.table(this.basketBuybackTotalPrice());
 
     return basketItemBuyBackPrice;
   }

@@ -29,6 +29,10 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ModalCreateNewBasketComponent implements OnInit {
   // ==========================================
+  // == Constructors
+  // ==========================================
+
+  // ==========================================
   // == Fields
   // ==========================================
   basketForm!: FormGroup;
@@ -51,6 +55,12 @@ export class ModalCreateNewBasketComponent implements OnInit {
   // ==========================================
   // == Methods
   // ==========================================
+  preventEnterKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
+
   getErrorMessage(controlName: string): string {
     const control = this.basketForm.get(controlName);
     if (control?.hasError('required')) {

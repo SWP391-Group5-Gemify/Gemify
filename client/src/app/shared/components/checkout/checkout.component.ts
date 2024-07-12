@@ -73,7 +73,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.loadCustomerOnBasketIfExist();
     this.loadPromotionOnBasketIfExist();
-    this.basketService.calculateTotalBasketSellPrice();
+    this.basketService.calculateBasketSellTotalPrice();
   }
 
   // ======================
