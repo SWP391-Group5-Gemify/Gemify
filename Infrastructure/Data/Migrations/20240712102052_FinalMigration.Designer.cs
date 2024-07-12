@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240711054847_FinalMigration")]
+    [Migration("20240712102052_FinalMigration")]
     partial class FinalMigration
     {
         /// <inheritdoc />
@@ -717,7 +717,10 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<decimal>("GoldPrice")
                                 .HasColumnType("decimal(18, 0)");
 
-                            b1.Property<string>("GoldType")
+                            b1.Property<int>("GoldTypeId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("GoldTypeName")
                                 .HasColumnType("nvarchar(100)");
 
                             b1.Property<decimal>("GoldWeight")

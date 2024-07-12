@@ -5,8 +5,9 @@ namespace API.Dtos
         public int Id { get; set;}
         public int ProductItemId { get; set; }
         public string ProductName { get; set; }
+        public int GoldTypeId { get; set; }
         public decimal GoldPrice { get; set; }
-        public string GoldType { get; set; }
+        public string GoldTypeName { get; set; }
         public decimal GoldWeight { get; set; }
         public decimal ProductLabour {  get; set; }
         public string Unit {  get; set; }

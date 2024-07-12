@@ -714,7 +714,10 @@ namespace Infrastructure.Data.Migrations
                             b1.Property<decimal>("GoldPrice")
                                 .HasColumnType("decimal(18, 0)");
 
-                            b1.Property<string>("GoldType")
+                            b1.Property<int>("GoldTypeId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("GoldTypeName")
                                 .HasColumnType("nvarchar(100)");
 
                             b1.Property<decimal>("GoldWeight")

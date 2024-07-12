@@ -34,7 +34,7 @@ namespace Infrastructure.Services
                 return null;
             }
 
-            var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice,
+            var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.GoldType.LatestBidPrice, productItem.GoldTypeId, 
                 productItem.GoldType.Name, productItem.GoldWeight, productItem.Labour, productItem.GoldType.Unit,
                 productItem.TotalWeight, productItem.ImageUrl, productItem.SaleCounterId, productItem.SaleCounter.Name);
 
@@ -81,7 +81,7 @@ namespace Infrastructure.Services
             await _unitOfWork.Complete();
             oldProduct = await _unitOfWork.Repository<Product>().GetEntityWithSpec(new ProductSpecification(oldProduct.Id));
 
-            var itemOrdered = new ProductItemOrdered(oldProduct.Id, oldProduct.Name, -oldProduct.GoldType.LatestAskPrice, oldProduct.GoldType.Name,
+            var itemOrdered = new ProductItemOrdered(oldProduct.Id, oldProduct.Name, -oldProduct.GoldType.LatestAskPrice, oldProduct.GoldTypeId, oldProduct.GoldType.Name,
                 oldProduct.GoldWeight, oldProduct.Labour, oldProduct.SubCategory.Unit, oldProduct.TotalWeight, oldProduct.ImageUrl, oldProduct.SaleCounterId, null);
             return new OrderItem(itemOrdered, -oldProduct.CalculateGoldAskPrice(), item.Quantity, null);
         }
