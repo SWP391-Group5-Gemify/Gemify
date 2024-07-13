@@ -139,7 +139,10 @@ export class OrderDetailComponent implements OnInit {
    * @returns
    */
   isUserCashier() {
-    return this.authService.currentUser()?.role === RoleEnum.Cashier;
+    return (
+      this.authService.currentUser()?.role == RoleEnum.Cashier ||
+      this.authService.currentUser()?.role == RoleEnum.Repurchaser
+    );
   }
 
   /**

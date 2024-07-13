@@ -9,8 +9,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'baskets-buyback-external',
+        redirectTo: 'orders',
         pathMatch: 'full',
+      },
+      {
+        path: 'orders',
+        loadChildren: () =>
+          import('../../routes/managements/orders-routing.module').then(
+            (m) => m.OrdersRoutingModule
+          ),
       },
       {
         path: 'baskets',
@@ -35,7 +42,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'baskets-buyback-external',
+        redirectTo: 'orders',
         pathMatch: 'full',
       },
     ],
