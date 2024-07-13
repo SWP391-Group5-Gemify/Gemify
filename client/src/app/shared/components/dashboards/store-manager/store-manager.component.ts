@@ -38,12 +38,12 @@ export class StoreManagerComponent {
       route: '/store-manager/counters',
     },
     {
-      name: 'Quản Lý Khách Hàng',
-      icon: 'family_restroom',
-      route: '/store-manager/customers',
+      name: 'Quản Lý Nhân Viên',
+      icon: 'work',
+      route: '/store-manager/employees',
     },
     {
-      name: 'Quản Lý Ưu Đãi',
+      name: 'Ưu Đãi',
       icon: 'card_giftcard',
       route: '/store-manager/promotions',
     },
@@ -53,6 +53,11 @@ export class StoreManagerComponent {
       route: '/store-manager/products-management',
     },
     { name: 'Đơn Hàng', icon: 'receipt', route: '/store-manager/orders' },
+    {
+      name: 'Chính Sách & Điều Khoản',
+      icon: 'verified_user',
+      route: '/store-manager/policy',
+    },
   ];
 
   // ===========================
