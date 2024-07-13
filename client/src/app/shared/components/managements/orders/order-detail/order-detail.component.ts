@@ -32,6 +32,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { GoldService } from '../../../../../core/services/gold/gold.service';
 import { GoldModel } from '../../../../../core/models/gold.model';
 import { NotificationService } from '../../../../../core/services/notification/notification.service';
+import { AuthService } from '../../../../../core/services/auth/auth.service';
+import { RoleEnum } from '../../../../../core/models/role.model';
 
 @UntilDestroy()
 @Component({
@@ -103,7 +105,8 @@ export class OrderDetailComponent implements OnInit {
     private dialog: MatDialog,
     private location: Location,
     private goldService: GoldService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -130,6 +133,14 @@ export class OrderDetailComponent implements OnInit {
   // ====================
   // == Methods
   // ====================
+
+  /**
+   * Check if the current user is the Cashier or not
+   * @returns
+   */
+  isUserCashier() {
+    return this.authService.currentUser()?.role === RoleEnum.Cashier;
+  }
 
   /**
    * Go back to the previous page

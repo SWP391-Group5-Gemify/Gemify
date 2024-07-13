@@ -1,0 +1,35 @@
+@import "abstracts/variables";
+
+.money-back-form {
+  &__heading {
+    font-size: 2.4rem;
+    color: $color-black;
+    text-transform: uppercase;
+  }
+
+  &__paragraph {
+    font-size: 2.2rem;
+    color: $color-black;
+    line-height: 1.5;
+    margin-bottom: 2.0rem;
+    padding: 2.2rem;
+    background-color: $color-white;
+    border-left: 4px solid $color-primary;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    span {
+      text-transform: uppercase;
+      font-weight: 900;
+      color: $color-primary-dark;
+      text-transform: uppercase;
+      padding: 0.8rem;
+    }
+  }
+}
+
+.basket-summary-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
