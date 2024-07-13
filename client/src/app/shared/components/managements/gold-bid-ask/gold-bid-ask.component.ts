@@ -17,7 +17,9 @@ import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdow
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-gold-bid-ask',
   standalone: true,
@@ -81,18 +83,21 @@ export class GoldBidAskComponent implements OnInit {
    * - Return the Observable<GoldModel[]>
    */
   public loadGoldsDropdown() {
-    this.goldService.getAllGolds().subscribe({
-      next: (response: PaginationModel<GoldModel>) => {
-        this.goldTypes = response.data;
-        this.goldsDropdown = response.data.map((gold) => ({
-          value: gold.id,
-          name: gold.name,
-        }));
-      },
-      error(err) {
-        console.error(err);
-      },
-    });
+    this.goldService
+      .getAllGolds()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (response: PaginationModel<GoldModel>) => {
+          this.goldTypes = response.data;
+          this.goldsDropdown = response.data.map((gold) => ({
+            value: gold.id,
+            name: gold.name,
+          }));
+        },
+        error(err) {
+          console.error(err);
+        },
+      });
   }
 
   /**
@@ -104,14 +109,16 @@ export class GoldBidAskComponent implements OnInit {
     forkJoin([
       this.goldService.getWorldGoldPrice(),
       this.goldService.getCurrency(),
-    ]).subscribe({
-      next: ([goldPrice, currency]) => {
-        this.currentGoldPrice = Math.round(
-          (goldPrice.price * currency.data.VND.value) / 8.29
-        );
-      },
-      error: (error) => console.log(error),
-    });
+    ])
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: ([goldPrice, currency]) => {
+          this.currentGoldPrice = Math.round(
+            (goldPrice.price * currency.data.VND.value) / 8.29
+          );
+        },
+        error: (error) => console.log(error),
+      });
   }
 
   /**
@@ -169,10 +176,11 @@ export class GoldBidAskComponent implements OnInit {
 
       this.goldService
         .updateBidAskGoldPrice(goldTypeId, this.goldPrice)
+        .pipe(untilDestroyed(this))
         .subscribe({
           next: (response: any) => {
             this.notificationService.show(
-              `Gold with ID = ${this.selectedGold?.id} updated successfully`
+              `Cập nhập Gold ID = ${this.selectedGold?.id} thành công`
             );
           },
 

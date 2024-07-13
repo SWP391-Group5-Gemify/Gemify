@@ -1,0 +1,63 @@
+@import "abstracts/variables";
+
+.card-sale-counter {
+  &--unassigned {
+    border: 3px solid $color-grey-dark-3;
+  }
+
+  &--assigned {
+    border: 3px solid $color-primary-dark;
+  }
+
+  &__header {
+    padding: $padding-layout;
+    color: $color-grey-light;
+    font-size: 1.6rem;
+    text-align: center;
+    text-transform: uppercase;
+
+
+    &--unassigned {
+
+      background-color: $color-grey-dark-3;
+    }
+
+    &--assigned {
+      background-color: $color-primary-dark;
+    }
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    gap: $gutter-layout;
+  }
+
+  &__content {
+    padding: $padding-layout;
+    display: flex;
+    flex-direction: column;
+    gap: $gutter-layout;
+  }
+
+  &__quantity,
+  &__employee {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.8rem;
+
+    span {
+      font-weight: 900;
+      font-size: 2.0rem;
+      color: $color-primary;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    padding: $padding-layout;
+    padding-top: 0;
+
+  }
+}
