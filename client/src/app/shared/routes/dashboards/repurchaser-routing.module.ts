@@ -9,15 +9,22 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'orders',
+        redirectTo: 'baskets-buyback-external',
         pathMatch: 'full',
       },
       {
-        path: 'orders',
+        path: 'baskets',
         loadChildren: () =>
-          import('../../routes/managements/orders-routing.module').then(
-            (m) => m.OrdersRoutingModule
+          import('../managements/baskets/basket-routing.module').then(
+            (m) => m.BasketRoutingModule
           ),
+      },
+      {
+        path: 'baskets-buyback-external',
+        loadChildren: () =>
+          import(
+            '../managements/baskets/basket-buyback-external-routing.module'
+          ).then((m) => m.BasketBuybackExternalRoutingModule),
       },
       {
         path: 'policy',
@@ -28,7 +35,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'orders',
+        redirectTo: 'baskets-buyback-external',
         pathMatch: 'full',
       },
     ],

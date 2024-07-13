@@ -1,7 +1,6 @@
 <form class="login form form--centered"
       [formGroup]="signInForm"
-      autocomplete="off"
-      (ngSubmit)="login()">
+      autocomplete="off">
   <h2 class="form__heading u-margin-bottom-medium">Sign in</h2>
 
   <!-- Form Control Username -->
@@ -37,16 +36,20 @@
   </div>
 
   <!-- Sign In Button -->
-  <div class="login__contact-group u-margin-top-small">
-    <button class="btn btn--primary-dark"
-            type="submit">Sign in</button>
 
-    <span class="divider divider--vertical"></span>
+  <div class="login__contact-group u-margin-top-small">
+    <button class="btn btn--primary-dark btn--with-icon"
+            (click)="login(); $event.preventDefault()"><mat-icon>login</mat-icon>Đăng nhập</button>
+
+    <button class="btn btn--primary-light btn--with-icon"
+            (click)="forgotPassword(); $event.preventDefault()"><mat-icon>key</mat-icon>Quên mật khẩu</button>
+
+    <!-- <span class="divider divider--vertical"></span>
 
     <div class="login__contact-group-text">
       <p class="login__contact-text">{{contact.text}}</p>
       <p class="login__contact-number">{{contact.number}}</p>
-    </div>
+    </div> -->
   </div>
 </form>
 

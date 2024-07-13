@@ -29,10 +29,11 @@ export class RepurchaserComponent {
   // ===========================
   navItems: NavItemsModel[] = [
     {
-      name: 'Đơn Hàng',
-      icon: 'receipt',
-      route: '/repurchaser/orders',
+      name: 'Giỏ hàng mua lại ngoài cửa hàng',
+      icon: 'add_shopping_cart',
+      route: '/repurchaser/baskets-buyback-external',
     },
+    { name: 'Giỏ Hàng', icon: 'shopping_cart', route: '/repurchaser/baskets' },
     {
       name: 'Chính Sách & Điều Khoản',
       icon: 'verified_user',

@@ -25,7 +25,7 @@ export interface BasketItemSellModel {
 
 // Buyback item in basket
 export interface BasketItemBuybackModel {
-  id: number;
+  id: string | number;
   pictureUrl: string;
   productName: string;
   price: number;
@@ -33,6 +33,10 @@ export interface BasketItemBuybackModel {
   goldWeight: number;
   goldTypeId?: number;
   subCategoryId?: number;
+}
+
+export class BasketItemBuybackModel implements BasketItemBuybackModel {
+  id: string | number = 1;
 }
 
 export interface BasketParams {
