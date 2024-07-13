@@ -29,7 +29,7 @@ const routes: Routes = [
       {
         path: 'baskets',
         loadChildren: () =>
-          import('../../routes/managements/basket-routing.module').then(
+          import('../managements/baskets/basket-routing.module').then(
             (m) => m.BasketRoutingModule
           ),
       },
