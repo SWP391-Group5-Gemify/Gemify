@@ -4,11 +4,10 @@ import { environment } from '../../../../environments/environment.development';
 import { SmsModel } from '../../models/sms.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SmsService {
-
-    // ====================
+  // ====================
   // == Fields
   // ====================
   baseUrl: string = environment.baseApiUrl.concat('/smsmessage');
@@ -24,5 +23,4 @@ export class SmsService {
   sendSms(smsContent: SmsModel) {
     return this.httpClient.post<SmsModel>(this.baseUrl, smsContent);
   }
-  
 }

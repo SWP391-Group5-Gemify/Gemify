@@ -20,13 +20,6 @@ const routes: Routes = [
           ).then((m) => m.StatisticDashboardRoutingModule),
       },
       {
-        path: 'employees',
-        loadChildren: () =>
-          import('../../routes/managements/employees-routing.module').then(
-            (m) => m.EmployeesRoutingModule
-          ),
-      },
-      {
         path: 'counters',
         loadChildren: () =>
           import('../../routes/managements/counters-routing.module').then(
@@ -34,10 +27,17 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'customers',
+        path: 'employees',
         loadChildren: () =>
-          import('../../routes/managements/customers-routing.module').then(
-            (m) => m.CustomersRoutingModule
+          import('../../routes/managements/employees-routing.module').then(
+            (m) => m.EmployeesRoutingModule
+          ),
+      },
+      {
+        path: 'promotions',
+        loadChildren: () =>
+          import('../managements/promotions-routing.module').then(
+            (m) => m.PromotionsRoutingModule
           ),
       },
       {
@@ -52,6 +52,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('../../routes/managements/orders-routing.module').then(
             (m) => m.OrdersRoutingModule
+          ),
+      },
+      {
+        path: 'policy',
+        loadChildren: () =>
+          import('../managements/policy-routing.module').then(
+            (m) => m.PolicyRoutingModule
           ),
       },
       {

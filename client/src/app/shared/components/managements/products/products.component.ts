@@ -334,8 +334,8 @@ export class ProductsComponent implements OnInit {
           var basketCode = this.basketService.generateTempTicketId(basket);
           var smsContent: SmsModel = {
             phoneNumber: result.phoneNumber,
-            basketCode: basketCode
-          } 
+            basketCode: basketCode,
+          };
           this.smsService.sendSms(smsContent).subscribe();
         }
       });

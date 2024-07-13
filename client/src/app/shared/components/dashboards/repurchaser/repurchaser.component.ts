@@ -28,6 +28,7 @@ export class RepurchaserComponent {
   // == Fields
   // ===========================
   navItems: NavItemsModel[] = [
+    { name: 'Đơn Hàng', icon: 'receipt', route: '/repurchaser/orders' },
     {
       name: 'Giỏ hàng mua lại ngoài cửa hàng',
       icon: 'add_shopping_cart',

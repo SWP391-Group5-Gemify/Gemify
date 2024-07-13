@@ -34,6 +34,8 @@ import { GoldModel } from '../../../../../core/models/gold.model';
 import { NotificationService } from '../../../../../core/services/notification/notification.service';
 import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../../core/models/role.model';
+import { SmsModel } from '../../../../../core/models/sms.model';
+import { SmsService } from '../../../../../core/services/sms/sms.service';
 
 @UntilDestroy()
 @Component({
@@ -106,7 +108,8 @@ export class OrderDetailComponent implements OnInit {
     private location: Location,
     private goldService: GoldService,
     private notificationService: NotificationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private smsService: SmsService
   ) {}
 
   ngOnInit(): void {
@@ -139,7 +142,10 @@ export class OrderDetailComponent implements OnInit {
    * @returns
    */
   isUserCashier() {
-    return this.authService.currentUser()?.role === RoleEnum.Cashier;
+    return (
+      this.authService.currentUser()?.role == RoleEnum.Cashier ||
+      this.authService.currentUser()?.role == RoleEnum.Repurchaser
+    );
   }
 
   /**
@@ -200,12 +206,21 @@ export class OrderDetailComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((result) => {
         if (result) {
-          this.basketService.createEmptyBasketWithPhoneNumber(
+          let basket = this.basketService.createEmptyBasketWithPhoneNumber(
             result.phoneNumber,
             OrderTypeEnum.BUYBACK
           );
 
+          // Reload the basket id nad phone dropdown
           this.loadBasketIdAndPhoneDropdown();
+
+          // Send SMS message
+          var basketCode = this.basketService.generateTempTicketId(basket);
+          var smsContent: SmsModel = {
+            phoneNumber: result.phoneNumber,
+            basketCode: basketCode,
+          };
+          this.smsService.sendSms(smsContent).subscribe();
         }
       });
   }
@@ -224,12 +239,21 @@ export class OrderDetailComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((result) => {
         if (result) {
-          this.basketService.createEmptyBasketWithPhoneNumber(
+          var basket = this.basketService.createEmptyBasketWithPhoneNumber(
             result.phoneNumber,
             OrderTypeEnum.EXCHANGE
           );
 
+          // Reload the basket id nad phone dropdown
           this.loadBasketIdAndPhoneDropdown();
+
+          // Send SMS message
+          var basketCode = this.basketService.generateTempTicketId(basket);
+          var smsContent: SmsModel = {
+            phoneNumber: result.phoneNumber,
+            basketCode: basketCode,
+          };
+          this.smsService.sendSms(smsContent).subscribe();
         }
       });
   }
