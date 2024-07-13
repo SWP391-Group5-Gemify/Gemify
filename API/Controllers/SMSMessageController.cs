@@ -19,7 +19,7 @@ namespace API.Controllers
 
         // Get all customers with specification
         [HttpPost]
-        [Authorize(Roles = "Seller,Repurchaser")]
+        [Authorize(Roles = "Seller,Repurchaser,Cashier")]
         public async Task<ActionResult<string>> SendSMS(SendSMSRequestDto sms)
         {
             String[] phones = new String[] { sms.PhoneNumber };
