@@ -94,7 +94,7 @@ namespace API.Controllers
 
         // Get all categories with specification
         [HttpGet("categories")]
-        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier")]
+        [Authorize(Roles = "StoreOwner,StoreManager,Seller,Cashier, Repurchaser")]
         public async Task<ActionResult<IReadOnlyList<CategoryDto>>> GetCategories()
         {
             var spec = new CategorySpecification();
