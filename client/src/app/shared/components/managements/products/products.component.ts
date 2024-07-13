@@ -35,6 +35,8 @@ import { ModalCreateNewBasketComponent } from './modal-create-new-basket/modal-c
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { OrderTypeEnum } from '../../../../core/models/order.model';
 import { BarcodeScannerComponent } from '../../barcode-scanner/barcode-scanner.component';
+import { SmsService } from '../../../../core/services/sms/sms.service';
+import { SmsModel } from '../../../../core/models/sms.model';
 
 @UntilDestroy()
 @Component({
@@ -99,7 +101,8 @@ export class ProductsComponent implements OnInit {
     private productService: ProductService,
     private goldService: GoldService,
     public basketService: BasketService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private smsService: SmsService
   ) {}
 
   ngOnInit(): void {
@@ -319,13 +322,21 @@ export class ProductsComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((result) => {
         if (result) {
-          this.basketService.createEmptyBasketWithPhoneNumber(
+          var basket = this.basketService.createEmptyBasketWithPhoneNumber(
             result.phoneNumber,
             OrderTypeEnum.SELL
           );
 
           // Reload the basket dropdown for new added basket
           this.loadBasketIdAndPhoneDropdown();
+
+          // Send SMS message
+          var basketCode = this.basketService.generateTempTicketId(basket);
+          var smsContent: SmsModel = {
+            phoneNumber: result.phoneNumber,
+            basketCode: basketCode
+          } 
+          this.smsService.sendSms(smsContent).subscribe();
         }
       });
   }
