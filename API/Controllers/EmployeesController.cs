@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "StoreOwner")]
+    [Authorize(Roles = "StoreOwner,StoreManager")]
     public class EmployeesController : BaseApiController
     {
         private readonly IUserService _userService;
@@ -27,7 +27,7 @@ namespace API.Controllers
 
         // Get Employees with filter and paging
         [HttpGet]
-        [Authorize(Roles = "StoreOwner")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<Pagination<EmployeeDto>>> GetEmployees([FromQuery] EmployeeSpecParams employeeParams)
         {
             var spec = new EmployeeSpecification(employeeParams);
@@ -45,7 +45,7 @@ namespace API.Controllers
 
         //Get Employee By Id
         [HttpGet("{id}")]
-        [Authorize(Roles = "StoreOwner")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<EmployeeDto>> EmployeeDetails(int id)
         {
             var spec = new EmployeeSpecification(id);
@@ -61,7 +61,7 @@ namespace API.Controllers
 
         // Disable Employee Account
         [HttpDelete("{id}")]
-        [Authorize(Roles = "StoreOwner")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<EmployeeDto>> DeleteEmployee(int id)
         {
             var spec = new EmployeeSpecification(id);
@@ -80,7 +80,7 @@ namespace API.Controllers
 
         // Update Employee Information
         [HttpPut("{id}")]
-        [Authorize(Roles = "StoreOwner")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<EmployeeDto>> UpdateEmployee(int id, EmployeeDto employee)
         {
             var spec = new EmployeeSpecification(id);
@@ -99,7 +99,7 @@ namespace API.Controllers
 
         // Get All Roles
         [HttpGet("roles")]
-        [Authorize(Roles = "StoreOwner")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<IReadOnlyList<IdentityRole<int>>>> GetAllRoles()
         {
             var roles = await _userService.GetAllRolesAsync();
