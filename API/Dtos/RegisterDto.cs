@@ -19,16 +19,21 @@ namespace API.Dtos
         [RegularExpression("^(?=.*\\d).{8,15}$",
             ErrorMessage = "Password must be between 8 and 15 digits long and include at least one numeric digit")]
         public string Password { get; set; }
+        [Required]
         public string FullName { get; set; }
+        [Required]
+        [Phone]
         public string PhoneNumber { get; set; }
 
         [Gender(ErrorMessage = "Invalid Gender")]
         public string Gender { get; set; }
+        [Required]
         public DateOnly DateOfBirth { get; set; }
 
         [UserStatus(ErrorMessage = "Invalid User Status")]
         public string Status { get; set; } = UserStatus.Active.GetEnumMemberValue();
         public string Image_Url { get; set; }
+        [Required]
         public string Address { get; set; }
 
         [Required]
