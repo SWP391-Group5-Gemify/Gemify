@@ -210,6 +210,13 @@ namespace Infrastructure.Services
             // Get basket from redis database
             var basket = await _basketRepo.GetBasketAsync(basketId);
 
+            if (basket == null) return null;
+
+            // Check if customer existed
+            var customer = await _unitOfWork.Repository<Customer>().GetByIdAsync(customerId);
+
+            if (customer == null) return null;
+
             // Get items from product repo to prevent client from tampering with price data
             var items = new List<OrderItem>();
             foreach (var item in basket.SaleItems)

@@ -86,6 +86,9 @@ namespace Infrastructure.Services
             // Add new prices to gold price history
             _unitOfWork.Repository<GoldPrice>().Add(goldPrice);
 
+            // Check if gold price is < 0
+            if (goldPrice.BidPrice < 0 || goldPrice.AskPrice < 0) return false;
+
             // Update gold type prices
             exist_goldType.LatestBidPrice = goldPrice.BidPrice;
             exist_goldType.LatestAskPrice = goldPrice.AskPrice;
