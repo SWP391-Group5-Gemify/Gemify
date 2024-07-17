@@ -105,6 +105,14 @@ namespace API.Helpers
                 .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.Name));
 
             CreateMap<OrderDto, Order>();
+
+            CreateMap<SaleCounterRevenue, TotalRevenueOfMonthDto>()
+                .ForMember(t => t.Month, o => o.MapFrom(r => r.Date.Month))
+                .ForMember(t => t.Revenue, o => o.MapFrom(r => r.Revenue));
+
+            CreateMap<SaleCounterRevenue, SaleCounterRevenueOfMonthDto>()
+                .ForMember(s => s.SaleCounterId, o => o.MapFrom(r => r.SaleCounterId))
+                .ForMember(s => s.Revenue, o => o.MapFrom(r => r.Revenue));
         }
     }
 }

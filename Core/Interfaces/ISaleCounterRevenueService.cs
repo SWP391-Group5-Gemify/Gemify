@@ -15,6 +15,8 @@ namespace Core.Interfaces
         
         Task<int> CountSaleCounterRevenuesAsync(ISpecification<SaleCounterRevenue> spec);
 
-        Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date);
+        Task<IReadOnlyList<SaleCounterRevenue>> GetTotalSaleRevenuesByMonthAsync(int year);
+
+        Task<IReadOnlyList<SaleCounterRevenue>> GetSaleRevenuesByCounterAndMonthAsync(int month, int year);
     }
 }

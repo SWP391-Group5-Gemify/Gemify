@@ -25,5 +25,18 @@ namespace Core.Specifications.Counters
         {
 
         }
+
+        public SaleCounterRevenueSpecification(int month, int year)
+            : base(x => x.Date.Month == month && x.Date.Year == year)
+        {
+            AddInclude(r => r.SaleCounter);
+        }
+
+        public SaleCounterRevenueSpecification(int saleCounterId, int month, int year)
+            : base(x => x.SaleCounterId == saleCounterId && x.Date.Month == month
+            && x.Date.Year == year)
+        {
+            AddInclude(r => r.SaleCounter);
+        }
     }
 }

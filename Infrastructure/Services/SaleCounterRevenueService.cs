@@ -90,12 +90,43 @@ namespace Infrastructure.Services
             return await _unitOfWork.Repository<SaleCounterRevenue>().CountAsync(spec);
         }
 
-        public async Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date)
+        //Get list of total sale revenues by month based on input year (dashboard line chart)
+        public async Task<IReadOnlyList<SaleCounterRevenue>> GetTotalSaleRevenuesByMonthAsync(int year)
         {
-            var spec = new SaleCounterRevenueSpecification(date);
-            var revenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+            var totalSaleRevenuesByMonth = new List<SaleCounterRevenue>();  
 
-            return revenues.Sum(r => r.Revenue);
+            // Calculate total sale revenues for each month from Jan to Dec
+            for(int i = 1; i <= 12; i++)
+            {
+                var spec = new SaleCounterRevenueSpecification(i, year);
+                var listSaleRevenuesWithSpec = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+                SaleCounterRevenue totalSaleRevenuesWithSpec = 
+                    new SaleCounterRevenue(listSaleRevenuesWithSpec.Sum(r => r.Revenue), new DateOnly(year, i, 1));
+                totalSaleRevenuesByMonth.Add(totalSaleRevenuesWithSpec);
+            }
+
+            return totalSaleRevenuesByMonth;          
+        }
+
+        //Get list of sale revenues by counter based on input month and year (dashboard bar chart)
+        public async Task<IReadOnlyList<SaleCounterRevenue>> 
+            GetSaleRevenuesByCounterAndMonthAsync(int month, int year)
+        {
+            var saleRevenuesByCounterMonth = new List<SaleCounterRevenue>();
+
+            var saleCounterCountSpec = new SaleCounterSpecification();
+            int saleCounterCount = await _unitOfWork.Repository<SaleCounter>().CountAsync(saleCounterCountSpec);
+            for(int i = 1; i <= saleCounterCount; i++)
+            {
+                var spec = new SaleCounterRevenueSpecification(i, month, year);
+                var listSaleRevenuesWithSpec = 
+                    await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+                SaleCounterRevenue saleRevenuesWithSpec =
+                    new SaleCounterRevenue(listSaleRevenuesWithSpec.Sum(r => r.Revenue),i, new DateOnly(year, month, 1));
+                saleRevenuesByCounterMonth.Add(saleRevenuesWithSpec);
+            }
+
+            return saleRevenuesByCounterMonth;
         }
 
     }
