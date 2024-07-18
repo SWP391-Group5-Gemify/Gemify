@@ -60,5 +60,15 @@ namespace API.Controllers
             var years = await _saleCounterRevenueService.GetYearsAsync();
             return Ok(years);
         }
+
+        // Get counters revenues of sale in year
+        [HttpGet("revenues/counterYearlyRevenues/{year}")]
+        [Authorize(Roles = "StoreOwner,StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>>
+            GetSaleCounterYearlyRevenuesAsync(int year)
+        {
+            var revenues = await _saleCounterRevenueService.GetSaleCounterRevenueYearlyAsync(year);
+            return Ok(revenues);
+        }
     }
 }

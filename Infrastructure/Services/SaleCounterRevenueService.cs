@@ -150,5 +150,44 @@ namespace Infrastructure.Services
             return years;
         }
 
+        //l?y revenue c?a counter theo n?m
+        public async Task<IReadOnlyList<SaleCounterRevenueOfMonth>>
+            GetSaleCounterRevenueYearlyAsync(int year)
+        {
+            var counters = await _unitOfWork.Repository<SaleCounter>().ListAllAsync();
+            var counterRevenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAllAsync();
+
+            var saleCounterRevenues = new List<SaleCounterRevenueOfMonth>();
+
+            foreach (var counter in counters)
+            {
+                var total = 0;
+                var saleCounterRevenueOfMonth = new SaleCounterRevenueOfMonth()
+                {
+                    SaleCounterId = counter.Id
+                };
+                saleCounterRevenueOfMonth.SaleCounterId = counter.Id;
+
+                foreach(var counterRevenue in counterRevenues)
+                {
+                    if (counterRevenue == null)
+                    {
+                        total = 0;
+                    }
+                    else if (counterRevenue.Date.Year == year && counterRevenue.SaleCounterId == counter.Id)
+                    {
+                        total += (int)counterRevenue.Revenue;
+                    }
+                }
+                
+                saleCounterRevenueOfMonth.Revenue = total;
+
+                saleCounterRevenueOfMonth.SaleCounterName = counter.Name;
+
+                saleCounterRevenues.Add(saleCounterRevenueOfMonth);
+            }
+
+            return saleCounterRevenues;
+        }
     }
 }
