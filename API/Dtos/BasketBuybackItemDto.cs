@@ -20,5 +20,8 @@ namespace API.Dtos
         public int GoldTypeId { get; set; }
         public int? SubCategoryId { get; set; }
         public string PictureUrl { get; set; }
+        public int? GemId { get; set; }
+        public decimal? GemPrice { get; set; }
+        public string? GemName { get; set; }
     }
 }
