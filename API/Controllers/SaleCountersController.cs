@@ -74,6 +74,15 @@ namespace API.Controllers
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<SaleCounterDto>> UpdateSaleCounter (int id, SaleCounterToAssignDto saleCounterDto)
         {
+            // Check if the employee is already assigned to a different counter
+            var userSpec = new SaleCounterWithUniqueEmployeeIdSpecification(saleCounterDto.UserId.Value);
+            var saleCounterWithUserId = await _saleCountersRepo.GetEntityWithSpec(userSpec);
+            if(saleCounterWithUserId != null)
+            {
+                return BadRequest(new ApiResponse(400, "This employee is already assigned to a different counter"));
+            }
+
+            // Check if the chosen counter exists
             var spec = new SaleCounterSpecification(id);
             var existingSaleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
             if (existingSaleCounter == null)
