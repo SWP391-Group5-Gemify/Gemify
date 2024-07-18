@@ -22,6 +22,10 @@
       <!-- Reset all input element -->
       <button class="btn btn--primary-dark btn--with-icon"
               (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
+
+      <!-- Update daily revenue for each counter -->
+      <button class="btn btn--primary-dark btn--with-icon"
+              (click)="onUpdateDailyRevenue()"><mat-icon>update</mat-icon>Cập nhật doanh thu</button>
     </div>
   </div>
 </section>
@@ -29,11 +33,12 @@
 <!-- List of counters -->
 <section class="grid grid--responsive u-margin-top-small">
   <div *ngIf="(saleCounters$ | async) === null">
-    <p>No data fits your search</p>
+    <p>Không có quầy nào</p>
   </div>
 
   @for (saleCounter of saleCounters$ | async; track $index) {
   <app-card-sale-counter [saleCounter]="saleCounter"
+                         [revenue]="getRevenueByCounterId(saleCounter.id)"
                          (onAssignEmployeeId)="onAssignEmployeeIdFromParent($event)"></app-card-sale-counter>
   }
 </section>
