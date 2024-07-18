@@ -3,19 +3,21 @@ import { CounterService } from '../../../../core/services/counter/counter.servic
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { GenericSearchComponent } from '../../generic-search/generic-search.component';
 import { MatIcon } from '@angular/material/icon';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import {
   AssignEmployeeIdModel,
   SaleCounterModel,
   SaleCounterParams,
+  SaleCounterRevenueModel,
 } from '../../../../core/models/sale-counter.model';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { CardSaleCounterComponent } from './card-sale-counter/card-sale-counter.component';
 import { EmployeeModel } from '../../../../core/models/employee.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { RevenueService } from '../../../../core/services/revenue/revenue.service';
 
 @UntilDestroy()
 @Component({
@@ -37,6 +39,7 @@ export class CountersComponent implements OnInit {
   // ====================
 
   public saleCounters$!: Observable<SaleCounterModel[]>;
+  public saleCounterRevenue!: SaleCounterRevenueModel[];
   public saleCountersStatusDropdown!: DropdownModel[];
 
   public saleCounterParams: SaleCounterParams = {
@@ -46,7 +49,6 @@ export class CountersComponent implements OnInit {
     searchName: undefined,
     revenueDate: undefined,
   };
-
   @ViewChild('saleCountersStatusDropdownRef')
   saleCountersStatusDropdownRef!: GenericDropdownComponent;
   @ViewChild('nameSearchInputRef') nameSearchInputRef!: GenericSearchComponent;
@@ -56,11 +58,14 @@ export class CountersComponent implements OnInit {
   // ====================
   constructor(
     private counterService: CounterService,
-    private notificationService: NotificationService
+    private revenueService: RevenueService,
+    private notificationService: NotificationService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
     this.loadSaleCounters();
+    this.getCurrentDateRevenue();
     this.loadSaleCountersStatusDropdown();
   }
 
@@ -146,9 +151,40 @@ export class CountersComponent implements OnInit {
           }
         },
 
-        error: (_) => {
-          this.notificationService.show('Có lỗi xảy ra, vui lòng thử lại');
+        error: (error) => {
+          this.notificationService.show(error.error.message);
         },
       });
   }
+
+  /**
+   * Update daily revenue of each counter
+   */
+  public onUpdateDailyRevenue() {
+    this.revenueService.updateDailyRevenue().subscribe({
+      next: response => this.notificationService.show("Cập nhật thành công"),
+      error: error => this.notificationService.show(error.error.message)
+    });
+  }
+
+  /**
+   * Get current date revenue for all counters
+   */
+  private getCurrentDateRevenue() {
+    const date = new Date();
+    const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd')!.toString();
+    
+    this.revenueService.getRevenueByDate(formattedDate).subscribe({
+      next: (response) => {        
+        this.saleCounterRevenue = response;
+      },
+      error: error => this.notificationService.show(error.error.message)
+    });
+  }
+
+  public getRevenueByCounterId(id: number) {
+    var revenue = this.saleCounterRevenue.find(s => s.saleCounterId === id);
+    return revenue?.revenue;
+  }
 }
+

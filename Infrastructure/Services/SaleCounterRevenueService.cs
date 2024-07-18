@@ -60,7 +60,13 @@ namespace Infrastructure.Services
             {
                 foreach (var order in ordersToday)
                 {
-                    var totalDiscount = order.Promotion.Discount + order.Membership.Discount;
+                    var totalDiscount = 0m;
+                    if(order.PromotionId == null) {
+                        totalDiscount = order.Membership.Discount;
+                    }
+                    else {
+                        totalDiscount = order.Promotion.Discount + order.Membership.Discount;
+                    }
 
                     foreach (var orderItem in order.OrderItems)
                     {
