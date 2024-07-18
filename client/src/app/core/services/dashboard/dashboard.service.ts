@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 import {
   RevenuesDataModel,
   RevenueSaleCounterModel,
+  Revenue,
 } from '../../../core/models/counter-revenue.model';
 
 @Injectable({

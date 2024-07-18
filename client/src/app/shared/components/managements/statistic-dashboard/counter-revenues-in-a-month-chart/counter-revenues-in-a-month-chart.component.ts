@@ -74,7 +74,7 @@ export class CounterRevenuesInAMonthChartComponent
     this.selectedMonth = $event.value;
     this.loadChartData(this.selectedYear, this.selectedMonth);
   }
-
+  
   loadChartData(year: number, month: number): void {
     this.service.getSpecificCounterRevenuesInMonthData(year, month).subscribe(
       (data) => {
@@ -86,7 +86,7 @@ export class CounterRevenuesInAMonthChartComponent
 
         this.labelData = data.map((item) => item.saleCounterName); // Convert saleCounterId to string
         this.revenueData = data.map((item) => item.revenue);
-
+  
         this.clearChart();
         this.renderColumnChart(this.labelData, this.revenueData);
       },
