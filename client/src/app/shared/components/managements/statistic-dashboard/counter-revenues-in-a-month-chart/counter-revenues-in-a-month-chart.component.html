@@ -1,16 +1,23 @@
-<div class="chart-container">
-  <h2 style="text-align: center;">Revenue Chart in Month</h2>
-  <br><br>
-  <h3>Select Year & Month</h3>
-  <select (change)="onYearChange($event)">
-    <option *ngFor="let year of years"
-            [value]="year">{{ year }}</option>
-  </select>
-
-  <select (change)="onMonthChange($event)">
-    <option *ngFor="let month of months"
-            [value]="month.value">{{ month.label }}</option>
-  </select>
+<div>
+  <div class="dropdowns">
+    <!-- Year Dropdown -->
+    <div class="year-dropdown">
+      <app-generic-dropdown #yearDropdownRef
+                            label="Chọn Năm"
+                            [options]="yearDropdown"
+                            (onSelectionChange)="onSelectChangeYearFromParent($event)">
+      </app-generic-dropdown>
+    </div>
+  
+    <!-- Month Dropdown -->
+    <div class="month-dropdown">
+      <app-generic-dropdown #yearDropdownRef
+                            label="Chọn Tháng"
+                            [options]="monthDropdown"
+                            (onSelectionChange)="onSelectChangeMonthFromParent($event)">
+      </app-generic-dropdown>
+    </div>
+  </div>
 
   <canvas id="columnchart1"></canvas>
 </div>

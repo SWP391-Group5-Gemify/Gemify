@@ -1,6 +1,12 @@
+.title {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
 .chart-container {
   display: flex;
   justify-content: space-between;
+  align-items: end;
   /* Optional: Add spacing between items */
 }
 

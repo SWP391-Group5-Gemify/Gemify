@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import {
   RevenuesDataModel,
   RevenueSaleCounterModel,
-  Revenue,
 } from '../../../core/models/counter-revenue.model';
 
 @Injectable({
@@ -31,20 +30,19 @@ export class DashboardService {
     );
   }
 
-  getSpecificCounterYearlyRevenuesData(
-    year: number
-  ): Observable<Revenue[]> {
-    return this.http.get<Revenue[]>(
-      `${this.baseDashboardUrl}/revenues/counterYearlyRevenues/${year}`
-    );
-  }
-
   getSpecificCounterRevenuesInMonthData(
     year: number,
     month: number
   ): Observable<RevenueSaleCounterModel[]> {
     return this.http.get<RevenueSaleCounterModel[]>(
       `${this.baseDashboardUrl}/revenues/counters/${month}/${year}`
+    );
+  }
+
+  // Get list of years where revenue exists
+  getYears(): Observable<number[]> {
+    return this.http.get<number[]>(
+      `${this.baseDashboardUrl}/years`
     );
   }
 }

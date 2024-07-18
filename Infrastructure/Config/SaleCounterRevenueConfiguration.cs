@@ -4,11 +4,11 @@ using Core.Enitities;
 
 namespace Infrastructure.Config
 {  
-    public class SaleCounterConfiguration : IEntityTypeConfiguration<SaleCounter>
+    public class SaleCounterRevenueConfiguration : IEntityTypeConfiguration<SaleCounterRevenue>
     {
-        public void Configure(EntityTypeBuilder<SaleCounter> builder)
+        public void Configure(EntityTypeBuilder<SaleCounterRevenue> builder)
         {
-            builder.HasMany(s => s.SaleCounterRevenue).WithOne()
+            builder.HasOne(s => s.SaleCounter).WithMany()
                 .HasForeignKey(s => s.SaleCounterId);
         }
     }
