@@ -30,6 +30,8 @@ namespace API.Controllers
         {
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
 
+            if (user == null) return Unauthorized(new ApiResponse(401));
+
             var userRole = await _userService.GetUserRoleAsync(user);
 
             return new UserDto

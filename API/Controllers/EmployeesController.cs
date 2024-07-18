@@ -68,7 +68,7 @@ namespace API.Controllers
 
             var exist_emp = await _userService.GetUserWithSpec(spec);
 
-            if(exist_emp==null) return NotFound(new ApiResponse(404));
+            if(exist_emp==null) return BadRequest(new ApiResponse(400, "Failed to close employee account"));
 
             exist_emp.Status = UserStatus.Closed.GetEnumMemberValue();
 
