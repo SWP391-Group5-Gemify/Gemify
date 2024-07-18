@@ -1,0 +1,34 @@
+// select {
+//     background-color: #ea580c;
+//     color: white;
+//     padding: 5px;
+//     border: none;
+//     outline: none;
+//     font-family: Arial, sans-serif;
+//     font-size: 16px;
+//     transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+//     border-radius: 5px;
+//     /* Rounded corners */
+// }
+
+// select:hover {
+//     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+//     border: 1px solid black;
+// }
+
+// select:active {
+//     transform: translateY(2px);
+// }
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+.chart-container canvas {
+    height: 100%;
+    width: 100%;
+}
