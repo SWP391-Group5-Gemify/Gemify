@@ -7,9 +7,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownModel } from '../../../../../core/models/dropdown.model';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map } from 'rxjs';
 
 Chart.register(...registerables, ChartDataLabels);
 
+@UntilDestroy()
 @Component({
   selector: 'app-counter-revenues-in-a-month-chart',
   standalone: true,
@@ -25,16 +28,7 @@ export class CounterRevenuesInAMonthChartComponent
   revenueData: number[] = [];
   selectedYear: number = new Date().getFullYear();
   selectedMonth: number = 1;
-  yearDropdown: DropdownModel[] = [
-    {
-      value: 2023,
-      name: 2023
-    },
-    {
-      value: 2024,
-      name: 2024
-    }
-  ];
+  yearDropdown: DropdownModel[] = [];
   monthDropdown: { value: number; name: string }[] = [
     { value: 1, name: 'January' },
     { value: 2, name: 'February' },
@@ -55,6 +49,7 @@ export class CounterRevenuesInAMonthChartComponent
 
   ngOnInit(): void {
     this.loadChartData(this.selectedYear, this.selectedMonth);
+    this.getYears();
   }
 
   /**
@@ -95,6 +90,27 @@ export class CounterRevenuesInAMonthChartComponent
         this.clearChart();
       }
     );
+  }
+
+  getYears() {
+    this.service.getYears().pipe(
+      untilDestroyed(this),
+      map((years: number[]) => {
+        return years.map((year: number) => ({
+          value: year,
+          name: year,
+        }));
+      })
+    )
+    .subscribe({
+      next: (years: any) => {
+        this.yearDropdown = years;
+      },
+
+      error(err) {
+        console.error(err);
+      },
+    });
   }
 
   renderColumnChart(labelData: string[], revenueData: number[]): void {

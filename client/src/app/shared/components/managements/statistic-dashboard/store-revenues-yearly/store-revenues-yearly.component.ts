@@ -6,8 +6,11 @@ import { CommonModule } from '@angular/common';
 import { RevenuesDataModel } from '../../../../../core/models/counter-revenue.model';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { DropdownModel } from '../../../../../core/models/dropdown.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map } from 'rxjs';
 Chart.register(...registerables);
 
+@UntilDestroy()
 @Component({
   selector: 'chart-store-revenues-yearly',
   standalone: true,
@@ -21,21 +24,13 @@ export class StoreRevenuesYearlyComponent implements OnInit, OnDestroy {
   realdata: number[] = [];
   selectedYear: number = new Date().getFullYear(); // current default year
   chart: Chart | null = null; // chart reference
-  yearDropdown: DropdownModel[] = [
-    {
-      name: 2023,
-      value: 2023
-    },
-    {
-      name: 2024,
-      value: 2024
-    }
-  ];
+  yearDropdown: DropdownModel[] = [];
 
   constructor(private service: DashboardService) {}
 
   ngOnInit(): void {
     this.loadChartData(this.selectedYear);
+    this.getYears();
   }
 
   /**
@@ -76,6 +71,27 @@ export class StoreRevenuesYearlyComponent implements OnInit, OnDestroy {
         this.clearChart();
       }
     );
+  }
+
+  getYears() {
+    this.service.getYears().pipe(
+      untilDestroyed(this),
+      map((years: number[]) => {
+        return years.map((year: number) => ({
+          value: year,
+          name: year,
+        }));
+      })
+    )
+    .subscribe({
+      next: (years: any) => {
+        this.yearDropdown = years;
+      },
+
+      error(err) {
+        console.error(err);
+      },
+    });
   }
 
   Renderlinechart(labeldata: any, valuedata: any): void {

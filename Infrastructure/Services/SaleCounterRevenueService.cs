@@ -139,15 +139,13 @@ namespace Infrastructure.Services
         public async Task<IReadOnlyList<int>> GetYearsAsync()
         {
             var years = new List<int>();
+            var currentYear = DateTime.Now.Year;
             var spec = new SaleCounterRevenueSpecification();
-            var revenueEntries = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
-            years.Add(revenueEntries[0].Date.Year);
-            for(int i = 1; i < revenueEntries.Count; i++)
+            var revenue = await _unitOfWork.Repository<SaleCounterRevenue>().GetEntityWithSpec(spec);
+            var startYear = revenue.Date.Year;
+            for(int year = startYear; year <= currentYear; ++year)
             {
-                if(revenueEntries[i].Date.Year != revenueEntries[i-1].Date.Year)
-                {
-                    years.Add(revenueEntries[i].Date.Year);
-                }
+                years.Add(year);
             }
             return years;
         }
