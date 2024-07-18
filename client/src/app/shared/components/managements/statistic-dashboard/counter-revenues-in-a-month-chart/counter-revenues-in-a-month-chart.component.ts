@@ -5,13 +5,15 @@ import { RevenueSaleCounterModel } from '../../../../../core/models/counter-reve
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DropdownModel } from '../../../../../core/models/dropdown.model';
+import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 
 Chart.register(...registerables, ChartDataLabels);
 
 @Component({
   selector: 'app-counter-revenues-in-a-month-chart',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GenericDropdownComponent],
   templateUrl: './counter-revenues-in-a-month-chart.component.html',
   styleUrls: ['./counter-revenues-in-a-month-chart.component.scss'],
 })
@@ -21,22 +23,31 @@ export class CounterRevenuesInAMonthChartComponent
   chartData: RevenueSaleCounterModel[] = [];
   labelData: string[] = [];
   revenueData: number[] = [];
-  selectedYear: number = 2024;
+  selectedYear: number = new Date().getFullYear();
   selectedMonth: number = 1;
-  years: number[] = [2024, 2025, 2026];
-  months: { value: number; label: string }[] = [
-    { value: 1, label: 'January' },
-    { value: 2, label: 'February' },
-    { value: 3, label: 'March' },
-    { value: 4, label: 'April' },
-    { value: 5, label: 'May' },
-    { value: 6, label: 'June' },
-    { value: 7, label: 'July' },
-    { value: 8, label: 'August' },
-    { value: 9, label: 'September' },
-    { value: 10, label: 'October' },
-    { value: 11, label: 'November' },
-    { value: 12, label: 'December' },
+  yearDropdown: DropdownModel[] = [
+    {
+      value: 2023,
+      name: 2023
+    },
+    {
+      value: 2024,
+      name: 2024
+    }
+  ];
+  monthDropdown: { value: number; name: string }[] = [
+    { value: 1, name: 'January' },
+    { value: 2, name: 'February' },
+    { value: 3, name: 'March' },
+    { value: 4, name: 'April' },
+    { value: 5, name: 'May' },
+    { value: 6, name: 'June' },
+    { value: 7, name: 'July' },
+    { value: 8, name: 'August' },
+    { value: 9, name: 'September' },
+    { value: 10, name: 'October' },
+    { value: 11, name: 'November' },
+    { value: 12, name: 'December' },
   ];
   chart: Chart | null = null;
 
@@ -46,13 +57,21 @@ export class CounterRevenuesInAMonthChartComponent
     this.loadChartData(this.selectedYear, this.selectedMonth);
   }
 
-  onYearChange(event: Event): void {
-    this.selectedYear = Number((event.target as HTMLSelectElement).value);
+  /**
+   * Select year from the dropdown
+   * @param $event
+   */
+  onSelectChangeYearFromParent($event: any) {
+    this.selectedYear = $event.value;
     this.loadChartData(this.selectedYear, this.selectedMonth);
   }
 
-  onMonthChange(event: Event): void {
-    this.selectedMonth = Number((event.target as HTMLSelectElement).value);
+  /**
+   * Select month from the dropdown
+   * @param $event
+   */
+  onSelectChangeMonthFromParent($event: any) {
+    this.selectedMonth = $event.value;
     this.loadChartData(this.selectedYear, this.selectedMonth);
   }
 
@@ -65,7 +84,7 @@ export class CounterRevenuesInAMonthChartComponent
           return;
         }
 
-        this.labelData = data.map((item) => item.saleCounterId.toString()); // Convert saleCounterId to string
+        this.labelData = data.map((item) => item.saleCounterName); // Convert saleCounterId to string
         this.revenueData = data.map((item) => item.revenue);
 
         this.clearChart();
@@ -140,6 +159,7 @@ export class CounterRevenuesInAMonthChartComponent
           },
           y: {
             beginAtZero: true,
+            max: 100000000,
             ticks: {
               callback: (tickValue: string | number) => {
                 if (typeof tickValue === 'number') {

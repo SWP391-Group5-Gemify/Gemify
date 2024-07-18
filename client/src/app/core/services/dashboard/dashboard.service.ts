@@ -4,7 +4,6 @@ import { environment } from '../../../../environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 import {
-  RevenueMonthlyModel,
   RevenuesDataModel,
   RevenueSaleCounterModel,
 } from '../../../core/models/counter-revenue.model';
@@ -29,28 +28,6 @@ export class DashboardService {
   getRevenuesData(year: number) {
     return this.http.get<RevenuesDataModel[]>(
       `${this.baseDashboardUrl}/monthlyRevenues/${year}`
-    );
-  }
-
-  getCounterRevenuesData(year: number) {
-    return this.http.get<RevenuesDataModel[]>(
-      `${this.baseDashboardUrl}/monthlyRevenues/${year}`
-    );
-  }
-
-  getSpecificCounterRevenuesData(
-    year: number
-  ): Observable<RevenueMonthlyModel[]> {
-    return this.http.get<RevenueMonthlyModel[]>(
-      `${this.baseDashboardUrl}/revenues/counters/${year}`
-    );
-  }
-
-  getSpecificCounterYearlyRevenuesData(
-    year: number
-  ): Observable<RevenueMonthlyModel[]> {
-    return this.http.get<RevenueMonthlyModel[]>(
-      `${this.baseDashboardUrl}/revenues/counterYearlyRevenues/${year}`
     );
   }
 
