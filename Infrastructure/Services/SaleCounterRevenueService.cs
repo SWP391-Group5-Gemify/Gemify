@@ -135,5 +135,22 @@ namespace Infrastructure.Services
             return saleRevenuesByCounterMonth;
         }
 
+        // Get list of years from SaleCounterRevenue table
+        public async Task<IReadOnlyList<int>> GetYearsAsync()
+        {
+            var years = new List<int>();
+            var spec = new SaleCounterRevenueSpecification();
+            var revenueEntries = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+            years.Add(revenueEntries[0].Date.Year);
+            for(int i = 1; i < revenueEntries.Count; i++)
+            {
+                if(revenueEntries[i].Date.Year != revenueEntries[i-1].Date.Year)
+                {
+                    years.Add(revenueEntries[i].Date.Year);
+                }
+            }
+            return years;
+        }
+
     }
 }

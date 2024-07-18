@@ -51,5 +51,14 @@ namespace API.Controllers
             }
             return Ok(returnRevenues);
         }
+
+        // Get list of years from SaleCounterRevenue table
+        [HttpGet("years")]
+        [Authorize(Roles = "StoreOwner, StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<int>>> GetYears()
+        {
+            var years = await _saleCounterRevenueService.GetYearsAsync();
+            return Ok(years);
+        }
     }
 }

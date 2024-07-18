@@ -6,6 +6,11 @@ namespace Core.Specifications.Counters
 {
     public class SaleCounterRevenueSpecification : BaseSpecification<SaleCounterRevenue>
     {
+        public SaleCounterRevenueSpecification()
+        {
+            AddOrderBy(x => x.Date);
+        }
+
         public SaleCounterRevenueSpecification(SaleCounterRevenueParams saleCounterRevenueParams)
             : base(x => x.SaleCounterId == saleCounterRevenueParams.saleCounterId)
         {
@@ -16,12 +21,6 @@ namespace Core.Specifications.Counters
 
         public SaleCounterRevenueSpecification(DateOnly date)
             : base (x => x.Date.CompareTo(date) == 0)
-        {
-
-        }
-
-        public SaleCounterRevenueSpecification(int year)
-            : base(x => x.Date.Year == year)
         {
 
         }
