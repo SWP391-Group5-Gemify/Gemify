@@ -4,11 +4,6 @@ export interface RevenueSaleCounterModel {
   saleCounterName: string;
 }
 
-export interface RevenueMonthlyModel {
-  month: number;
-  saleCounterRevenueByMonths: RevenueSaleCounterModel[];
-}
-
 export interface RevenuesDataModel {
   revenue: number;
   month: number;
@@ -16,8 +11,8 @@ export interface RevenuesDataModel {
 }
 
 export interface Revenue {
-    revenue: number;
-    saleCounterId: number;
-    saleCounterName: string;
-  }
-  
+  revenue: number;
+  saleCounterId: number;
+  saleCounterName: string;
+}
+
