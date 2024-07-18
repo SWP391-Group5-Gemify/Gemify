@@ -18,5 +18,7 @@ namespace Core.Interfaces
         Task<IReadOnlyList<SaleCounterRevenue>> GetTotalSaleRevenuesByMonthAsync(int year);
 
         Task<IReadOnlyList<SaleCounterRevenue>> GetSaleRevenuesByCounterAndMonthAsync(int month, int year);
+        
+        Task<IReadOnlyList<int>> GetYearsAsync();
     }
 }
