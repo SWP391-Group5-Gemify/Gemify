@@ -1,4 +1,7 @@
-<div>
+<div class="chart-container">
+  <h2 style="text-align: center;">Revenue Chart in Month</h2>
+  <br><br>
+  <h3>Select Year & Month</h3>
   <select (change)="onYearChange($event)">
     <option *ngFor="let year of years"
             [value]="year">{{ year }}</option>

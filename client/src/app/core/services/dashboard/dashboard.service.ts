@@ -7,6 +7,7 @@ import {
   RevenueMonthlyModel,
   RevenuesDataModel,
   RevenueSaleCounterModel,
+  Revenue,
 } from '../../../core/models/counter-revenue.model';
 
 @Injectable({
@@ -32,24 +33,25 @@ export class DashboardService {
     );
   }
 
-  getCounterRevenuesData(year: number) {
-    return this.http.get<RevenuesDataModel[]>(
-      `${this.baseDashboardUrl}/monthlyRevenues/${year}`
-    );
-  }
+  // getCounterRevenuesData(year: number) {
+  //   return this.http.get<RevenuesDataModel[]>(
+  //     `${this.baseDashboardUrl}/monthlyRevenues/${year}`
+  //   );
+  // }
 
-  getSpecificCounterRevenuesData(
-    year: number
-  ): Observable<RevenueMonthlyModel[]> {
-    return this.http.get<RevenueMonthlyModel[]>(
-      `${this.baseDashboardUrl}/revenues/counters/${year}`
-    );
-  }
+  // getSpecificCounterRevenuesData(
+  //   year: number
+  // ): Observable<RevenueMonthlyModel[]> {
+  //   return this.http.get<RevenueMonthlyModel[]>(
+  //     `${this.baseDashboardUrl}/revenues/counters/${year}`
+  //   );
+  // }
 
+  //work with this
   getSpecificCounterYearlyRevenuesData(
     year: number
-  ): Observable<RevenueMonthlyModel[]> {
-    return this.http.get<RevenueMonthlyModel[]>(
+  ): Observable<Revenue[]> {
+    return this.http.get<Revenue[]>(
       `${this.baseDashboardUrl}/revenues/counterYearlyRevenues/${year}`
     );
   }

@@ -55,7 +55,7 @@ export class CounterRevenuesInAMonthChartComponent
     this.selectedMonth = Number((event.target as HTMLSelectElement).value);
     this.loadChartData(this.selectedYear, this.selectedMonth);
   }
-
+  
   loadChartData(year: number, month: number): void {
     this.service.getSpecificCounterRevenuesInMonthData(year, month).subscribe(
       (data) => {
@@ -64,10 +64,10 @@ export class CounterRevenuesInAMonthChartComponent
           this.clearChart();
           return;
         }
-
-        this.labelData = data.map((item) => item.saleCounterId.toString()); // Convert saleCounterId to string
+  
+        this.labelData = data.map((item) => item.saleCounterName); // Sử dụng saleCounterName thay vì saleCounterId
         this.revenueData = data.map((item) => item.revenue);
-
+  
         this.clearChart();
         this.renderColumnChart(this.labelData, this.revenueData);
       },
