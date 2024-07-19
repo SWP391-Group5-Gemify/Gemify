@@ -46,6 +46,18 @@ export class OrderService {
       params = params.append('search', this.orderParams.search);
     }
 
+    if (this.orderParams.startDate) {
+      params = params.append('startDate', this.orderParams.startDate);
+    }
+
+    if (this.orderParams.endDate) {
+      params = params.append('endDate', this.orderParams.endDate);
+    }
+
+    if (this.orderParams.status) {
+      params = params.append('status', this.orderParams.status);
+    }
+
     return this.http.get<PaginationModel<OrderModel>>(this.baseOrderUrl, {
       params,
     });

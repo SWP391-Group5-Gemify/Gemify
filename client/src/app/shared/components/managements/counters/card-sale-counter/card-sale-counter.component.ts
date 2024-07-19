@@ -1,4 +1,4 @@
-import { Component, Input, input, OnInit, output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, input, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
 import {
   AssignEmployeeIdModel,
   SaleCounterModel,
@@ -41,11 +41,13 @@ export class CardSaleCounterComponent implements OnInit {
   // == Constructors
   // ====================
   constructor(private employeeService: EmployeeService) {}
+
   ngOnInit(): void {
     this.loadAllSellersDropdown();
     console.log(this.saleCounter());
   }
   @Input() revenue?: number;
+  @Input() selectedDate?: string;
   // ====================
   // == Methods
   // ====================
