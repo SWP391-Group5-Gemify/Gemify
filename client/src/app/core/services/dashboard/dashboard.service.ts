@@ -44,7 +44,7 @@ export class DashboardService {
     year: number
   ): Observable<Revenue[]> {
     return this.http.get<Revenue[]>(
-      `${this.baseDashboardUrl}/revenues/counterYearlyRevenues/${year}`
+      `${this.baseDashboardUrl}/revenues/yearly/${year}`
     );
   }
 

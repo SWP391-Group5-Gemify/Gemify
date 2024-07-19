@@ -62,13 +62,13 @@ namespace API.Controllers
         }
 
         // Get counters revenues of sale in year
-        [HttpGet("revenues/counterYearlyRevenues/{year}")]
+        [HttpGet("revenues/yearly/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>>
-            GetSaleCounterYearlyRevenuesAsync(int year)
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenueYearlyDto>>> GetSaleCounterYearlyRevenuesAsync(int year)
         {
             var revenues = await _saleCounterRevenueService.GetSaleCounterRevenueYearlyAsync(year);
-            return Ok(revenues);
+            var yearlyRevenue = _mapper.Map<IReadOnlyList<SaleCounterRevenue>, IReadOnlyList<SaleCounterRevenueYearlyDto>>(revenues);
+            return Ok(yearlyRevenue);
         }
     }
 }

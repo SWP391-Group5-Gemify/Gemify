@@ -8,6 +8,7 @@ import { GenericDropdownComponent } from '../../../generic-dropdown/generic-drop
 import { DropdownModel } from '../../../../../core/models/dropdown.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { map } from 'rxjs';
+import { style } from '@angular/animations';
 Chart.register(...registerables);
 
 @UntilDestroy()
@@ -114,7 +115,7 @@ export class StoreRevenuesYearlyComponent implements OnInit, OnDestroy {
         labels: labeldata,
         datasets: [
           {
-            label: 'Monthly sales',
+            label: 'Doanh Thu Tháng',
             data: valuedata,
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -124,6 +125,8 @@ export class StoreRevenuesYearlyComponent implements OnInit, OnDestroy {
         ],
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           // No data labels
           datalabels: false,
