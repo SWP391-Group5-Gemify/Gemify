@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infrastructure.Data.Migrations
+namespace Infrastructure.Data.Mirations
 {
     /// <inheritdoc />
     public partial class FinalMigration : Migration
@@ -229,7 +229,7 @@ namespace Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Revenue = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    SaleCounterId = table.Column<int>(type: "int", nullable: false),
+                    SaleCounterId = table.Column<int>(type: "int", nullable: true),
                     Date = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
@@ -239,8 +239,7 @@ namespace Infrastructure.Data.Migrations
                         name: "FK_SaleCounterRevenue_SaleCounters_SaleCounterId",
                         column: x => x.SaleCounterId,
                         principalTable: "SaleCounters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
