@@ -1,13 +1,17 @@
-.title {
-  font-size: 30px;
-  margin-bottom: 30px;
-}
+@import "abstracts/variables";
 
 .chart-container {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  overflow: hidden;
+  gap: $gutter-layout;
   /* Optional: Add spacing between items */
+}
+
+.first-chart-column {
+  display: flex;
+  flex-direction: column;
+  gap: $gutter-layout;
 }
 
 .chart-container>* {

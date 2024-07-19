@@ -150,23 +150,22 @@ namespace Infrastructure.Services
             return years;
         }
 
-        //l?y revenue c?a counter theo n?m
-        public async Task<IReadOnlyList<SaleCounterRevenueOfMonth>>
-            GetSaleCounterRevenueYearlyAsync(int year)
+        // Get counter yearly revenue
+        public async Task<IReadOnlyList<SaleCounterRevenue>> GetSaleCounterRevenueYearlyAsync(int year)
         {
             var counters = await _unitOfWork.Repository<SaleCounter>().ListAllAsync();
             var counterRevenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAllAsync();
 
-            var saleCounterRevenues = new List<SaleCounterRevenueOfMonth>();
+            var saleCounterRevenues = new List<SaleCounterRevenue>();
 
             foreach (var counter in counters)
             {
                 var total = 0;
-                var saleCounterRevenueOfMonth = new SaleCounterRevenueOfMonth()
+                var saleCounterRevenueYearly = new SaleCounterRevenue()
                 {
                     SaleCounterId = counter.Id
                 };
-                saleCounterRevenueOfMonth.SaleCounterId = counter.Id;
+                saleCounterRevenueYearly.SaleCounterId = counter.Id;
 
                 foreach(var counterRevenue in counterRevenues)
                 {
@@ -180,14 +179,15 @@ namespace Infrastructure.Services
                     }
                 }
                 
-                saleCounterRevenueOfMonth.Revenue = total;
+                saleCounterRevenueYearly.Revenue = total;
 
-                saleCounterRevenueOfMonth.SaleCounterName = counter.Name;
+                saleCounterRevenueYearly.SaleCounter = counter;
 
-                saleCounterRevenues.Add(saleCounterRevenueOfMonth);
+                saleCounterRevenues.Add(saleCounterRevenueYearly);
             }
 
-            return saleCounterRevenues;
+            return saleCounterRevenues
+                ;
         }
     }
 }
