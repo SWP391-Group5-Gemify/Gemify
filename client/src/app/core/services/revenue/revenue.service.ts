@@ -23,8 +23,6 @@ export class RevenueService {
   // == Methods
   // ========================
 
-  
-
   /**
    * Get Revenue by date
    */
@@ -34,10 +32,5 @@ export class RevenueService {
     );
   }
 
-  /**
-   * Add sale revenue in current date
-   */
-  public updateDailyRevenue() {
-    return this.httpClient.post(`${this.baseRevenueUrl}/updates`, null);
-  }
+
 }

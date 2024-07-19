@@ -15,13 +15,17 @@ namespace Infrastructure.Services
     public class PaymentService : IPaymentService
     {
         private readonly IBasketRepository _basketRepository;
+        private readonly ISaleCounterRevenueService _saleCounterRevenueService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
 
-        public PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork, 
+        public PaymentService(IBasketRepository basketRepository, 
+            ISaleCounterRevenueService saleCounterRevenueService, 
+            IUnitOfWork unitOfWork, 
             IConfiguration config)
         {
             _basketRepository = basketRepository;
+            _saleCounterRevenueService = saleCounterRevenueService;
             _unitOfWork = unitOfWork;
             _config = config;
         }
@@ -203,6 +207,9 @@ namespace Infrastructure.Services
             // Update OrderStatus
             order.Status = OrderStatus.PaymentReceived.GetEnumMemberValue();
             await _unitOfWork.Complete();
+
+            //Update Today's Sale Counter Revenue
+            await _saleCounterRevenueService.UpdateSaleCounterRevenuesAsync();
 
             return order;
         }
