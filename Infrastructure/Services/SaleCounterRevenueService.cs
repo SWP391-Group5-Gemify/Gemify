@@ -96,13 +96,98 @@ namespace Infrastructure.Services
             return await _unitOfWork.Repository<SaleCounterRevenue>().CountAsync(spec);
         }
 
-        public async Task<decimal> GetTotalSaleRevenueByDateAsync(DateOnly date)
+        //Get list of total sale revenues by month based on input year (dashboard line chart)
+        public async Task<IReadOnlyList<SaleCounterRevenue>> GetTotalSaleRevenuesByMonthAsync(int year)
         {
-            var spec = new SaleCounterRevenueSpecification(date);
-            var revenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+            var totalSaleRevenuesByMonth = new List<SaleCounterRevenue>();  
 
-            return revenues.Sum(r => r.Revenue);
+            // Calculate total sale revenues for each month from Jan to Dec
+            for(int i = 1; i <= 12; i++)
+            {
+                var spec = new SaleCounterRevenueSpecification(i, year);
+                var listSaleRevenuesWithSpec = await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+                SaleCounterRevenue totalSaleRevenuesWithSpec = 
+                    new SaleCounterRevenue(listSaleRevenuesWithSpec.Sum(r => r.Revenue), new DateOnly(year, i, 1));
+                totalSaleRevenuesByMonth.Add(totalSaleRevenuesWithSpec);
+            }
+
+            return totalSaleRevenuesByMonth;          
         }
 
+        //Get list of sale revenues by counter based on input month and year (dashboard bar chart)
+        public async Task<IReadOnlyList<SaleCounterRevenue>> 
+            GetSaleRevenuesByCounterAndMonthAsync(int month, int year)
+        {
+            var saleRevenuesByCounterMonth = new List<SaleCounterRevenue>();
+
+            var saleCounterCountSpec = new SaleCounterSpecification();
+            int saleCounterCount = await _unitOfWork.Repository<SaleCounter>().CountAsync(saleCounterCountSpec);
+            for(int i = 1; i <= saleCounterCount; i++)
+            {
+                var spec = new SaleCounterRevenueSpecification(i, month, year);
+                var listSaleRevenuesWithSpec = 
+                    await _unitOfWork.Repository<SaleCounterRevenue>().ListAsync(spec);
+                SaleCounterRevenue saleRevenuesWithSpec =
+                    new SaleCounterRevenue(listSaleRevenuesWithSpec.Sum(r => r.Revenue),i, new DateOnly(year, month, 1));
+                saleRevenuesByCounterMonth.Add(saleRevenuesWithSpec);
+            }
+
+            return saleRevenuesByCounterMonth;
+        }
+
+        // Get list of years from SaleCounterRevenue table
+        public async Task<IReadOnlyList<int>> GetYearsAsync()
+        {
+            var years = new List<int>();
+            var currentYear = DateTime.Now.Year;
+            var spec = new SaleCounterRevenueSpecification();
+            var revenue = await _unitOfWork.Repository<SaleCounterRevenue>().GetEntityWithSpec(spec);
+            var startYear = revenue.Date.Year;
+            for(int year = startYear; year <= currentYear; ++year)
+            {
+                years.Add(year);
+            }
+            return years;
+        }
+
+        // Get counter yearly revenue
+        public async Task<IReadOnlyList<SaleCounterRevenue>> GetSaleCounterRevenueYearlyAsync(int year)
+        {
+            var counters = await _unitOfWork.Repository<SaleCounter>().ListAllAsync();
+            var counterRevenues = await _unitOfWork.Repository<SaleCounterRevenue>().ListAllAsync();
+
+            var saleCounterRevenues = new List<SaleCounterRevenue>();
+
+            foreach (var counter in counters)
+            {
+                var total = 0;
+                var saleCounterRevenueYearly = new SaleCounterRevenue()
+                {
+                    SaleCounterId = counter.Id
+                };
+                saleCounterRevenueYearly.SaleCounterId = counter.Id;
+
+                foreach(var counterRevenue in counterRevenues)
+                {
+                    if (counterRevenue == null)
+                    {
+                        total = 0;
+                    }
+                    else if (counterRevenue.Date.Year == year && counterRevenue.SaleCounterId == counter.Id)
+                    {
+                        total += (int)counterRevenue.Revenue;
+                    }
+                }
+                
+                saleCounterRevenueYearly.Revenue = total;
+
+                saleCounterRevenueYearly.SaleCounter = counter;
+
+                saleCounterRevenues.Add(saleCounterRevenueYearly);
+            }
+
+            return saleCounterRevenues
+                ;
+        }
     }
 }

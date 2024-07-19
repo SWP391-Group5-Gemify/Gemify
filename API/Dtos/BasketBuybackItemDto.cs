@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Enitities;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Dtos
 {
@@ -20,5 +21,6 @@ namespace API.Dtos
         public int GoldTypeId { get; set; }
         public int? SubCategoryId { get; set; }
         public string PictureUrl { get; set; }
+        public List<BasketBuyBackItemGem> Gems { get; set; }
     }
 }

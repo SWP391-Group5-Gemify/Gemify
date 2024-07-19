@@ -4,34 +4,64 @@ import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { HttpClient } from '@angular/common/http';
 import { Revenue } from './../../../../../core/models/counter-revenue.model'; // Import the Revenue model
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../../../../../core/services/dashboard/dashboard.service';
+import { DropdownModel } from '../../../../../core/models/dropdown.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 
 Chart.register(...registerables, ChartDataLabels);
 
+@UntilDestroy()
 @Component({
   selector: 'app-counter-revenues-yearly-chart',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GenericDropdownComponent],
   templateUrl: './counter-revenues-yearly-chart.component.html',
   styleUrls: ['./counter-revenues-yearly-chart.component.scss']
 })
 export class CounterRevenuesYearlyChartComponent implements OnInit, OnDestroy {
   chart: Chart<'pie', number[], string> | null = null;
   private dataSubscription: Subscription | null = null;
-  selectedYear: number = 2024; // Năm mặc định
-  years: number[] = [2024, 2025, 2026]; // Các năm có thể chọn
+  selectedYear: number = new Date().getFullYear(); // current default year
+  yearDropdown: DropdownModel[] = [];
 
   constructor(private service: DashboardService) {}
 
   ngOnInit(): void {
+    this.getYears();
     this.fetchData(this.selectedYear);
   }
 
-  onYearChange(event: Event): void {
-    this.selectedYear = Number((event.target as HTMLSelectElement).value);
+  /**
+   * Select year from the dropdown
+   * @param $event
+   */
+  onSelectChangeYearFromParent($event: any) {
+    this.selectedYear = $event.value;
     this.fetchData(this.selectedYear);
+  }
+
+  getYears() {
+    this.service.getYears().pipe(
+      untilDestroyed(this),
+      map((years: number[]) => {
+        return years.map((year: number) => ({
+          value: year,
+          name: year,
+        }));
+      })
+    )
+    .subscribe({
+      next: (years: any) => {
+        this.yearDropdown = years;
+      },
+
+      error(err) {
+        console.error(err);
+      },
+    });
   }
 
   fetchData(year: number): void {
@@ -86,12 +116,16 @@ export class CounterRevenuesYearlyChartComponent implements OnInit, OnDestroy {
           datalabels: {
             formatter: (value) => new Intl.NumberFormat('de-DE').format(value),
             color: '#fff',
-            font: { weight: 'bold' }
+            font: { 
+              weight: 'bold',
+              size: 20
+            }
           },
-          legend: { position: 'top' }
+          legend: { 
+            position: 'top'
+          }
         },
-        responsive: true,
-        maintainAspectRatio: false
+        
       }
     };
 
@@ -115,4 +149,3 @@ export class CounterRevenuesYearlyChartComponent implements OnInit, OnDestroy {
     }
   }
 }
-
