@@ -10,9 +10,11 @@ import { loadingInterceptor } from './core/interceptors/loading/loading.intercep
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
+import { DatePipe } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    DatePipe,
     provideRouter(routes),
     provideAnimationsAsync(),
     provideAnimations(),

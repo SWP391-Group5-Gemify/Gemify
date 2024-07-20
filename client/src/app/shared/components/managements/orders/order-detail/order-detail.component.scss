@@ -1,5 +1,21 @@
 @import "abstracts/variables";
 
+.order__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8rem;
+
+  button {
+    align-self: flex-start;
+  }
+
+  button:last-child {
+    margin: 0 0 0 auto;
+  }
+}
+
+
 .header {
   margin-bottom: 30px;
   display: flex;
@@ -122,15 +138,4 @@ th {
   display: flex;
   flex-direction: row;
   gap: 0.8rem;
-}
-
-.basket-dropdown {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.8rem;
-
-  button {
-    align-self: flex-start;
-  }
 }

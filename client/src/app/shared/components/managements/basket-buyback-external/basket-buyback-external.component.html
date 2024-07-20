@@ -1,8 +1,6 @@
 <form [formGroup]="buyBackProductForm"
       (ngSubmit)="onCreateExternalBuyBackBasket()">
 
-
-
   <!-- PhoneNumber Name -->
   <mat-form-field appearance="fill">
     <mat-label>Phone Number</mat-label>
@@ -20,20 +18,6 @@
            formControlName="productName" />
     <mat-error *ngIf="buyBackProductForm.get('productName')!.hasError('required')">
       Product Name is required
-    </mat-error>
-  </mat-form-field>
-
-  <!-- Price -->
-  <mat-form-field appearance="fill">
-    <mat-label>Price</mat-label>
-    <input matInput
-           type="number"
-           formControlName="price" />
-    <mat-error *ngIf="buyBackProductForm.get('price')!.hasError('required')">
-      Price is required
-    </mat-error>
-    <mat-error *ngIf="buyBackProductForm.get('price')!.hasError('min')">
-      Price must be a positive value
     </mat-error>
   </mat-form-field>
 
