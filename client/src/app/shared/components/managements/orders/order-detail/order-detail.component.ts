@@ -36,6 +36,7 @@ import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../../core/models/role.model';
 import { SmsModel } from '../../../../../core/models/sms.model';
 import { SmsService } from '../../../../../core/services/sms/sms.service';
+import { InvoiceGeneratorService } from '../../../../../core/services/invoice-generator/invoice-generator.service';
 
 @UntilDestroy()
 @Component({
@@ -109,7 +110,8 @@ export class OrderDetailComponent implements OnInit {
     private goldService: GoldService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private smsService: SmsService
+    private smsService: SmsService,
+    private invoiceGeneratorService: InvoiceGeneratorService
   ) {}
 
   ngOnInit(): void {
@@ -312,6 +314,17 @@ export class OrderDetailComponent implements OnInit {
     this.basketService.addOrderItemToCurrentExchangeBasket(orderItem, 1);
     this.notificationService.show(
       `Thêm sản phẩm ${orderItem.productName} vào giỏ hàng trao đổi thành công.`
+    );
+  }
+
+  /**
+   * Create a receipt pdf based on Order Details
+   */
+  public generateOrderPDF() {
+    this.invoiceGeneratorService.generateInvoice(
+      this.order!,
+      this.order!.orderItems,
+      'invoice'
     );
   }
 }

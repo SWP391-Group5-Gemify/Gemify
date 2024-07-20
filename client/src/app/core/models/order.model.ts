@@ -23,7 +23,7 @@ export interface OrderItemModel {
   productName: string;
   goldTypeId: number;
   goldPrice: number;
-  goldType: string;
+  goldTypeName: string;
   goldWeight: number;
   productLabour: number;
   unit: string;

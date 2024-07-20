@@ -28,7 +28,7 @@
     </div>
 
     <!-- Basket Dropdown -->
-    <div class="basket-dropdown"
+    <div class="order__actions"
          *ngIf="this.isUserCashier()">
       <app-generic-dropdown #chooseExistingBasket
                             label="Chọn giỏ hàng"
@@ -43,6 +43,11 @@
       <button class="btn btn--grad btn--with-icon"
               (click)="onOpenModalAndCreateExchangeBasketWithCustomerPhone()">
         <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng đổi trả
+      </button>
+
+      <button class="btn btn--primary-light btn--with-icon"
+              (click)="generateOrderPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>In hóa đơn
       </button>
     </div>
 
@@ -191,6 +196,7 @@
             <strong>Ưu Đãi Giảm Giá</strong>
             <strong>{{order.promotionDiscount | percent}}</strong>
           </li>
+          <span class="divider"></span>
           <li class="order-summary__item">
             <strong>Tổng Tiền</strong>
             <strong>{{order.total | currency:'VND'}}</strong>
