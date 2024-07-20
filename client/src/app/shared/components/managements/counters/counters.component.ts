@@ -18,6 +18,10 @@ import { CardSaleCounterComponent } from './card-sale-counter/card-sale-counter.
 import { EmployeeModel } from '../../../../core/models/employee.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { RevenueService } from '../../../../core/services/revenue/revenue.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @UntilDestroy()
 @Component({
@@ -29,9 +33,13 @@ import { RevenueService } from '../../../../core/services/revenue/revenue.servic
     GenericSearchComponent,
     MatIcon,
     CardSaleCounterComponent,
+    MatDatepickerModule,
+    MatFormFieldModule, 
+    MatInputModule
   ],
   templateUrl: './counters.component.html',
   styleUrl: './counters.component.scss',
+  providers: [provideNativeDateAdapter(), DatePipe],
 })
 export class CountersComponent implements OnInit {
   // ====================
@@ -41,6 +49,7 @@ export class CountersComponent implements OnInit {
   public saleCounters$!: Observable<SaleCounterModel[]>;
   public saleCounterRevenue!: SaleCounterRevenueModel[];
   public saleCountersStatusDropdown!: DropdownModel[];
+  public selectedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd')!.toString(); // Default selected date is current date
 
   public saleCounterParams: SaleCounterParams = {
     pageSize: 5,
@@ -65,8 +74,14 @@ export class CountersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSaleCounters();
-    this.getCurrentDateRevenue();
+    this.getRevenueByDate(this.selectedDate);
     this.loadSaleCountersStatusDropdown();
+  }
+
+  onDateChange($event: any) {
+    var date = $event.value;
+    this.selectedDate = this.datePipe.transform(date, 'yyyy-MM-dd')!.toString();
+    this.getRevenueByDate(this.selectedDate);
   }
 
   // ====================
@@ -158,23 +173,10 @@ export class CountersComponent implements OnInit {
   }
 
   /**
-   * Update daily revenue of each counter
-   */
-  public onUpdateDailyRevenue() {
-    this.revenueService.updateDailyRevenue().subscribe({
-      next: response => this.notificationService.show("Cập nhật thành công"),
-      error: error => this.notificationService.show(error.error.message)
-    });
-  }
-
-  /**
    * Get current date revenue for all counters
    */
-  private getCurrentDateRevenue() {
-    const date = new Date();
-    const formattedDate = this.datePipe.transform(date, 'yyyy-MM-dd')!.toString();
-    
-    this.revenueService.getRevenueByDate(formattedDate).subscribe({
+  private getRevenueByDate(date: string) {
+    this.revenueService.getRevenueByDate(date).subscribe({
       next: (response) => {        
         this.saleCounterRevenue = response;
       },

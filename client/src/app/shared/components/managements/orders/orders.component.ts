@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   OrderModel,
   OrderParams,
+  OrderStatusEnum,
   OrderTypeModel,
 } from '../../../../core/models/order.model';
 import { OrderService } from '../../../../core/services/order/order.service';
@@ -10,7 +11,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { StatsTotalRowsComponent } from '../../stats-total-rows/stats-total-rows.component';
 import { GenericTableDataSourceComponent } from '../../generic-table-data-source/generic-table-data-source.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { Router } from '@angular/router';
 import { BasketService } from '../../../../core/services/basket/basket.service';
@@ -18,6 +19,10 @@ import { BasketModel } from '../../../../core/models/basket.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCreateNewBasketComponent } from '../products/modal-create-new-basket/modal-create-new-basket.component';
+import { MatDatepickerModule, MatDateRangePicker } from '@angular/material/datepicker';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-orders',
@@ -28,9 +33,13 @@ import { ModalCreateNewBasketComponent } from '../products/modal-create-new-bask
     StatsTotalRowsComponent,
     GenericDropdownComponent,
     MatIconModule,
+    MatDatepickerModule,
+    MatFormFieldModule, 
+    MatInputModule
   ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
+  providers: [provideNativeDateAdapter(), DatePipe]
 })
 export class OrdersComponent implements OnInit {
   // ====================
@@ -51,9 +60,30 @@ export class OrdersComponent implements OnInit {
 
   dataSource = new MatTableDataSource<OrderModel>([]);
   typeDropdown!: DropdownModel[];
+  public orderStatusDropdown: DropdownModel[] = [
+    {
+      name: 'Thành Công',
+      value: OrderStatusEnum.PaymentReceived,
+    },
+    {
+      name: 'Thất Bại',
+      value: OrderStatusEnum.PaymentFailed,
+    },
+    {
+      name: 'Đang Xử Lý',
+      value: OrderStatusEnum.Pending,
+    },
+  ];
+  @ViewChild('orderStatusDropdownRef')
+  orderStatusDropdownRef!: GenericDropdownComponent;
+  @ViewChild('orderTypesDropdownRef')
+  orderTypesDropdownRef!: GenericDropdownComponent;
+
   totalOrders = 0;
 
-  constructor(private ordersService: OrderService, private router: Router) {
+  constructor(private ordersService: OrderService, 
+    private router: Router, 
+    private datePipe: DatePipe) {
     this.orderParams = ordersService.getOrderParams();
   }
 
@@ -68,6 +98,27 @@ export class OrdersComponent implements OnInit {
   // ====================
   // == Methods
   // ====================
+
+  onSelectedStartDate($event : any) {
+    var date = $event.value;
+    this.orderParams.startDate = this.datePipe.transform(date, 'yyyy-MM-dd')!.toString();
+    this.loadOrders();
+  }
+
+  onSelectedEndDate($event : any) {
+    var date = $event.value;
+    this.orderParams.endDate = this.datePipe.transform(date, 'yyyy-MM-dd')!.toString();
+    this.loadOrders();
+  }
+
+  /**
+   * Reset all filters and load the default products
+   */
+  public onResetFilters() {
+    this.orderParams = new OrderParams();
+    
+    this.loadOrders();
+  }
 
   /**
    * Load Orders
@@ -156,11 +207,23 @@ export class OrdersComponent implements OnInit {
   }
 
   /**
+   * Select Order status from the dropdown
+   * @param $event
+   */
+  onSelectChangeOrderStatusFromParent($event: any) {
+    const orderStatus = $event.value;
+    this.orderParams.status = orderStatus;
+    this.loadOrders();
+  }
+
+  /**
    * Reset all params
    */
   onReset() {
     this.orderParams = new OrderParams();
     this.ordersService.setOrderParams(this.orderParams);
+    this.orderTypesDropdownRef.onClearSelection();
+    this.orderStatusDropdownRef.onClearSelection();
     this.loadOrders();
   }
 

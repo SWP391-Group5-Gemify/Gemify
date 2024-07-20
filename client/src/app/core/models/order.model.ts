@@ -50,6 +50,9 @@ export class OrderParams {
   pageIndex = 1;
   pageSize = 10;
   orderTypeId: number | OrderTypeEnum = 0;
+  startDate: string | null = null;
+  endDate: string | null = null;
+  status: string | null = '';
 }
 
 export interface OrderTypeModel {
@@ -61,4 +64,10 @@ export enum OrderTypeEnum {
   SELL = 1,
   BUYBACK = 2,
   EXCHANGE = 3,
+}
+
+export enum OrderStatusEnum {
+  PaymentReceived = 'Thanh Toán Thành Công',
+  PaymentFailed = 'Thanh Toán Thất Bại',
+  Pending = 'Đang Xử Lý'
 }
