@@ -44,7 +44,6 @@ export class InvoiceGeneratorService {
       fileName: fileName,
       orientationLandscape: false,
       compress: true,
-      pageEnable: true,
       logo: {
         src: '../../../../assets/images/logo.png',
         type: 'PNG', //optional, when src= data:uri (nodejs case)
@@ -53,6 +52,16 @@ export class InvoiceGeneratorService {
         margin: {
           top: 0, //negative or positive num, from the current position
           left: 0, //negative or positive num, from the current position
+        },
+      },
+      stamp: {
+        inAllPages: true,
+        src: '../../../../assets/images/signature.png',
+        width: 50, //aspect ratio = width/height
+        height: 50,
+        margin: {
+          top: -50, //negative or positive num, from the current position
+          left: 10, //negative or positive num, from the current position
         },
       },
       business: {
@@ -177,6 +186,8 @@ export class InvoiceGeneratorService {
       footer: {
         text: 'Hóa đơn được tạo tại cửa hàng của GEMIFY',
       },
+      pageEnable: true,
+      pageLabel: 'Page ',
     });
   }
 }
