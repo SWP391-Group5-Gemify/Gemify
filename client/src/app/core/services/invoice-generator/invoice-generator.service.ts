@@ -57,15 +57,15 @@ export class InvoiceGeneratorService {
       stamp: {
         inAllPages: true,
         src: '../../../../assets/images/signature.png',
-        width: 50, //aspect ratio = width/height
-        height: 50,
+        width: 40, //aspect ratio = width/height
+        height: 40,
         margin: {
-          top: -50, //negative or positive num, from the current position
-          left: 10, //negative or positive num, from the current position
+          top: -70, //negative or positive num, from the current position
+          left: 30, //negative or positive num, from the current position
         },
       },
       business: {
-        name: 'Công ty trách nhiệm hữu hạn Gemify',
+        name: 'CÔNG TY TNHH GEMIFY',
         address: '78- 80 Đường Trần Phú, Phường Lộc Thọ, Tp. Nha Trang',
         phone: '0397612888',
         email: 'Gemify@gmail.com',
@@ -73,13 +73,16 @@ export class InvoiceGeneratorService {
         website: 'https://gemify.us.to',
       },
       contact: {
-        label: 'Thông Tin Khách Hàng:',
+        label: 'THÔNG TIN KHÁCH HÀNG:',
         name: order.name,
-        phone: `Số điện thoại: ${order.phone}`,
-        otherInfo: `Thành viên: ${order.membershipName} - ${order.membershipDiscount} điểm`,
+        address: `Số Điện Thoại: ${order.phone}`,
+        phone: `Điểm Thưởng Đơn Hàng: ${(order.total / 100000).toFixed(
+          0
+        )} điểm`,
+        email: `Thành Viên: ${order.membershipName}`,
       },
       invoice: {
-        label: 'Số hóa đơn #',
+        label: 'SỐ HÓA ĐƠN #',
         num: order.id,
         invDate: `Ngày Thực Hiện Thanh Toán: ${this.datePipe.transform(
           order.orderDate,
@@ -142,8 +145,6 @@ export class InvoiceGeneratorService {
             col1: 'Tổng Hóa Đơn:',
             col2: order.total.toLocaleString('vi-VN', {
               minimumFractionDigits: 2,
-              style: 'currency',
-              currency: 'VND',
             }),
             col3: 'VND',
             style: {
@@ -152,7 +153,7 @@ export class InvoiceGeneratorService {
           },
           {
             col1: 'Khuyến Mãi:',
-            col2: (order.promotionDiscount * 100).toString(),
+            col2: (order.promotionDiscount * 100).toFixed(0),
             col3: '%',
             style: {
               fontSize: 10, //optional, default 12
@@ -160,7 +161,7 @@ export class InvoiceGeneratorService {
           },
           {
             col1: 'Giảm Giá Thành Viên:',
-            col2: (order.membershipDiscount * 100).toString(),
+            col2: (order.membershipDiscount * 100).toFixed(0),
             col3: '%',
             style: {
               fontSize: 10, //optional, default 12
@@ -170,8 +171,6 @@ export class InvoiceGeneratorService {
             col1: 'Tổng tiền sản phẩm:',
             col2: order.subTotal.toLocaleString('vi-VN', {
               minimumFractionDigits: 2,
-              style: 'currency',
-              currency: 'VND',
             }),
             col3: 'VND',
             style: {
@@ -179,15 +178,15 @@ export class InvoiceGeneratorService {
             },
           },
         ],
-        invDescLabel: 'Lưu Ý',
+        invDescLabel: 'Lưu ý',
         invDesc:
-          'Khách hàng vui lòng mang sản phẩm đến cửa hàng hoặc gửi qua đường bưu điện kèm theo hóa đơn mua hàng hoặc thẻ bảo hành.Nhânviên của chúng tôi sẽ kiểm tra sản phẩm và xác định điều kiện bảo hành. Nếu sản phẩm đủ điều kiện bảo hành, chúng tôi sẽ tiến hành sửa chữa hoặc thay thế trong vòng 15-30 ngày làm việc tùy thuộc vào mức độ hư hỏng.Nếu sản phẩm không đủ điều kiện bảo hành miễn phí, chúng tôi sẽ thông báo cho khách hàng về chi phí sửa chữa và thời gian dự kiến.',
+          'Khách hàng vui lòng mang sản phẩm đến cửa hàng hoặc gửi qua đường bưu điện kèm theo hóa đơn mua hàng hoặc thẻ bảo hành. Nhân viên của chúng tôi sẽ kiểm tra sản phẩm và xác định điều kiện bảo hành. Nếu sản phẩm đủ điều kiện bảo hành, chúng tôi sẽ tiến hành sửa chữa hoặc thay thế trong vòng 15-30 ngày làm việc tùy thuộc vào mức độ hư hỏng.Nếu sản phẩm không đủ điều kiện bảo hành miễn phí, chúng tôi sẽ thông báo cho khách hàng về chi phí sửa chữa và thời gian dự kiến.',
       },
       footer: {
-        text: 'Hóa đơn được tạo tại cửa hàng của GEMIFY',
+        text: 'Hóa đơn được tạo và có tính pháp lý tại cửa hàng của GEMIFY',
       },
       pageEnable: true,
-      pageLabel: 'Page ',
+      pageLabel: 'Trang ',
     });
   }
 }
