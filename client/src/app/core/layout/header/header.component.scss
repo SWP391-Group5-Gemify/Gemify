@@ -21,4 +21,22 @@
       flex: 0 1 auto;
     }
   }
+
+  &__current-role {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4rem;
+    font-weight: 800;
+    color: $color-grey-light;
+
+    padding: 0 1.2rem;
+    line-height: 4.8rem;
+    border-radius: 4px;
+    border: 2px solid $color-primary-light;
+
+
+    position: relative;
+    background: $color-primary-dark;
+    box-shadow: rgb(249, 115, 22, 0.35) 5px 5px, rgb(249, 115, 22, 0.25) 10px 10px, rgb(249, 115, 22, 0.15) 15px 15px, rgb(249, 115, 22, 0.05) 20px 20px, rgba(249, 115, 22, 0.03) 25px 25px;
+  }
 }
