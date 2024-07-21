@@ -3,6 +3,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   PromotionModel,
   PromotionParams,
+  PromotionStatusEnum,
 } from '../../../../core/models/promotion.model';
 import { PromotionService } from '../../../../core/services/promotion/promotion.service';
 import { catchError, filter, map, Observable } from 'rxjs';
@@ -82,6 +83,7 @@ export class CheckoutPromotionComponent implements OnInit {
     this.promotions$ = this.promotionService
       .getPromotions({
         ...this.promotionParams,
+        status: PromotionStatusEnum.Active,
         pageIndex: this.promotionParams.pageIndex + 1,
       })
       .pipe(
