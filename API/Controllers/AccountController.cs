@@ -3,9 +3,13 @@ using API.Errors;
 using Core.Enitities;
 using Core.Enitities.Identity;
 using Core.Interfaces;
+using Core.Models;
+using Infrastructure.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace API.Controllers
 {
@@ -14,13 +18,20 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
 
         public AccountController(IUserService userRepo,
-            SignInManager<User> signInManager, ITokenService tokenService)
+            SignInManager<User> signInManager, 
+            ITokenService tokenService,
+            IEmailService emailService,
+            IConfiguration configuration)
         {
             _userService = userRepo;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         // Get the currently logged in user
@@ -134,6 +145,34 @@ namespace API.Controllers
                 Image_Url = user.Image_Url,
                 Role = registerDto.Role
             };
+        }
+
+        [HttpPost("forgot-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ForgotPassword([Required] string email)
+        {
+            var token = await _userService.GenerateResetPasswordTokenAsync(email);
+            if (token == null) return BadRequest(new ApiResponse(400, "Error Creating Token"));
+            var encodedToken = HttpUtility.UrlEncode(token);
+            var encodedEmail = HttpUtility.UrlEncode(email);
+            var baseUrl = _configuration["BaseUrl"]; // Replace with your actual base URL
+            var action = "reset-password";
+
+            var forgotPasswordLink = $"{baseUrl}/{action}?token={encodedToken}&email={encodedEmail}";
+            
+            var message = new Message(new string[] { email }, "Forgot Password Link", "Your reset password link: " + forgotPasswordLink);
+
+            await _emailService.SendEmail(message);
+            return Ok(new ApiResponse(200, "Password change request sent"));
+        }
+
+        [HttpPost("reset-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetPassword(ResetPassword resetPassword)
+        {
+            var result = await _userService.ResetPasswordAsync(resetPassword);
+            if (result == null) return BadRequest(new ApiResponse(400, "Reset password failed"));
+            return Ok(new ApiResponse(200, "Reset password succeeded"));
         }
     }
 }
