@@ -233,15 +233,15 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           this.notificationService.show(
-            `Employee with ID = ${this.employee?.id} updated successfully`
+            `Đã cập nhật thông tin nhân viên #${this.employee?.id}`
           );
         },
 
         error: (err) => {
           console.error(err);
           this.notificationService.show(
-            'Error updating employee',
-            'Retry',
+            'Đã xảy ra lỗi',
+            'Thử lại',
             5000
           );
         },
@@ -260,7 +260,7 @@ export class ModalEditCreateEmployeeComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (response: any) => {
-          this.notificationService.show('Create new account successfully');
+          this.notificationService.show('Đăng ký tài khoản thành công');
         },
       });
   }

@@ -114,7 +114,7 @@ export class LoginComponent implements OnInit {
 
     switch (true) {
       case control?.hasError('required'):
-        errorMessage = 'This field is required';
+        errorMessage = 'Bạn phải nhập trường này';
         break;
     }
 
@@ -137,7 +137,7 @@ export class LoginComponent implements OnInit {
           this.redirectToDashboardPath(user.role);
         },
         error: (error) => {
-          this.notificationService.show('Login Failed. Please try again!');
+          this.notificationService.show(error.error.message);
         },
       });
     }
