@@ -4,14 +4,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  align-items: flex-start;
   gap: 0.8rem;
 
-  button {
-    align-self: flex-start;
+  &__repurchaser{
+    display: flex;
+    gap: 20px;
+
+    button {
+     height: 50px; 
+    }
   }
 
-  button:last-child {
+  &__invoice {
     margin: 0 0 0 auto;
+    margin-bottom: 20px;
   }
 }
 
