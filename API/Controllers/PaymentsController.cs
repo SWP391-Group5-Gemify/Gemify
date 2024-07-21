@@ -30,7 +30,7 @@ namespace API.Controllers
             var basket = await _paymentService.CreateOrUpdatePaymentIntent(basketId);
             if(basket == null)
             {
-                return BadRequest(new ApiResponse(400, "Error while creating payment intent"));
+                return BadRequest(new ApiResponse(400, "Lỗi tạo yêu cầu giao dịch!"));
             }
             return basket;
         }

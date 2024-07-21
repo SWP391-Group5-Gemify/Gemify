@@ -35,14 +35,14 @@ namespace API.Controllers
         public async Task<ActionResult<OrderToReturnDto>> CreateSalesOrder(OrderDto orderDto)
         {
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
-            if (user == null) return Unauthorized(new ApiResponse(401));
+            if (user == null) return Unauthorized(new ApiResponse(401, "Bạn không có quyền truy cập chức năng này!"));
             var userId = user.Id;
 
             var order = await _orderService.CreateSalesOrderAsync(orderDto.BasketId, orderDto.CustomerId, userId);
 
             if(order == null)
             {
-                return BadRequest(new ApiResponse(400, "Error while creating order"));
+                return BadRequest(new ApiResponse(400, "Lỗi tạo đơn hàng mới!"));
             }
 
             return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
@@ -53,7 +53,7 @@ namespace API.Controllers
         public async Task<ActionResult<Order>> GetOrderById(int id)
         {
             var order = await _orderService.GetOrderByIdAsync(id);
-            if(order == null) return NotFound(new ApiResponse(404,"Order not found!"));
+            if(order == null) return NotFound(new ApiResponse(404,"Không tìm thấy đơn hàng trong hệ thống!"));
             return Ok(_mapper.Map<Order, OrderToReturnDto>(order));
         }
 
@@ -77,7 +77,7 @@ namespace API.Controllers
             // get userId whose create order
 
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
-            if (user == null) return Unauthorized(new ApiResponse(401));
+            if (user == null) return Unauthorized(new ApiResponse(401, "Bạn không có quyền truy cập chức năng này!"));
             var userId = user.Id;
            
             // validate orderDto
@@ -93,7 +93,7 @@ namespace API.Controllers
 
                 if (buyBackOrder == null)
                 {
-                    return BadRequest(new ApiResponse(400, "Problem creating buyback order"));
+                    return BadRequest(new ApiResponse(400, "Lỗi tạo đơn hàng mua lại!"));
                 }
 
                 return Ok(_mapper.Map<Order, OrderToReturnDto>(buyBackOrder));
@@ -115,7 +115,7 @@ namespace API.Controllers
         {
             // get userId whose create order
             var user = await _userService.GetUserByClaimsEmailAsync(HttpContext.User);
-            if (user == null) return Unauthorized(new ApiResponse(401));
+            if (user == null) return Unauthorized(new ApiResponse(401, "Bạn không có quyền truy cập chức năng này!"));
             var userId = user.Id;
 
             // validate orderDto
@@ -131,7 +131,7 @@ namespace API.Controllers
 
                 if (exchangeOrder == null)
                 {
-                    return BadRequest(new ApiResponse(400, "Problem creating exchange order"));
+                    return BadRequest(new ApiResponse(400, "Lỗi tạo đơn hàng đổi trả!"));
                 }
 
                 return Ok(_mapper.Map<Order, OrderToReturnDto>(exchangeOrder));

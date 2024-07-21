@@ -42,7 +42,7 @@ namespace API.Controllers
         public async Task<ActionResult<ProductDto>> GetNewProduct(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
-            if (product == null) { return NotFound(new ApiResponse(404, "This product does not exist!")); }
+            if (product == null) { return NotFound(new ApiResponse(404, "Sản phẩm không tồn tại trong hệ thống!")); }
             return _mapper.Map<Product, ProductDto>(product);
         }
 
@@ -53,8 +53,8 @@ namespace API.Controllers
         {
             var product = _mapper.Map<ProductToAddDto,Product>(productDto);
             if (await _productService.AddProductAsync(product))
-                return Ok(new ApiResponse(200, "Successfully added a new product"));
-            return BadRequest(new ApiResponse(400, "Fail to add a new product!"));          
+                return Ok(new ApiResponse(200, "Thêm sản phẩm vào hệ thống thành công!"));
+            return BadRequest(new ApiResponse(400, "Thêm sản phẩm vào hệ thống thất bại!"));          
         }
 
         //Update product information
@@ -64,15 +64,15 @@ namespace API.Controllers
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);
             if (existingProduct == null)
-                return NotFound(new ApiResponse(404, "This product does not exist!"));
+                return NotFound(new ApiResponse(404, "Sản phẩm không tồn tại trong hệ thống!"));
 
             _mapper.Map(productDto, existingProduct);
 
             //return existingProduct;
             if (await _productService.UpdateProductAsync(existingProduct))
-                return Ok(new ApiResponse(200, "Product was successfully updated"));
+                return Ok(new ApiResponse(200, "Cập nhật thông tin sản phẩm thành công!"));
 
-            return BadRequest(new ApiResponse(400, "Fail to update product information!"));
+            return BadRequest(new ApiResponse(400, "Lỗi cập nhật thông tin sản phẩm!"));
         }
 
         // Delete Product
@@ -82,14 +82,14 @@ namespace API.Controllers
         {
             var existingProduct = await _productService.GetProductByIdAsync(id);
             if (existingProduct == null)
-                return NotFound(new ApiResponse(404, "This product does not exist!"));
+                return NotFound(new ApiResponse(404, "Sản phẩm không tồn tại trong hệ thống!"));
 
             existingProduct.Status = ProductStatus.Unavailable.GetEnumMemberValue();
 
             if (await _productService.UpdateProductAsync(existingProduct))
-                return Ok(new ApiResponse(200, "Product was successfully deleted"));
+                return Ok(new ApiResponse(200, "Xóa/Ẩn sản phẩm thành công!"));
 
-            return BadRequest(new ApiResponse(400, "Fail to delete product information!"));
+            return BadRequest(new ApiResponse(400, "Xóa/Ẩn sản phẩm thất bại!"));
         }
 
         // Get all categories with specification

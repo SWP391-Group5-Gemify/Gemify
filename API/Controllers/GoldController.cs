@@ -42,7 +42,7 @@ namespace API.Controllers
         public async Task<ActionResult<GoldType>> GetGoldTypeById(int id)
         {
             var exist_goldType = await _goldService.GetGoldTypeByIdAsync(id);
-            if(exist_goldType == null) return NotFound(new ApiResponse(404,"Gold type not found."));
+            if(exist_goldType == null) return NotFound(new ApiResponse(404,"Loại vàng không có trong hệ thống!"));
             return Ok(exist_goldType);
         }   
 
@@ -77,8 +77,8 @@ namespace API.Controllers
         public async Task<ActionResult> AddGoldType(GoldType goldType)
         {
             var result = await _goldService.AddGoldTypeAsync(goldType);
-            if(result) return Ok(new ApiResponse(200, "Add gold type successful"));
-            else return BadRequest(new ApiResponse(400, "Failed to add new gold type"));
+            if(result) return Ok(new ApiResponse(200, "Thêm loại vàng vào hệ thống thành công!"));
+            else return BadRequest(new ApiResponse(400, "Thêm loại vàng vào hệ thống thất bại!"));
         }
 
         // Disable gold type status
@@ -87,8 +87,8 @@ namespace API.Controllers
         public async Task<ActionResult> DeleteGoldType(int id)
         {
             var result = await _goldService.DeleteGoldTypeAsync(id);
-            if(result) return Ok(new ApiResponse(200, "Disable successful"));
-            else return BadRequest(new ApiResponse(400,"Failed to disable gold type"));
+            if(result) return Ok(new ApiResponse(200, "Xóa/Ẩn loại vàng thành công!"));
+            else return BadRequest(new ApiResponse(400,"Xóa/Ẩn loại vàng thất bại!"));
         }
 
         // Update gold prices and add to gold price history
@@ -97,8 +97,8 @@ namespace API.Controllers
         public async Task<ActionResult> UpdateGoldPrice(int goldTypeId, GoldPrice goldPrice)
         {
             var result = await _goldService.UpdateGoldPriceAsync(goldTypeId, goldPrice);
-            if(result) return Ok(new ApiResponse(200, "Update gold prices successful"));
-            else return BadRequest(new ApiResponse(400,"Failed to update gold prices"));
+            if(result) return Ok(new ApiResponse(200, "Cập nhật giá vàng thành công!"));
+            else return BadRequest(new ApiResponse(400,"Lỗi cập nhật giá vàng!"));
         }
          
     }
