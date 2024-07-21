@@ -9,6 +9,7 @@ import {
 import { Storage } from '@angular/fire/storage';
 import { from, mergeMap, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FileEnum } from '../../models/file.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,10 @@ export class FileService {
    * Path for storing product img: '/images/products'
    * Path for storing user img: '/images/users'
    * Path for storing policy files img: '/documents/policy'
+   * Path for storing warranty files img: '/documents/warranty'
    */
   private baseDocumentsPolicyPath = '/documents/policy';
+  private baseDocumentsWarrantyPath = '/documents/warranty';
   private baseImagesPath = '/images';
 
   // ============================
@@ -85,11 +88,23 @@ export class FileService {
    * Get the latest file, get the url from the firestore
    * @returns
    */
-  getLatestFile(): Observable<string> {
-    const filePath = this.baseDocumentsPolicyPath;
+  getLatestFile(fileType: FileEnum): Observable<string> {
+    let filePath: string = '';
+
+    // Choose the file type to download latest
+    switch (fileType) {
+      case FileEnum.POLICY: {
+        filePath = this.baseDocumentsPolicyPath;
+        break;
+      }
+      case FileEnum.WARRANTY: {
+        filePath = this.baseDocumentsWarrantyPath;
+        break;
+      }
+    }
+
     const storageRef = ref(this.storage, filePath);
     const downloadTask = listAll(storageRef);
-
     return new Observable((observer) => {
       downloadTask
         .then(async (res) => {
