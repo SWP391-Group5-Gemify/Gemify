@@ -1,9 +1,12 @@
-﻿using Core.Enitities.Identity;
+﻿using Azure.Core;
+using Core.Enitities.Identity;
 using Core.Interfaces;
+using Core.Models;
 using Core.Specifications;
 using Core.Specifications.Employees;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Security.Claims;
 
@@ -126,6 +129,26 @@ namespace Infrastructure.Services
         private IQueryable<User> ApplySpecification(IQueryable<User> query, ISpecification<User> spec)
         {
             return EmployeeSpecificationEvaluator.GetQuery(query, spec);
+        }
+
+        public async Task<string> GenerateResetPasswordTokenAsync([Required] string email)
+        {
+            var user = await GetUserByEmailAsync(email);
+            if (user == null) return null;
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return token;
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(ResetPassword resetPassword)
+        {
+            var user = await GetUserByEmailAsync(resetPassword.Email);
+            if (user == null) return null;
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
+            if (!resetPassResult.Succeeded)
+            {
+                return null;
+            }
+            return resetPassResult;
         }
     }
 }

@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RoleEnum } from '../../../core/models/role.model';
 import { UserModel } from '../../../core/models/user.model';
 import { NotificationService } from '../../../core/services/notification/notification.service';
@@ -31,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatIconModule,
     CommonModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -140,13 +141,6 @@ export class LoginComponent implements OnInit {
         },
       });
     }
-  }
-
-  /**
-   * Forgot your password
-   */
-  forgotPassword() {
-    this.notificationService.show('Tính năng chưa được hỗ trợ');
   }
 
   /**

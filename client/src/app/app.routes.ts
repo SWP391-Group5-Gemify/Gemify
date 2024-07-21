@@ -3,6 +3,7 @@ import { LoginComponent } from './shared/components/login/login.component';
 import { RoleEnum } from './core/models/role.model';
 import { authGuard, roleGuard } from './core/guards';
 import { PageErrorComponent } from './core/layout/page-error/page-error.component';
+import { GoldChartComponent } from './shared/components/gold-chart/gold-chart.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
@@ -12,6 +13,22 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./shared/routes/gold-chart/gold-chart-routing.module').then(
         (m) => m.GoldChartRoutingModule
+      ),
+  },
+
+  {
+    path: 'forgot-password',
+    loadChildren: () =>
+      import('./shared/routes/forgot-password/forgot-password-routing.module').then(
+        (m) => m.ForgotPasswordRoutingModule
+      ),
+  },
+
+  {
+    path: 'reset-password',
+    loadChildren: () =>
+      import('./shared/routes/reset-password/reset-password-routing.module').then(
+        (m) => m.ResetPasswordRoutingModule
       ),
   },
   // === Error Pages ========================================================

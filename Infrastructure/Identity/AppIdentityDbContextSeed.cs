@@ -33,7 +33,7 @@ namespace Infrastructure.Identity
                     (new User
                     {
                         FullName = "Lê Quang Khánh",
-                        Email = "khanh@test.com",
+                        Email = "khanhle9344@gmail.com",
                         UserName = "khanhlq",
                         Gender = Gender.Male.GetEnumMemberValue(),
                         DateOfBirth = new DateOnly(2000, 2, 1),
@@ -44,7 +44,7 @@ namespace Infrastructure.Identity
                     (new User
                     {
                         FullName = "Vũ Kim Duy",
-                        Email = "duy@test.com",
+                        Email = "duyvkse182407@fpt.edu.vn",
                         UserName = "duyvk",
                         Gender = Gender.Male.GetEnumMemberValue(),
                         DateOfBirth = new DateOnly(2000, 2, 1),
