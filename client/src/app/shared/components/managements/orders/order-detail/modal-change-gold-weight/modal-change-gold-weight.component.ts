@@ -60,9 +60,9 @@ export class ModalChangeGoldWeightComponent {
   getErrorMessage(controlName: string): string {
     const control = this.goldForm.get(controlName);
     if (control?.hasError('required')) {
-      return 'You must enter a value';
+      return 'Bạn phải nhập trường này';
     } else if (control?.hasError('pattern')) {
-      return 'Invalid gold weight';
+      return 'Trọng lượng vàng không hợp lệ';
     }
     return '';
   }

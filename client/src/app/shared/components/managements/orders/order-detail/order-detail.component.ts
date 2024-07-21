@@ -148,10 +148,29 @@ export class OrderDetailComponent implements OnInit {
    * Check if the current user is the Cashier or not
    * @returns
    */
-  isUserCashier() {
+  isRepurchaser() {
     return (
-      this.authService.currentUser()?.role == RoleEnum.Cashier ||
       this.authService.currentUser()?.role == RoleEnum.Repurchaser
+    );
+  }
+
+  /**
+   * Check if the current user is the Cashier or not
+   * @returns
+   */
+  isCashier() {
+    return (
+      this.authService.currentUser()?.role == RoleEnum.Cashier
+    );
+  }
+
+  /**
+   * Check if the order is exchange or buyback order
+   * @returns
+   */
+  isExchangeOrBuybackOrder(order: OrderModel) {
+    return (
+      order.orderTypeId == 2 || order.orderTypeId == 3
     );
   }
 

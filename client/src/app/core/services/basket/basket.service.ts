@@ -627,7 +627,7 @@ export class BasketService {
   }
 
   /**
-   * TODO: Limitation due to the lack of list of Gems at eachb BuybackItem in Backend API
+   * TODO: Limitation due to the lack of list of Gems at each BuybackItem in Backend API
    * @returns
    */
   public calculateBasketBuyBackTotalPrice() {
