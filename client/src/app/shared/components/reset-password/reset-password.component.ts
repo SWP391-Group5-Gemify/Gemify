@@ -40,13 +40,11 @@ export class ResetPasswordComponent implements OnInit {
       const encodedEmail = params.get('email');
       const encodedToken = params.get('token');
 
+      // Decode token URL encode and email URL encode
       if (encodedEmail && encodedToken) {
         this.resetPassword.email = decodeURIComponent(encodedEmail);
         this.resetPassword.token = decodeURIComponent(encodedToken);
       }
-
-      console.log(this.resetPassword.email); // This should log the email value
-      console.log(this.resetPassword.token); // This should log the token value
     });
 
   }
@@ -101,7 +99,6 @@ export class ResetPasswordComponent implements OnInit {
 
   // Reset password with the generated token from server
   onResetPassword() {
-    console.log(this.passwordForm.get('password')!.value);
     this.resetPassword.password = this.passwordForm.get('password')!.value!;
     this.resetPassword.confirmPassword = this.passwordForm.get('confirmPassword')!.value!;
     

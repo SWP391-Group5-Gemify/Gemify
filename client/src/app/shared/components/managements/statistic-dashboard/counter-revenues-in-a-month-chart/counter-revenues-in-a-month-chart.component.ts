@@ -148,6 +148,14 @@ export class CounterRevenuesInAMonthChartComponent
       options: {
         responsive: true,
         plugins: {
+          title: {
+            display: true,
+            text: 'Doanh Thu Các Quầy Theo Tháng',
+            padding: {
+                top: 10,
+                bottom: 30
+            }
+          },
           legend: {
             display: false,
           },
