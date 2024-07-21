@@ -1,4 +1,5 @@
 ﻿using Core.Enitities.Identity;
+using Core.Models;
 using Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -21,5 +22,7 @@ namespace Core.Interfaces
         Task<IdentityResult> AddUserToRoleAsync(User user, string role);
         Task<IdentityResult> CreateUserAsync(User user, string password);
         Task<IdentityResult> UpdateUserAsync(User user);
+        Task<string> GenerateResetPasswordTokenAsync(string email);
+        Task<IdentityResult> ResetPasswordAsync(ResetPassword resetPassword);
     }
 }
