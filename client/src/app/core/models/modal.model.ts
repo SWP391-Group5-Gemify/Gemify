@@ -2,6 +2,7 @@ export enum ModalTitle {
   EditEmployeeTitle = 'Edit Employee',
   CreateEmployeeTitle = 'Create Employee',
   ViewCurrentUserProfileTitle = 'My Profile',
+  CreatePromotionTitle = 'Create Promotion',
 }
 
 export enum ModalModeEnum {
