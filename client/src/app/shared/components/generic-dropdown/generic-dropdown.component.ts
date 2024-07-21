@@ -3,8 +3,10 @@ import {
   EventEmitter,
   input,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { DropdownModel } from '../../../core/models/dropdown.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,6 +31,10 @@ export class GenericDropdownComponent {
   // 2-way binding on the current selected value
   // using for reset function
   selectedValue?: string | number;
+
+  // ===========================================
+  // == Lifecycle
+  // ===========================================
 
   // ===========================================
   // == Methods

@@ -86,7 +86,7 @@
             <div class="products-table__actions"
                  *ngIf="this.isUserCashier()">
               <button class="btn btn--grad btn--with-icon"
-                      (click)="onOpenModalAndChangeGoldWeight(orderItem); $event.stopPropagation()"><mat-icon>add</mat-icon>Mua
+                      (click)="onOpenModalAddOrderItemToBuyBackAfterWeightingGold(orderItem); $event.stopPropagation()"><mat-icon>add</mat-icon>Mua
                 Lại</button>
               <button class="btn btn--grad btn--with-icon"
                       (click)="addOrderItemToCartForExchangeFromParent(orderItem); $event.stopPropagation()"><mat-icon>add</mat-icon>Đổi

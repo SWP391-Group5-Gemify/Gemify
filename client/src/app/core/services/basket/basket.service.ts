@@ -416,6 +416,8 @@ export class BasketService {
       subCategoryId
     );
 
+    console.table(buybackBasketItemToAdd);
+
     // Check the current basket
     let basket =
       this.getCurrentBasketValue() ??
@@ -661,7 +663,7 @@ export class BasketService {
     // If product having gem
     if (orderItem.orderItemGems.length > 0) {
       totalRareGemPrices = orderItem.orderItemGems.reduce((acc, curr) => {
-        if (!curr.isProcurable) {
+        if (curr.isProcurable) {
           return (acc += curr.price * 0.7 * curr.quantity);
         }
         return acc;

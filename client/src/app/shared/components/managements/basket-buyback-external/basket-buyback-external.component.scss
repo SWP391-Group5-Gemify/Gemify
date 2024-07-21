@@ -1,0 +1,18 @@
+@import "abstracts/variables";
+
+.buyback-external {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    background-color: $color-primary;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    padding: 1.0rem 2rem;
+    font-size: 1.8rem;
+    color: $color-white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-bottom: $gutter-layout;
+  }
+}

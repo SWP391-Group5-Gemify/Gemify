@@ -22,8 +22,11 @@
   </div>
 </section>
 
+@if(isManagerOrStoreOwner()) {
 <button class="btn btn--primary btn--with-icon"
         (click)="onOpenModalAddPromotion()"><mat-icon>add</mat-icon>Thêm ưu đãi</button>
+}
+
 
 <!-- Paginator -->
 <mat-paginator [length]="totalPromotions"

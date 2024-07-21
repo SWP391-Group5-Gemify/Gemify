@@ -206,6 +206,7 @@ export class OrderDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
       width: '30rem',
       height: '30rem',
+      disableClose: true,
     });
 
     dialogRef
@@ -239,6 +240,7 @@ export class OrderDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalCreateNewBasketComponent, {
       width: '30rem',
       height: '30rem',
+      disableClose: true,
     });
 
     dialogRef
@@ -268,12 +270,15 @@ export class OrderDetailComponent implements OnInit {
   /**
    * Create new modal, add new gold weight after inspection
    */
-  public onOpenModalAndChangeGoldWeight($event: any) {
+  public onOpenModalAddOrderItemToBuyBackAfterWeightingGold($event: any) {
     const orderItem = $event as OrderItemModel;
+
+    console.table(orderItem);
 
     const dialogRef = this.dialog.open(ModalChangeGoldWeightComponent, {
       width: '30rem',
       height: '30rem',
+      disableClose: true,
     });
 
     dialogRef

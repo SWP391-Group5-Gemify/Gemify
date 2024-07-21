@@ -1,15 +1,15 @@
 <form class="login form form--centered"
       [formGroup]="signInForm"
       autocomplete="off">
-  <h2 class="form__heading u-margin-bottom-medium">Sign in</h2>
+  <h2 class="form__heading u-margin-bottom-medium">Đăng nhập</h2>
 
   <!-- Form Control Username -->
-  <div class="form__input-control u-margin-bottom-medium">
+  <div class="form__input-control u-margin-bottom-small">
     <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
+      <mat-label>Tên tài khoản</mat-label>
       <input matInput
              type="text"
-             placeholder="Username"
+             placeholder="e.g. khanhlck"
              formControlName="userName" />
 
       <!-- Handle Error on Control -->
@@ -22,10 +22,9 @@
   <!-- Form Control Password -->
   <div class="form__input-control u-margin-bottom-small">
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
+      <mat-label>Mật khẩu</mat-label>
       <input type="password"
              matInput
-             placeholder="Password"
              formControlName="password" />
 
       <!-- Handle Error on Control -->
