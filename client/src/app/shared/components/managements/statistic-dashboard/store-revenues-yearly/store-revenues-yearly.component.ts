@@ -128,6 +128,14 @@ export class StoreRevenuesYearlyComponent implements OnInit, OnDestroy {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+          title: {
+            display: true,
+            text: 'Doanh Thu Cửa Hàng Theo Năm',
+            padding: {
+                top: 10,
+                bottom: 30
+            }
+        },
           // No data labels
           datalabels: false,
         },

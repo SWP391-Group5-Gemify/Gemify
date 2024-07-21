@@ -211,21 +211,6 @@ namespace Infrastructure.Data
 
                 await context.SaveChangesAsync();
             }
-
-            // Seed Sale Counter Revenue
-            if (!context.SaleCounterRevenue.Any())
-            {
-                var data = await File.ReadAllTextAsync(path + @"/Data/SeedData/SaleCounterRevenue.json");
-
-                var list = JsonSerializer.Deserialize<List<SaleCounterRevenue>>(data, options);
-
-                foreach (var item in list)
-                {
-                    context.SaleCounterRevenue.Add(item);
-                }
-
-                await context.SaveChangesAsync();
-            }
         }
     }
        

@@ -70,9 +70,9 @@ export class ModalCreateNewBasketComponent implements OnInit {
   getErrorMessage(controlName: string): string {
     const control = this.basketForm.get(controlName);
     if (control?.hasError('required')) {
-      return 'You must enter a value';
+      return 'Bạn phải nhập trường này';
     } else if (control?.hasError('pattern')) {
-      return 'Not a valid phone number';
+      return 'Số điện thoại không hợp lệ';
     }
     return '';
   }
