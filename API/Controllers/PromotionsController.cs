@@ -37,7 +37,7 @@ namespace API.Controllers
         {
             var exist_promotion = await _promotionService.GetPromotionByCodeAsync(code);
             if(exist_promotion == null) 
-                return NotFound(new ApiResponse(404, "Promotion is expired or does not exist!"));
+                return NotFound(new ApiResponse(404, "Ưu đãi đã hết hạn hoặc không tồn tại trong hệ thống!"));
             return Ok(exist_promotion);
         }
 
@@ -48,7 +48,7 @@ namespace API.Controllers
         {
             var exist_promotion = await _promotionService.GetPromotionByIdAsync(id);
             if(exist_promotion == null) 
-                return NotFound(new ApiResponse(404, "Promotion does not exist!"));
+                return NotFound(new ApiResponse(404, "Ưu đãi không tồn tại trong hệ thống!"));
             return Ok(exist_promotion);
         }
 
@@ -58,7 +58,7 @@ namespace API.Controllers
         public async Task<ActionResult<Promotion>> AddPromotion(Promotion promotion)
         {
             var newPromotion = await _promotionService.AddNewPromotionAsync(promotion);
-            if(newPromotion == null) return BadRequest(new ApiResponse(400, "Failed to add new promotion!"));
+            if(newPromotion == null) return BadRequest(new ApiResponse(400, "Thêm ưu đãi vào hệ thống thất bại!"));
             return newPromotion;
         }
 
@@ -71,9 +71,9 @@ namespace API.Controllers
             if(exist_promotion != null)
             {
                 await _promotionService.UpdateExpiredPromotionAsync(exist_promotion);
-                return Ok(new ApiResponse(200, "Disabled promotion successfully!"));
+                return Ok(new ApiResponse(200, "Tắt hiệu lực của ưu đãi thành công!"));
             }
-            else return BadRequest(new ApiResponse(400, "Failed to disable promotion!"));
+            else return BadRequest(new ApiResponse(400, "Tắt hiệu lực của ưu đãi thất bại!"));
         }
     }
 }

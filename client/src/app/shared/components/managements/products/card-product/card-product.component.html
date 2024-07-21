@@ -18,7 +18,6 @@
     <p class="card-product__price">{{product.productPrice | currency:"VND"}}</p>
     <p class="card-product__quantity"><span class="card-product__quantity--text">Số lượng:</span><span
             class="card-product__quantity--number">{{product.quantity}}</span></p>
-
     <p class="card-product__status"
        [ngClass]="{
         'card-product__status--available': product.status == ProductStatusEnum.Available,

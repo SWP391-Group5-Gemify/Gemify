@@ -42,7 +42,7 @@ namespace API.Controllers
         {
             var spec = new CustomerSpecification(id);
             var customer = await _customerRepo.GetEntityWithSpec(spec);
-            if (customer == null) { return NotFound(new ApiResponse(404, "This customer does not exist")); }
+            if (customer == null) { return NotFound(new ApiResponse(404, "Khách hàng không có trong hệ thống!")); }
             return _mapper.Map<Customer, CustomerDto>(customer);
         }
 
@@ -54,7 +54,7 @@ namespace API.Controllers
             var spec = new CustomerSpecification(id);
             var existingCustomer = await _customerRepo.GetEntityWithSpec(spec);
             if (existingCustomer == null)
-                return NotFound(new ApiResponse(404, "This customer does not exist"));
+                return NotFound(new ApiResponse(404, "Khách hàng không có trong hệ thống!"));
 
             _mapper.Map(customerDto,existingCustomer);
             _customerRepo.Update(existingCustomer);
@@ -63,7 +63,7 @@ namespace API.Controllers
                 return Ok(_mapper.Map<Customer, CustomerDto>(existingCustomer));
             }
                 
-            return BadRequest(new ApiResponse(400, "Failed to update customer information"));
+            return BadRequest(new ApiResponse(400, "Lỗi cập nhật thông tin khách hàng!"));
         }
 
         // add new customer
@@ -79,7 +79,7 @@ namespace API.Controllers
                 var customerToReturn = await _customerRepo.GetEntityWithSpec(spec);
                 return _mapper.Map<Customer, CustomerDto>(customerToReturn);
             }
-            return BadRequest(new ApiResponse(400, "Failed to add customer information"));
+            return BadRequest(new ApiResponse(400, "Lỗi tạo mới thông tin khách hàng!"));
         }
 
         //  check exist phone

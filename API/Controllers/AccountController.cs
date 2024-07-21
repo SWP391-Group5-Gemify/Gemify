@@ -81,14 +81,14 @@ namespace API.Controllers
         {
             var user = await _userService.GetUserByUserNameAsync(loginDto.UserName);
 
-            if (user == null) return Unauthorized(new ApiResponse(401));
+            if (user == null) return Unauthorized(new ApiResponse(401, "Người dùng không tồn tại!"));
 
             // If account is closed then return unauthorized response
-            if (user.Status.Equals(UserStatus.Closed.GetEnumMemberValue())) return Unauthorized(new ApiResponse(401));
+            if (user.Status.Equals(UserStatus.Closed.GetEnumMemberValue())) return Unauthorized(new ApiResponse(401, "Tài khoản đã đóng!"));
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-            if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
+            if (!result.Succeeded) return Unauthorized(new ApiResponse(401, "Mật khẩu hoặc tên người dùng không đúng!"));
 
             var userRole = await _userService.GetUserRoleAsync(user);
 
@@ -129,7 +129,7 @@ namespace API.Controllers
             var result = await _userService.CreateUserAsync(user, registerDto.Password);
             var roleResult = await _userService.AddUserToRoleAsync(user, registerDto.Role);
 
-            if (!result.Succeeded && !roleResult.Succeeded) return BadRequest(new ApiResponse(400));
+            if (!result.Succeeded && !roleResult.Succeeded) return BadRequest(new ApiResponse(400, "Đăng ký tài khoản thất bại!"));
 
             return new UserDto()
             {
@@ -160,10 +160,10 @@ namespace API.Controllers
 
             var forgotPasswordLink = $"{baseUrl}/{action}?token={encodedToken}&email={encodedEmail}";
             
-            var message = new Message(new string[] { email }, "Forgot Password Link", "Your reset password link: " + forgotPasswordLink);
+            var message = new Message(new string[] { email }, "[GEMIFY] YÊU CẦU ĐỔI MẬT KHẨU", "Theo đường dẫn để thay mật khẩu mới: " + forgotPasswordLink);
 
             await _emailService.SendEmail(message);
-            return Ok(new ApiResponse(200, "Password change request sent"));
+            return Ok(new ApiResponse(200, "Yêu cầu đổi mật khẩu đã được gửi về email của bạn!"));
         }
 
         [HttpPost("reset-password")]
@@ -171,8 +171,8 @@ namespace API.Controllers
         public async Task<ActionResult> ResetPassword(ResetPassword resetPassword)
         {
             var result = await _userService.ResetPasswordAsync(resetPassword);
-            if (result == null) return BadRequest(new ApiResponse(400, "Reset password failed"));
-            return Ok(new ApiResponse(200, "Reset password succeeded"));
+            if (result == null) return BadRequest(new ApiResponse(400, "Thay đổi mật khẩu thất bại!"));
+            return Ok(new ApiResponse(200, "Thay đổi mật khẩu thành công!"));
         }
     }
 }

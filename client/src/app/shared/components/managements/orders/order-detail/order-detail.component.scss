@@ -95,9 +95,10 @@ th {
   overflow: hidden;
 
   &__title {
+    display: block;
     color: $color-grey-light;
     font-size: 1.6rem;
-    padding: 1.2rem;
+    padding: 1.2rem 1.8rem;
     letter-spacing: 1.9px;
     text-transform: capitalize;
     background-color: $color-black;
@@ -115,6 +116,9 @@ th {
 
 .order-summary {
   margin-top: $gutter-layout;
+  min-width: 50%;
+  max-width: 60%;
+  float: right;
 
   &__title {
     background-color: $color-primary;

@@ -63,7 +63,6 @@ export class HeaderComponent {
 
   /**
    * Open the modal for viewing
-   * TODO: Bug on reloading page when closing the dialog
    */
   openCurrentUserModal() {
     const modalData: ModalConfigModel = {

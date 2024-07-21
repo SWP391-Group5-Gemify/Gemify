@@ -19,12 +19,15 @@
                           (onValueChanges)="onValueChangesNameFromParent($event)">
       </app-generic-search>
 
+      <!-- Filter by date -->
       <mat-form-field>
         <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker"
-        (dateChange)="onDateChange($event)">
-        
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <input matInput
+               [matDatepicker]="picker"
+               (dateChange)="onDateChange($event)">
+
+        <mat-datepicker-toggle matIconSuffix
+                               [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
