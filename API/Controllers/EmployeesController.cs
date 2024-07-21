@@ -68,14 +68,14 @@ namespace API.Controllers
 
             var exist_emp = await _userService.GetUserWithSpec(spec);
 
-            if(exist_emp==null) return BadRequest(new ApiResponse(400, "Failed to close employee account"));
+            if(exist_emp==null) return BadRequest(new ApiResponse(400, "Đóng tài khoản thất bại!"));
 
             exist_emp.Status = UserStatus.Closed.GetEnumMemberValue();
 
             var result = await _userService.UpdateUserAsync(exist_emp);
 
-            if(result.Succeeded) return Ok(new ApiResponse(200, "Close Account Succeeded"));
-            else return BadRequest(new ApiResponse(400, "Failed to close employee account"));
+            if(result.Succeeded) return Ok(new ApiResponse(200, "Đóng tài khoản thành công!"));
+            else return BadRequest(new ApiResponse(400, "Đóng tài khoản thất bại!"));
         }
 
         // Update Employee Information
@@ -87,14 +87,14 @@ namespace API.Controllers
 
             var exist_emp = await _userService.GetUserWithSpec(spec);
 
-            if(exist_emp==null) return NotFound(new ApiResponse(404));
+            if(exist_emp==null) return NotFound(new ApiResponse(404, "Nhân viên không có trong hệ thống!"));
 
             _mapper.Map(employee,exist_emp);
 
             var result = await _userService.UpdateUserAsync(exist_emp);
 
-            if(result.Succeeded) return Ok(new ApiResponse(200, "Update Succeeded"));
-            else return BadRequest(new ApiResponse(400, "Failed to update employee"));
+            if(result.Succeeded) return Ok(new ApiResponse(200, "Cập nhật thông tin nhân viên thành công!"));
+            else return BadRequest(new ApiResponse(400, "Lỗi cập nhật thông tin nhân viên!"));
         }
 
         // Get All Roles
