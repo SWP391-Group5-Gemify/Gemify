@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [RouterOutlet, HeaderComponent, FooterComponent, NgxSpinnerModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent implements OnInit {
   // ==========================================

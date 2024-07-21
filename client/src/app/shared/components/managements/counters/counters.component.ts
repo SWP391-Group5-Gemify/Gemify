@@ -34,8 +34,8 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatIcon,
     CardSaleCounterComponent,
     MatDatepickerModule,
-    MatFormFieldModule, 
-    MatInputModule
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './counters.component.html',
   styleUrl: './counters.component.scss',
@@ -49,7 +49,9 @@ export class CountersComponent implements OnInit {
   public saleCounters$!: Observable<SaleCounterModel[]>;
   public saleCounterRevenue!: SaleCounterRevenueModel[];
   public saleCountersStatusDropdown!: DropdownModel[];
-  public selectedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd')!.toString(); // Default selected date is current date
+  public selectedDate = this.datePipe
+    .transform(new Date(), 'yyyy-MM-dd')!
+    .toString(); // Default selected date is current date
 
   public saleCounterParams: SaleCounterParams = {
     pageSize: 5,
@@ -78,15 +80,19 @@ export class CountersComponent implements OnInit {
     this.loadSaleCountersStatusDropdown();
   }
 
+  // ====================
+  // == Methods
+  // ====================
+
+  /**
+   * On filter by date
+   * @param $event
+   */
   onDateChange($event: any) {
     var date = $event.value;
     this.selectedDate = this.datePipe.transform(date, 'yyyy-MM-dd')!.toString();
     this.getRevenueByDate(this.selectedDate);
   }
-
-  // ====================
-  // == Methods
-  // ====================
 
   /**
    * Load Sale Counter Dropdown
@@ -177,16 +183,15 @@ export class CountersComponent implements OnInit {
    */
   private getRevenueByDate(date: string) {
     this.revenueService.getRevenueByDate(date).subscribe({
-      next: (response) => {        
+      next: (response) => {
         this.saleCounterRevenue = response;
       },
-      error: error => this.notificationService.show(error.error.message)
+      error: (error) => this.notificationService.show(error.error.message),
     });
   }
 
   public getRevenueByCounterId(id: number) {
-    var revenue = this.saleCounterRevenue.find(s => s.saleCounterId === id);
+    var revenue = this.saleCounterRevenue.find((s) => s.saleCounterId === id);
     return revenue?.revenue;
   }
 }
-

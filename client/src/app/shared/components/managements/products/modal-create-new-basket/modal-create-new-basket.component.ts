@@ -29,16 +29,12 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ModalCreateNewBasketComponent implements OnInit {
   // ==========================================
-  // == Constructors
-  // ==========================================
-
-  // ==========================================
   // == Fields
   // ==========================================
-  basketForm!: FormGroup;
+  public basketForm!: FormGroup;
 
   // ==========================================
-  // == Constructors
+  // == Lifecycle
   // ==========================================
   constructor(
     private fb: FormBuilder,
@@ -55,12 +51,22 @@ export class ModalCreateNewBasketComponent implements OnInit {
   // ==========================================
   // == Methods
   // ==========================================
+
+  /**
+   * Prevent use input "ENTER" key for exiting
+   * @param event
+   */
   preventEnterKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       event.preventDefault();
     }
   }
 
+  /**
+   * Generate an error message based on the validation status of a specific form control.
+   * @param controlName The name of the form control to get the error message for
+   * @returns A string containing the appropriate error message
+   */
   getErrorMessage(controlName: string): string {
     const control = this.basketForm.get(controlName);
     if (control?.hasError('required')) {
@@ -71,10 +77,18 @@ export class ModalCreateNewBasketComponent implements OnInit {
     return '';
   }
 
+  /**
+   * Close the dialog without submitting any data.
+   * This method is used to cancel or close the form dialog without making changes.
+   */
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  /**
+   * Handle form submission. If the form is valid, close the dialog and pass the form data.
+   * This method is used to submit the form data and close the dialog with the submitted data.
+   */
   onSubmit(): void {
     if (this.basketForm.valid) {
       this.dialogRef.close(this.basketForm.value);

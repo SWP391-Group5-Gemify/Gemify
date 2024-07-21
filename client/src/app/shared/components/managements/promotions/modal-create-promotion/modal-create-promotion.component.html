@@ -1,0 +1,68 @@
+<!-- Form -->
+<form [formGroup]="promotionForm"
+      (keydown)="preventEnterKey($event)"
+      (ngSubmit)="onSubmit()"
+      class="form--modal">
+
+  <h2 mat-dialog-title
+      class="form--modal__title">{{modalConfigFromParent.title}}</h2>
+
+  <!-- Content -->
+  <mat-dialog-content class="form--modal__content u-padding-top-medium">
+
+    <!-- {
+    "code": "TEST07",
+    "name": "Test 7",
+    "discount": 0.4,
+    "expDate": "2024-07-31"
+    } -->
+
+    <!-- Code -->
+    <mat-form-field>
+      <mat-label>Mã</mat-label>
+      <input matInput
+             formControlName="code">
+      <mat-error *ngIf="promotionForm.controls['code'].invalid">{{getErrorMessage('code')}}</mat-error>
+    </mat-form-field>
+
+    <!-- Name -->
+    <mat-form-field>
+      <mat-label>Tên</mat-label>
+      <input matInput
+             formControlName="name">
+      <mat-error *ngIf="promotionForm.controls['name'].invalid">{{getErrorMessage('name')}}</mat-error>
+    </mat-form-field>
+
+    <!-- Discount -->
+    <mat-form-field>
+      <mat-label>Ưu Đãi</mat-label>
+      <input matInput
+             formControlName="discount">
+      <mat-error *ngIf="promotionForm.controls['discount'].invalid">{{getErrorMessage('discount')}}</mat-error>
+    </mat-form-field>
+
+    <!-- Exp Date -->
+    <mat-form-field>
+      <mat-label>Ngày hết hạn</mat-label>
+      <input matInput
+             [matDatepicker]="picker"
+             formControlName="expDate">
+
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix
+                             [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="promotionForm.controls['expDate'].invalid">{{getErrorMessage('expDate')}}</mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <!-- Actions -->
+  <mat-dialog-actions class="form--modal__controls">
+    <button class="btn btn--grad"
+            (click)="onCancelClick()">{{modalConfigFromParent.closeButtonLabel}}</button>
+    <button class="btn btn--primary"
+            type="submit"
+            [disabled]="promotionForm.invalid"
+            cdkFocusInitial>{{modalConfigFromParent.saveButtonLabel}}</button>
+  </mat-dialog-actions>
+</form>

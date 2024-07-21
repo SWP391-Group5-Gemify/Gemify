@@ -21,6 +21,13 @@ import { PaginationModel } from '../../../../core/models/pagination.model';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { CardPromotionComponent } from './card-promotion/card-promotion.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import {
+  ModalConfigModel,
+  ModalModeEnum,
+  ModalTitle,
+} from '../../../../core/models/modal.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalCreatePromotionComponent } from './modal-create-promotion/modal-create-promotion.component';
 
 @UntilDestroy()
 @Component({
@@ -72,7 +79,8 @@ export class PromotionsComponent {
   // ====================
   constructor(
     private promotionService: PromotionService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    public viewModal: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -173,6 +181,35 @@ export class PromotionsComponent {
 
         error: (_) => {
           this.notificationService.show('Có lỗi xảy ra, vui lòng thử lại');
+        },
+      });
+  }
+
+  /**
+   * Open Modal to add promotion
+   */
+  onOpenModalAddPromotion() {
+    const modalData: ModalConfigModel = {
+      title: ModalTitle.CreatePromotionTitle,
+      mode: ModalModeEnum.Create,
+      closeButtonLabel: 'Đóng',
+      saveButtonLabel: 'Tạo mới',
+    };
+
+    this.viewModal
+      .open(ModalCreatePromotionComponent, {
+        disableClose: true,
+        width: '40%',
+        height: '60%',
+        enterAnimationDuration: '300ms',
+        exitAnimationDuration: '300ms',
+        data: modalData,
+      })
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (_) => {
+          this.loadPromotions();
         },
       });
   }
