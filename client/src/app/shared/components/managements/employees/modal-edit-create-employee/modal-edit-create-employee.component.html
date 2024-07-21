@@ -22,7 +22,7 @@
 
       <!-- Username -->
       <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
+        <mat-label>Tên người dùng</mat-label>
         <input matInput
                type="text"
                formControlName="userName"
@@ -31,7 +31,7 @@
 
       <!-- Password -->
       <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
+        <mat-label>Mật khẩu</mat-label>
         <input matInput
                type="text"
                formControlName="password"
@@ -40,7 +40,7 @@
     </ng-container>
 
     <!-- Gender -->
-    <mat-radio-group aria-label="Select your gender"
+    <mat-radio-group aria-label="Chọn giới tính"
                      formControlName="gender"
                      name="gender">
       @for (gender of genderOptions; track $index) {
@@ -50,7 +50,7 @@
 
     <!-- Full Name -->
     <mat-form-field appearance="outline">
-      <mat-label>Full Name</mat-label>
+      <mat-label>Họ và Tên</mat-label>
       <input matInput
              formControlName="fullName"
              name="fullName">
@@ -66,7 +66,7 @@
 
     <!-- Phone Number -->
     <mat-form-field appearance="outline">
-      <mat-label>Phone</mat-label>
+      <mat-label>Số điện thoại</mat-label>
       <input matInput
              type="tel"
              formControlName="phoneNumber"
@@ -75,7 +75,7 @@
 
     <!-- Date Of Birth -->
     <mat-form-field appearance="outline">
-      <mat-label>Date of Birth</mat-label>
+      <mat-label>Ngày sinh</mat-label>
       <input matInput
              [matDatepicker]="picker"
              formControlName="dateOfBirth"
@@ -88,7 +88,7 @@
 
     <!-- Address -->
     <mat-form-field appearance="outline">
-      <mat-label>Address</mat-label>
+      <mat-label>Địa chỉ</mat-label>
       <textarea matInput
                 formControlName="address"
                 name="address"></textarea>

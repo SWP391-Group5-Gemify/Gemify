@@ -28,21 +28,37 @@
     </div>
 
     <!-- Basket Dropdown -->
-    <div class="basket-dropdown"
-         *ngIf="this.isUserCashier()">
-      <app-generic-dropdown #chooseExistingBasket
-                            label="Chọn giỏ hàng"
-                            [options]="basketIdAndPhoneDropdown"
-                            (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
-      </app-generic-dropdown>
+    <div class="order__actions">
+      <div *ngIf="this.isRepurchaser() && !this.isExchangeOrBuybackOrder(order)" class="order__actions__repurchaser">
+        <app-generic-dropdown #chooseExistingBasket
+                              label="Chọn giỏ hàng"
+                              [options]="basketIdAndPhoneDropdown"
+                              (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
+        </app-generic-dropdown>
+  
+      <!-- Create buyback basket -->
       <button class="btn btn--grad btn--with-icon"
               (click)="onOpenModalAndCreateBuybackBasketWithCustomerPhone()">
-        <mat-icon>shopping_basket</mat-icon>Tạo giỏ mua lại
+            <mat-icon>shopping_basket</mat-icon>Tạo giỏ mua lại
+        </button>
+
+        <!-- Create exchange basket -->
+      <button class="btn btn--grad btn--with-icon"
+                (click)="onOpenModalAndCreateExchangeBasketWithCustomerPhone()">
+            <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng đổi trả
+        </button>
+      </div>
+      
+      <!-- Print Invoice -->
+      <button class="btn btn--primary-light btn--with-icon order__actions__invoice"
+              (click)="generateOrderPDF()" *ngIf="this.isCashier()">
+        <mat-icon>picture_as_pdf</mat-icon>Tải Hóa Đơn
       </button>
 
-      <button class="btn btn--grad btn--with-icon"
-              (click)="onOpenModalAndCreateExchangeBasketWithCustomerPhone()">
-        <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng đổi trả
+      <!-- Print Warranty -->
+      <button class="btn btn--primary-light btn--with-icon order__actions__print"
+              (click)="printWarrantyFile()" *ngIf="this.isCashier()">
+        <mat-icon>description</mat-icon>In Giấy Bảo Hành
       </button>
     </div>
 
@@ -69,7 +85,7 @@
             <!-- Allow adding for cashier only -->
             @if (column === "add") {
             <div class="products-table__actions"
-                 *ngIf="this.isUserCashier()">
+                 *ngIf="this.isRepurchaser() && !this.isExchangeOrBuybackOrder(order)">
               <button class="btn btn--grad btn--with-icon"
                       (click)="onOpenModalAndChangeGoldWeight(orderItem); $event.stopPropagation()"><mat-icon>add</mat-icon>Mua
                 Lại</button>
@@ -191,6 +207,7 @@
             <strong>Ưu Đãi Giảm Giá</strong>
             <strong>{{order.promotionDiscount | percent}}</strong>
           </li>
+          <span class="divider"></span>
           <li class="order-summary__item">
             <strong>Tổng Tiền</strong>
             <strong>{{order.total | currency:'VND'}}</strong>

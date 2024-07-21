@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RoleEnum } from '../../../core/models/role.model';
 import { UserModel } from '../../../core/models/user.model';
 import { NotificationService } from '../../../core/services/notification/notification.service';
@@ -31,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatIconModule,
     CommonModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -113,7 +114,7 @@ export class LoginComponent implements OnInit {
 
     switch (true) {
       case control?.hasError('required'):
-        errorMessage = 'This field is required';
+        errorMessage = 'Bạn phải nhập trường này';
         break;
     }
 
@@ -136,17 +137,10 @@ export class LoginComponent implements OnInit {
           this.redirectToDashboardPath(user.role);
         },
         error: (error) => {
-          this.notificationService.show('Login Failed. Please try again!');
+          this.notificationService.show(error.error.message);
         },
       });
     }
-  }
-
-  /**
-   * Forgot your password
-   */
-  forgotPassword() {
-    this.notificationService.show('Tính năng chưa được hỗ trợ');
   }
 
   /**

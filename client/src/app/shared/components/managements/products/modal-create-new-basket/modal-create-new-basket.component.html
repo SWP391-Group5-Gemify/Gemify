@@ -5,7 +5,7 @@
       class="form--modal">
 
   <h2 mat-dialog-title
-      class="form--modal__title">Create New Basket</h2>
+      class="form--modal__title">Tạo mới giỏ hàng mua</h2>
 
   <!-- Content -->
   <mat-dialog-content class="form--modal__content u-padding-top-medium">
@@ -20,7 +20,7 @@
 
     <!-- Phone Number -->
     <mat-form-field>
-      <mat-label>Phone Number</mat-label>
+      <mat-label>Số điện thoại</mat-label>
       <input matInput
              formControlName="phoneNumber">
       <mat-error *ngIf="basketForm.controls['phoneNumber'].invalid">{{getErrorMessage('phoneNumber')}}</mat-error>
@@ -30,7 +30,7 @@
   <!-- Actions -->
   <mat-dialog-actions class="form--modal__controls">
     <button class="btn btn--grad"
-            (click)="onNoClick()">Cancel</button>
+            (click)="onNoClick()">Hủy</button>
     <button class="btn btn--primary"
             type="submit"
             [disabled]="basketForm.invalid"

@@ -50,7 +50,7 @@ namespace API.Controllers
             var saleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
             if (saleCounter == null)
             {
-                return NotFound(new ApiResponse(404, $"The counter with id {id} does not exist!"));
+                return NotFound(new ApiResponse(404, $"Quầy hàng số {id} không tồn tại trong hệ thống!"));
             }
             return _mapper.Map<SaleCounter, SaleCounterDto>(saleCounter);
         }
@@ -64,9 +64,9 @@ namespace API.Controllers
             saleCounter.Status = true;
             _saleCountersRepo.Add(saleCounter);
             if (await _saleCountersRepo.SaveAllAsync()) {
-                return Ok(new ApiResponse(200, "Successfully created a new sale counter"));
+                return Ok(new ApiResponse(200, "Tạo mới quầy hàng thành công!"));
             }
-            return BadRequest(new ApiResponse(400, "Fail to create a new sale counter"));
+            return BadRequest(new ApiResponse(400, "Tạo mới quầy hàng thất bại!"));
         }
 
         //Update sale counter
@@ -74,10 +74,23 @@ namespace API.Controllers
         [Authorize(Roles = "StoreOwner,StoreManager")]
         public async Task<ActionResult<SaleCounterDto>> UpdateSaleCounter (int id, SaleCounterToAssignDto saleCounterDto)
         {
+            // Check if the employee is already assigned to a different counter
+            if(saleCounterDto.UserId != null)
+            {
+                var userId = saleCounterDto.UserId.Value;
+                var userSpec = new SaleCounterWithUniqueEmployeeIdSpecification(userId);
+                var saleCounterWithUserId = await _saleCountersRepo.GetEntityWithSpec(userSpec);
+                if (saleCounterWithUserId != null)
+                {
+                    return BadRequest(new ApiResponse(400, "Nhân viên đã có ca trực quầy hàng!"));
+                }
+            }
+
+            // Check if the chosen counter exists
             var spec = new SaleCounterSpecification(id);
             var existingSaleCounter = await _saleCountersRepo.GetEntityWithSpec(spec);
             if (existingSaleCounter == null)
-                return NotFound(new ApiResponse(404, $"The counter with id {id} does not exist!"));
+                return NotFound(new ApiResponse(404, $"Quầy hàng số {id} không tồn tại trong hệ thống!"));
 
             try
             {

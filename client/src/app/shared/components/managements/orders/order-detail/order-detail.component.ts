@@ -26,7 +26,7 @@ import { DropdownModel } from '../../../../../core/models/dropdown.model';
 import { GenericDropdownComponent } from '../../../generic-dropdown/generic-dropdown.component';
 import { ModalChangeGoldWeightComponent } from './modal-change-gold-weight/modal-change-gold-weight.component';
 import { ProductService } from '../../../../../core/services/product/product.service';
-import { lastValueFrom, map, tap } from 'rxjs';
+import { lastValueFrom, map, pipe, switchMap, tap } from 'rxjs';
 import ImageUtils from '../../../../utils/ImageUtils';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { GoldService } from '../../../../../core/services/gold/gold.service';
@@ -36,6 +36,10 @@ import { AuthService } from '../../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../../core/models/role.model';
 import { SmsModel } from '../../../../../core/models/sms.model';
 import { SmsService } from '../../../../../core/services/sms/sms.service';
+import { InvoiceGeneratorService } from '../../../../../core/services/invoice-generator/invoice-generator.service';
+import { FileService } from '../../../../../core/services/file/file.service';
+import { FileEnum } from '../../../../../core/models/file.model';
+import { HttpClient } from '@angular/common/http';
 
 @UntilDestroy()
 @Component({
@@ -109,7 +113,10 @@ export class OrderDetailComponent implements OnInit {
     private goldService: GoldService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private smsService: SmsService
+    private smsService: SmsService,
+    private invoiceGeneratorService: InvoiceGeneratorService,
+    private fileService: FileService,
+    private httpClient: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -141,10 +148,29 @@ export class OrderDetailComponent implements OnInit {
    * Check if the current user is the Cashier or not
    * @returns
    */
-  isUserCashier() {
+  isRepurchaser() {
     return (
-      this.authService.currentUser()?.role == RoleEnum.Cashier ||
       this.authService.currentUser()?.role == RoleEnum.Repurchaser
+    );
+  }
+
+  /**
+   * Check if the current user is the Cashier or not
+   * @returns
+   */
+  isCashier() {
+    return (
+      this.authService.currentUser()?.role == RoleEnum.Cashier
+    );
+  }
+
+  /**
+   * Check if the order is exchange or buyback order
+   * @returns
+   */
+  isExchangeOrBuybackOrder(order: OrderModel) {
+    return (
+      order.orderTypeId == 2 || order.orderTypeId == 3
     );
   }
 
@@ -313,5 +339,48 @@ export class OrderDetailComponent implements OnInit {
     this.notificationService.show(
       `Thêm sản phẩm ${orderItem.productName} vào giỏ hàng trao đổi thành công.`
     );
+  }
+
+  /**
+   * Create a receipt pdf based on Order Details
+   */
+  public generateOrderPDF() {
+    this.invoiceGeneratorService.generateInvoice(
+      this.order!,
+      this.order!.orderItems,
+      'invoice'
+    );
+  }
+
+  /**
+   * Print warranty file
+   * - Convert arraybuffer into blob file
+   * - Create 1 iframe window for
+   */
+  public printWarrantyFile() {
+    this.fileService
+      .getLatestFile(FileEnum.WARRANTY)
+      .pipe(untilDestroyed(this))
+      .pipe(
+        tap((latestUrl) => {
+          return ImageUtils.concatLinkToTokenFirebase(latestUrl);
+        }),
+        switchMap((fileUrl) =>
+          this.httpClient.get(fileUrl, {
+            responseType: 'blob',
+          })
+        )
+      )
+      .subscribe((response: Blob) => {
+        // Create Blob URL based on response Blob
+        const blobUrl = URL.createObjectURL(response);
+
+        // Create a god damn iframe as the printer window
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = blobUrl;
+        document.body.appendChild(iframe);
+        iframe.contentWindow!.print();
+      });
   }
 }

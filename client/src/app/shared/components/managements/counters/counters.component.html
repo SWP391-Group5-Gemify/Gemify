@@ -19,6 +19,18 @@
                           (onValueChanges)="onValueChangesNameFromParent($event)">
       </app-generic-search>
 
+      <!-- Filter by date -->
+      <mat-form-field>
+        <mat-label>Chọn doanh thu theo ngày</mat-label>
+        <input matInput
+               [matDatepicker]="picker"
+               (dateChange)="onDateChange($event)">
+
+        <mat-datepicker-toggle matIconSuffix
+                               [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
       <!-- Reset all input element -->
       <button class="btn btn--primary-dark btn--with-icon"
               (click)="onResetFilters()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
@@ -29,11 +41,13 @@
 <!-- List of counters -->
 <section class="grid grid--responsive u-margin-top-small">
   <div *ngIf="(saleCounters$ | async) === null">
-    <p>No data fits your search</p>
+    <p>Không có quầy nào</p>
   </div>
 
   @for (saleCounter of saleCounters$ | async; track $index) {
   <app-card-sale-counter [saleCounter]="saleCounter"
+                         [revenue]="getRevenueByCounterId(saleCounter.id)"
+                         [selectedDate]="selectedDate"
                          (onAssignEmployeeId)="onAssignEmployeeIdFromParent($event)"></app-card-sale-counter>
   }
 </section>

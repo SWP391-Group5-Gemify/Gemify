@@ -32,7 +32,8 @@ namespace API.Extensions
             })
             .AddRoles<IdentityRole<int>>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
-            .AddSignInManager<SignInManager<User>>();
+            .AddSignInManager<SignInManager<User>>()
+            .AddDefaultTokenProviders();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

@@ -1,4 +1,11 @@
-<div class="chart-container"
-     style="position: relative; height:400px; width:400px">
-  <canvas id="pieChart"></canvas>
+<div class="chart-container">
+    <!-- Year Dropdown -->
+    <div class="year-dropdown">
+        <app-generic-dropdown #yearDropdownRef
+                              label="Chọn Năm"
+                              [options]="yearDropdown"
+                              (onSelectionChange)="onSelectChangeYearFromParent($event)">
+        </app-generic-dropdown>
+    </div>
+    <canvas id="pieChart"></canvas>
 </div>

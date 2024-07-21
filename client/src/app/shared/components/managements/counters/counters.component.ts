@@ -3,19 +3,25 @@ import { CounterService } from '../../../../core/services/counter/counter.servic
 import { NotificationService } from '../../../../core/services/notification/notification.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { GenericSearchComponent } from '../../generic-search/generic-search.component';
 import { MatIcon } from '@angular/material/icon';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import {
   AssignEmployeeIdModel,
   SaleCounterModel,
   SaleCounterParams,
+  SaleCounterRevenueModel,
 } from '../../../../core/models/sale-counter.model';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
 import { CardSaleCounterComponent } from './card-sale-counter/card-sale-counter.component';
 import { EmployeeModel } from '../../../../core/models/employee.model';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { RevenueService } from '../../../../core/services/revenue/revenue.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @UntilDestroy()
 @Component({
@@ -27,9 +33,13 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
     GenericSearchComponent,
     MatIcon,
     CardSaleCounterComponent,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   templateUrl: './counters.component.html',
   styleUrl: './counters.component.scss',
+  providers: [provideNativeDateAdapter(), DatePipe],
 })
 export class CountersComponent implements OnInit {
   // ====================
@@ -37,7 +47,11 @@ export class CountersComponent implements OnInit {
   // ====================
 
   public saleCounters$!: Observable<SaleCounterModel[]>;
+  public saleCounterRevenue!: SaleCounterRevenueModel[];
   public saleCountersStatusDropdown!: DropdownModel[];
+  public selectedDate = this.datePipe
+    .transform(new Date(), 'yyyy-MM-dd')!
+    .toString(); // Default selected date is current date
 
   public saleCounterParams: SaleCounterParams = {
     pageSize: 5,
@@ -46,7 +60,6 @@ export class CountersComponent implements OnInit {
     searchName: undefined,
     revenueDate: undefined,
   };
-
   @ViewChild('saleCountersStatusDropdownRef')
   saleCountersStatusDropdownRef!: GenericDropdownComponent;
   @ViewChild('nameSearchInputRef') nameSearchInputRef!: GenericSearchComponent;
@@ -56,17 +69,30 @@ export class CountersComponent implements OnInit {
   // ====================
   constructor(
     private counterService: CounterService,
-    private notificationService: NotificationService
+    private revenueService: RevenueService,
+    private notificationService: NotificationService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
     this.loadSaleCounters();
+    this.getRevenueByDate(this.selectedDate);
     this.loadSaleCountersStatusDropdown();
   }
 
   // ====================
   // == Methods
   // ====================
+
+  /**
+   * On filter by date
+   * @param $event
+   */
+  onDateChange($event: any) {
+    var date = $event.value;
+    this.selectedDate = this.datePipe.transform(date, 'yyyy-MM-dd')!.toString();
+    this.getRevenueByDate(this.selectedDate);
+  }
 
   /**
    * Load Sale Counter Dropdown
@@ -146,9 +172,26 @@ export class CountersComponent implements OnInit {
           }
         },
 
-        error: (_) => {
-          this.notificationService.show('Có lỗi xảy ra, vui lòng thử lại');
+        error: (error) => {
+          this.notificationService.show(error.error.message);
         },
       });
+  }
+
+  /**
+   * Get current date revenue for all counters
+   */
+  private getRevenueByDate(date: string) {
+    this.revenueService.getRevenueByDate(date).subscribe({
+      next: (response) => {
+        this.saleCounterRevenue = response;
+      },
+      error: (error) => this.notificationService.show(error.error.message),
+    });
+  }
+
+  public getRevenueByCounterId(id: number) {
+    var revenue = this.saleCounterRevenue.find((s) => s.saleCounterId === id);
+    return revenue?.revenue;
   }
 }

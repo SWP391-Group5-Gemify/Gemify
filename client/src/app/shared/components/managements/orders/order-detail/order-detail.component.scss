@@ -1,5 +1,33 @@
 @import "abstracts/variables";
 
+.order__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-items: flex-start;
+  gap: 0.8rem;
+
+  &__repurchaser{
+    display: flex;
+    gap: 20px;
+
+    button {
+     height: 50px; 
+    }
+  }
+
+  &__invoice {
+    margin: 0 0 0 auto;
+    margin-bottom: 20px;
+  }
+
+  &__print {
+    margin: 0 0 0 0.8rem;
+    margin-bottom: 20px;
+  }
+}
+
+
 .header {
   margin-bottom: 30px;
   display: flex;
@@ -72,11 +100,15 @@ th {
   overflow: hidden;
 
   &__title {
-    font-size: larger;
-    font-weight: bold;
-    border-bottom: 1px solid black;
-    padding-bottom: 5px;
-    margin-top: 20px;
+    display: block;
+    color: $color-grey-light;
+    font-size: 1.6rem;
+    padding: 1.2rem 1.8rem;
+    letter-spacing: 1.9px;
+    text-transform: capitalize;
+    background-color: $color-black;
+    font-weight: 900;
+    text-align: left;
   }
 }
 
@@ -88,33 +120,41 @@ th {
 }
 
 .order-summary {
-  margin-top: 50px;
+  margin-top: $gutter-layout;
+  min-width: 50%;
+  max-width: 60%;
+  float: right;
 
   &__title {
     background-color: $color-primary;
-    border-radius: 20px;
     text-transform: uppercase;
     font-weight: bold;
-    padding: 10px 20px;
-    font-size: 20px;
-    color: whitesmoke;
+    padding: 1.0rem 2rem;
+    font-size: 1.8rem;
+    color: $color-white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-bottom: $gutter-layout;
   }
 
   &__content {
-    padding: 20px;
+    padding: $padding-layout;
+    border: 2px solid $color-primary-dark;
   }
 
   &__list {
     list-style-type: none;
-    margin-bottom: 20px;
   }
 
   &__item {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    font-size: 15px;
+    font-size: 1.8rem;
+
+    &:last-child {
+      margin-top: 0.8rem;
+      font-size: 2.4rem;
+    }
   }
 }
 
@@ -122,15 +162,4 @@ th {
   display: flex;
   flex-direction: row;
   gap: 0.8rem;
-}
-
-.basket-dropdown {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.8rem;
-
-  button {
-    align-self: flex-start;
-  }
 }

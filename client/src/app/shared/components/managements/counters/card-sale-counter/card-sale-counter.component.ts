@@ -1,4 +1,4 @@
-import { Component, input, OnInit, output } from '@angular/core';
+import { Component, Input, input, OnInit, output } from '@angular/core';
 import {
   AssignEmployeeIdModel,
   SaleCounterModel,
@@ -36,11 +36,14 @@ export class CardSaleCounterComponent implements OnInit {
   public saleCounter = input.required<SaleCounterModel>();
   public onAssignEmployeeId = output<AssignEmployeeIdModel>();
   public allSellersDropdown!: DropdownModel[];
+  @Input() revenue?: number;
+  @Input() selectedDate?: string;
 
   // ====================
   // == Constructors
   // ====================
   constructor(private employeeService: EmployeeService) {}
+
   ngOnInit(): void {
     this.loadAllSellersDropdown();
   }

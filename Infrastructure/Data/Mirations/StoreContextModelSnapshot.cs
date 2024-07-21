@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Data.Migrations
+namespace Infrastructure.Data.Mirations
 {
     [DbContext(typeof(StoreContext))]
     partial class StoreContextModelSnapshot : ModelSnapshot
@@ -590,7 +590,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<decimal>("Revenue")
                         .HasColumnType("decimal(18,0)");
 
-                    b.Property<int>("SaleCounterId")
+                    b.Property<int?>("SaleCounterId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -858,11 +858,11 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Enitities.SaleCounterRevenue", b =>
                 {
-                    b.HasOne("Core.Enitities.SaleCounter", null)
-                        .WithMany("SaleCounterRevenue")
-                        .HasForeignKey("SaleCounterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Core.Enitities.SaleCounter", "SaleCounter")
+                        .WithMany()
+                        .HasForeignKey("SaleCounterId");
+
+                    b.Navigation("SaleCounter");
                 });
 
             modelBuilder.Entity("Core.Enitities.SubCategory", b =>
@@ -894,11 +894,6 @@ namespace Infrastructure.Data.Migrations
             modelBuilder.Entity("Core.Enitities.Product", b =>
                 {
                     b.Navigation("ProductGems");
-                });
-
-            modelBuilder.Entity("Core.Enitities.SaleCounter", b =>
-                {
-                    b.Navigation("SaleCounterRevenue");
                 });
 #pragma warning restore 612, 618
         }

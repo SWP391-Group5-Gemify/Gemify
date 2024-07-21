@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 import {
-  RevenueMonthlyModel,
   RevenuesDataModel,
   RevenueSaleCounterModel,
+  Revenue,
 } from '../../../core/models/counter-revenue.model';
 
 @Injectable({
@@ -32,34 +31,27 @@ export class DashboardService {
     );
   }
 
-  getCounterRevenuesData(year: number) {
-    return this.http.get<RevenuesDataModel[]>(
-      `${this.baseDashboardUrl}/monthlyRevenues/${year}`
-    );
-  }
-
-  getSpecificCounterRevenuesData(
-    year: number
-  ): Observable<RevenueMonthlyModel[]> {
-    return this.http.get<RevenueMonthlyModel[]>(
-      `${this.baseDashboardUrl}/revenues/counters/${year}`
-    );
-  }
-
-  getSpecificCounterYearlyRevenuesData(
-    year: number
-  ): Observable<RevenueMonthlyModel[]> {
-    return this.http.get<RevenueMonthlyModel[]>(
-      `${this.baseDashboardUrl}/revenues/counterYearlyRevenues/${year}`
-    );
-  }
-
   getSpecificCounterRevenuesInMonthData(
     year: number,
     month: number
   ): Observable<RevenueSaleCounterModel[]> {
     return this.http.get<RevenueSaleCounterModel[]>(
       `${this.baseDashboardUrl}/revenues/counters/${month}/${year}`
+    );
+  }
+
+  getSpecificCounterYearlyRevenuesData(
+    year: number
+  ): Observable<Revenue[]> {
+    return this.http.get<Revenue[]>(
+      `${this.baseDashboardUrl}/revenues/yearly/${year}`
+    );
+  }
+
+  // Get list of years where revenue exists
+  getYears(): Observable<number[]> {
+    return this.http.get<number[]>(
+      `${this.baseDashboardUrl}/years`
     );
   }
 }

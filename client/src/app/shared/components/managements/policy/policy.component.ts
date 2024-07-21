@@ -20,6 +20,7 @@ import { AuthService } from '../../../../core/services/auth/auth.service';
 import { RoleEnum } from '../../../../core/models/role.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FileSaverModule, FileSaverService } from 'ngx-filesaver';
+import { FileEnum } from '../../../../core/models/file.model';
 
 @UntilDestroy()
 @Component({
@@ -119,7 +120,7 @@ export class PolicyComponent {
    */
   private loadLatestPolicyFile(): void {
     this.fileService
-      .getLatestFile()
+      .getLatestFile(FileEnum.POLICY)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (latestUrl) => {

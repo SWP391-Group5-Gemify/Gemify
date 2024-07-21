@@ -6,6 +6,7 @@ import { BasketService } from './core/services/basket/basket.service';
 import { AuthService } from './core/services/auth/auth.service';
 import { RoleEnum } from './core/models/role.model';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',

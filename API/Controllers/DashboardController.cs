@@ -1,4 +1,6 @@
-﻿using API.Helpers;
+﻿using API.Dtos;
+using API.Helpers;
+using AutoMapper;
 using Core.Enitities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -10,59 +12,63 @@ namespace API.Controllers
 {
     public class DashboardController : BaseApiController
     {
-        private readonly ISaleRevenueService _saleRevenueService;
+        private readonly ISaleCounterRevenueService _saleCounterRevenueService;
+        private readonly IGenericRepository<SaleCounter> _saleCounterRepo;
+        private readonly IMapper _mapper;
 
-        public DashboardController(ISaleRevenueService saleRevenueService)
+        public DashboardController(ISaleCounterRevenueService saleCounterRevenueService, 
+            IGenericRepository<SaleCounter> saleCounterRepo, IMapper mapper)
         {
-            _saleRevenueService = saleRevenueService;
+            _saleCounterRevenueService = saleCounterRevenueService;
+            _saleCounterRepo = saleCounterRepo;
+            _mapper = mapper;
         }
 
-        // Get revenues of sale 
-        [HttpGet("revenue/{year}")]
-        [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<decimal>> GetSaleRevenueByYear(int year)
-        {
-            decimal total = await _saleRevenueService.GetYearlyRevenueAsync(year);
-            return Ok(total);
-        }
-
-        // Get revenues of sale by month in year
+        // (Dashboard line chart) Get sale revenues by month based on input year
         [HttpGet("monthlyRevenues/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleRevenue>>> GetSaleRevenuesByYear(int year)
+        public async Task<ActionResult<IReadOnlyList<TotalRevenueOfMonthDto>>> GetSaleRevenuesByYear(int year)
         {
-            var revenues = await _saleRevenueService.GetMonthlyRevenuesAsync(year);
-            return Ok(revenues);
+            var revenues = await _saleCounterRevenueService.GetTotalSaleRevenuesByMonthAsync(year);
+            var returnRevenues = 
+                _mapper.Map<IReadOnlyList<SaleCounterRevenue>,IReadOnlyList<TotalRevenueOfMonthDto>>(revenues);
+            return Ok(returnRevenues);
         }
 
-        // Get counters revenues of sale by month in year
-        [HttpGet("revenues/counters/{year}")]
+        // (Dashboard bar chart) Get sale revenues by counter based on input month and year
+        [HttpGet("revenues/counters/{month}/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<DashboardCounterRevenue>>>
-            GetSaleCounterRevenuesByMonthAsync(int year)
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenueOfMonthDto>>>
+            GetSaleCounterRevenueInMonthAsync(int month, int year)
         {
-            var revenues = await _saleRevenueService.GetSaleCounterMonthlyRevenuesAsync(year);
-            return Ok(revenues);
+            var revenues = await _saleCounterRevenueService.GetSaleRevenuesByCounterAndMonthAsync(month, year);
+            var returnRevenues = 
+                _mapper.Map<IReadOnlyList<SaleCounterRevenue>,IReadOnlyList<SaleCounterRevenueOfMonthDto>>(revenues);
+            foreach (var revenue in returnRevenues)
+            {
+                var saleCounter = await _saleCounterRepo.GetByIdAsync(revenue.SaleCounterId);
+                revenue.SaleCounterName = saleCounter.Name;
+            }
+            return Ok(returnRevenues);
+        }
+
+        // Get list of years from SaleCounterRevenue table
+        [HttpGet("years")]
+        [Authorize(Roles = "StoreOwner, StoreManager")]
+        public async Task<ActionResult<IReadOnlyList<int>>> GetYears()
+        {
+            var years = await _saleCounterRevenueService.GetYearsAsync();
+            return Ok(years);
         }
 
         // Get counters revenues of sale in year
-        [HttpGet("revenues/counterYearlyRevenues/{year}")]
+        [HttpGet("revenues/yearly/{year}")]
         [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenue>>>
-            GetSaleCounterYearlyRevenuesAsync(int year)
+        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenueYearlyDto>>> GetSaleCounterYearlyRevenuesAsync(int year)
         {
-            var revenues = await _saleRevenueService.GetSaleCounterRevenueYearlyAsync(year);
-            return Ok(revenues);
-        }
-
-        // Get counters revenue in month
-        [HttpGet("revenues/counters/{month}/{year}")]
-        [Authorize(Roles = "StoreOwner,StoreManager")]
-        public async Task<ActionResult<IReadOnlyList<SaleCounterRevenueByMonth>>>
-            GetSaleCounterRevenueInMonthAsync(int month, int year)
-        {
-            var revenues = await _saleRevenueService.GetSaleCounterRevenueInMonthAsync(month,year);
-            return Ok(revenues);
+            var revenues = await _saleCounterRevenueService.GetSaleCounterRevenueYearlyAsync(year);
+            var yearlyRevenue = _mapper.Map<IReadOnlyList<SaleCounterRevenue>, IReadOnlyList<SaleCounterRevenueYearlyDto>>(revenues);
+            return Ok(yearlyRevenue);
         }
     }
 }

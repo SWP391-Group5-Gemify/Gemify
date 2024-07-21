@@ -16,5 +16,6 @@ namespace Core.Enitities
         public int GoldTypeId { get; set; }
         public int? SubCategoryId { get; set; }
         public string PictureUrl { get; set; }
+        public IReadOnlyList<BasketBuyBackItemGem> Gems { get; set; }
     }
 }
