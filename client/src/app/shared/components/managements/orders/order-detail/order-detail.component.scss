@@ -10,7 +10,11 @@
     align-self: flex-start;
   }
 
-  button:last-child {
+  button:nth-last-child(1) {
+    margin: 0 0 0 0.8rem;
+  }
+
+  button:nth-last-child(2) {
     margin: 0 0 0 auto;
   }
 }

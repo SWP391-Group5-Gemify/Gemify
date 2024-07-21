@@ -35,19 +35,29 @@
                             [options]="basketIdAndPhoneDropdown"
                             (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
       </app-generic-dropdown>
+
+      <!-- Create buyback basket -->
       <button class="btn btn--grad btn--with-icon"
               (click)="onOpenModalAndCreateBuybackBasketWithCustomerPhone()">
         <mat-icon>shopping_basket</mat-icon>Tạo giỏ mua lại
       </button>
 
+      <!-- Create exchange basket -->
       <button class="btn btn--grad btn--with-icon"
               (click)="onOpenModalAndCreateExchangeBasketWithCustomerPhone()">
         <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng đổi trả
       </button>
 
+      <!-- Print Invoice -->
       <button class="btn btn--primary-light btn--with-icon"
               (click)="generateOrderPDF()">
-        <mat-icon>picture_as_pdf</mat-icon>In hóa đơn
+        <mat-icon>picture_as_pdf</mat-icon>Tải Hóa Đơn
+      </button>
+
+      <!-- Print Warranty -->
+      <button class="btn btn--primary-light btn--with-icon"
+              (click)="printWarrantyFile()">
+        <mat-icon>description</mat-icon>In Giấy Bảo Hành
       </button>
     </div>
 
