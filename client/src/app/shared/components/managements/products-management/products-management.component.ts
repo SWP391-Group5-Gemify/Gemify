@@ -39,7 +39,7 @@ export class ProductsManagementComponent implements OnInit {
     'quantity',
     'productPrice',
     'status',
-    'actions',
+    'delete',
   ];
 
   public productParams: ProductParams = {

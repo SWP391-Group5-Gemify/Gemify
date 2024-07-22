@@ -98,11 +98,8 @@ export class PromotionsComponent {
    * Only StoreManager and StoreOwner can add new promotion
    * @returns
    */
-  public isManagerOrStoreOwner(): boolean {
-    return (
-      this.userService.currentUser()?.role === RoleEnum.StoreManager ||
-      this.userService.currentUser()?.role === RoleEnum.StoreOwner
-    );
+  public isStoreOwner(): boolean {
+    return this.userService.currentUser()?.role === RoleEnum.StoreOwner;
   }
 
   /**

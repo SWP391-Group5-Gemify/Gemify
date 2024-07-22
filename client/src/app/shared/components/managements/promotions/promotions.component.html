@@ -22,7 +22,8 @@
   </div>
 </section>
 
-@if(isManagerOrStoreOwner()) {
+<!-- Store Owner access only -->
+@if(isStoreOwner()) {
 <button class="btn btn--primary btn--with-icon"
         (click)="onOpenModalAddPromotion()"><mat-icon>add</mat-icon>Thêm ưu đãi</button>
 }
