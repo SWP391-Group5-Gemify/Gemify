@@ -35,27 +35,10 @@
             font-size: large;
         }
     }
-    &__calculated {
-        margin: 20px 0;
-        &__button {
-            margin-bottom: 10px;
-        }
-        &__bidprice {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            font-size: large;
-        }
-        &__askprice {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            font-size: large;
-        }
-    }
     &__buttons {
         display: flex;
         justify-content: center;
+        margin-top: 30px;
         &__submit {
             margin-left: 30px;
         }
