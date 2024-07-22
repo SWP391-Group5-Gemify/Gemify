@@ -1,23 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { GenericDropdownComponent } from '../../generic-dropdown/generic-dropdown.component';
 import { GenericSearchComponent } from '../../generic-search/generic-search.component';
-import { CardProductComponent } from '../products/card-product/card-product.component';
 import { DropdownModel } from '../../../../core/models/dropdown.model';
-import { HttpClient } from '@angular/common/http';
 import { BasketService } from '../../../../core/services/basket/basket.service';
 import {
-  BasketItemSellModel,
   BasketModel,
   BasketParams as BasketsParams,
 } from '../../../../core/models/basket.model';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { filter, map, Observable, Subscription, tap } from 'rxjs';
+import { MatTableModule } from '@angular/material/table';
+import { map, Observable } from 'rxjs';
 import { CardBasketComponent } from './card-basket/card-basket.component';
 import { TableBasketItemsComponent } from './table-basket-items/table-basket-items.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';

@@ -8,7 +8,6 @@ import {
   PromotionParams,
 } from '../../models/promotion.model';
 import { environment } from '../../../../environments/environment';
-import { ProductModel } from '../../models/product.model';
 import { CreateUpdateDeleteResponseModel } from '../../models/response.model';
 
 @Injectable({

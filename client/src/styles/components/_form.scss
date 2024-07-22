@@ -2,9 +2,11 @@
   display: inline-block;
 
   &__heading {
-    font-size: 4.8rem;
+    font-size: 4.2rem;
     text-align: center;
     text-align: center;
+    text-transform: uppercase;
+    color: $color-secondary-dark;
   }
 
   &__input-control {
@@ -16,7 +18,7 @@
 }
 
 .form--centered {
-  @include absCenter(35%);
+  @include absCenter(45%);
 }
 
 

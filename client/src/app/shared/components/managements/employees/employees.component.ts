@@ -57,7 +57,8 @@ export class EmployeesComponent implements OnInit {
       'status',
       'address',
       'role',
-      'actions',
+      'edit',
+      'delete',
     ],
 
     dataSource: new MatTableDataSource<EmployeeModel>(),

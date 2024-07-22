@@ -20,17 +20,17 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'customers',
+        loadChildren: () =>
+          import('../../routes/managements/customers-routing.module').then(
+            (m) => m.CustomersRoutingModule
+          ),
+      },
+      {
         path: 'orders',
         loadChildren: () =>
           import('../../routes/managements/orders-routing.module').then(
             (m) => m.OrdersRoutingModule
-          ),
-      },
-      {
-        path: 'products',
-        loadChildren: () =>
-          import('../managements/products/products-routing.module').then(
-            (m) => m.ProductsRoutingModule
           ),
       },
       {
