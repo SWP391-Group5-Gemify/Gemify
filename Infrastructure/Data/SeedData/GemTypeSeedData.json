@@ -41,7 +41,7 @@
     "Clarity": "VVS2",
     "Color": "E",
     "Shape": "Princess",
-    "LatestPrice": 4000000,
+    "LatestPrice": 400000,
     "IsProcurable": false
   },
   {
@@ -56,7 +56,7 @@
     "Clarity": "VVS2",
     "Color": "G",
     "Shape": "Oval",
-    "LatestPrice": 3000000,
+    "LatestPrice": 300000,
     "IsProcurable": false
   },
   {
@@ -71,7 +71,7 @@
     "Clarity": "IF",
     "Color": "G",
     "Shape": "Radiant",
-    "LatestPrice": 7000000,
+    "LatestPrice": 700000,
     "IsProcurable": false
   },
   {
@@ -132,7 +132,7 @@
     "Color": "F",
     "Shape": "Radiant",
     "LatestPrice": 5000000,
-    "IsProcurable": false
+    "IsProcurable": true
   },
   {
     "Name": "Ruby",
@@ -150,3 +150,8 @@
     "IsProcurable": true
   }
 ]
+
+
+
+
+
