@@ -27,13 +27,6 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'employees',
-        loadChildren: () =>
-          import('../../routes/managements/employees-routing.module').then(
-            (m) => m.EmployeesRoutingModule
-          ),
-      },
-      {
         path: 'customers',
         loadChildren: () =>
           import('../../routes/managements/customers-routing.module').then(
