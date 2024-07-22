@@ -1,15 +1,17 @@
 [
   {
     "ProductId": 2,
-    "GemTypeId": 2,
-    "GemWeight": 0.5,
-    "Quantity":  5
+    "GemTypeId": 6,
+    "GemWeight": 2,
+    "Quantity": 1,
+    "CertificateCode": "3647829452"
   },
   {
     "ProductId": 3,
-    "GemTypeId": 3,
-    "GemWeight": 0.1,
-    "Quantity": 2
+    "GemTypeId": 1,
+    "GemWeight": 1.5,
+    "Quantity": 1,
+    "CertificateCode": "983645829"
   },
   {
     "ProductId": 3,
@@ -52,7 +54,8 @@
     "ProductId": 16,
     "GemTypeId": 9,
     "GemWeight": 0.3,
-    "Quantity": 1
+    "Quantity": 1,
+    "CertificateCode": "2468134790"
   },
   {
     "ProductId": 17,
