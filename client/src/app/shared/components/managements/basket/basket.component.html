@@ -33,7 +33,7 @@
 
   <!-- If not found then show this message -->
   <div *ngIf="(baskets$ | async)?.length === 0">
-    <p>There are no items in your basket</p>
+    <p>Không có giỏ hàng nào</p>
   </div>
 
   @for (basket of baskets$ | async; track $index) {
