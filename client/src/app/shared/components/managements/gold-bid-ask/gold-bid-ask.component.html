@@ -2,11 +2,12 @@
   <form [formGroup]="goldRateForm"
         class="gold-form">
     <div class="gold-form__header">
-      CẬP NHẬT GIÁ VÀNG
+      Cập nhật giá vàng
     </div>
 
-    <div class="gold-form__current">
-      <button class="btn btn--grad btn--with-icon"
+    <!-- Current gold -->
+    <div class="gold-form__current u-margin-top-small">
+      <button class="btn btn--primary btn--with-icon"
               (click)="getWorldGoldPrice(); $event.preventDefault()"><mat-icon>attach_money</mat-icon>Lấy giá vàng thế
         giới (VND/Chi)
       </button>
@@ -14,12 +15,12 @@
            class="gold-form__current-price">
         {{currentGoldPrice | currency:'VND'}}
       </div>
-
     </div>
 
-    <mat-divider></mat-divider>
+    <mat-divider class="u-margin-top-small"></mat-divider>
 
-    <div class="gold-form__options">
+    <!-- Options -->
+    <div class="gold-form__options u-margin-top-small">
       <!-- Bid Rate -->
       <mat-form-field appearance="outline">
         <mat-label>Tỉ Lệ Áp Giá Bán</mat-label>
@@ -78,8 +79,8 @@
 
     <mat-divider></mat-divider>
 
-    <div class="gold-form__calculated">
-      <button class="btn btn--grad btn--with-icon gold-form__calculated__button"
+    <div class="gold-form__calculated u-margin-top-small">
+      <button class="btn btn--primary btn--with-icon gold-form__calculated__button"
               (click)="calculateGoldPrice(); $event.preventDefault()"><mat-icon>attach_money</mat-icon>Tính giá bán/mua
         (VND/chi)
       </button>

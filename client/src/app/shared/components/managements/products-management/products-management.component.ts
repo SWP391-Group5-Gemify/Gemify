@@ -39,6 +39,7 @@ export class ProductsManagementComponent implements OnInit {
     'quantity',
     'productPrice',
     'status',
+    'edit',
     'delete',
   ];
 

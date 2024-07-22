@@ -149,9 +149,7 @@ export class OrderDetailComponent implements OnInit {
    * @returns
    */
   isRepurchaser() {
-    return (
-      this.authService.currentUser()?.role == RoleEnum.Repurchaser
-    );
+    return this.authService.currentUser()?.role == RoleEnum.Repurchaser;
   }
 
   /**
@@ -159,9 +157,7 @@ export class OrderDetailComponent implements OnInit {
    * @returns
    */
   isCashier() {
-    return (
-      this.authService.currentUser()?.role == RoleEnum.Cashier
-    );
+    return this.authService.currentUser()?.role == RoleEnum.Cashier;
   }
 
   /**
@@ -169,9 +165,7 @@ export class OrderDetailComponent implements OnInit {
    * @returns
    */
   isExchangeOrBuybackOrder(order: OrderModel) {
-    return (
-      order.orderTypeId == 2 || order.orderTypeId == 3
-    );
+    return order.orderTypeId == 2 || order.orderTypeId == 3;
   }
 
   /**
@@ -350,10 +344,12 @@ export class OrderDetailComponent implements OnInit {
    * Create a receipt pdf based on Order Details
    */
   public generateOrderPDF() {
+    let fileName = 'Invoice';
+
     this.invoiceGeneratorService.generateInvoice(
       this.order!,
       this.order!.orderItems,
-      'invoice'
+      fileName
     );
   }
 
