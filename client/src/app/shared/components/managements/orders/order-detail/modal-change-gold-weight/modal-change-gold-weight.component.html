@@ -5,12 +5,12 @@
       class="form--modal">
 
   <h2 mat-dialog-title
-      class="form--modal__title">Update New Gold Weight</h2>
+      class="form--modal__title">Cập Nhật Giá Vàng</h2>
 
   <!-- Content -->
   <mat-dialog-content class="form--modal__content u-padding-top-medium">
     <mat-form-field>
-      <mat-label>Gold Weight</mat-label>
+      <mat-label>Trọng lượng vàng</mat-label>
       <input matInput
              formControlName="goldWeight">
       <mat-error *ngIf="goldForm.controls['goldWeight'].invalid">{{getErrorMessage('goldWeight')}}</mat-error>
@@ -21,10 +21,10 @@
   <!-- ACtions -->
   <mat-dialog-actions class="form--modal__controls">
     <button class="btn btn--grad"
-            (click)="onNoClick()">Cancel</button>
+            (click)="onNoClick()">Hủy</button>
     <button class="btn btn--primary"
             type="submit"
             [disabled]="goldForm.invalid"
-            cdkFocusInitial>Add To Cart</button>
+            cdkFocusInitial>Thêm vào giỏ hàng</button>
   </mat-dialog-actions>
 </form>
