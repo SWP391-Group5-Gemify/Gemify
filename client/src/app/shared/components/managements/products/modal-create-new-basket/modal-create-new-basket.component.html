@@ -5,18 +5,10 @@
       class="form--modal">
 
   <h2 mat-dialog-title
-      class="form--modal__title">Tạo mới giỏ hàng mua</h2>
+      class="form--modal__title">Tạo mới giỏ hàng</h2>
 
   <!-- Content -->
   <mat-dialog-content class="form--modal__content u-padding-top-medium">
-
-    <!-- Customer Name -->
-    <!-- <mat-form-field>
-      <mat-label>Customer Name</mat-label>
-      <input matInput
-             formControlName="customerName">
-      <mat-error *ngIf="basketForm.controls['customerName'].invalid">{{getErrorMessage('customerName')}}</mat-error>
-    </mat-form-field> -->
 
     <!-- Phone Number -->
     <mat-form-field>
@@ -34,6 +26,6 @@
     <button class="btn btn--primary"
             type="submit"
             [disabled]="basketForm.invalid"
-            cdkFocusInitial>OK</button>
+            cdkFocusInitial>Tạo</button>
   </mat-dialog-actions>
 </form>

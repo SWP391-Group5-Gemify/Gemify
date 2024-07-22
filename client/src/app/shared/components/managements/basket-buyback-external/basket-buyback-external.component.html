@@ -1,11 +1,28 @@
 <form [formGroup]="buyBackProductForm"
       (keydown)="preventEnterKey($event)"
-      (ngSubmit)="onCreateExternalBuyBackBasket()"
       class="buyback-external">
 
   <h2 class="buyback-external__title">Nhập hàng ngoài cửa hàng</h2>
 
-  <div class>
+  <!-- Select outdoor buyback and create outdoor buyback -->
+  <section class="add-basket">
+    <button class="btn btn--grad btn--with-icon"
+            (click)="onOpenModalAndCreateOutDoorBuybackBasketWithCustomerPhone()">
+      <mat-icon>shopping_basket</mat-icon>Tạo giỏ hàng mới
+    </button>
+
+    <app-generic-dropdown #chooseExistingBasket
+                          label="Chọn giỏ hàng"
+                          [options]="basketIdAndPhoneDropdown$ | async"
+                          (onSelectionChange)="onSelectChangeBasketIdAndPhoneFromParent($event)">
+    </app-generic-dropdown>
+
+    <!-- <p *ngIf="this.basketService.basketSource$ | async as basket">Giỏ hàng hiện tại
+      {{getCountTotalItemsAddedInToBasketSource(basket.saleItems)}}</p> -->
+  </section>
+
+
+  <div>
     <!-- Phone Number -->
     <mat-form-field appearance="fill">
       <mat-label>Số điện thoại khách hàng</mat-label>

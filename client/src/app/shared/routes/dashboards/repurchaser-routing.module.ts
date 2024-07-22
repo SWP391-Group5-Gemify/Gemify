@@ -26,13 +26,13 @@ const routes: Routes = [
             (m) => m.BasketRoutingModule
           ),
       },
-      {
-        path: 'baskets-buyback-external',
-        loadChildren: () =>
-          import(
-            '../managements/baskets/basket-buyback-external-routing.module'
-          ).then((m) => m.BasketBuybackExternalRoutingModule),
-      },
+      // {
+      //   path: 'baskets-buyback-external',
+      //   loadChildren: () =>
+      //     import(
+      //       '../managements/baskets/basket-buyback-external-routing.module'
+      //     ).then((m) => m.BasketBuybackExternalRoutingModule),
+      // },
       {
         path: 'policy',
         loadChildren: () =>
