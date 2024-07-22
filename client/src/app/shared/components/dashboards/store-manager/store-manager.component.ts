@@ -43,6 +43,11 @@ export class StoreManagerComponent {
       route: '/store-manager/employees',
     },
     {
+      name: 'Quản Lý Khách Hàng',
+      icon: 'family_restroom',
+      route: '/store-manager/customers',
+    },
+    {
       name: 'Ưu Đãi',
       icon: 'card_giftcard',
       route: '/store-manager/promotions',

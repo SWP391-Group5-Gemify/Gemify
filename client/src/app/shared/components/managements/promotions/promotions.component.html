@@ -28,16 +28,6 @@
         (click)="onOpenModalAddPromotion()"><mat-icon>add</mat-icon>Thêm ưu đãi</button>
 }
 
-
-<!-- Paginator -->
-<mat-paginator [length]="totalPromotions"
-               [pageSize]="promotionParams.pageSize"
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               (page)="onPageChange($event)"
-               style="background-color: #FAFAFA"
-               aria-label="Select page">
-</mat-paginator>
-
 <!-- List of promotions -->
 <section class="grid grid--responsive u-margin-top-small">
   <div *ngIf="(promotions$ | async) === null">
@@ -49,3 +39,13 @@
                       (onDisablePromotion)="onDisablePromotionByIdFromParent($event)"></app-card-promotion>
   }
 </section>
+
+<!-- Paginator -->
+<mat-paginator class="u-margin-top-small"
+               [length]="totalPromotions"
+               [pageSize]="promotionParams.pageSize"
+               [pageSizeOptions]="[5, 10, 25, 100]"
+               (page)="onPageChange($event)"
+               style="background-color: #FAFAFA"
+               aria-label="Select page">
+</mat-paginator>

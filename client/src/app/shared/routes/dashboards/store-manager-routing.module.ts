@@ -34,6 +34,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'customers',
+        loadChildren: () =>
+          import('../../routes/managements/customers-routing.module').then(
+            (m) => m.CustomersRoutingModule
+          ),
+      },
+      {
         path: 'promotions',
         loadChildren: () =>
           import('../managements/promotions-routing.module').then(
