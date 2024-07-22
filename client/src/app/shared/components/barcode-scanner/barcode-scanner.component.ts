@@ -3,14 +3,12 @@ import { Component, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
   NgxScannerQrcodeModule,
-  LOAD_WASM,
   NgxScannerQrcodeComponent,
   ScannerQRCodeResult,
 } from 'ngx-scanner-qrcode';
 import {
   ScannerQRCodeConfig,
   NgxScannerQrcodeService,
-  ScannerQRCodeSelectedFiles,
 } from 'ngx-scanner-qrcode';
 import { ProductService } from '../../../core/services/product/product.service';
 import { BasketService } from '../../../core/services/basket/basket.service';
@@ -44,7 +42,6 @@ export class BarcodeScannerComponent {
   // == Lifecycle
   // ==========================================
   constructor(
-    private qrcode: NgxScannerQrcodeService,
     private productService: ProductService,
     private basketService: BasketService
   ) {}

@@ -1,46 +1,72 @@
 @import "abstracts/variables";
 
 .gold-form {
-    &__header {
-        text-align: center;
-        background-color: $color-primary;
-        font-size: x-large;
-        color: white;
-        padding: 30px;
-        border-radius: 20px;
-        margin-bottom: 30px;
+  &__header {
+    text-align: center;
+    background-color: $color-grey-dark-3;
+    font-size: 2.4rem;
+    color: white;
+    line-height: 5.2rem;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  }
+
+  &__current {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__current-price {
+    font-size: x-large;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  &__options {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  &__selected-gold {
+    &__info {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: large;
     }
-    &__current {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
+  }
+
+  &__calculated {
+    margin: 20px 0;
+
+    &__button {
+      margin-bottom: 10px;
     }
-    &__current-price {
-        font-size: x-large;
-        font-weight: 600;
-        padding: 10px;
-        border-radius: 20px;
+
+    &__bidprice {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: large;
     }
-    &__options {
-        display: flex;
-        justify-content: space-evenly;
-        margin-top: 20px;
+
+    &__askprice {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: large;
     }
-    &__selected-gold {
-        &__info {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            font-size: large;
-        }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+
+    &__submit {
+      margin-left: 30px;
     }
-    &__buttons {
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-        &__submit {
-            margin-left: 30px;
-        }
-    }
+  }
 }

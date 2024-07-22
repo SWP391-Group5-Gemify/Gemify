@@ -72,7 +72,6 @@ export class ModalChangeGoldWeightComponent {
   }
 
   onSubmit(): void {
-    console.log(this.goldForm.value);
     if (this.goldForm.valid) {
       this.dialogRef.close(this.goldForm.value);
     }

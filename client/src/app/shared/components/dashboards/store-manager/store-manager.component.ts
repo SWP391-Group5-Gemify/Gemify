@@ -38,9 +38,9 @@ export class StoreManagerComponent {
       route: '/store-manager/counters',
     },
     {
-      name: 'Quản Lý Nhân Viên',
-      icon: 'work',
-      route: '/store-manager/employees',
+      name: 'Quản Lý Khách Hàng',
+      icon: 'family_restroom',
+      route: '/store-manager/customers',
     },
     {
       name: 'Ưu Đãi',

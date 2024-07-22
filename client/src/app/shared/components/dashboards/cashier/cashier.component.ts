@@ -31,7 +31,11 @@ export class CashierComponent {
   navItems: NavItemsModel[] = [
     { name: 'Giỏ Hàng', icon: 'shopping_cart', route: '/cashier/baskets' },
     { name: 'Đơn Hàng', icon: 'receipt', route: '/cashier/orders' },
-    { name: 'Trang Sức', icon: 'shopping_bag', route: '/cashier/products' },
+    {
+      name: 'Khách Hàng',
+      icon: 'family_restroom',
+      route: '/cashier/customers',
+    },
     {
       name: 'Ưu Đãi',
       icon: 'card_giftcard',

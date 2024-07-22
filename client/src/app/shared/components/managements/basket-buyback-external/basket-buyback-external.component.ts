@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -71,6 +72,7 @@ export class BasketBuybackExternalComponent implements OnInit {
       quantity: [1, [Validators.required, Validators.min(1)]],
       goldWeight: [0, [Validators.required, Validators.min(0)]],
       phoneNumber: ['', [Validators.required, Validators.min(0)]],
+      gems: this.fb.array([]), // Form array of gems
     });
   }
   ngOnInit(): void {
@@ -81,6 +83,33 @@ export class BasketBuybackExternalComponent implements OnInit {
   // =========================
   // == Methods
   // =========================
+
+  get gems(): FormArray {
+    return this.buyBackProductForm.get('gems') as FormArray;
+  }
+
+  addGem() {
+    this.gems.push(
+      this.fb.group({
+        name: ['', Validators.required],
+        weight: [0, [Validators.required, Validators.min(0)]],
+      })
+    );
+  }
+
+  removeGem(index: number) {
+    this.gems.removeAt(index);
+  }
+
+  /**
+   * Prevent use input "ENTER" key for exiting
+   * @param event
+   */
+  public preventEnterKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
 
   /**
    * Load all Subcategories
@@ -147,7 +176,10 @@ export class BasketBuybackExternalComponent implements OnInit {
     this.basketItem.subCategoryId = subCategoryId;
   }
 
-  onCreateExternalBuyBackBasket() {
+  /**
+   * On create external buyback with basket
+   */
+  public onCreateExternalBuyBackBasket() {
     const phoneNumber = this.buyBackProductForm.get('phoneNumber')?.value;
 
     // Create empty basket
@@ -163,7 +195,6 @@ export class BasketBuybackExternalComponent implements OnInit {
     this.basketItem.productName =
       this.buyBackProductForm.get('productName')!.value;
     this.basketItem.quantity = this.buyBackProductForm.get('quantity')!.value;
-    this.basketItem.price = this.buyBackProductForm.get('price')!.value;
     this.basketItem.goldWeight =
       this.buyBackProductForm.get('goldWeight')!.value;
 

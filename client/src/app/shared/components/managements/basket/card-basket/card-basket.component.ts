@@ -44,8 +44,7 @@ export class CardBasketComponent {
   constructor(
     public basketService: BasketService,
     public authService: AuthService,
-    private router: Router,
-    private notificationService: NotificationService
+    private router: Router
   ) {}
 
   // ======================
