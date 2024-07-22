@@ -2,16 +2,15 @@ import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import {
-  BasketItemBuybackModel as BasketItemBuyBackModel,
-  BasketItemSellModel as BasketSellItemModel,
   BasketModel,
   BasketSellTotalsModel,
-  BasketItemSellModel,
   BasketBuyBackTotalsModel,
   BasketExchangeTotalsModel,
+  BasketItemSellModel,
+  BasketItemBuyBackModel,
 } from '../../models/basket.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ProductModel } from '../../models/product.model';
+import { GemModel, ProductModel } from '../../models/product.model';
 import {
   OrderItemGemModel,
   OrderItemModel,
@@ -314,7 +313,7 @@ export class BasketService {
    * By guarding the only property of ProductModel to determince if it's ProductModel or BasketItempModel
    */
   private isProduct(
-    item: ProductModel | BasketSellItemModel
+    item: ProductModel | BasketItemSellModel
   ): item is ProductModel {
     return (item as ProductModel).description != undefined;
   }
@@ -416,8 +415,6 @@ export class BasketService {
       subCategoryId
     );
 
-    console.table(buybackBasketItemToAdd);
-
     // Check the current basket
     let basket =
       this.getCurrentBasketValue() ??
@@ -458,6 +455,15 @@ export class BasketService {
       goldWeight: goldWeightAfter,
       goldTypeId: goldTypeId,
       subCategoryId: subCategoryId,
+      gems: orderItem.orderItemGems
+        .filter((orderItemGemModel) => orderItemGemModel.isProcurable)
+        .map((orderItemGemModel, index) => {
+          return {
+            gemId: index,
+            gemName: orderItemGemModel.gemName,
+            gemPrice: orderItemGemModel.price,
+          };
+        }),
     };
   }
   // ================================ FOR A LIST OF EXCHANGE BASKET ============================
@@ -509,6 +515,49 @@ export class BasketService {
     // the basket source will get that value immediately when the addBuybackItemToBasket triggered
     this.setOrUpdateBasket(basket);
   }
+
+  // ================================ FOR A LIST OF OUT-STORE BASKET ============================
+
+  // /**
+  // TODO: Due to the lost of [some fields], price calculation will be extremely complex
+  //  * Mapping outstore product into the basket item buy back
+  //  * @param productName
+  //  * @param quantity
+  //  * @param goldWeight
+  //  * @param goldTypeId
+  //  * @param subCategoryId
+  //  * @param price
+  //  * @returns
+  //  */
+  // private mapOutStoreItemToBasketItemBuyBack(
+  //   productName: string,
+  //   quantity: number = 1,
+  //   goldWeight: number,
+  //   goldTypeId: number,
+  //   subCategoryId: number,
+  //   pictureUrl: string,
+  //   price: number
+  // ): BasketItemBuyBackModel {
+  //   return {
+  //     id: 1,
+  //     productName: productName,
+  //     price: price,
+  //     quantity: 0,
+  //     pictureUrl: pictureUrl,
+  //     goldWeight: goldWeight,
+  //     goldTypeId: goldTypeId,
+  //     subCategoryId: subCategoryId,
+  //     gems: orderItem.orderItemGems
+  //       .filter((orderItemGemModel) => orderItemGemModel.isProcurable)
+  //       .map((orderItemGemModel, index) => {
+  //         return {
+  //           gemId: index,
+  //           gemName: orderItemGemModel.gemName,
+  //           gemPrice: orderItemGemModel.price,
+  //         };
+  //       }),
+  //   };
+  // }
 
   // ================================ FOR A LIST OF BASKET ============================
 
@@ -628,6 +677,7 @@ export class BasketService {
 
   /**
    * TODO: Limitation due to the lack of list of Gems at each BuybackItem in Backend API
+   *
    * @returns
    */
   public calculateBasketBuyBackTotalPrice() {
