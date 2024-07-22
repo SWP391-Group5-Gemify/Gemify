@@ -37,34 +37,43 @@
         <td mat-cell
             *matCellDef="let object"
             (click)="getId(object.id)">
-          @if (column === 'image_Url') {
+
+          <!-- image_Url column -->
+          @if (column === 'image_Url' || column === 'imageUrl') {
           <img mat-card-image
                class="table-data-source__img"
                [alt]=""
                [src]="object[column]" />
-          } @else if(column !== "actions" && column !== "image_Url") {
-          {{(column.toLowerCase().includes("price"))
-          ? (object[column] | currency:'VND')
-          : (column.toLowerCase().includes('total'))
-          ? (object[column] | currency:'VND')
-          : object[column] }}
+          } @else if (column === "price" || column === "total") {
+          {{object[column] | currency:"VND"}}
+          } @else {
+          {{object[column]}}
           }
-          @else {
+
+          <!-- This is the aciton -->
+          @if (column === "edit" || column === "delete") {
           <div class="table-data-source__action-groups">
+
+            <!-- If having edit -->
+            @if (column === "edit") {
             <button mat-icon-button
                     matTooltip="Edit"
                     aria-label="Edit Icon"
                     (click)="editObject($event, object)">
               <mat-icon>edit</mat-icon>
             </button>
+            }
+
+            <!-- If having delete -->
+            @if (column === "delete") {
             <button mat-icon-button
                     matTooltip="Disable"
                     aria-label="Disable Icon"
                     (click)="deleteObject($event, object)">
               <mat-icon>delete</mat-icon>
             </button>
-          </div>
-          }
+            }
+          </div>}
         </td>
       </ng-container>
       }

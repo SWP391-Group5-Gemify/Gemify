@@ -1,8 +1,8 @@
 <section class="orders">
-  
+
   <app-stats-total-rows [label]="'Tổng số hóa đơn'"
-                          [count]="totalOrders"
-                          [icon]="'receipt'">
+                        [count]="totalOrders"
+                        [icon]="'receipt'">
   </app-stats-total-rows>
 
   <div class="filters">
@@ -27,17 +27,23 @@
     <!-- Date Picker Range -->
     <mat-form-field appearance="outline">
       <mat-label>MM/DD/YYYY – MM/DD/YYYY</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate placeholder="Start date" (dateChange)="onSelectedStartDate($event)">
-        <input matEndDate placeholder="End date" (dateChange)="onSelectedEndDate($event)">
+      <mat-date-range-input [rangePicker]="
+                    picker">
+        <input matStartDate
+               placeholder="Start date"
+               (dateChange)="onSelectedStartDate($event)">
+        <input matEndDate
+               placeholder="End date"
+               (dateChange)="onSelectedEndDate($event)">
       </mat-date-range-input>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker-toggle matIconSuffix
+                             [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
 
     <!-- Reset all input element -->
     <button class="btn btn--primary-dark btn--with-icon"
-    (click)="onReset()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
+            (click)="onReset()"><mat-icon>filter_alt_off</mat-icon>Xóa bộ lọc</button>
   </div>
 
   <!-- Table Data Source -->

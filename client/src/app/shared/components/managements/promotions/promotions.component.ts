@@ -28,6 +28,8 @@ import {
 } from '../../../../core/models/modal.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCreatePromotionComponent } from './modal-create-promotion/modal-create-promotion.component';
+import { AuthService } from '../../../../core/services/auth/auth.service';
+import { RoleEnum } from '../../../../core/models/role.model';
 
 @UntilDestroy()
 @Component({
@@ -80,7 +82,8 @@ export class PromotionsComponent {
   constructor(
     private promotionService: PromotionService,
     private notificationService: NotificationService,
-    public viewModal: MatDialog
+    public viewModal: MatDialog,
+    public userService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +93,14 @@ export class PromotionsComponent {
   // ====================
   // == Methods
   // ====================
+
+  /**
+   * Only StoreManager and StoreOwner can add new promotion
+   * @returns
+   */
+  public isStoreOwner(): boolean {
+    return this.userService.currentUser()?.role === RoleEnum.StoreOwner;
+  }
 
   /**
    * Load promotions based on pagination
@@ -200,7 +211,7 @@ export class PromotionsComponent {
       .open(ModalCreatePromotionComponent, {
         disableClose: true,
         width: '40%',
-        height: '60%',
+        height: '80%',
         enterAnimationDuration: '300ms',
         exitAnimationDuration: '300ms',
         data: modalData,

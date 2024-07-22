@@ -25,8 +25,8 @@ export class FileService {
   /**
    * Path for storing product img: '/images/products'
    * Path for storing user img: '/images/users'
-   * Path for storing policy files img: '/documents/policy'
-   * Path for storing warranty files img: '/documents/warranty'
+   * Path for storing policy files policy: '/documents/policy'
+   * Path for storing warranty files warranty: '/documents/warranty'
    */
   private baseDocumentsPolicyPath = '/documents/policy';
   private baseDocumentsWarrantyPath = '/documents/warranty';

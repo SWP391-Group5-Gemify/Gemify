@@ -1,5 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
-import { OrderItemGemModel, OrderTypeEnum } from './order.model';
+import { OrderTypeEnum } from './order.model';
 
 // For the basket_id, using CUID2 for security awareness
 export interface BasketModel {
@@ -11,7 +11,7 @@ export interface BasketModel {
   membershipId?: number;
   paymentIntentId?: string;
   saleItems: BasketItemSellModel[];
-  buybackItems: BasketItemBuybackModel[];
+  buybackItems: BasketItemBuyBackModel[];
 }
 
 // Represents for the product id as a DTO
@@ -23,19 +23,26 @@ export interface BasketItemSellModel {
   quantity: number;
 }
 
-// Buyback item in basket
-export interface BasketItemBuybackModel {
-  id: string | number;
-  pictureUrl: string;
-  productName: string;
-  price: number;
-  quantity: number;
-  goldWeight: number;
-  goldTypeId?: number;
-  subCategoryId?: number;
+interface GemBuyBackModel {
+  gemId: number | string;
+  gemPrice: number;
+  gemName: string;
 }
 
-export class BasketItemBuybackModel implements BasketItemBuybackModel {
+// Buyback item for Outdoor and Indoor
+export interface BasketItemBuyBackModel {
+  id: string | number;
+  productName: string;
+  goldWeight: number;
+  price: number;
+  pictureUrl: string;
+  quantity: number;
+  goldTypeId?: number;
+  subCategoryId?: number;
+  gems?: GemBuyBackModel[];
+}
+
+export class BasketItemBuyBackModel implements BasketItemBuyBackModel {
   id: string | number = 1;
 }
 
@@ -50,8 +57,10 @@ export class BasketModel implements BasketModel {
   id: string = createId();
   orderTypeId: OrderTypeEnum | number = OrderTypeEnum.SELL;
   saleItems: BasketItemSellModel[] = [];
-  buybackItems: BasketItemBuybackModel[] = [];
+  buybackItems: BasketItemBuyBackModel[] = [];
 }
+
+// = MODELS FOR PRICE ======================================================================
 
 // Model for Total money of Basket
 export interface BasketSellTotalsModel {

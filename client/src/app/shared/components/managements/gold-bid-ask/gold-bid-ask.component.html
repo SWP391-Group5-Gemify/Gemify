@@ -1,12 +1,13 @@
 <section>
-  <form [formGroup]="goldRateForm"
+  <form [formGroup]="goldPriceForm"
         class="gold-form">
     <div class="gold-form__header">
-      CẬP NHẬT GIÁ VÀNG
+      Cập nhật giá vàng
     </div>
 
-    <div class="gold-form__current">
-      <button class="btn btn--grad btn--with-icon"
+    <!-- Current gold -->
+    <div class="gold-form__current u-margin-top-small">
+      <button class="btn btn--primary btn--with-icon"
               (click)="getWorldGoldPrice(); $event.preventDefault()"><mat-icon>attach_money</mat-icon>Lấy giá vàng thế
         giới (VND/Chi)
       </button>
@@ -14,42 +15,42 @@
            class="gold-form__current-price">
         {{currentGoldPrice | currency:'VND'}}
       </div>
-
     </div>
 
-    <mat-divider></mat-divider>
+    <mat-divider class="u-margin-top-small"></mat-divider>
 
-    <div class="gold-form__options">
+    <!-- Options -->
+    <div class="gold-form__options u-margin-top-small">
       <!-- Bid Rate -->
       <mat-form-field appearance="outline">
-        <mat-label>Tỉ Lệ Áp Giá Bán</mat-label>
+        <mat-label>Giá Bán</mat-label>
         <input matInput
                type="text"
-               formControlName="bidRate"
-               name="bidRate">
+               formControlName="bidPrice"
+               name="bidPrice">
         <!-- Handle Error on Control -->
-        @if (goldRateForm.get('bidRate')?.invalid) {
-        <mat-error>{{updateErrorMessage('bidRate')}}</mat-error>
+        @if (goldPriceForm.get('bidPrice')?.invalid) {
+        <mat-error>{{updateErrorMessage('bidPrice')}}</mat-error>
         }
       </mat-form-field>
 
       <!-- Ask Rate -->
       <mat-form-field appearance="outline">
-        <mat-label>Tỉ Lệ Áp Giá Mua</mat-label>
+        <mat-label>Giá Mua</mat-label>
         <input matInput
                type="text"
-               formControlName="askRate"
-               name="askRate">
+               formControlName="askPrice"
+               name="askPrice">
         <!-- Handle Error on Control -->
-        @if (goldRateForm.get('askRate')?.invalid) {
-        <mat-error>{{updateErrorMessage('askRate')}}</mat-error>
+        @if (goldPriceForm.get('askPrice')?.invalid) {
+        <mat-error>{{updateErrorMessage('askPrice')}}</mat-error>
         }
       </mat-form-field>
 
       <app-generic-dropdown label="Chọn Loại Vàng"
                             class="gold-form__dropdown"
                             [options]="goldsDropdown"
-                            (onSelectionChange)="onSelectionChangeRoleNameFromParent($event)">
+                            (onSelectionChange)="onSelectionChangeGoldTypeFromParent($event)">
       </app-generic-dropdown>
     </div>
 
@@ -61,7 +62,7 @@
       </div>
 
       <div class="gold-form__selected-gold__info">
-        <strong>Độ Tinh Khiết</strong>
+        <strong>Hàm Lượng</strong>
         <strong>{{selectedGold.content/100 | percent}}</strong>
       </div>
 
@@ -78,32 +79,12 @@
 
     <mat-divider></mat-divider>
 
-    <div class="gold-form__calculated">
-      <button class="btn btn--grad btn--with-icon gold-form__calculated__button"
-              (click)="calculateGoldPrice(); $event.preventDefault()"><mat-icon>attach_money</mat-icon>Tính giá bán/mua
-        (VND/chi)
-      </button>
-
-      <div *ngIf="newBidPrice"
-           class="gold-form__calculated__bidprice">
-        <strong>Giá Bán (VND/Chỉ)</strong>
-        <strong>{{newBidPrice | currency:'VND'}}</strong>
-      </div>
-
-      <div *ngIf="newAskPrice"
-           class="gold-form__calculated__askprice">
-        <strong>Giá Mua (VND/Chỉ)</strong>
-        <strong>{{newAskPrice | currency:'VND'}}</strong>
-      </div>
-    </div>
-
     <div class="gold-form__buttons">
       <button class="btn btn--grad btn--with-icon gold-form__buttons__reset"
-              (click)="onReset(); $event.preventDefault()"><mat-icon>restore</mat-icon>Đặt Lại</button>
+              (click)="onReset(); $event.preventDefault()"><mat-icon>restore</mat-icon>Hủy Nhập</button>
       <button class="btn btn--primary btn--with-icon gold-form__buttons__submit"
               (click)="onSubmit(); $event.preventDefault()"
-              [disabled]="!goldRateForm.valid || newBidPrice == undefined
-              || newAskPrice == undefined || selectedGold == undefined">
+              [disabled]="!goldPriceForm.valid || selectedGold == undefined">
         <mat-icon>update</mat-icon>Cập Nhật</button>
     </div>
   </form>

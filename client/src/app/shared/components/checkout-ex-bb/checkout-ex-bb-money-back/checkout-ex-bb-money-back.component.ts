@@ -166,7 +166,13 @@ export class CheckoutExBbMoneyBackComponent implements OnInit {
                           this.router.navigate(['cashier/orders']);
                         }
                       },
+                      error: (err) => {
+                        this.notificationService.show(err.error.message);
+                      },
                     });
+                },
+                error: (err) => {
+                  this.notificationService.show(err.error.message);
                 },
               });
           }

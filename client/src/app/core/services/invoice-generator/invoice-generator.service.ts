@@ -68,17 +68,18 @@ export class InvoiceGeneratorService {
         name: 'CÔNG TY TNHH GEMIFY',
         address: '78- 80 Đường Trần Phú, Phường Lộc Thọ, Tp. Nha Trang',
         phone: '0397612888',
-        email: 'Gemify@gmail.com',
-        email_1: 'Gemify@gmail.com.vn',
-        website: 'https://gemify.us.to',
+        email: 'gemifyjewelrystore@gmail.com',
+        email_1: 'gemifyjewelrystore1@gmail.com',
+        website: 'https://gemify.qlbv.vn',
       },
       contact: {
         label: 'THÔNG TIN KHÁCH HÀNG:',
         name: order.name,
         address: `Số Điện Thoại: ${order.phone}`,
-        phone: `Điểm Thưởng Đơn Hàng: ${(order.total / 100000).toFixed(
-          0
-        )} điểm`,
+        phone: `Điểm Thưởng Đơn Hàng: ${(order.total <= 0
+          ? 0
+          : order.total / 100000
+        ).toFixed(0)} điểm`,
         email: `Thành Viên: ${order.membershipName}`,
       },
       invoice: {
@@ -142,8 +143,11 @@ export class InvoiceGeneratorService {
         ]),
         additionalRows: [
           {
-            col1: 'Tổng Hóa Đơn:',
-            col2: order.total.toLocaleString('vi-VN', {
+            col1: order.total <= 0 ? 'Tổng tiền hoàn trả:' : 'Tổng Hóa Đơn:',
+            col2: (order.total <= 0
+              ? order.total * -1
+              : order.total
+            ).toLocaleString('vi-VN', {
               minimumFractionDigits: 2,
             }),
             col3: 'VND',
@@ -169,9 +173,12 @@ export class InvoiceGeneratorService {
           },
           {
             col1: 'Tổng tiền sản phẩm:',
-            col2: order.subTotal.toLocaleString('vi-VN', {
-              minimumFractionDigits: 2,
-            }),
+            col2:
+              order.total <= 0
+                ? '0'
+                : order.subTotal.toLocaleString('vi-VN', {
+                    minimumFractionDigits: 2,
+                  }),
             col3: 'VND',
             style: {
               fontSize: 10, //optional, default 12

@@ -33,15 +33,24 @@
               *matCellDef="let gold"> {{gold.name}} </td>
         </ng-container>
 
+        <!-- Gold Content Column -->
+        <ng-container matColumnDef="content"
+                      class="table-gold__item">
+          <th mat-header-cell
+              *matHeaderCellDef>Hàm Lượng</th>
+          <td mat-cell
+              *matCellDef="let gold">{{gold.content}}%</td>
+        </ng-container>
+
         <!-- Latest Bid Price Column -->
         <ng-container matColumnDef="latestBidPrice"
                       class="table-gold__item">
           <th mat-header-cell
               *matHeaderCellDef
-              class="table-gold__item--bid-cell-header">Mua Vào</th>
+              class="table-gold__item--ask-cell-header">Bán Ra</th>
           <td mat-cell
-              class="table-gold__item--bid-cell"
-              *matCellDef="let gold"> {{gold.latestBidPrice | currency: 'VND'}} </td>
+              *matCellDef="let gold"
+              class="table-gold__item--ask-cell"> {{gold.latestBidPrice | currency: "VND"}} </td>
         </ng-container>
 
         <!-- Latest Ask Price Column -->
@@ -49,19 +58,10 @@
                       class="table-gold__item">
           <th mat-header-cell
               *matHeaderCellDef
-              class="table-gold__item--ask-cell-header">Bán Ra</th>
+              class="table-gold__item--bid-cell-header">Mua Vào</th>
           <td mat-cell
-              *matCellDef="let gold"
-              class="table-gold__item--ask-cell"> {{gold.latestAskPrice | currency: "VND"}} </td>
-        </ng-container>
-
-        <!-- Gold Content Column -->
-        <ng-container matColumnDef="content"
-                      class="table-gold__item">
-          <th mat-header-cell
-              *matHeaderCellDef>Loại Vàng</th>
-          <td mat-cell
-              *matCellDef="let gold">{{gold.content}}%</td>
+              class="table-gold__item--bid-cell"
+              *matCellDef="let gold"> {{gold.latestAskPrice | currency: 'VND'}} </td>
         </ng-container>
       </table>
     </div>

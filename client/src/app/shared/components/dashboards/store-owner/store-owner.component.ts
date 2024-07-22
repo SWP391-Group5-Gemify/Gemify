@@ -32,8 +32,16 @@ export class StoreOwnerComponent {
       icon: 'home',
       route: '/store-owner/statistic-dashboard',
     },
-    { name: 'Quản Lý Nhân Viên', icon: 'work', route: '/store-owner/employees' },
-    { name: 'Quản Lý Quầy', icon: 'attach_money', route: '/store-owner/counters' },
+    {
+      name: 'Quản Lý Nhân Viên',
+      icon: 'work',
+      route: '/store-owner/employees',
+    },
+    {
+      name: 'Quản Lý Quầy',
+      icon: 'attach_money',
+      route: '/store-owner/counters',
+    },
     {
       name: 'Quản Lý Khách Hàng',
       icon: 'family_restroom',

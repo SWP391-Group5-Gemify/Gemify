@@ -43,22 +43,19 @@ export class GoldBidAskComponent implements OnInit {
   goldTypes: GoldModel[] = [];
   goldsDropdown!: DropdownModel[];
   currentGoldPrice?: number;
-  newBidPrice?: number;
-  newAskPrice?: number;
-  goldPurity?: number;
   selectedGold?: GoldModel;
   goldPrice?: UpdateGoldPricesModel;
 
-  decimalPattern = /^\d+(\.\d+)?$/;
+  pattern = /^\d+$/;
 
-  goldRateForm = this.formBuilder.group({
-    bidRate: [
+  goldPriceForm = this.formBuilder.group({
+    bidPrice: [
       '',
-      [Validators.required, Validators.pattern(this.decimalPattern)],
+      [Validators.required, Validators.pattern(this.pattern)],
     ],
-    askRate: [
+    askPrice: [
       '',
-      [Validators.required, Validators.pattern(this.decimalPattern)],
+      [Validators.required, Validators.pattern(this.pattern)],
     ],
   });
   // ====================
@@ -126,23 +123,10 @@ export class GoldBidAskComponent implements OnInit {
    * Get the gold purity
    * @param event
    */
-  onSelectionChangeRoleNameFromParent(event: any) {
+  onSelectionChangeGoldTypeFromParent(event: any) {
     const gold = this.goldTypes.find((gold) => gold.id == event.value);
     if (gold) {
       this.selectedGold = gold;
-      if (this.currentGoldPrice) this.goldPurity = gold.content / 100;
-    }
-  }
-
-  /**
-   * Calculate bid/ask gold price using bid/ask rate retrieve from the form
-   */
-  calculateGoldPrice() {
-    if (this.goldRateForm.valid && this.currentGoldPrice && this.goldPurity) {
-      const bidRate = Number(this.goldRateForm.get('bidRate')!.value);
-      const askRate = Number(this.goldRateForm.get('askRate')!.value);
-      this.newBidPrice = this.currentGoldPrice * bidRate * this.goldPurity;
-      this.newAskPrice = this.currentGoldPrice * askRate * this.goldPurity;
     }
   }
 
@@ -151,10 +135,7 @@ export class GoldBidAskComponent implements OnInit {
    */
   onReset() {
     this.getWorldGoldPrice();
-    this.newBidPrice = undefined;
-    this.newAskPrice = undefined;
-    this.goldPurity = undefined;
-    this.goldRateForm.reset();
+    this.goldPriceForm.reset();
   }
 
   /**
@@ -162,54 +143,61 @@ export class GoldBidAskComponent implements OnInit {
    */
   onSubmit() {
     if (
-      this.goldRateForm.valid &&
-      this.selectedGold &&
-      this.newBidPrice &&
-      this.newAskPrice
+      this.goldPriceForm.valid &&
+      this.selectedGold
     ) {
-      const goldTypeId = this.selectedGold.id;
-      this.goldPrice = {
-        goldTypeId: goldTypeId,
-        bidPrice: this.newBidPrice,
-        askPrice: this.newAskPrice,
-      };
+        const goldTypeId = this.selectedGold.id;
+        this.goldPrice = {
+          goldTypeId: goldTypeId,
+          bidPrice: Number(this.goldPriceForm.get('bidPrice')!.value),
+          askPrice: Number(this.goldPriceForm.get('askPrice')!.value),
+        };
 
-      this.goldService
-        .updateBidAskGoldPrice(goldTypeId, this.goldPrice)
-        .pipe(untilDestroyed(this))
-        .subscribe({
-          next: (response: any) => {
-            this.notificationService.show(
-              `Cập nhập Gold ID = ${this.selectedGold?.id} thành công`
-            );
-          },
+        this.goldService
+          .updateBidAskGoldPrice(goldTypeId, this.goldPrice)
+          .pipe(untilDestroyed(this))
+          .subscribe({
+            next: (response: any) => {
+              this.notificationService.show(
+                `Cập nhật vàng ${this.selectedGold?.name} thành công`
+              );
+            },
 
-          error: (err) => {
-            console.error(err);
-            this.notificationService.show(
-              'Error updating gold prices',
-              'Retry',
-              5000
-            );
-          },
-        });
+            error: (err) => {
+              console.error(err);
+              this.notificationService.show(
+                'Có lỗi xảy ra trong quá trình cập nhật',
+                'Thử lại',
+                5000
+              );
+            },
+          });
+
+          // Refresh selected gold after update
+          var gold = this.goldTypes
+          .find((gold) => gold.id == this.selectedGold?.id);
+
+          gold!.latestAskPrice = Number(this.goldPriceForm.get('askPrice')!.value);
+          gold!.latestBidPrice = Number(this.goldPriceForm.get('bidPrice')!.value);
+
+          this.selectedGold = gold;
     }
   }
 
   // Checking if the input is valid or not for mat-errors
   updateErrorMessage(controlName: string): string {
-    const control = this.goldRateForm.get(controlName);
+    const control = this.goldPriceForm.get(controlName);
     let errorMessage: string = '';
 
     switch (true) {
       case control?.hasError('required'):
-        errorMessage = 'This field is required';
+        errorMessage = 'Bạn phải nhập trường này';
         break;
       case control?.hasError('pattern'):
-        if (controlName === 'bidRate') {
-          errorMessage = 'Bid Rate must be a decimal';
-        } else if (controlName === 'askRate') {
-          errorMessage = 'Ask Rate must be a decimal';
+        if (controlName === 'bidPrice') {
+          errorMessage = 'Giá bán phải là số';
+        } else if (controlName === 'askPrice') {
+          errorMessage = 'Giá mua phải là số';
         }
         break;
     }
