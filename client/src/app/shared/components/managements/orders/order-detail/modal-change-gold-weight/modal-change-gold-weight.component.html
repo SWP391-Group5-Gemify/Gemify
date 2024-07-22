@@ -9,6 +9,8 @@
 
   <!-- Content -->
   <mat-dialog-content class="form--modal__content u-padding-top-medium">
+
+    <!-- Gold Weight -->
     <mat-form-field>
       <mat-label>Trọng lượng vàng</mat-label>
       <input matInput
@@ -17,7 +19,6 @@
     </mat-form-field>
   </mat-dialog-content>
 
-
   <!-- ACtions -->
   <mat-dialog-actions class="form--modal__controls">
     <button class="btn btn--grad"
@@ -25,6 +26,6 @@
     <button class="btn btn--primary"
             type="submit"
             [disabled]="goldForm.invalid"
-            cdkFocusInitial>Thêm vào giỏ hàng</button>
+            cdkFocusInitial>Thêm</button>
   </mat-dialog-actions>
 </form>

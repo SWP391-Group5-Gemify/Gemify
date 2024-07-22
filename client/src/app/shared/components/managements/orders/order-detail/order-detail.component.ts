@@ -165,7 +165,10 @@ export class OrderDetailComponent implements OnInit {
    * @returns
    */
   isExchangeOrBuybackOrder(order: OrderModel) {
-    return order.orderTypeId == 2 || order.orderTypeId == 3;
+    return (
+      order.orderTypeId == OrderTypeEnum.BUYBACK ||
+      order.orderTypeId == OrderTypeEnum.EXCHANGE
+    );
   }
 
   /**
@@ -285,8 +288,6 @@ export class OrderDetailComponent implements OnInit {
    */
   public onOpenModalAddOrderItemToBuyBackAfterWeightingGold($event: any) {
     const orderItem = $event as OrderItemModel;
-
-    console.table(orderItem);
 
     const dialogRef = this.dialog.open(ModalChangeGoldWeightComponent, {
       width: '30rem',

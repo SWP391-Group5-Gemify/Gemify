@@ -53,6 +53,7 @@ $client-theme: mat.define-light-theme((color: (primary: $client-primary,
 @import "components/form";
 @import "components/filter-controls";
 @import "components/table-basket-items";
+@import "components/add-basket";
 
 // layout
 @import "layout/sidenav-content";
