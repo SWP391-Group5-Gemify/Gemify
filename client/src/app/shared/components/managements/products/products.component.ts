@@ -14,6 +14,7 @@ import { ProductService } from '../../../../core/services/product/product.servic
 import {
   ProductModel,
   ProductParams,
+  ProductStatusEnum,
   SortProductsQuantityEnum,
   SubCategoryModel,
 } from '../../../../core/models/product.model';
@@ -136,13 +137,18 @@ export class ProductsComponent implements OnInit {
       .getProducts({
         ...this.productParams,
         pageIndex: this.productParams.pageIndex + 1,
+        status: ProductStatusEnum.Available,
       })
       .pipe(
         map((response: PaginationModel<ProductModel>) => {
           this.productParams.pageIndex = response.pageIndex - 1;
           this.productParams.pageSize = response.pageSize;
           this.totalProducts = response.count;
-          return response.data;
+
+          // FIlter only quantity > 0 and product status = available
+          return response.data.filter((product) => {
+            return product.quantity > 0;
+          });
         }),
         catchError((error) => {
           console.error('Error loading products', error);
