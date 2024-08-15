@@ -1,5 +1,9 @@
 # Jewelry Sales System
 
+<p align="center">
+  <img src="/client/src/assets/images/logo.png" alt="Logo" width="auto" height="100"/>
+</p>
+
 ## Project Link
 You can view the live project here: [Jewelry Sales System](https://gemify.qlbv.vn/)
 
