@@ -5,6 +5,17 @@
 ## Project Link
 You can view the live project here: [Jewelry Sales System](https://gemify.qlbv.vn/)
 
+## ScreenShots
+<img src="https://i.postimg.cc/BZp0jNvN/don-hang.png" alt="Don Hang" style="width: 100%; height: auto; border: 2px solid #000; margin-bottom: 10px;"/>
+
+<img src="https://i.postimg.cc/ZKqhp3Bm/gio-hang.png" alt="Gio Hang" style="width: 100%; height: auto; border: 2px solid #000; margin-bottom: 10px;"/>
+
+<img src="https://i.postimg.cc/D0xkRfNR/thanh-toan.png" alt="Thanh Toan" style="width: 100%; height: auto; border: 2px solid #000; margin-bottom: 10px;"/>
+
+<img src="https://i.postimg.cc/hjbqb11D/thong-ke.png" alt="Thong Ke" style="width: 100%; height: auto; border: 2px solid #000; margin-bottom: 10px;"/>
+
+<img src="https://i.postimg.cc/q7S0Q7KR/trang-suc.png" alt="Thong Ke" style="width: 100%; height: auto; border: 2px solid #000; margin-bottom: 10px;"/>
+
 ## Overview
 Jewelry Sales System is a comprehensive software solution designed to manage jewelry sales at a retail store with multiple counters. The system facilitates inventory management, order processing, invoice generation, discount and promotional policies, buy-back procedures, and customer loyalty programs. Additionally, the system supports managing staff performance, pricing, and statistical analysis through a dashboard.
 
